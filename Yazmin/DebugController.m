@@ -55,7 +55,7 @@
     {
         // Get a routine name from debug info if possible, otherwise
         // show the routine address
-        unsigned int addr = [[story zMachine] routineAddressForFrame:rowIndex];
+        NSUInteger addr = [[story zMachine] routineAddressForFrame:rowIndex];
         NSString *name = nil;
         if (addr == 0)
             name = @"(Entry Point)";
@@ -63,11 +63,11 @@
         {
             addr -= [[story zMachine] baseHighMemory];
             RoutineDebugRecord *routine = [[[story debugInfo] routines]
-                objectForKey:[NSNumber numberWithUnsignedInt:addr]];
+                objectForKey:[NSNumber numberWithUnsignedInteger:addr]];
             name = [routine name];
         }
         else
-            name = [[NSString stringWithFormat:@"%05x", addr] retain];
+            name = [[NSString stringWithFormat:@"%05lx", (unsigned long)addr] retain];
         return name;
     }
     return nil;
@@ -79,7 +79,7 @@
     return [[story zMachine] numberOfFrames];
 }
 
-- (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+- (NSUInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     if (selectedRoutine)
         return [[selectedRoutine localNames] count];
@@ -109,26 +109,26 @@
     else
     {
         Story *story = [self document];
-        unsigned int index = [[selectedRoutine localNames] indexOfObject:item];
-        int rowIndex = [callStackView selectedRow];
-        unsigned int localValue = [[story zMachine] localAtIndex:index forFrame:rowIndex];
-        return [[NSNumber numberWithUnsignedInt:localValue] retain];
+        NSUInteger index = [[selectedRoutine localNames] indexOfObject:item];
+        NSInteger rowIndex = [callStackView selectedRow];
+        NSUInteger localValue = [[story zMachine] localAtIndex:index forFrame:rowIndex];
+        return [[NSNumber numberWithUnsignedInteger:localValue] retain];
     }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
     Story *story = [self document];
-    int rowIndex = [callStackView selectedRow];
+    NSInteger rowIndex = [callStackView selectedRow];
     selectedRoutine = nil;
     if (rowIndex > -1)
     {
-        unsigned int addr = [[story zMachine] routineAddressForFrame:rowIndex];
+        NSUInteger addr = [[story zMachine] routineAddressForFrame:rowIndex];
         if ([story debugInfo])
         {
             addr -= [[story zMachine] baseHighMemory];
             selectedRoutine = [[[story debugInfo] routines]
-                objectForKey:[NSNumber numberWithUnsignedInt:addr]];
+                objectForKey:[NSNumber numberWithUnsignedInteger:addr]];
         }
     }
     [variableView reloadData];

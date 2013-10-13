@@ -52,7 +52,7 @@ static const size_t kMaxStorySize = 0x8ffff;
         if (data != nil)
         {
             // If it is a legal size, load the whole thing into memory
-            unsigned int len = [data length];
+            NSUInteger len = [data length];
             if (0 < len && len <= kMaxStorySize)
             {
                 parts->_memory = new ZMMemory((const uint8_t *)[data bytes], len);
@@ -151,7 +151,7 @@ static const size_t kMaxStorySize = 0x8ffff;
     return parts->_memory->getData();
 }
 
-- (int)memorySize
+- (size_t)memorySize
 {
     return parts->_memory->getSize();
 }
@@ -311,14 +311,14 @@ static const size_t kMaxStorySize = 0x8ffff;
     return parts->_stack->frameCount();
 }
 
-- (unsigned int)routineAddressForFrame:(int)frame
+- (NSUInteger)routineAddressForFrame:(NSInteger)frame
 {
-    return parts->_stack->getCallEntry(parts->_stack->frameCount() - frame - 1);
+    return parts->_stack->getCallEntry(parts->_stack->frameCount() - (int)frame - 1);
 }
 
-- (unsigned int)localAtIndex:(unsigned int)index forFrame:(int)frame
+- (NSUInteger)localAtIndex:(NSUInteger)index forFrame:(NSInteger)frame
 {
-    return parts->_stack->getFrameLocal(parts->_stack->frameCount() - frame - 1, index);
+    return parts->_stack->getFrameLocal(parts->_stack->frameCount() - (int)frame - 1, (int)index);
 }
 
 - (unsigned int)baseHighMemory

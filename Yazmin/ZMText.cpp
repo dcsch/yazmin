@@ -79,7 +79,7 @@ int ZMText::decode(const uint8_t *data,
         *encodedLen = ptr - data;
     
     // Return the length
-    return asciiPtr - ascii;
+    return (int)(asciiPtr - ascii);
 }
 
 void ZMText::encode(uint8_t *data,
@@ -98,7 +98,7 @@ void ZMText::encode(uint8_t *data,
         ++asciiPtr;
         zsciiPtr += zsciiLen;
     }
-    zsciiLen = zsciiPtr - zscii;
+    zsciiLen = (int)(zsciiPtr - zscii);
     
 //    // Pad the buffer out to a multiple of three with 5s
 //    int modLen = zsciiLen % 3;
@@ -110,7 +110,7 @@ void ZMText::encode(uint8_t *data,
     // Pad the buffer so the length will pack down to the specified
     // encoded length (this assumes that the unpacked length is divisable
     // by three)
-    int paddingLen = encodedLen * 3 / 2 - zsciiLen;
+    int paddingLen = (int)(encodedLen * 3 / 2) - zsciiLen;
     for (int i = 0; i < paddingLen; ++i)
         *zsciiPtr++ = 5;
     zsciiLen += paddingLen;

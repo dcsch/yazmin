@@ -42,8 +42,8 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 - (void)updateWindowLayout;
 - (void)updateWindowWidth;
 - (void)updateTextAttributes;
-- (void)characterInput:(char)c;
-- (void)stringInput:(NSString *)string;
+//- (void)characterInput:(char)c;
+//- (void)stringInput:(NSString *)string;
 - (IBAction)showInformationPanel:(id)sender;
 - (IBAction)showDebuggerWindow:(id)sender;
 - (IBAction)showObjectBrowserWindow:(id)sender;

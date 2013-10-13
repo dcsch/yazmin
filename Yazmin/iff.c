@@ -24,7 +24,7 @@ unsigned int unpackLong(const void *data)
     | (((const unsigned char *)data)[3]);
 }
 
-void packLong(const void *data, unsigned int value)
+void packLong(const void *data, unsigned long value)
 {
     ((unsigned char *)data)[0] = (unsigned char)(value >> 24);
     ((unsigned char *)data)[1] = (unsigned char)(value >> 16);
@@ -57,7 +57,7 @@ unsigned int chunkIDAndLength(const void *data, unsigned int *chunkID)
     return unpackLong(data + 4);
 }
 
-unsigned int paddedLength(unsigned int len)
+unsigned long paddedLength(unsigned long len)
 {
     return len + len % 2;
 }

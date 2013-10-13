@@ -142,7 +142,7 @@
     textView.backgroundColor = backgroundColour;
     textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     [[story.facets objectAtIndex:0] setTextStorage:textView.textStorage];
-    textView.storyInput = (StoryInput *)self;
+    textView.storyInput = self;
     [textView setInputView:YES];
     layoutView.lowerWindow = textView;
     textView.layoutManager.delegate = self;
@@ -239,8 +239,8 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 {
     NSLog(@"prepareInput");
     Story *story = [self document];
-    unsigned int len = [[[[story facets] objectAtIndex:0] textStorage] length];
-    [[layoutView lowerWindow] setInputLocation:len];
+    NSUInteger len = [[[[story facets] objectAtIndex:0] textStorage] length];
+    [[layoutView lowerWindow] setInputLocation:(unsigned int)len];
     [[layoutView lowerWindow] setInputState:kStringInputState];
 }
 

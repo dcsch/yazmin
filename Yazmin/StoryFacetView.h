@@ -12,20 +12,20 @@
 #define kCharacterInputState 1
 #define kStringInputState    2
 
-@class StoryInput;
+@protocol StoryInput;
 
 @interface StoryFacetView : NSTextView
 {
     unsigned int inputLocation;
-    StoryInput *storyInput;
+    id <StoryInput> storyInput;
     BOOL inputView;
     int inputState;
 }
 
 - (unsigned int) inputLocation;
 - (void) setInputLocation:(unsigned int)location;
-- (StoryInput *)storyInput;
-- (void)setStoryInput:(StoryInput *)input;
+- (id <StoryInput>)storyInput;
+- (void)setStoryInput:(id <StoryInput>)input;
 - (BOOL)isInputView;
 - (void)setInputView:(BOOL)flag;
 - (int)inputState;

@@ -138,7 +138,7 @@ void ZMMemory::createCMemChunk(uint8_t **rleBuf, size_t *rleLen)
         buf[i] = _data[i] ^ _originalDynamicData[i];
     
     // Trim the length of the buffer so we exclude trailing zeros
-    for (int i = dynLen - 1; i >= 0; --i)
+    for (long i = dynLen - 1; i >= 0; --i)
         if (buf[i] != 0)
         {
             dynLen = i + 1;

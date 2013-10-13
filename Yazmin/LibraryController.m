@@ -39,7 +39,7 @@
 
 - (void)playStory
 {
-    int row = [tableView selectedRow];
+    NSInteger row = [tableView selectedRow];
     if (row >= 0)
     {
         LibraryEntry *entry = [[library entries] objectAtIndex:row];

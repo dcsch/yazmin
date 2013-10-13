@@ -45,15 +45,15 @@
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(int)rowIndex
+            row:(NSInteger)rowIndex
 {
     if ([[aTableColumn identifier] isEqualTo:@"index"])
-        return [NSNumber numberWithInt:rowIndex];
+        return [NSNumber numberWithInteger:rowIndex];
     else
         return [abbreviations objectAtIndex:rowIndex];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
     return [abbreviations count];
 }

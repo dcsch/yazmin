@@ -50,12 +50,12 @@
     inputLocation = location;
 }
 
-- (StoryInput *)storyInput
+- (id <StoryInput>)storyInput
 {
     return storyInput;
 }
 
-- (void)setStoryInput:(StoryInput *)input
+- (void)setStoryInput:(id <StoryInput>)input
 {
     storyInput = input;
 }
