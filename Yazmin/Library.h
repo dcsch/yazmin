@@ -11,9 +11,6 @@
 @class Story;
 
 @interface Library : NSObject
-{
-    NSMutableArray *entries;
-}
 
 @property(strong, readonly) NSMutableArray *entries;
 

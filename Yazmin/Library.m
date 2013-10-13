@@ -10,7 +10,7 @@
 #import "LibraryEntry.h"
 #import "Story.h"
 
-@interface Library (Private)
+@interface Library ()
 - (NSDictionary *)ifidURLDictionary;
 @end
 
@@ -21,7 +21,7 @@
     self = [super init];
     if (self)
     {
-        entries = [[NSMutableArray alloc] init];
+        _entries = [[NSMutableArray alloc] init];
 
         // Load the library entries saved in the user preferences
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -31,7 +31,7 @@
             LibraryEntry *entry =
             [[LibraryEntry alloc] initWithIfid:[stories valueForKey:url]
                                            url:[NSURL URLWithString:url]];
-            [entries addObject:entry];
+            [_entries addObject:entry];
         }
     }
     return self;
@@ -41,7 +41,7 @@
 - (NSDictionary *)ifidURLDictionary
 {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-    for (LibraryEntry *entry in entries)
+    for (LibraryEntry *entry in _entries)
         dictionary[[[entry fileURL] absoluteString]] = [entry ifid];
     return dictionary;
 }
@@ -59,7 +59,5 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:self.ifidURLDictionary forKey:@"Stories"];
 }
-
-@synthesize entries;
 
 @end

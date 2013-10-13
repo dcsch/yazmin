@@ -23,15 +23,15 @@
 #import "ObjectBrowserController.h"
 #import "AbbreviationsController.h"
 
-@interface StoryController (Private)
+@interface StoryController ()
 
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel
-             returnCode:(int)returnCode
-            contextInfo:(void *)contextInfo;
+//- (void)openPanelDidEnd:(NSOpenPanel *)openPanel
+//             returnCode:(int)returnCode
+//            contextInfo:(void *)contextInfo;
 
-- (void)savePanelDidEnd:(NSSavePanel *)savePanel
-             returnCode:(int)returnCode
-            contextInfo:(void *)contextInfo;
+//- (void)savePanelDidEnd:(NSSavePanel *)savePanel
+//             returnCode:(int)returnCode
+//            contextInfo:(void *)contextInfo;
 
 - (void)sheetDidEnd:(NSWindow *)sheet
          returnCode:(int)returnCode
@@ -250,60 +250,35 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 - (void)restoreSession
 {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
-    
-    [panel beginSheetForDirectory:nil
-                             file:nil
-                            types:@[@".qut"]
-                   modalForWindow:[self window]
-                    modalDelegate:self
-                   didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                      contextInfo:NULL];
-}
+    [panel setAllowedFileTypes:@[@"qut"]];
+    [panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
+        NSURL *url;
 
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel
-             returnCode:(int)returnCode
-            contextInfo:(void *)contextInfo
-{
-    NSString *path;
-    
-    if (returnCode == NSOKButton)
-    {
-        path = [openPanel filename];
-    }
+        if (result == NSOKButton)
+        {
+            url = [panel URL];
+        }
+    }];
 }
 
 - (void)saveSessionData:(NSData *)data;
 {
-    // Ask the user for a save file name.  The actual saving won't occur
-    // until the 'didEndSelector' is called.
+    // Ask the user for a save file name
     NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setRequiredFileType:@"qut"];
-    [panel beginSheetForDirectory:nil
-                             file:nil
-                   modalForWindow:[self window]
-                    modalDelegate:self
-                   didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
-                      contextInfo:(__bridge void *)(data)];
-}
+    [panel setAllowedFileTypes:@[@"qut"]];
+    [panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
+        Story *story = [self document];
+        if (result == NSOKButton)
+        {
+            [data writeToURL:[panel URL] atomically:YES];
+            [story setLastRestoreOrSaveResult:1];
+        }
+        else
+            [story setLastRestoreOrSaveResult:0];
 
-- (void)savePanelDidEnd:(NSSavePanel *)savePanel
-             returnCode:(int)returnCode
-            contextInfo:(void *)contextInfo
-{
-    // Do the actual saving now, if OK has been pressed
-    Story *story = [self document];
-    NSData *data = (__bridge NSData *)(contextInfo);
-    if (returnCode == NSOKButton)
-    {
-        [data writeToURL:[savePanel URL] atomically:NO];
-        [story setLastRestoreOrSaveResult:1];
-    }
-    else
-        [story setLastRestoreOrSaveResult:0];
-
-
-    // TESTING
-    //[[story zMachine] executeUntilHalt];
+        // TESTING
+        //[[story zMachine] executeUntilHalt];
+    }];
 }
 
 - (void)showError:(NSString *)errorMessage
@@ -317,6 +292,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                       @selector(sheetDidEnd:returnCode:contextInfo:),
                       nil,
                       NULL,
+                      @"%@",
                       errorMessage);
 }
 
