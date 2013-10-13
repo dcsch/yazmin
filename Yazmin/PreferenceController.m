@@ -59,7 +59,7 @@
 //    NSArray *fontNames = [fm availableFonts];
     NSSortDescriptor *sortDescriptor =
         [[NSSortDescriptor alloc] initWithKey:@"description" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortDescriptor];
+    NSArray *sortDescriptors = @[sortDescriptor];
     NSArray *sortedFontNames =
         [fontNames sortedArrayUsingDescriptors:sortDescriptors];
     

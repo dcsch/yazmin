@@ -32,25 +32,18 @@
             [[LibraryEntry alloc] initWithIfid:[stories valueForKey:url]
                                            url:[NSURL URLWithString:url]];
             [entries addObject:entry];
-            [entry release];
         }
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [entries release];
-    [super dealloc];
-}
 
 - (NSDictionary *)ifidURLDictionary
 {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     for (LibraryEntry *entry in entries)
-        [dictionary setObject:[entry ifid]
-                       forKey:[[entry fileURL] absoluteString]];
-    return [dictionary autorelease];
+        dictionary[[[entry fileURL] absoluteString]] = [entry ifid];
+    return dictionary;
 }
 
 - (void)addStory:(Story *)story
@@ -59,7 +52,6 @@
     [[LibraryEntry alloc] initWithIfid:story.ifid
                                    url:story.fileURL];
     [self.entries addObject:entry];
-    [entry release];
 }
 
 - (void)save

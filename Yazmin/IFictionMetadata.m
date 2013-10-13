@@ -29,16 +29,10 @@
             IFStory *story = [[IFStory alloc] initWithXMLElement:child];
             [stories addObject:story];
         }
-        [xml release];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [stories release];
-    [super dealloc];
-}
 
 - (NSArray *)stories
 {

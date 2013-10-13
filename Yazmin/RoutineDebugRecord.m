@@ -28,13 +28,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [defnStart release];
-    [name release];
-    [localNames release];
-    [super dealloc];
-}
 
 - (unsigned int)routineNumber
 {

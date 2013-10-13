@@ -6,10 +6,10 @@
 //  Copyright 2011 Synchroma Pty Ltd. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
-@interface YazminTests : SenTestCase {
+@interface YazminTests : XCTestCase {
 @private
     
 }

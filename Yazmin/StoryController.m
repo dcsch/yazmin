@@ -79,7 +79,6 @@
     nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
 
-    [super dealloc];
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
@@ -141,12 +140,11 @@
     StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
     textView.backgroundColor = backgroundColour;
     textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    [[story.facets objectAtIndex:0] setTextStorage:textView.textStorage];
+    [(story.facets)[0] setTextStorage:textView.textStorage];
     textView.storyInput = self;
     [textView setInputView:YES];
     layoutView.lowerWindow = textView;
     textView.layoutManager.delegate = self;
-    [textView release];
     
     // Upper Window
     NSRect upperFrame = NSMakeRect(0, 0, frame.size.width, 0);
@@ -170,9 +168,8 @@
     [textView setAutoresizingMask:0];
     //[[textView textContainer] setWidthTracksTextView:NO];
     [[textView textContainer] setHeightTracksTextView:NO];
-    [[[story facets] objectAtIndex:1] setTextStorage:[textView textStorage]];
+    [[story facets][1] setTextStorage:[textView textStorage]];
     [layoutView setUpperWindow:textView];
-    [textView release];
     
     // TESTING
     [[story zMachine] setScreenHeight:0xff];
@@ -205,7 +202,7 @@
         Story *story = [self document];
         [[story zMachine] setScreenWidth:(unsigned int)screenWidthInChars];
         
-        GridStoryFacet *facet = [[[self document] facets] objectAtIndex:1];
+        GridStoryFacet *facet = [[self document] facets][1];
         [facet setNumberOfColumns:(int)screenWidthInChars];
     }
 }
@@ -239,7 +236,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 {
     NSLog(@"prepareInput");
     Story *story = [self document];
-    NSUInteger len = [[[[story facets] objectAtIndex:0] textStorage] length];
+    NSUInteger len = [[[story facets][0] textStorage] length];
     [[layoutView lowerWindow] setInputLocation:(unsigned int)len];
     [[layoutView lowerWindow] setInputState:kStringInputState];
 }
@@ -256,7 +253,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
     
     [panel beginSheetForDirectory:nil
                              file:nil
-                            types:[NSArray arrayWithObject:@".qut"]
+                            types:@[@".qut"]
                    modalForWindow:[self window]
                     modalDelegate:self
                    didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
@@ -280,14 +277,13 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
     // Ask the user for a save file name.  The actual saving won't occur
     // until the 'didEndSelector' is called.
     NSSavePanel *panel = [NSSavePanel savePanel];
-    [data retain];
     [panel setRequiredFileType:@"qut"];
     [panel beginSheetForDirectory:nil
                              file:nil
                    modalForWindow:[self window]
                     modalDelegate:self
                    didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
-                      contextInfo:data];
+                      contextInfo:(__bridge void *)(data)];
 }
 
 - (void)savePanelDidEnd:(NSSavePanel *)savePanel
@@ -296,7 +292,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 {
     // Do the actual saving now, if OK has been pressed
     Story *story = [self document];
-    NSData *data = contextInfo;
+    NSData *data = (__bridge NSData *)(contextInfo);
     if (returnCode == NSOKButton)
     {
         [data writeToURL:[savePanel URL] atomically:NO];
@@ -305,7 +301,6 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
     else
         [story setLastRestoreOrSaveResult:0];
 
-    [data release];
 
     // TESTING
     //[[story zMachine] executeUntilHalt];
@@ -343,7 +338,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 - (void)updateWindowLayout
 {
     // Retrieve the height of the upper window
-    StoryFacet *facet = [[[self document] facets] objectAtIndex:1];
+    StoryFacet *facet = [[self document] facets][1];
     [layoutView resizeUpperWindow:[facet numberOfLines]];
     [layoutView setNeedsDisplay:YES];
 }
@@ -360,7 +355,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 - (void)updateTextAttributes
 {
     // Set the typing attributes of the lower window so they reflect the change
-    StoryFacet *facet = [[self.document facets] objectAtIndex:0];
+    StoryFacet *facet = [self.document facets][0];
     [layoutView.lowerWindow setTypingAttributes:facet.currentAttributes];
 }
 
@@ -373,7 +368,6 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                              length:1
                                            encoding:NSASCIIStringEncoding];
     [story setInputString:str];
-    [str release];
     
     // TESTING
     [story.zMachine executeUntilHalt];

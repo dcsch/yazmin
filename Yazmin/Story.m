@@ -77,14 +77,6 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self];
 
-    [facets release];
-    [inputString release];
-    [zcodeData release];
-    [metadata release];
-    [blorb release];
-    [debugInfo release];
-    [zMachine release];
-    [super dealloc];
 }
 
 - (void)makeWindowControllers
@@ -124,7 +116,7 @@
         NSFileWrapper *debugWrapper = nil;
 
         // Pick out the 'Build' directory
-        NSFileWrapper *buildDir = [[fileWrapper fileWrappers] objectForKey:@"Build"];
+        NSFileWrapper *buildDir = [fileWrapper fileWrappers][@"Build"];
         if (buildDir)
         {
             NSDictionary *filesInDirectory = [buildDir fileWrappers];
@@ -137,9 +129,9 @@
                 // Likely to be 'output.z5' or 'output.z8', so we'll just look
                 // for the initial 'z' and go with that
                 if ([pathExtension characterAtIndex:0] == 'z')
-                    zcodeWrapper = [filesInDirectory objectForKey:filePath];
+                    zcodeWrapper = filesInDirectory[filePath];
                 else if ([pathExtension compare:@"dbg"] == 0)
-                    debugWrapper = [filesInDirectory objectForKey:filePath];
+                    debugWrapper = filesInDirectory[filePath];
             }
         }
         else
@@ -153,14 +145,12 @@
         if (zcodeWrapper)
         {
             zcodeData = [zcodeWrapper regularFileContents];
-            [zcodeData retain];
             [self createZMachine];
             if (debugWrapper)
             {
                 NSData *debugData = [debugWrapper regularFileContents];
                 DebugInfoReader *reader = [[DebugInfoReader alloc] initWithData:debugData];
-                debugInfo = [[reader debugInfo] retain];
-                [reader release];
+                debugInfo = [reader debugInfo];
             }
             return YES;
         }
@@ -185,7 +175,6 @@
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
-    [blorb release];
     blorb = nil;
 
     if ([typeName compare:@"ZCode Blorb"] == 0)
@@ -198,17 +187,15 @@
             if (mddata)
             {
                 IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
-                metadata = [[ifmd stories] objectAtIndex:0];
-                ifid = [[[metadata identification] ifids] objectAtIndex:0];
+                metadata = [ifmd stories][0];
+                ifid = [[metadata identification] ifids][0];
             }
-            zcodeData = [[blorb zcodeData] retain];
+            zcodeData = [blorb zcodeData];
         }
     }
     else
     {
         // Treat this data as executable z-code story data
-        [data retain];
-        [zcodeData release];
         zcodeData = data;
     }
     
@@ -225,8 +212,7 @@
         if (debugData)
         {
             DebugInfoReader *reader = [[DebugInfoReader alloc] initWithData:debugData];
-            debugInfo = [[reader debugInfo] retain];
-            [reader release];
+            debugInfo = [reader debugInfo];
         }
         
         return YES;
@@ -252,8 +238,6 @@
 
 - (void)setInputString:(NSString *)input
 {
-    [input retain];
-    [inputString release];
     inputString = input;
 }
 
@@ -351,7 +335,7 @@
     {
         // Adjust the current font attribute
         NSFont *font = [prefs fontForStyle:[facet currentStyle]];
-        [[facet currentAttributes] setObject:font forKey:NSFontAttributeName];
+        [facet currentAttributes][NSFontAttributeName] = font;
         
         // Scan all the text and convert the fonts found within
         unsigned int index = 0;
@@ -385,7 +369,7 @@
     // 'input' consumes the input string
     NSString *retString = inputString;
     inputString = nil;
-    return [retString autorelease];
+    return retString;
 }
 
 - (char)inputChar
@@ -394,7 +378,6 @@
     
     // 'inputChar' consumes the input string
     char c = [inputString characterAtIndex:0];
-    [inputString release];
     inputString = nil;
     return c;
 }

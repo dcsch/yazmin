@@ -23,10 +23,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
 {
@@ -50,7 +46,7 @@
 {
     Story *story = [self document];
     if ([[aTableColumn identifier] isEqualTo:@"index"])
-        return [NSNumber numberWithInt:rowIndex];
+        return @(rowIndex);
     else
     {
         // Get a routine name from debug info if possible, otherwise
@@ -62,12 +58,11 @@
         else if ([story debugInfo])
         {
             addr -= [[story zMachine] baseHighMemory];
-            RoutineDebugRecord *routine = [[[story debugInfo] routines]
-                objectForKey:[NSNumber numberWithUnsignedInteger:addr]];
+            RoutineDebugRecord *routine = [[story debugInfo] routines][@(addr)];
             name = [routine name];
         }
         else
-            name = [[NSString stringWithFormat:@"%05lx", (unsigned long)addr] retain];
+            name = [NSString stringWithFormat:@"%05lx", (unsigned long)addr];
         return name;
     }
     return nil;
@@ -96,7 +91,7 @@
            ofItem:(id)item
 {
     if (selectedRoutine)
-        return [[selectedRoutine localNames] objectAtIndex:index];
+        return [selectedRoutine localNames][index];
     return nil;
 }
 
@@ -112,7 +107,7 @@
         NSUInteger index = [[selectedRoutine localNames] indexOfObject:item];
         NSInteger rowIndex = [callStackView selectedRow];
         NSUInteger localValue = [[story zMachine] localAtIndex:index forFrame:rowIndex];
-        return [[NSNumber numberWithUnsignedInteger:localValue] retain];
+        return @(localValue);
     }
 }
 
@@ -127,8 +122,7 @@
         if ([story debugInfo])
         {
             addr -= [[story zMachine] baseHighMemory];
-            selectedRoutine = [[[story debugInfo] routines]
-                objectForKey:[NSNumber numberWithUnsignedInteger:addr]];
+            selectedRoutine = [[story debugInfo] routines][@(addr)];
         }
     }
     [variableView reloadData];

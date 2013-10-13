@@ -22,13 +22,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [propertyNames release];
-    [objectNames release];
-    [routines release];
-    [super dealloc];
-}
 
 - (NSMutableDictionary *)propertyNames
 {

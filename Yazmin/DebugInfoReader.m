@@ -59,18 +59,12 @@
     if (self)
     {
         debugData = data;
-        [debugData retain];
         
         currentRoutine = nil;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [debugData release];
-    [super dealloc];
-}
 
 - (DebugInfo *)debugInfo
 {
@@ -83,7 +77,7 @@
         ptr += 6;
         [self readDebugData];
     }
-    return [debugInfo autorelease];
+    return debugInfo;
 }
 
 - (unsigned char)readByte
@@ -204,7 +198,7 @@
     NSString *name = [self readString];
     NSString *defnStart = [self readLine];
     NSString *defnEnd = [self readLine];
-    [[debugInfo objectNames] setObject:name forKey:[NSNumber numberWithUnsignedInt:number]];
+    [debugInfo objectNames][@(number)] = name;
     NSLog(@"OBJECT_DBR number: %d, name: %@, defnStart: %@, defnEnd: %@", number, name, defnStart, defnEnd);
 }
 
@@ -233,7 +227,7 @@
 {
     unsigned int number = [self readWord];
     NSString *name = [self readString];
-    [[debugInfo propertyNames] setObject:name forKey:[NSNumber numberWithUnsignedInt:number]];
+    [debugInfo propertyNames][@(number)] = name;
     NSLog(@"PROP_DBR number: %d, name: %@", number, name);
 }
 
@@ -271,8 +265,7 @@
                                                           start:defnStart
                                                         pcStart:pcStart
                                                            name:name];
-    [[debugInfo routines] setObject:currentRoutine
-                             forKey:[NSNumber numberWithUnsignedInt:pcStart]];
+    [debugInfo routines][@(pcStart)] = currentRoutine;
     while (*ptr)
     {
         NSString *localName = [self readString];

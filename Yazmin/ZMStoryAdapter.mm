@@ -16,12 +16,12 @@ ZMStoryAdapter::~ZMStoryAdapter()
 
 void ZMStoryAdapter::setWindow(int window)
 {
-    _storyFacet = [_story.facets objectAtIndex:window];
+    _storyFacet = (_story.facets)[window];
 }
 
 void ZMStoryAdapter::splitWindow(int lines)
 {
-    StoryFacet *storyFacet = [_story.facets objectAtIndex:1];
+    StoryFacet *storyFacet = (_story.facets)[1];
     storyFacet.numberOfLines = lines;
 }
 
@@ -38,7 +38,7 @@ void ZMStoryAdapter::eraseWindow(int window)
     }
     else
     {
-        StoryFacet *storyFacet = [_story.facets objectAtIndex:window];
+        StoryFacet *storyFacet = (_story.facets)[window];
         [storyFacet erase];
     }
 }
@@ -46,7 +46,7 @@ void ZMStoryAdapter::eraseWindow(int window)
 void ZMStoryAdapter::showStatus()
 {
     // Generate a version 1-3 status line
-    StoryFacet *storyFacet = [_story.facets objectAtIndex:1];
+    StoryFacet *storyFacet = (_story.facets)[1];
     if (storyFacet.numberOfLines == 0)
         splitWindow(1);
     setWindow(1);
@@ -151,8 +151,7 @@ void ZMStoryAdapter::print(const char *str)
     }
     *dest = 0;
 
-    [_storyFacet print:[NSString stringWithCString:buf
-                                          encoding:NSASCIIStringEncoding]];
+    [_storyFacet print:@(buf)];
 }
 
 void ZMStoryAdapter::printNumber(int number)

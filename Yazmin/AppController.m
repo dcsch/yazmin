@@ -26,13 +26,12 @@
         [NSColor blackColor]];
 
     // Put the defaults in the dictionary
-    [defaultValues setObject:backgroundColourAsData forKey:SMBackgroundColourKey];
-    [defaultValues setObject:foregroundColourAsData forKey:SMForegroundColourKey];
-    [defaultValues setObject:@"Courier" forKey:SMMonospacedFontKey];
-    [defaultValues setObject:@"Helvetica" forKey:SMProportionalFontKey];
-    [defaultValues setObject:[NSNumber numberWithFloat:12.0] forKey:SMFontSizeKey];
-    [defaultValues setObject:[NSNumber numberWithInt:1]
-                      forKey:SMShowLibraryOnStartupKey];
+    defaultValues[SMBackgroundColourKey] = backgroundColourAsData;
+    defaultValues[SMForegroundColourKey] = foregroundColourAsData;
+    defaultValues[SMMonospacedFontKey] = @"Courier";
+    defaultValues[SMProportionalFontKey] = @"Helvetica";
+    defaultValues[SMFontSizeKey] = @12.0f;
+    defaultValues[SMShowLibraryOnStartupKey] = @1;
     
     // Register the dictionary of defaults
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
@@ -52,13 +51,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [libraryController release];
-    [preferenceController release];
-    [library release];
-    [super dealloc];
-}
 
 - (Library *)library
 {

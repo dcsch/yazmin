@@ -17,21 +17,15 @@
     self = [super init];
     if (self)
     {
-        NSXMLElement *idElement = [[element elementsForName:@"identification"] objectAtIndex:0];
+        NSXMLElement *idElement = [element elementsForName:@"identification"][0];
         identification = [[IFIdentification alloc] initWithXMLElement:idElement];
 
-        NSXMLElement *biblioElement = [[element elementsForName:@"bibliographic"] objectAtIndex:0];
+        NSXMLElement *biblioElement = [element elementsForName:@"bibliographic"][0];
         bibliographic = [[IFBibliographic alloc] initWithXMLElement:biblioElement];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [identification release];
-    [bibliographic release];
-    [super dealloc];
-}
 
 - (IFIdentification *)identification
 {

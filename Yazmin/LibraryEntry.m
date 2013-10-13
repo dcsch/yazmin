@@ -24,14 +24,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [ifid release];
-    [fileURL release];
-    [title release];
-    [author release];
-    [super dealloc];
-}
 
 @synthesize ifid;
 @synthesize fileURL;

@@ -15,7 +15,7 @@
     NSMutableArray *entries;
 }
 
-@property(retain, readonly) NSMutableArray *entries;
+@property(strong, readonly) NSMutableArray *entries;
 
 - (void)addStory:(Story *)story;
 - (void)save;

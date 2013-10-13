@@ -20,13 +20,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-    [lowerWindow release];
-    [lowerScrollView release];
-    [upperWindow release];
-    [super dealloc];
-}
 
 - (StoryController *)controller
 {
@@ -42,8 +35,6 @@
 {
     NSLog(@"setUpperWindow");
     
-    [view retain];
-    [upperWindow release];
     upperWindow = view;
     [self addSubview:upperWindow];
 }
@@ -57,8 +48,6 @@
 {
     NSLog(@"setLowerWindow");
 
-    [view retain];
-    [lowerWindow release];
     lowerWindow = view;
     [lowerScrollView setDocumentView:lowerWindow];
 }

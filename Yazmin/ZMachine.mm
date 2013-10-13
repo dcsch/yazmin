@@ -80,7 +80,6 @@ static const size_t kMaxStorySize = 0x8ffff;
     delete parts->_io;
     delete parts->_memory;
     delete parts;
-    [super dealloc];
 }
 
 - (NSString *)ifid
@@ -284,8 +283,8 @@ static const size_t kMaxStorySize = 0x8ffff;
             char propDump[1024] = { 0 };
             for (int i = 0; i < size; ++i)
                 sprintf(propDump + 3 * i, "%02x ", parts->_memory->getByte(addr++));
-            return [[NSString stringWithCString:propDump
-                                       encoding:[NSString defaultCStringEncoding]] retain];
+            return [NSString stringWithCString:propDump
+                                       encoding:[NSString defaultCStringEncoding]];
         }
         ++count;
     }
@@ -303,7 +302,7 @@ static const size_t kMaxStorySize = 0x8ffff;
         [array addObject:[NSString stringWithCString:buf
                                             encoding:[NSString defaultCStringEncoding]]];
     }
-    return [array autorelease];
+    return array;
 }
 
 - (int)numberOfFrames

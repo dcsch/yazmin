@@ -21,11 +21,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [abbreviations release];
-    [super dealloc];
-}
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
 {
@@ -38,7 +33,6 @@
 {
     Story *story = [self document];
     abbreviations = [[story zMachine] abbreviations];
-    [abbreviations retain];
 
     [tableView setDataSource:self];
 }
@@ -48,9 +42,9 @@
             row:(NSInteger)rowIndex
 {
     if ([[aTableColumn identifier] isEqualTo:@"index"])
-        return [NSNumber numberWithInteger:rowIndex];
+        return @(rowIndex);
     else
-        return [abbreviations objectAtIndex:rowIndex];
+        return abbreviations[rowIndex];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView

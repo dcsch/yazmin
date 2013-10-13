@@ -27,7 +27,6 @@
     if (self)
     {
         data = aData;
-        [data retain];
         resources = [[NSMutableArray alloc] init];
         metaData = nil;
         
@@ -61,7 +60,6 @@
                     // Treaty of Babel Metadata
                     NSRange range = NSMakeRange(ptr - [data bytes] + 8, len);
                     metaData = [data subdataWithRange:range];
-                    [metaData retain];
                 }
                 ptr += len + 8;
             }
@@ -70,20 +68,13 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [resources release];
-    [metaData release];
-    [data release];
-    [super dealloc];
-}
 
 - (BlorbResource *)findResourceOfUsage:(unsigned int)usage
 {
     int i;
     for (i = 0; i < [resources count]; ++i)
     {
-        BlorbResource *resource = [resources objectAtIndex:i];
+        BlorbResource *resource = resources[i];
         if ([resource usage] == usage)
             return resource;
     }

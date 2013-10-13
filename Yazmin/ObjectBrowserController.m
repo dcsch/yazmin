@@ -23,10 +23,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
 {
@@ -57,7 +53,7 @@
 {
     Story *story = [self document];
     int obj = [[story zMachine] child:index ofObject:item == nil ? 0 : [item intValue]];
-    return [[NSNumber numberWithInt:obj] retain];
+    return @(obj);
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView
@@ -67,7 +63,7 @@
     Story *story = [self document];
     NSString *name = nil;
     if ([story debugInfo])
-        name = [[[story debugInfo] objectNames] objectForKey:item];
+        name = [[story debugInfo] objectNames][item];
 
     if (!name)
         name = [[story zMachine] nameOfObject:[item intValue]];
@@ -97,10 +93,9 @@
             int prop = [[story zMachine] property:rowIndex ofObject:selectedObject];
             NSString *propName = nil;
             if ([story debugInfo] && (prop > -1))
-                propName = [[[story debugInfo] propertyNames]
-                    objectForKey:[NSNumber numberWithUnsignedInt:prop]];
+                propName = [[story debugInfo] propertyNames][@(prop)];
             if (propName == nil)
-                propName = [[NSString stringWithFormat:@"[%d]", prop] retain];
+                propName = [NSString stringWithFormat:@"[%d]", prop];
             return propName;
         }
         else
@@ -123,7 +118,6 @@
 {
     // Note the currently selected item
     NSNumber *selectedItem = [outlineView itemAtRow:[outlineView selectedRow]];
-    [selectedItem retain];
 
     // Go through all the top-level items and reload the lot
     int i;
@@ -147,7 +141,6 @@
             break;
         }
     }
-    [selectedItem release];
     
     // Make sure the current selection is up to date
     selectedObject = [[outlineView itemAtRow:[outlineView selectedRow]] intValue];

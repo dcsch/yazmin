@@ -27,7 +27,7 @@
 
 - (void)testExample
 {
-    STFail(@"Unit tests are not implemented yet in YazminTests");
+    XCTFail(@"Unit tests are not implemented yet in YazminTests");
 }
 
 @end

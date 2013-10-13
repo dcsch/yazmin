@@ -27,12 +27,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [textStorage release];
-    [currentAttributes release];
-    [super dealloc];
-}
 
 - (NSTextStorage *)textStorage
 {
@@ -41,8 +35,6 @@
 
 - (void)setTextStorage:(NSTextStorage *)aTextStorage;
 {
-    [aTextStorage retain];
-    [textStorage release];
     textStorage = aTextStorage;
 }
 
@@ -87,47 +79,44 @@
 
     // Retrieve the preferred font for this style
     NSFont *font = [[Preferences sharedPreferences] fontForStyle:style];
-    [currentAttributes setObject:font forKey:NSFontAttributeName];
+    currentAttributes[NSFontAttributeName] = font;
     
     // Is it reverse video?
     NSColor *bgColour = [[Preferences sharedPreferences] backgroundColour];
     NSColor *fgColour = [[Preferences sharedPreferences] foregroundColour];
     if (style & 1)
     {
-        [currentAttributes setObject:fgColour
-                              forKey:NSBackgroundColorAttributeName];
-        [currentAttributes setObject:bgColour
-                              forKey:NSForegroundColorAttributeName];
+        currentAttributes[NSBackgroundColorAttributeName] = fgColour;
+        currentAttributes[NSForegroundColorAttributeName] = bgColour;
     }
     else
     {
         [currentAttributes removeObjectForKey:NSBackgroundColorAttributeName];
-        [currentAttributes setObject:fgColour
-                              forKey:NSForegroundColorAttributeName];
+        currentAttributes[NSForegroundColorAttributeName] = fgColour;
     }
 }
 
 - (void)print:(NSString *)text
 {
     NSAttributedString *attrText =
-    [[[NSAttributedString alloc] initWithString:text
-                                     attributes:currentAttributes] autorelease];
+    [[NSAttributedString alloc] initWithString:text
+                                     attributes:currentAttributes];
     [textStorage appendAttributedString:attrText];
 }
 
 - (void)printNumber:(int)number
 {
     NSAttributedString *attrText =
-    [[[NSAttributedString alloc] initWithString:[[NSNumber numberWithInt:number] stringValue]
-                                     attributes:currentAttributes] autorelease];
+    [[NSAttributedString alloc] initWithString:[@(number) stringValue]
+                                     attributes:currentAttributes];
     [textStorage appendAttributedString:attrText];
 }
 
 - (void)newLine
 {
     NSAttributedString *attrText =
-    [[[NSAttributedString alloc] initWithString:@"\n"
-                                     attributes:currentAttributes] autorelease];
+    [[NSAttributedString alloc] initWithString:@"\n"
+                                     attributes:currentAttributes];
     [textStorage appendAttributedString:attrText];
 }
 

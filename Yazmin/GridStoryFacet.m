@@ -84,7 +84,7 @@
         [story updateWindowWidth];
     }
 
-    NSString *str = [[NSNumber numberWithInt:number] stringValue];
+    NSString *str = [@(number) stringValue];
     [self printString:str];
 }
 
@@ -108,15 +108,14 @@
     
     // We use the superclass as this appends rather than replaces
     [super print:fill];
-    [fill release];
 }
 
 - (void)printString:(NSString *)string
 {
     NSRange range = NSMakeRange(numberOfColumns * y + x, [string length]);
     NSAttributedString *attrText =
-        [[[NSAttributedString alloc] initWithString:string
-                                         attributes:currentAttributes] autorelease];
+        [[NSAttributedString alloc] initWithString:string
+                                         attributes:currentAttributes];
     [textStorage replaceCharactersInRange:range withAttributedString:attrText];
     x += [string length];
 }

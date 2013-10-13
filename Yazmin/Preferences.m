@@ -38,11 +38,6 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
     return self;
 }
 
-- (void)dealloc
-{
-    [fonts release];
-    [super dealloc];
-}
 
 - (NSColor *)backgroundColour
 {
@@ -101,7 +96,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 
 - (void)setFontSize:(float)size
 {
-    [defaults setObject:[NSNumber numberWithFloat:size] forKey:SMFontSizeKey];
+    [defaults setObject:@(size) forKey:SMFontSizeKey];
     [fonts removeAllObjects];
     [nc postNotificationName:@"SMFontSizeChanged" object:self];
 }
@@ -112,7 +107,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
     style &= 0xfe;
 
     // Check our font cache for this style
-    NSFont *font = [fonts objectForKey:[NSNumber numberWithInt:style]];
+    NSFont *font = fonts[@(style)];
     if (font == nil)
     {
         // What font family are we using?
@@ -135,7 +130,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
                                                           traits:traits
                                                           weight:5
                                                             size:[self fontSize]];
-        [fonts setObject:font forKey:[NSNumber numberWithInt:style]];
+        fonts[@(style)] = font;
     }
     return font;
 }
@@ -179,7 +174,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 
 - (void)setShowsLibraryOnStartup:(BOOL)show
 {
-    [defaults setObject:[NSNumber numberWithInt:show]
+    [defaults setObject:@(show)
                  forKey:SMShowLibraryOnStartupKey];
 }
 

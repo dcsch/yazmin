@@ -27,7 +27,6 @@
             else if ([[node name] compare:@"format"] == 0)
             {
                 format = [node stringValue];
-                [format retain];
             }
             else if ([[node name] compare:@"bafn"] == 0)
                 bafn = [[node stringValue] intValue];
@@ -36,12 +35,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [ifids release];
-    [format release];
-    [super dealloc];
-}
 
 - (NSArray *)ifids
 {

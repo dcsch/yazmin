@@ -32,17 +32,13 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (void)playStory
 {
     NSInteger row = [tableView selectedRow];
     if (row >= 0)
     {
-        LibraryEntry *entry = [[library entries] objectAtIndex:row];
+        LibraryEntry *entry = [library entries][row];
         NSError *error;
         [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[entry fileURL]
                                                                                display:YES

@@ -20,7 +20,6 @@
     if (self)
     {
         blorb = aBlorb;
-        [blorb retain];
         metadata = nil;
         if ([blorb metaData])
             metadata = [[IFictionMetadata alloc] initWithData:[blorb metaData]];
@@ -28,12 +27,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [metadata release];
-    [blorb release];
-    [super dealloc];
-}
 
 - (void)windowDidLoad
 {
@@ -61,13 +54,11 @@
         [resizedImage unlockFocus];    
         
         [imageView setImage:resizedImage];
-        [resizedImage release];
-        [image release];
     }
     
     if (metadata)
     {
-        IFStory *storyMD = [[metadata stories] objectAtIndex:0];
+        IFStory *storyMD = [metadata stories][0];
         [title setStringValue:[[storyMD bibliographic] title]];
         [author setStringValue:[[storyMD bibliographic] author]];
         [description setString:[[storyMD bibliographic] description]];

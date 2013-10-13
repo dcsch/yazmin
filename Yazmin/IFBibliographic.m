@@ -23,47 +23,38 @@
             if ([[node name] compare:@"title"] == 0)
             {
                 title = [node stringValue];
-                [title retain];
             }
             else if ([[node name] compare:@"author"] == 0)
             {
                 author = [node stringValue];
-                [author retain];
             }
             else if ([[node name] compare:@"language"] == 0)
             {
                 language = [node stringValue];
-                [language retain];
             }
             else if ([[node name] compare:@"headline"] == 0)
             {
                 headline = [node stringValue];
-                [headline retain];
             }
             else if ([[node name] compare:@"firstpublished"] == 0)
             {
                 firstPublished = [node stringValue];
-                [firstPublished retain];
             }
             else if ([[node name] compare:@"genre"] == 0)
             {
                 genre = [node stringValue];
-                [genre retain];
             }
             else if ([[node name] compare:@"group"] == 0)
             {
                 group = [node stringValue];
-                [group retain];
             }
             else if ([[node name] compare:@"description"] == 0)
             {
                 description = [node stringValue];
-                [description retain];
             }
             else if ([[node name] compare:@"series"] == 0)
             {
                 series = [node stringValue];
-                [series retain];
             }
             else if ([[node name] compare:@"seriesnumber"] == 0)
             {
@@ -72,17 +63,12 @@
             else if ([[node name] compare:@"forgiveness"] == 0)
             {
                 forgiveness = [node stringValue];
-                [forgiveness retain];
             }
         }
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (NSString *)title
 {
