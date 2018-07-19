@@ -25,8 +25,8 @@
     AbbreviationsController *abbreviationsController;
 }
 
-- (LayoutView *)view;
-- (float)calculateScreenWidth;
+@property (readonly, strong) LayoutView *view;
+@property (readonly) float calculateScreenWidth;
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColourChange:(NSNotification *)note;
 - (void)handleForegroundColourChange:(NSNotification *)note;

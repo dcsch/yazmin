@@ -30,20 +30,18 @@
     StoryController *controller;
 }
 
-- (NSArray *)facets;
-- (NSString *)inputString;
-- (void)setInputString:(NSString *)input;
-- (NSData *)zcodeData;
-- (Blorb *)blorb;
-- (IFStory *)metadata;
-- (NSString *)ifid;
-- (ZMachine *)zMachine;
-- (DebugInfo *)debugInfo;
-- (BOOL)hasEnded;
-- (NSData *)savedSessionData;
+@property (readonly, copy) NSArray *facets;
+@property (copy) NSString *inputString;
+@property (readonly, copy) NSData *zcodeData;
+@property (readonly, strong) Blorb *blorb;
+@property (readonly, strong) IFStory *metadata;
+@property (readonly, copy) NSString *ifid;
+@property (readonly, strong) ZMachine *zMachine;
+@property (readonly, strong) DebugInfo *debugInfo;
+@property (readonly) BOOL hasEnded;
+@property (readonly, copy) NSData *savedSessionData;
 - (void)saveSessionData:(NSData *)data;
-- (unsigned int)lastRestoreOrSaveResult;
-- (void)setLastRestoreOrSaveResult:(unsigned int)result;
+@property  unsigned int lastRestoreOrSaveResult;
 - (void)error:(NSString *)errorMessage;
 - (void)updateWindowLayout;
 - (void)updateWindowWidth;
@@ -51,7 +49,7 @@
 - (void)handleForegroundColourChange:(NSNotification *)note;
 - (void)handleFontChange:(NSNotification *)note;
 
-- (NSString *)input;
-- (char)inputChar;
+@property (readonly, copy) NSString *input;
+@property (readonly) char inputChar;
 
 @end

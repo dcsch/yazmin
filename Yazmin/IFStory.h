@@ -17,8 +17,8 @@
     IFBibliographic *bibliographic;
 }
 
-- (id)initWithXMLElement:(NSXMLElement *)element;
-- (IFIdentification *)identification;
-- (IFBibliographic *)bibliographic;
+- (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+@property (readonly, strong) IFIdentification *identification;
+@property (readonly, strong) IFBibliographic *bibliographic;
 
 @end

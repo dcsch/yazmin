@@ -13,12 +13,12 @@
 
 @implementation LibraryController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"Library"];
     if (self)
     {
-        AppController *app = [NSApp delegate];
+        AppController *app = NSApp.delegate;
         library = app.library;
 
         // We don't want this window to appear in the Windows menu
@@ -35,12 +35,12 @@
 
 - (void)playStory
 {
-    NSInteger row = [tableView selectedRow];
+    NSInteger row = tableView.selectedRow;
     if (row >= 0)
     {
-        LibraryEntry *entry = [library entries][row];
+        LibraryEntry *entry = library.entries[row];
         NSError *error;
-        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[entry fileURL]
+        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:entry.fileURL
                                                                                display:YES
                                                                                  error:&error];
     }

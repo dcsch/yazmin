@@ -14,7 +14,7 @@
 
 @implementation DebugController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"Debug"];
     if (self)
@@ -44,8 +44,8 @@
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
             row:(int)rowIndex
 {
-    Story *story = [self document];
-    if ([[aTableColumn identifier] isEqualTo:@"index"])
+    Story *story = self.document;
+    if ([aTableColumn.identifier isEqualTo:@"index"])
         return @(rowIndex);
     else
     {
@@ -70,14 +70,14 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    Story *story = [self document];
+    Story *story = self.document;
     return [[story zMachine] numberOfFrames];
 }
 
 - (NSUInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
     if (selectedRoutine)
-        return [[selectedRoutine localNames] count];
+        return [selectedRoutine localNames].count;
     return 0;
 }
 
@@ -99,13 +99,13 @@
     objectValueForTableColumn:(NSTableColumn *)tableColumn
            byItem:(id)item
 {
-    if ([[tableColumn identifier] isEqualTo:@"name"])
+    if ([tableColumn.identifier isEqualTo:@"name"])
         return item;
     else
     {
-        Story *story = [self document];
+        Story *story = self.document;
         NSUInteger index = [[selectedRoutine localNames] indexOfObject:item];
-        NSInteger rowIndex = [callStackView selectedRow];
+        NSInteger rowIndex = callStackView.selectedRow;
         NSUInteger localValue = [[story zMachine] localAtIndex:index forFrame:rowIndex];
         return @(localValue);
     }
@@ -113,8 +113,8 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-    Story *story = [self document];
-    NSInteger rowIndex = [callStackView selectedRow];
+    Story *story = self.document;
+    NSInteger rowIndex = callStackView.selectedRow;
     selectedRoutine = nil;
     if (rowIndex > -1)
     {

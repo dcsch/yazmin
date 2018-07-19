@@ -19,15 +19,15 @@
     NSMutableArray *localNames;
 }
 
-- (id)initWithNumber:(unsigned int)number
+- (instancetype)initWithNumber:(unsigned int)number
                start:(NSString *)start
              pcStart:(unsigned int)aPCStart
-                name:(NSString *)aName;
+                name:(NSString *)aName NS_DESIGNATED_INITIALIZER;
 
-- (unsigned int)routineNumber;
-- (NSString *)defnStart;
-- (unsigned int)pcStart;
-- (NSString *)name;
-- (NSMutableArray *)localNames;
+@property (readonly) unsigned int routineNumber;
+@property (readonly, copy) NSString *defnStart;
+@property (readonly) unsigned int pcStart;
+@property (readonly, copy) NSString *name;
+@property (readonly, copy) NSMutableArray *localNames;
 
 @end

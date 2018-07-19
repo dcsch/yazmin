@@ -11,58 +11,58 @@
 
 @implementation IFBibliographic
 
-- (id)initWithXMLElement:(NSXMLElement *)element
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
 {
     self = [super init];
     if (self)
     {
-        NSEnumerator *enumChildren = [[element children] objectEnumerator];
+        NSEnumerator *enumChildren = [element.children objectEnumerator];
         NSXMLNode *node;
         while ((node = [enumChildren nextObject]))
         {
-            if ([[node name] compare:@"title"] == 0)
+            if ([node.name compare:@"title"] == 0)
             {
-                title = [node stringValue];
+                title = node.stringValue;
             }
-            else if ([[node name] compare:@"author"] == 0)
+            else if ([node.name compare:@"author"] == 0)
             {
-                author = [node stringValue];
+                author = node.stringValue;
             }
-            else if ([[node name] compare:@"language"] == 0)
+            else if ([node.name compare:@"language"] == 0)
             {
-                language = [node stringValue];
+                language = node.stringValue;
             }
-            else if ([[node name] compare:@"headline"] == 0)
+            else if ([node.name compare:@"headline"] == 0)
             {
-                headline = [node stringValue];
+                headline = node.stringValue;
             }
-            else if ([[node name] compare:@"firstpublished"] == 0)
+            else if ([node.name compare:@"firstpublished"] == 0)
             {
-                firstPublished = [node stringValue];
+                firstPublished = node.stringValue;
             }
-            else if ([[node name] compare:@"genre"] == 0)
+            else if ([node.name compare:@"genre"] == 0)
             {
-                genre = [node stringValue];
+                genre = node.stringValue;
             }
-            else if ([[node name] compare:@"group"] == 0)
+            else if ([node.name compare:@"group"] == 0)
             {
-                group = [node stringValue];
+                group = node.stringValue;
             }
-            else if ([[node name] compare:@"description"] == 0)
+            else if ([node.name compare:@"description"] == 0)
             {
-                description = [node stringValue];
+                description = node.stringValue;
             }
-            else if ([[node name] compare:@"series"] == 0)
+            else if ([node.name compare:@"series"] == 0)
             {
-                series = [node stringValue];
+                series = node.stringValue;
             }
-            else if ([[node name] compare:@"seriesnumber"] == 0)
+            else if ([node.name compare:@"seriesnumber"] == 0)
             {
-                seriesNumber = [[node stringValue] intValue];
+                seriesNumber = node.stringValue.intValue;
             }
-            else if ([[node name] compare:@"forgiveness"] == 0)
+            else if ([node.name compare:@"forgiveness"] == 0)
             {
-                forgiveness = [node stringValue];
+                forgiveness = node.stringValue;
             }
         }
     }

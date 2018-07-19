@@ -11,7 +11,7 @@
 
 @implementation IFictionMetadata
 
-- (id)initWithData:(NSData *)data
+- (instancetype)initWithData:(NSData *)data
 {
     self = [super init];
     if (self)

@@ -39,7 +39,7 @@
     NSLog(@"registered defaults: %@", defaultValues);
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)

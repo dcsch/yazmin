@@ -41,7 +41,7 @@
 
 @implementation StoryController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"Story"];
     if (self)
@@ -163,12 +163,12 @@
 
     // TESTING a different way of creating the text view
     textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
-    [textView setBackgroundColor:backgroundColour];
+    textView.backgroundColor = backgroundColour;
     //[textView setAutoresizingMask:NSViewWidthSizable];
-    [textView setAutoresizingMask:0];
+    textView.autoresizingMask = 0;
     //[[textView textContainer] setWidthTracksTextView:NO];
-    [[textView textContainer] setHeightTracksTextView:NO];
-    [[story facets][1] setTextStorage:[textView textStorage]];
+    [textView.textContainer setHeightTracksTextView:NO];
+    [[story facets][1] setTextStorage:textView.textStorage];
     [layoutView setUpperWindow:textView];
     
     // TESTING
@@ -184,8 +184,8 @@
 
 - (float)calculateScreenWidth
 {
-    NSSize frameSize = [layoutView frame].size;
-    float linePadding = [[[layoutView upperWindow] textContainer] lineFragmentPadding];
+    NSSize frameSize = layoutView.frame.size;
+    float linePadding = [layoutView upperWindow].textContainer.lineFragmentPadding;
     float lineWidth = frameSize.width - 2 * linePadding;
     float charWidth = [[Preferences sharedPreferences] monospacedCharacterWidth];
     return lineWidth / charWidth;
@@ -193,26 +193,26 @@
 
 - (void)handleViewFrameChange:(NSNotification *)note
 {
-    if ([note object] == layoutView)
+    if (note.object == layoutView)
     {
         // Adjust to the new width in terms of the character count in the
         // top window.  Note that this won't become visible until the next
         // update to the top window.
         float screenWidthInChars = [self calculateScreenWidth];
-        Story *story = [self document];
+        Story *story = self.document;
         [[story zMachine] setScreenWidth:(unsigned int)screenWidthInChars];
         
-        GridStoryFacet *facet = [[self document] facets][1];
+        GridStoryFacet *facet = [self.document facets][1];
         [facet setNumberOfColumns:(int)screenWidthInChars];
     }
 }
 
 - (void)handleBackgroundColourChange:(NSNotification *)note
 {
-    Preferences *sender = [note object];
+    Preferences *sender = note.object;
     NSColor *newColour = [sender backgroundColour];
-    [[layoutView lowerWindow] setBackgroundColor:newColour];
-    [[layoutView upperWindow] setBackgroundColor:newColour];
+    [layoutView lowerWindow].backgroundColor = newColour;
+    [layoutView upperWindow].backgroundColor = newColour;
     [layoutView setNeedsDisplay:YES];
 }
 
@@ -227,16 +227,16 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
     // Ensure the scroll position is at the bottom of the transcript
     NSScrollView *scrollView = [layoutView lowerScrollView];
     NSPoint p = NSMakePoint(0,
-                            NSMaxY([[scrollView documentView] frame])
-                            - NSHeight([[scrollView contentView] bounds]));
+                            NSMaxY(scrollView.documentView.frame)
+                            - NSHeight(scrollView.contentView.bounds));
     [[layoutView lowerWindow] scrollPoint:p];
 }
 
 - (void)prepareInput
 {
     NSLog(@"prepareInput");
-    Story *story = [self document];
-    NSUInteger len = [[[story facets][0] textStorage] length];
+    Story *story = self.document;
+    NSUInteger len = [[story facets][0] textStorage].length;
     [[layoutView lowerWindow] setInputLocation:(unsigned int)len];
     [[layoutView lowerWindow] setInputState:kStringInputState];
 }
@@ -250,13 +250,13 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 - (void)restoreSession
 {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
-    [panel setAllowedFileTypes:@[@"qut"]];
-    [panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
+    panel.allowedFileTypes = @[@"qut"];
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
         NSURL *url;
 
         if (result == NSOKButton)
         {
-            url = [panel URL];
+            url = panel.URL;
         }
     }];
 }
@@ -265,12 +265,12 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 {
     // Ask the user for a save file name
     NSSavePanel *panel = [NSSavePanel savePanel];
-    [panel setAllowedFileTypes:@[@"qut"]];
-    [panel beginSheetModalForWindow:[self window] completionHandler:^(NSInteger result) {
-        Story *story = [self document];
+    panel.allowedFileTypes = @[@"qut"];
+    [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
+        Story *story = self.document;
         if (result == NSOKButton)
         {
-            [data writeToURL:[panel URL] atomically:YES];
+            [data writeToURL:panel.URL atomically:YES];
             [story setLastRestoreOrSaveResult:1];
         }
         else
@@ -287,7 +287,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                       nil,
                       nil,
                       nil,
-                      [self window],
+                      self.window,
                       self,
                       @selector(sheetDidEnd:returnCode:contextInfo:),
                       nil,
@@ -314,7 +314,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 - (void)updateWindowLayout
 {
     // Retrieve the height of the upper window
-    StoryFacet *facet = [[self document] facets][1];
+    StoryFacet *facet = [self.document facets][1];
     [layoutView resizeUpperWindow:[facet numberOfLines]];
     [layoutView setNeedsDisplay:YES];
 }
@@ -332,7 +332,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 {
     // Set the typing attributes of the lower window so they reflect the change
     StoryFacet *facet = [self.document facets][0];
-    [layoutView.lowerWindow setTypingAttributes:facet.currentAttributes];
+    (layoutView.lowerWindow).typingAttributes = facet.currentAttributes;
 }
 
 - (void)characterInput:(char)c

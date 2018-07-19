@@ -13,12 +13,10 @@
     NSScrollView *lowerScrollView;
 }
 
-- (StoryController *)controller;
-- (StoryFacetView *)upperWindow;
-- (void)setUpperWindow:(StoryFacetView *)view;
-- (StoryFacetView *)lowerWindow;
-- (void)setLowerWindow:(StoryFacetView *)view;
-- (NSScrollView *)lowerScrollView;
+@property (readonly, strong) StoryController *controller;
+@property (strong) StoryFacetView *upperWindow;
+@property (strong) StoryFacetView *lowerWindow;
+@property (readonly, strong) NSScrollView *lowerScrollView;
 - (void)resizeUpperWindow:(int)lines;
 
 @end

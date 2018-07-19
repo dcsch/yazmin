@@ -17,11 +17,11 @@
     IBOutlet NSTextField *fontSizeTextField;
 }
 
-- (NSColor *)backgroundColour;
-- (NSColor *)foregroundColour;
-- (NSString *)proportionalFontFamily;
-- (NSString *)monospacedFontFamily;
-- (float)fontSize;
+@property (readonly, copy) NSColor *backgroundColour;
+@property (readonly, copy) NSColor *foregroundColour;
+@property (readonly, copy) NSString *proportionalFontFamily;
+@property (readonly, copy) NSString *monospacedFontFamily;
+@property (readonly) float fontSize;
 - (IBAction)changeBackgroundColour:(id)sender;
 - (IBAction)changeForegroundColour:(id)sender;
 - (IBAction)changeProportionalFont:(id)sender;

@@ -18,12 +18,12 @@ struct MachineParts;
     struct MachineParts *parts;
 }
 
-- (id)initWithStory:(Story *)aStory;
-- (NSString *)ifid;
-- (unsigned char *)memory;
-- (size_t)memorySize;
-- (BOOL)hasQuit;
-- (BOOL)executeUntilHalt;
+- (instancetype)initWithStory:(Story *)aStory NS_DESIGNATED_INITIALIZER;
+@property (readonly, copy) NSString *ifid;
+@property (readonly) unsigned char *memory;
+@property (readonly) size_t memorySize;
+@property (readonly) BOOL hasQuit;
+@property (readonly) BOOL executeUntilHalt;
 //- (void)restart;
 
 - (int)numberOfChildrenOfObject:(int)objNumber;
@@ -32,17 +32,15 @@ struct MachineParts;
 - (int)numberOfPropertiesOfObject:(int)objNumber;
 - (int)property:(int)index ofObject:(int)objNumber;
 - (NSString *)propertyData:(int)index ofObject:(int)objNumber;
-- (NSArray *)abbreviations;
-- (int)numberOfFrames;
+@property (readonly, copy) NSArray *abbreviations;
+@property (readonly) int numberOfFrames;
 - (NSUInteger)routineAddressForFrame:(NSInteger)frame;
 - (NSUInteger)localAtIndex:(NSUInteger)index forFrame:(NSInteger)frame;
-- (unsigned int)baseHighMemory;
+@property (readonly) unsigned int baseHighMemory;
 
 - (unsigned int)globalAtIndex:(unsigned int)index;
-- (BOOL)isTimeGame;
-- (unsigned int)screenWidth;
-- (void)setScreenWidth:(unsigned int)width;
-- (unsigned int)screenHeight;
-- (void)setScreenHeight:(unsigned int)height;
+@property (getter=isTimeGame, readonly) BOOL timeGame;
+@property  unsigned int screenWidth;
+@property  unsigned int screenHeight;
 
 @end

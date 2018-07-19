@@ -14,14 +14,14 @@
 
 + (BOOL)isBlorbData:(NSData *)data
 {
-    const void *ptr = [data bytes];
+    const void *ptr = data.bytes;
     if (isForm(ptr, 'I', 'F', 'R', 'S'))
         return YES;
     else
         return NO;
 }
 
-- (id)initWithData:(NSData *)aData
+- (instancetype)initWithData:(NSData *)aData
 {
     self = [super init];
     if (self)
@@ -30,7 +30,7 @@
         resources = [[NSMutableArray alloc] init];
         metaData = nil;
         
-        const void *ptr = [data bytes];
+        const void *ptr = data.bytes;
         ptr += 12;
         unsigned int chunkID;
         chunkIDAndLength(ptr, &chunkID);
@@ -52,13 +52,13 @@
             }
 
             // Look through the rest of the file
-            while (ptr < [data bytes] + [data length])
+            while (ptr < data.bytes + data.length)
             {
                 unsigned int len = chunkIDAndLength(ptr, &chunkID);
                 if (chunkID == IFFID('I', 'F', 'm', 'd'))
                 {
                     // Treaty of Babel Metadata
-                    NSRange range = NSMakeRange(ptr - [data bytes] + 8, len);
+                    NSRange range = NSMakeRange(ptr - data.bytes + 8, len);
                     metaData = [data subdataWithRange:range];
                 }
                 ptr += len + 8;
@@ -72,7 +72,7 @@
 - (BlorbResource *)findResourceOfUsage:(unsigned int)usage
 {
     int i;
-    for (i = 0; i < [resources count]; ++i)
+    for (i = 0; i < resources.count; ++i)
     {
         BlorbResource *resource = resources[i];
         if ([resource usage] == usage)
@@ -87,7 +87,7 @@
     BlorbResource *resource = [self findResourceOfUsage:ExecutableResource];
     if (resource)
     {
-        const void *ptr = [data bytes];
+        const void *ptr = data.bytes;
         ptr += [resource start];
         unsigned int chunkID;
         unsigned int len = chunkIDAndLength(ptr, &chunkID);
@@ -106,7 +106,7 @@
     BlorbResource *resource = [self findResourceOfUsage:PictureResource];
     if (resource)
     {
-        const void *ptr = [data bytes];
+        const void *ptr = data.bytes;
         ptr += [resource start];
         unsigned int chunkID;
         unsigned int len = chunkIDAndLength(ptr, &chunkID);

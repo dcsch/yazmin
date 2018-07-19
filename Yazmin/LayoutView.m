@@ -5,19 +5,19 @@
 
 @implementation LayoutView
 
-- (id)initWithFrame:(NSRect)frameRect
+- (instancetype)initWithFrame:(NSRect)frameRect
 {
-	if ((self = [super initWithFrame:frameRect]) != nil)
+    if ((self = [super initWithFrame:frameRect]) != nil)
     {
         NSLog(@"initializing layout view");
                 
         lowerScrollView = [[NSScrollView alloc] initWithFrame:frameRect];
         [lowerScrollView setHasVerticalScroller:YES];
-        [lowerScrollView setBorderType:NSNoBorder];
-        [lowerScrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        lowerScrollView.borderType = NSNoBorder;
+        lowerScrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         [self addSubview:lowerScrollView];
-	}
-	return self;
+    }
+    return self;
 }
 
 
@@ -49,7 +49,7 @@
     NSLog(@"setLowerWindow");
 
     lowerWindow = view;
-    [lowerScrollView setDocumentView:lowerWindow];
+    lowerScrollView.documentView = lowerWindow;
 }
 
 - (NSScrollView *)lowerScrollView
@@ -59,18 +59,18 @@
 
 - (void)resizeUpperWindow:(int)lines
 {
-    NSRect lowerFrameRect = [lowerScrollView frame];
-    float layoutHeight = [self frame].size.height;
+    NSRect lowerFrameRect = lowerScrollView.frame;
+    float layoutHeight = self.frame.size.height;
     float upperHeight = [[Preferences sharedPreferences] monospacedLineHeight] * lines;
 
     // Move the lower window
     lowerFrameRect.origin.y = upperHeight;
     lowerFrameRect.size.height = layoutHeight - upperHeight;
-    [lowerScrollView setFrame:lowerFrameRect];
+    lowerScrollView.frame = lowerFrameRect;
     
     // Move the upper window
     NSRect frameRect = NSMakeRect(0, 0, lowerFrameRect.size.width, upperHeight);
-    [upperWindow setFrame:frameRect];
+    upperWindow.frame = frameRect;
 }
 
 - (BOOL)isFlipped

@@ -17,13 +17,12 @@
  @method style
  @abstract Returns the style value associated with the font.
 */
-- (int)style;
+@property  int style;
 
 /*!
  @method setStyle
  @abstract Sets the style value associated with the font.
  @param aStyle The style value.
 */
-- (void)setStyle:(int)aStyle;
 
 @end

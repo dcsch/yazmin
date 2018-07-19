@@ -11,12 +11,12 @@
 #import "Story.h"
 
 @interface Library ()
-- (NSDictionary *)ifidURLDictionary;
+@property (readonly, copy) NSDictionary *ifidURLDictionary;
 @end
 
 @implementation Library
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
@@ -42,7 +42,7 @@
 {
     NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
     for (LibraryEntry *entry in _entries)
-        dictionary[[[entry fileURL] absoluteString]] = [entry ifid];
+        dictionary[entry.fileURL.absoluteString] = entry.ifid;
     return dictionary;
 }
 

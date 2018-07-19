@@ -12,7 +12,7 @@
 
 @implementation AbbreviationsController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"Abbreviations"];
     if (self)
@@ -31,17 +31,17 @@
 
 - (void)windowDidLoad
 {
-    Story *story = [self document];
+    Story *story = self.document;
     abbreviations = [[story zMachine] abbreviations];
 
-    [tableView setDataSource:self];
+    tableView.dataSource = self;
 }
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
             row:(NSInteger)rowIndex
 {
-    if ([[aTableColumn identifier] isEqualTo:@"index"])
+    if ([aTableColumn.identifier isEqualTo:@"index"])
         return @(rowIndex);
     else
         return abbreviations[rowIndex];
@@ -49,7 +49,7 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    return [abbreviations count];
+    return abbreviations.count;
 }
 
 @end

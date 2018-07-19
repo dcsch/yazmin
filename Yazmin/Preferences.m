@@ -26,7 +26,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
     return preferences;
 }
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
@@ -152,13 +152,13 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 - (float)proportionalLineHeight
 {
     NSFont *font = [self fontForStyle:0];
-    return [font boundingRectForFont].size.height;
+    return font.boundingRectForFont.size.height;
 }
 
 - (float)monospacedLineHeight
 {
     NSFont *font = [self fontForStyle:8];
-    return [font boundingRectForFont].size.height;
+    return font.boundingRectForFont.size.height;
 }
 
 - (float)monospacedCharacterWidth

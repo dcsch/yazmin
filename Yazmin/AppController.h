@@ -19,8 +19,8 @@
     PreferenceController *preferenceController;
 }
 
-- (Library *)library;
-- (LibraryController *)libraryController;
+@property (readonly, strong) Library *library;
+@property (readonly, strong) LibraryController *libraryController;
 - (IBAction)showLibraryWindow:(id)sender;
 - (IBAction)showPreferencePanel:(id)sender;
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;

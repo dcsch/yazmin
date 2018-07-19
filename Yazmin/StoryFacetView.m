@@ -12,7 +12,7 @@
 
 @implementation StoryFacetView
 
-- (id)initWithFrame:(NSRect)frame textContainer:(NSTextContainer *)container
+- (instancetype)initWithFrame:(NSRect)frame textContainer:(NSTextContainer *)container
 {
     self = [super initWithFrame:frame textContainer:container];
     if (self)
@@ -117,7 +117,7 @@
     {
         // Reset the input state
         [self setInputState:kNoInputState];
-        [storyInput characterInput:[[event characters] characterAtIndex:0]];
+        [storyInput characterInput:[event.characters characterAtIndex:0]];
     }
 }
 
@@ -130,10 +130,10 @@
     [self setInputState:kNoInputState];
     
     NSRange range = NSMakeRange(inputLocation,
-                                [[self textStorage] length] - inputLocation - 1);
-    NSAttributedString *input = [[self textStorage] attributedSubstringFromRange:range];
+                                self.textStorage.length - inputLocation - 1);
+    NSAttributedString *input = [self.textStorage attributedSubstringFromRange:range];
     
-    NSString *input2 = [NSString stringWithString:[input string]];
+    NSString *input2 = [NSString stringWithString:input.string];
     [storyInput stringInput:input2];
 }
     

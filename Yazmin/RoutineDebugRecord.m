@@ -11,7 +11,7 @@
 
 @implementation RoutineDebugRecord
 
-- (id)initWithNumber:(unsigned int)number
+- (instancetype)initWithNumber:(unsigned int)number
                start:(NSString *)start
              pcStart:(unsigned int)aPCStart
                 name:(NSString *)aName

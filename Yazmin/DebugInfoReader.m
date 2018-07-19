@@ -29,11 +29,11 @@
 @interface DebugInfoReader (Private)
 
 - (void)readDebugData;
-- (unsigned char)readByte;
-- (unsigned int)readWord;
-- (NSString *)readString;
-- (NSString *)readLine;
-- (unsigned int)readAddress;
+@property (readonly) unsigned char readByte;
+@property (readonly) unsigned int readWord;
+@property (readonly, copy) NSString *readString;
+@property (readonly, copy) NSString *readLine;
+@property (readonly) unsigned int readAddress;
 - (void)readFileDBR;
 - (void)readClassDBR;
 - (void)readObjectDBR;
@@ -53,7 +53,7 @@
 
 @implementation DebugInfoReader
 
-- (id)initWithData:(NSData *)data
+- (instancetype)initWithData:(NSData *)data
 {
     self = [super init];
     if (self)
@@ -71,7 +71,7 @@
     debugInfo = [[DebugInfo alloc] init];
 
     // Check that the data is good
-    ptr = (unsigned char *)[debugData bytes];
+    ptr = (unsigned char *)debugData.bytes;
     if (ptr[0] == 0xde && ptr[1] == 0xbf)
     {
         ptr += 6;
@@ -96,7 +96,7 @@
 {
     NSString *str = [NSString stringWithCString:(char *)ptr
                                        encoding:[NSString defaultCStringEncoding]];
-    ptr += [str length] + 1;
+    ptr += str.length + 1;
     return str;
 }
 

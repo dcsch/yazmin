@@ -16,8 +16,8 @@
     NSMutableDictionary *routines;
 }
 
-- (NSMutableDictionary *)propertyNames;
-- (NSMutableDictionary *)objectNames;
-- (NSMutableDictionary *)routines;
+@property (readonly, copy) NSMutableDictionary *propertyNames;
+@property (readonly, copy) NSMutableDictionary *objectNames;
+@property (readonly, copy) NSMutableDictionary *routines;
 
 @end

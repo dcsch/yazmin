@@ -30,7 +30,7 @@
 
 @implementation Story
 
-- (id)init
+- (instancetype)init
 {
     self = [super init];
     if (self)
@@ -102,7 +102,7 @@
         ifid = zMachine.ifid;
     
     // Add this to the library
-    AppController *app = [NSApp delegate];
+    AppController *app = NSApp.delegate;
     [app.library addStory:self];
 }
 
@@ -116,15 +116,15 @@
         NSFileWrapper *debugWrapper = nil;
 
         // Pick out the 'Build' directory
-        NSFileWrapper *buildDir = [fileWrapper fileWrappers][@"Build"];
+        NSFileWrapper *buildDir = fileWrapper.fileWrappers[@"Build"];
         if (buildDir)
         {
-            NSDictionary *filesInDirectory = [buildDir fileWrappers];
+            NSDictionary *filesInDirectory = buildDir.fileWrappers;
             NSEnumerator *fileEnum = [filesInDirectory keyEnumerator];
             NSString *filePath;
             while ((filePath = [fileEnum nextObject]))
             {
-                NSString *pathExtension = [filePath pathExtension];
+                NSString *pathExtension = filePath.pathExtension;
                 
                 // Likely to be 'output.z5' or 'output.z8', so we'll just look
                 // for the initial 'z' and go with that
@@ -144,11 +144,11 @@
         
         if (zcodeWrapper)
         {
-            zcodeData = [zcodeWrapper regularFileContents];
+            zcodeData = zcodeWrapper.regularFileContents;
             [self createZMachine];
             if (debugWrapper)
             {
-                NSData *debugData = [debugWrapper regularFileContents];
+                NSData *debugData = debugWrapper.regularFileContents;
                 DebugInfoReader *reader = [[DebugInfoReader alloc] initWithData:debugData];
                 debugInfo = [reader debugInfo];
             }
@@ -205,7 +205,7 @@
 
         // Is there any debug information to load?
         NSString *path = self.fileURL.path;
-        NSString *folderPath = [path stringByDeletingLastPathComponent];
+        NSString *folderPath = path.stringByDeletingLastPathComponent;
         NSString *debugInfoPath = [folderPath stringByAppendingPathComponent:@"gameinfo.dbg"];
         NSURL *debugInfoURL = [NSURL fileURLWithPath:debugInfoPath];
         NSData *debugData = [NSData dataWithContentsOfURL:debugInfoURL];
@@ -339,7 +339,7 @@
         
         // Scan all the text and convert the fonts found within
         unsigned int index = 0;
-        while (index < [[facet textStorage] length])
+        while (index < [facet textStorage].length)
         {
             NSRange range;
             NSFont *oldFont = [[facet textStorage] attribute:NSFontAttributeName
@@ -347,10 +347,10 @@
                                               effectiveRange:&range];
             if (oldFont)
             {
-                NSLog(@"Old font: %@ (%f)", [oldFont fontName], [oldFont pointSize]);
+                NSLog(@"Old font: %@ (%f)", oldFont.fontName, oldFont.pointSize);
                 NSFont *newFont = [prefs convertFont:oldFont
                                      forceFixedPitch:NO];
-                NSLog(@"New font: %@ (%f)", [newFont fontName], [newFont pointSize]);
+                NSLog(@"New font: %@ (%f)", newFont.fontName, newFont.pointSize);
                 [[facet textStorage] addAttribute:NSFontAttributeName
                                             value:newFont
                                             range:range];

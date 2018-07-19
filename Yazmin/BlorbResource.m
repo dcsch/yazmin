@@ -10,7 +10,7 @@
 
 @implementation BlorbResource
 
-- (id)initWithUsage:(unsigned int)aUsage
+- (instancetype)initWithUsage:(unsigned int)aUsage
              number:(unsigned int)aNumber
               start:(unsigned int)aStart
 {

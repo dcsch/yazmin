@@ -21,6 +21,6 @@
     IFictionMetadata *metadata;
 }
 
-- (id)initWithBlorb:(Blorb *)aBlorb;
+- (instancetype)initWithBlorb:(Blorb *)aBlorb NS_DESIGNATED_INITIALIZER;
 
 @end

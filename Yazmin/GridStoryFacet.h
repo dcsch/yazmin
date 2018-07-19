@@ -17,11 +17,9 @@
     int y;
 }
 
-- (id)initWithStory:(Story *)aStory columns:(int)columns;
-- (int)numberOfLines;
-- (void)setNumberOfLines:(int)lines;
-- (int)numberOfColumns;
-- (void)setNumberOfColumns:(int)columns;
+- (instancetype)initWithStory:(Story *)aStory columns:(int)columns NS_DESIGNATED_INITIALIZER;
+@property  int numberOfLines;
+@property  int numberOfColumns;
 - (void)setCursorLine:(int)line column:(int)column;
 - (void)setTextStyle:(int)style;
 - (void)print:(NSString *)text;

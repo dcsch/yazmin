@@ -11,7 +11,7 @@
 
 @implementation PreferenceController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"Preferences"];
     if (self)
@@ -47,15 +47,15 @@
 
 - (void)windowDidLoad
 {
-    [backgroundColourWell setColor:[self backgroundColour]];
-    [foregroundColourWell setColor:[self foregroundColour]];
+    backgroundColourWell.color = [self backgroundColour];
+    foregroundColourWell.color = [self foregroundColour];
     
     // Clear out the pop-up list
     [proportionalFontPopUpButton removeAllItems];
 
     // Generate an alphabetically ordered array of font families
     NSFontManager *fm = [NSFontManager sharedFontManager];
-    NSArray *fontNames = [fm availableFontFamilies];
+    NSArray *fontNames = fm.availableFontFamilies;
 //    NSArray *fontNames = [fm availableFonts];
     NSSortDescriptor *sortDescriptor =
         [[NSSortDescriptor alloc] initWithKey:@"description" ascending:YES];
@@ -79,7 +79,7 @@
     [monospacedFontPopUpButton selectItemWithTitle:[self monospacedFontFamily]];
 
     // Font size
-    [fontSizeTextField setFloatValue:[self fontSize]];
+    fontSizeTextField.floatValue = [self fontSize];
 }
 
 - (IBAction)changeBackgroundColour:(id)sender

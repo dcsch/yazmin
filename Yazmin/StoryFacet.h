@@ -18,13 +18,11 @@
     int currentStyle;
 }
 
-- (id)initWithStory:(Story *)aStory;
-- (NSTextStorage *)textStorage;
-- (void)setTextStorage:(NSTextStorage *)aTextStorage;
-- (NSMutableDictionary *)currentAttributes;
-- (int)currentStyle;
-- (int)numberOfLines;
-- (void)setNumberOfLines:(int)lines;
+- (instancetype)initWithStory:(Story *)aStory NS_DESIGNATED_INITIALIZER;
+@property (copy) NSTextStorage *textStorage;
+@property (readonly, copy) NSMutableDictionary *currentAttributes;
+@property (readonly) int currentStyle;
+@property  int numberOfLines;
 - (void)erase;
 - (void)setColourForeground:(int)fg background:(int)bg;
 - (void)setCursorLine:(int)line column:(int)column;

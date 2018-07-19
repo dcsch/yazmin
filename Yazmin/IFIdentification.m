@@ -11,25 +11,25 @@
 
 @implementation IFIdentification
 
-- (id)initWithXMLElement:(NSXMLElement *)element
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
 {
     self = [super init];
     if (self)
     {
         ifids = [[NSMutableArray alloc] init];
 
-        NSEnumerator *enumChildren = [[element children] objectEnumerator];
+        NSEnumerator *enumChildren = [element.children objectEnumerator];
         NSXMLNode *node;
         while ((node = [enumChildren nextObject]))
         {
-            if ([[node name] compare:@"ifid"] == 0)
-                [ifids addObject:[node stringValue]];
-            else if ([[node name] compare:@"format"] == 0)
+            if ([node.name compare:@"ifid"] == 0)
+                [ifids addObject:node.stringValue];
+            else if ([node.name compare:@"format"] == 0)
             {
-                format = [node stringValue];
+                format = node.stringValue;
             }
-            else if ([[node name] compare:@"bafn"] == 0)
-                bafn = [[node stringValue] intValue];
+            else if ([node.name compare:@"bafn"] == 0)
+                bafn = node.stringValue.intValue;
         }
     }
     return self;

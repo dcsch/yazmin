@@ -10,7 +10,7 @@
 
 @implementation LibraryEntry
 
-- (id)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl
+- (instancetype)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl
 {
     self = [super init];
     if (self)

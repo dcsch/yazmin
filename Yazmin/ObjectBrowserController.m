@@ -13,7 +13,7 @@
 
 @implementation ObjectBrowserController
 
-- (id)init
+- (instancetype)init
 {
     self = [super initWithWindowNibName:@"ObjectBrowser"];
     if (self)
@@ -37,13 +37,13 @@
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    Story *story = [self document];
+    Story *story = self.document;
     return [[story zMachine] numberOfChildrenOfObject:item == nil ? 0 : [item intValue]];
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    Story *story = [self document];
+    Story *story = self.document;
     return [[story zMachine] numberOfChildrenOfObject:item == nil ? 0 : [item intValue]];
 }
 
@@ -51,7 +51,7 @@
             child:(int)index
            ofItem:(id)item
 {
-    Story *story = [self document];
+    Story *story = self.document;
     int obj = [[story zMachine] child:index ofObject:item == nil ? 0 : [item intValue]];
     return @(obj);
 }
@@ -60,7 +60,7 @@
     objectValueForTableColumn:(NSTableColumn *)tableColumn
            byItem:(id)item
 {
-    Story *story = [self document];
+    Story *story = self.document;
     NSString *name = nil;
     if ([story debugInfo])
         name = [[story debugInfo] objectNames][item];
@@ -76,7 +76,7 @@
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    selectedObject = [[outlineView itemAtRow:[outlineView selectedRow]] intValue];
+    selectedObject = [[outlineView itemAtRow:outlineView.selectedRow] intValue];
     [propView reloadData];
     NSLog(@"Selected object: %d", selectedObject);
 }
@@ -87,8 +87,8 @@
 {
     if (selectedObject > 0)
     {
-        Story *story = [self document];
-        if ([[aTableColumn identifier] isEqualTo:@"property"])
+        Story *story = self.document;
+        if ([aTableColumn.identifier isEqualTo:@"property"])
         {
             int prop = [[story zMachine] property:rowIndex ofObject:selectedObject];
             NSString *propName = nil;
@@ -108,7 +108,7 @@
 {
     if (selectedObject > 0)
     {
-        Story *story = [self document];
+        Story *story = self.document;
         return [[story zMachine] numberOfPropertiesOfObject:selectedObject];
     }
     return 0;
@@ -117,11 +117,11 @@
 - (void)update
 {
     // Note the currently selected item
-    NSNumber *selectedItem = [outlineView itemAtRow:[outlineView selectedRow]];
+    NSNumber *selectedItem = [outlineView itemAtRow:outlineView.selectedRow];
 
     // Go through all the top-level items and reload the lot
     int i;
-    for (i = 0; i < [outlineView numberOfRows]; ++i)
+    for (i = 0; i < outlineView.numberOfRows; ++i)
     {
         id item = [outlineView itemAtRow:i];
         if ([outlineView levelForItem:item] != 0)
@@ -131,7 +131,7 @@
 
     // Find the selected item (if possible -- it may now be in an unexpanded
     // node)
-    for (i = 0; i < [outlineView numberOfRows]; ++i)
+    for (i = 0; i < outlineView.numberOfRows; ++i)
     {
         NSNumber *item = [outlineView itemAtRow:i];
         if ([item isEqualToNumber:selectedItem])
@@ -143,7 +143,7 @@
     }
     
     // Make sure the current selection is up to date
-    selectedObject = [[outlineView itemAtRow:[outlineView selectedRow]] intValue];
+    selectedObject = [[outlineView itemAtRow:outlineView.selectedRow] intValue];
     [propView reloadData];
 }
 

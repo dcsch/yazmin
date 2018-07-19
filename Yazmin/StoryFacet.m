@@ -12,7 +12,7 @@
 
 @implementation StoryFacet
 
-- (id)initWithStory:(Story *)aStory
+- (instancetype)initWithStory:(Story *)aStory
 {
     self = [super init];
     if (self)
@@ -60,7 +60,7 @@
 
 - (void)erase
 {
-    NSRange range = NSMakeRange(0, [textStorage length]);
+    NSRange range = NSMakeRange(0, textStorage.length);
     [textStorage deleteCharactersInRange:range];
 }
 
@@ -107,7 +107,7 @@
 - (void)printNumber:(int)number
 {
     NSAttributedString *attrText =
-    [[NSAttributedString alloc] initWithString:[@(number) stringValue]
+    [[NSAttributedString alloc] initWithString:(@(number)).stringValue
                                      attributes:currentAttributes];
     [textStorage appendAttributedString:attrText];
 }

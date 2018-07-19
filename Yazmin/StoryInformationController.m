@@ -14,7 +14,7 @@
 
 @implementation StoryInformationController
 
-- (id)initWithBlorb:(Blorb *)aBlorb
+- (instancetype)initWithBlorb:(Blorb *)aBlorb
 {
     self = [super initWithWindowNibName:@"StoryInformation"];
     if (self)
@@ -30,7 +30,7 @@
 
 - (void)windowDidLoad
 {
-    [imageView setImageFrameStyle:NSImageFramePhoto];
+    imageView.imageFrameStyle = NSImageFramePhoto;
     
     // Set the artwork
     NSData *pictureData = [blorb pictureData];
@@ -43,25 +43,25 @@
         float resizeHeight = 128.0;
         NSImage *resizedImage = [[NSImage alloc] initWithSize:NSMakeSize(resizeWidth, resizeHeight)];
 
-        NSSize originalSize = [image size];
+        NSSize originalSize = image.size;
         
         [resizedImage lockFocus];
-        [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+        [NSGraphicsContext currentContext].imageInterpolation = NSImageInterpolationHigh;
         [image drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
                  fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
                 operation:NSCompositeSourceOver
                  fraction:1.0];
         [resizedImage unlockFocus];    
         
-        [imageView setImage:resizedImage];
+        imageView.image = resizedImage;
     }
     
     if (metadata)
     {
         IFStory *storyMD = [metadata stories][0];
-        [title setStringValue:[[storyMD bibliographic] title]];
-        [author setStringValue:[[storyMD bibliographic] author]];
-        [description setString:[[storyMD bibliographic] description]];
+        title.stringValue = [[storyMD bibliographic] title];
+        author.stringValue = [[storyMD bibliographic] author];
+        description.string = [[storyMD bibliographic] description];
     }
 }
 

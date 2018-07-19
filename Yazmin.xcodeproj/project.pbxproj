@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
+		0366C80E21002FAC003EEEB6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80D21002FAC003EEEB6 /* README.md */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
 		6338E0A7180AB53B005A3263 /* Blorb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E053180AB53B005A3263 /* Blorb.m */; };
@@ -74,6 +75,7 @@
 
 /* Begin PBXFileReference section */
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 		639A096F13322F07000E27F4 = {
 			isa = PBXGroup;
 			children = (
+				0366C80D21002FAC003EEEB6 /* README.md */,
 				639A098413322F08000E27F4 /* Yazmin */,
 				639A09A213322F08000E27F4 /* YazminTests */,
 				639A097D13322F08000E27F4 /* Frameworks */,
@@ -382,7 +385,6 @@
 				639A099913322F08000E27F4 /* Sources */,
 				639A099A13322F08000E27F4 /* Frameworks */,
 				639A099B13322F08000E27F4 /* Resources */,
-				639A099C13322F08000E27F4 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -435,6 +437,7 @@
 				6338E0AF180AB53B005A3263 /* ObjectBrowser.xib in Resources */,
 				639A099813322F08000E27F4 /* MainMenu.xib in Resources */,
 				6338E0B0180AB53B005A3263 /* Preferences.xib in Resources */,
+				0366C80E21002FAC003EEEB6 /* README.md in Resources */,
 				6338E0AD180AB53B005A3263 /* Debug.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -449,22 +452,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		639A099C13322F08000E27F4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		639A097613322F08000E27F4 /* Sources */ = {

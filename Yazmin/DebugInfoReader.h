@@ -19,7 +19,7 @@
     RoutineDebugRecord *currentRoutine;
 }
 
-- (id)initWithData:(NSData *)data;
-- (DebugInfo *)debugInfo;
+- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+@property (readonly, strong) DebugInfo *debugInfo;
 
 @end

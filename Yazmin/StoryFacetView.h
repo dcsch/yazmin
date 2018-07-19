@@ -22,13 +22,9 @@
     int inputState;
 }
 
-- (unsigned int) inputLocation;
-- (void) setInputLocation:(unsigned int)location;
-- (id <StoryInput>)storyInput;
-- (void)setStoryInput:(id <StoryInput>)input;
-- (BOOL)isInputView;
-- (void)setInputView:(BOOL)flag;
-- (int)inputState;
-- (void)setInputState:(int)state;
+@property  unsigned int inputLocation;
+@property (strong) id<StoryInput> storyInput;
+@property (getter=isInputView) BOOL inputView;
+@property  int inputState;
 
 @end

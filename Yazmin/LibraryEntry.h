@@ -21,6 +21,6 @@
 @property(copy) NSString *title;
 @property(copy) NSString *author;
 
-- (id)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl;
+- (instancetype)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl NS_DESIGNATED_INITIALIZER;
 
 @end

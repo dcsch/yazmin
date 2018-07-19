@@ -12,7 +12,7 @@
 
 @implementation IFStory
 
-- (id)initWithXMLElement:(NSXMLElement *)element
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
 {
     self = [super init];
     if (self)

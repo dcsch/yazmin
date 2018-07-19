@@ -18,11 +18,11 @@
     unsigned int start;
 }
 
-- (id)initWithUsage:(unsigned int)aUsage
+- (instancetype)initWithUsage:(unsigned int)aUsage
              number:(unsigned int)aNumber
-              start:(unsigned int)aStart;
-- (unsigned int)usage;
-- (unsigned int)number;
-- (unsigned int)start;
+              start:(unsigned int)aStart NS_DESIGNATED_INITIALIZER;
+@property (readonly) unsigned int usage;
+@property (readonly) unsigned int number;
+@property (readonly) unsigned int start;
 
 @end

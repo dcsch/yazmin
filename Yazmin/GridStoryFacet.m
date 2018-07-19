@@ -16,7 +16,7 @@
 
 @implementation GridStoryFacet
 
-- (id)initWithStory:(Story *)aStory columns:(int)columns
+- (instancetype)initWithStory:(Story *)aStory columns:(int)columns
 {
     self = [super initWithStory:aStory];
     if (self)
@@ -84,7 +84,7 @@
         [story updateWindowWidth];
     }
 
-    NSString *str = [@(number) stringValue];
+    NSString *str = (@(number)).stringValue;
     [self printString:str];
 }
 
@@ -112,12 +112,12 @@
 
 - (void)printString:(NSString *)string
 {
-    NSRange range = NSMakeRange(numberOfColumns * y + x, [string length]);
+    NSRange range = NSMakeRange(numberOfColumns * y + x, string.length);
     NSAttributedString *attrText =
         [[NSAttributedString alloc] initWithString:string
                                          attributes:currentAttributes];
     [textStorage replaceCharactersInRange:range withAttributedString:attrText];
-    x += [string length];
+    x += string.length;
 }
 
 @end

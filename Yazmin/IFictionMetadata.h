@@ -14,7 +14,7 @@
     NSMutableArray *stories;
 }
 
-- (id)initWithData:(NSData *)data;
-- (NSArray *)stories;
+- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+@property (readonly, copy) NSArray *stories;
 
 @end

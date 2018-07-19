@@ -40,7 +40,7 @@ struct MachineParts
 
 static const size_t kMaxStorySize = 0x8ffff;
 
-- (id)initWithStory:(Story *)aStory
+- (instancetype)initWithStory:(Story *)aStory
 {
     if ((self = [super init]))
     {
@@ -52,10 +52,10 @@ static const size_t kMaxStorySize = 0x8ffff;
         if (data != nil)
         {
             // If it is a legal size, load the whole thing into memory
-            NSUInteger len = [data length];
+            NSUInteger len = data.length;
             if (0 < len && len <= kMaxStorySize)
             {
-                parts->_memory = new ZMMemory((const uint8_t *)[data bytes], len);
+                parts->_memory = new ZMMemory((const uint8_t *)data.bytes, len);
                 
                 parts->_memory->getHeader().dump();
                 parts->_memory->dump();
