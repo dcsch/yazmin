@@ -19,6 +19,7 @@
 
 + (BOOL)isBlorbData:(NSData *)data;
 - (instancetype)initWithData:(NSData *)aData NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 - (BlorbResource *)findResourceOfUsage:(unsigned int)usage;
 @property (readonly, copy) NSData *zcodeData;
 @property (readonly, copy) NSData *pictureData;

@@ -17,6 +17,7 @@
 }
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 @property (readonly, copy) NSArray *ifids;
 @property (readonly, copy) NSString *format;
 @property (readonly) int bafn;

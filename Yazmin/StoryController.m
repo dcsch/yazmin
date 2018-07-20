@@ -33,10 +33,6 @@
 //             returnCode:(int)returnCode
 //            contextInfo:(void *)contextInfo;
 
-- (void)sheetDidEnd:(NSWindow *)sheet
-         returnCode:(int)returnCode
-        contextInfo:(void *)contextInfo;
-
 @end
 
 @implementation StoryController
@@ -254,7 +250,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
     [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
         NSURL *url;
 
-        if (result == NSOKButton)
+        if (result == NSModalResponseOK)
         {
             url = panel.URL;
         }
@@ -268,7 +264,7 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
     panel.allowedFileTypes = @[@"qut"];
     [panel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result) {
         Story *story = self.document;
-        if (result == NSOKButton)
+        if (result == NSModalResponseOK)
         {
             [data writeToURL:panel.URL atomically:YES];
             [story setLastRestoreOrSaveResult:1];
@@ -283,24 +279,12 @@ didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
 
 - (void)showError:(NSString *)errorMessage
 {
-    NSBeginAlertSheet(@"Error",
-                      nil,
-                      nil,
-                      nil,
-                      self.window,
-                      self,
-                      @selector(sheetDidEnd:returnCode:contextInfo:),
-                      nil,
-                      NULL,
-                      @"%@",
-                      errorMessage);
-}
-
-- (void)sheetDidEnd:(NSWindow *)sheet
-         returnCode:(int)returnCode
-        contextInfo:(void  *)contextInfo
-{
-    NSLog(@"sheetDidEnd");
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = @"Error";
+    alert.informativeText = errorMessage;
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        NSLog(@"sheetDidEnd");
+    }];
 }
 
 - (void)update

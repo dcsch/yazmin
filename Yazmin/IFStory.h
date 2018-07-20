@@ -18,6 +18,7 @@
 }
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 @property (readonly, strong) IFIdentification *identification;
 @property (readonly, strong) IFBibliographic *bibliographic;
 

@@ -23,6 +23,7 @@
                start:(NSString *)start
              pcStart:(unsigned int)aPCStart
                 name:(NSString *)aName NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 
 @property (readonly) unsigned int routineNumber;
 @property (readonly, copy) NSString *defnStart;

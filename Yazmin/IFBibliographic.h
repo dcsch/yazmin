@@ -25,6 +25,7 @@
 }
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 @property (readonly, copy) NSString *title;
 @property (readonly, copy) NSString *author;
 @property (readonly, copy) NSString *language;

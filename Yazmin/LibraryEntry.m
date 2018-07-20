@@ -15,19 +15,13 @@
     self = [super init];
     if (self)
     {
-        ifid = [anIfid copy];
-        fileURL = [aUrl copy];
+        _ifid = [anIfid copy];
+        _fileURL = [aUrl copy];
         
         // Create a default title of the file name
-        self.title = fileURL.path.lastPathComponent;
+        self.title = _fileURL.path.lastPathComponent;
     }
     return self;
 }
-
-
-@synthesize ifid;
-@synthesize fileURL;
-@synthesize title;
-@synthesize author;
 
 @end

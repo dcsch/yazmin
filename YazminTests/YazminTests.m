@@ -27,7 +27,6 @@
 
 - (void)testExample
 {
-    XCTFail(@"Unit tests are not implemented yet in YazminTests");
 }
 
 @end

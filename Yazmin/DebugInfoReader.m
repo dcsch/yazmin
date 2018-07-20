@@ -26,7 +26,7 @@
 #define ROUTINE_END_DBR 14
 #define MAP_DBR         13
 
-@interface DebugInfoReader (Private)
+@interface DebugInfoReader ()
 
 - (void)readDebugData;
 @property (readonly) unsigned char readByte;
@@ -278,13 +278,13 @@
 {
     unsigned int routineNumber = [self readWord];
     unsigned int numberOfSequencePoints = [self readWord];
-    //NSLog(@"LINE_REF_DBR routineNumber: %d, numberOfSequencePoints: %d", routineNumber, numberOfSequencePoints);
+    NSLog(@"LINE_REF_DBR routineNumber: %d, numberOfSequencePoints: %d", routineNumber, numberOfSequencePoints);
     unsigned int i;
     for (i = 0; i < numberOfSequencePoints; ++i)
     {
         NSString *sourceCodePosition = [self readLine];
         unsigned int pcOffset = [self readWord];
-        //NSLog(@"    %@, pcOffset: 0x%x", sourceCodePosition, pcOffset);
+        NSLog(@"    %@, pcOffset: 0x%x", sourceCodePosition, pcOffset);
     }
 }
 
@@ -293,7 +293,7 @@
     unsigned int routineNumber = [self readWord];
     NSString *defnEnd = [self readLine];
     unsigned int nextPCValue = [self readAddress];
-    //NSLog(@"ROUTINE_END_DBR routineNumber: %d, defnEnd: %@, nextPCValue: 0x%x", routineNumber, defnEnd, nextPCValue);
+    NSLog(@"ROUTINE_END_DBR routineNumber: %d, defnEnd: %@, nextPCValue: 0x%x", routineNumber, defnEnd, nextPCValue);
 }
 
 - (void)readMapDBR

@@ -9,12 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 @interface LibraryEntry : NSObject
-{
-    NSString *ifid;
-    NSURL *fileURL;
-    NSString *title;
-    NSString *author;
-}
 
 @property(copy, readonly) NSString *ifid;
 @property(copy, readonly) NSURL *fileURL;
@@ -22,5 +16,6 @@
 @property(copy) NSString *author;
 
 - (instancetype)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 
 @end

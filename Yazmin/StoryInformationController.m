@@ -49,7 +49,7 @@
         [NSGraphicsContext currentContext].imageInterpolation = NSImageInterpolationHigh;
         [image drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
                  fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
-                operation:NSCompositeSourceOver
+                operation:NSCompositingOperationSourceOver
                  fraction:1.0];
         [resizedImage unlockFocus];    
         

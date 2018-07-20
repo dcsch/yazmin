@@ -22,7 +22,11 @@
 #import "Library.h"
 #import "LibraryController.h"
 
-@interface Story (Private)
+@interface Story ()
+{
+    NSMutableArray *_facets;
+    StoryController *_controller;
+}
 
 - (void)createZMachine;
 
@@ -37,12 +41,12 @@
     {
         // Create two facets (lower and upper), with the upper one being
         // a text grid
-        facets = [[NSMutableArray alloc] init];
+        _facets = [[NSMutableArray alloc] init];
         StoryFacet *facet = [[StoryFacet alloc] initWithStory:self];
-        [facets addObject:facet];
+        [_facets addObject:facet];
         
         facet = [[GridStoryFacet alloc] initWithStory:self columns:90];
-        [facets addObject:facet];
+        [_facets addObject:facet];
         
         [self setHasUndoManager:NO];
         
@@ -81,11 +85,11 @@
 
 - (void)makeWindowControllers
 {
-    controller = [[StoryController alloc] init];
-    [self addWindowController:controller];
+    _controller = [[StoryController alloc] init];
+    [self addWindowController:_controller];
 
     // Make sure the controller knows the score with text attributes
-    [controller updateTextAttributes];
+    [_controller updateTextAttributes];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -95,11 +99,11 @@
 
 - (void)createZMachine
 {
-    zMachine = [[ZMachine alloc] initWithStory:self];
+    _zMachine = [[ZMachine alloc] initWithStory:self];
     
     // Do we have an IFID?  If not, find one
-    if (ifid == nil)
-        ifid = zMachine.ifid;
+    if (_ifid == nil)
+        _ifid = _zMachine.ifid;
     
     // Add this to the library
     AppController *app = NSApp.delegate;
@@ -144,13 +148,13 @@
         
         if (zcodeWrapper)
         {
-            zcodeData = zcodeWrapper.regularFileContents;
+            _zcodeData = zcodeWrapper.regularFileContents;
             [self createZMachine];
             if (debugWrapper)
             {
                 NSData *debugData = debugWrapper.regularFileContents;
                 DebugInfoReader *reader = [[DebugInfoReader alloc] initWithData:debugData];
-                debugInfo = [reader debugInfo];
+                _debugInfo = [reader debugInfo];
             }
             return YES;
         }
@@ -166,40 +170,35 @@
         return [super readFromFileWrapper:fileWrapper
                                    ofType:typeName
                                     error:outError];
-
-    *outError = [NSError errorWithDomain:@"Unsupported document bundle format"
-                                    code:666
-                                userInfo:nil];
-    return NO;
 }
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
-    blorb = nil;
+    _blorb = nil;
 
     if ([typeName compare:@"ZCode Blorb"] == 0)
     {
         // This is a blorb, so we need to unwrap
         if ([Blorb isBlorbData:data])
         {
-            blorb = [[Blorb alloc] initWithData:data];
-            NSData *mddata = [blorb metaData];
+            _blorb = [[Blorb alloc] initWithData:data];
+            NSData *mddata = [_blorb metaData];
             if (mddata)
             {
                 IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
-                metadata = [ifmd stories][0];
-                ifid = [[metadata identification] ifids][0];
+                _metadata = [ifmd stories][0];
+                _ifid = [[_metadata identification] ifids][0];
             }
-            zcodeData = [blorb zcodeData];
+            _zcodeData = [_blorb zcodeData];
         }
     }
     else
     {
         // Treat this data as executable z-code story data
-        zcodeData = data;
+        _zcodeData = data;
     }
     
-    if (zcodeData)
+    if (_zcodeData)
     {
         [self createZMachine];
 
@@ -212,7 +211,7 @@
         if (debugData)
         {
             DebugInfoReader *reader = [[DebugInfoReader alloc] initWithData:debugData];
-            debugInfo = [reader debugInfo];
+            _debugInfo = [reader debugInfo];
         }
         
         return YES;
@@ -226,90 +225,35 @@
     }
 }
 
-- (NSArray *)facets
-{
-    return facets;
-}
-
-- (NSString *)inputString
-{
-    return inputString;
-}
-
-- (void)setInputString:(NSString *)input
-{
-    inputString = input;
-}
-
-- (NSData *)zcodeData
-{
-    return zcodeData;
-}
-
-- (Blorb *)blorb
-{
-    return blorb;
-}
-
-- (IFStory *)metadata
-{
-    return metadata;
-}
-
-- (NSString *)ifid
-{
-    return ifid;
-}
-
-- (ZMachine *)zMachine
-{
-    return zMachine;
-}
-
-- (DebugInfo *)debugInfo
-{
-    return debugInfo;
-}
-
 - (BOOL)hasEnded
 {
-    return [zMachine hasQuit];
+    return [_zMachine hasQuit];
 }
 
 - (NSData *)savedSessionData
 {
-    [controller restoreSession];
+    [_controller restoreSession];
     return nil;
 }
 
 - (void)saveSessionData:(NSData *)data
 {
-    [controller saveSessionData:data];
-}
-
-- (unsigned int)lastRestoreOrSaveResult
-{
-    return lastRestoreOrSaveResult;
-}
-
-- (void)setLastRestoreOrSaveResult:(unsigned int)result
-{
-    lastRestoreOrSaveResult = result;
+    [_controller saveSessionData:data];
 }
 
 - (void)error:(NSString *)errorMessage
 {
-    [controller showError:errorMessage];
+    [_controller showError:errorMessage];
 }
 
 - (void)updateWindowLayout
 {
-    [controller updateWindowLayout];
+    [_controller updateWindowLayout];
 }
 
 - (void)updateWindowWidth
 {
-    [controller updateWindowWidth];
+    [_controller updateWindowWidth];
 }
 
 - (void)handleBackgroundColourChange:(NSNotification *)note
@@ -331,7 +275,7 @@
     
     Preferences *prefs = [Preferences sharedPreferences];
     StoryFacet *facet;
-    for (facet in facets)
+    for (facet in _facets)
     {
         // Adjust the current font attribute
         NSFont *font = [prefs fontForStyle:[facet currentStyle]];
@@ -358,27 +302,27 @@
             index += range.length;
         }
     }
-    [controller updateTextAttributes];
-    [controller updateWindowLayout];
+    [_controller updateTextAttributes];
+    [_controller updateWindowLayout];
 }
 
 - (NSString *)input
 {
-    [controller prepareInput];
+    [_controller prepareInput];
     
     // 'input' consumes the input string
-    NSString *retString = inputString;
-    inputString = nil;
+    NSString *retString = _inputString;
+    _inputString = nil;
     return retString;
 }
 
 - (char)inputChar
 {
-    [controller prepareInputChar];
+    [_controller prepareInputChar];
     
     // 'inputChar' consumes the input string
-    char c = [inputString characterAtIndex:0];
-    inputString = nil;
+    char c = [_inputString characterAtIndex:0];
+    _inputString = nil;
     return c;
 }
 

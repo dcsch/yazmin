@@ -9,7 +9,7 @@
 #import "GridStoryFacet.h"
 #import "Story.h"
 
-@interface GridStoryFacet (Private)
+@interface GridStoryFacet ()
 - (void)configureBuffer;
 - (void)printString:(NSString *)string;
 @end

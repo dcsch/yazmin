@@ -21,6 +21,7 @@
 - (instancetype)initWithUsage:(unsigned int)aUsage
              number:(unsigned int)aNumber
               start:(unsigned int)aStart NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 @property (readonly) unsigned int usage;
 @property (readonly) unsigned int number;
 @property (readonly) unsigned int start;

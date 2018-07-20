@@ -15,6 +15,7 @@
 }
 
 - (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 @property (readonly, copy) NSArray *stories;
 
 @end

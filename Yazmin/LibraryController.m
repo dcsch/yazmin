@@ -39,10 +39,10 @@
     if (row >= 0)
     {
         LibraryEntry *entry = library.entries[row];
-        NSError *error;
         [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:entry.fileURL
                                                                                display:YES
-                                                                                 error:&error];
+                                                                     completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
+        }];
     }
 }
 

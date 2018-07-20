@@ -9,26 +9,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class StoryFacet;
 @class Blorb;
 @class IFStory;
 @class ZMachine;
 @class DebugInfo;
-@class StoryController;
 
 @interface Story : NSDocument
-{
-    NSMutableArray *facets;
-    NSString *inputString;
-    Blorb *blorb;
-    IFStory *metadata;
-    NSString *ifid;
-    NSData *zcodeData;
-    ZMachine *zMachine;
-    DebugInfo *debugInfo;
-    unsigned int lastRestoreOrSaveResult;
-    StoryController *controller;
-}
 
 @property (readonly, copy) NSArray *facets;
 @property (copy) NSString *inputString;
