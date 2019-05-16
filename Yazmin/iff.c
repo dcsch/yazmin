@@ -46,7 +46,7 @@ int isID(const void *data, char c1, char c2, char c3, char c4)
 int isForm(const void *data, char c1, char c2, char c3, char c4)
 {
     if (isID(data, 'F', 'O', 'R', 'M'))
-        return isID(data + 8, c1, c2, c3, c4);
+        return isID((const char *)data + 8, c1, c2, c3, c4);
     else
         return 0;
 }
@@ -54,7 +54,7 @@ int isForm(const void *data, char c1, char c2, char c3, char c4)
 unsigned int chunkIDAndLength(const void *data, unsigned int *chunkID)
 {
     *chunkID = unpackLong(data);
-    return unpackLong(data + 4);
+    return unpackLong((const char *)data + 4);
 }
 
 unsigned long paddedLength(unsigned long len)

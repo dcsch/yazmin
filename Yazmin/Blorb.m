@@ -30,7 +30,7 @@
         resources = [[NSMutableArray alloc] init];
         metaData = nil;
         
-        const void *ptr = data.bytes;
+        const unsigned char *ptr = data.bytes;
         ptr += 12;
         unsigned int chunkID;
         chunkIDAndLength(ptr, &chunkID);
@@ -52,13 +52,13 @@
             }
 
             // Look through the rest of the file
-            while (ptr < data.bytes + data.length)
+            while (ptr < (const unsigned char *)data.bytes + data.length)
             {
                 unsigned int len = chunkIDAndLength(ptr, &chunkID);
                 if (chunkID == IFFID('I', 'F', 'm', 'd'))
                 {
                     // Treaty of Babel Metadata
-                    NSRange range = NSMakeRange(ptr - data.bytes + 8, len);
+                    NSRange range = NSMakeRange(ptr - (const unsigned char *)data.bytes + 8, len);
                     metaData = [data subdataWithRange:range];
                 }
                 ptr += len + 8;
@@ -87,7 +87,7 @@
     BlorbResource *resource = [self findResourceOfUsage:ExecutableResource];
     if (resource)
     {
-        const void *ptr = data.bytes;
+        const unsigned char *ptr = data.bytes;
         ptr += [resource start];
         unsigned int chunkID;
         unsigned int len = chunkIDAndLength(ptr, &chunkID);
@@ -106,7 +106,7 @@
     BlorbResource *resource = [self findResourceOfUsage:PictureResource];
     if (resource)
     {
-        const void *ptr = data.bytes;
+        const unsigned char *ptr = data.bytes;
         ptr += [resource start];
         unsigned int chunkID;
         unsigned int len = chunkIDAndLength(ptr, &chunkID);

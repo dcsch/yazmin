@@ -16,9 +16,9 @@
 #include "ZMText.h"
 #include "iff.h"
 #include <stdio.h>
-#import <sys/sysctl.h>
-#import <time.h>
-#import <assert.h>
+#include <sys/sysctl.h>
+#include <time.h>
+#include <assert.h>
 
 static unsigned int macuptime(void)
 {

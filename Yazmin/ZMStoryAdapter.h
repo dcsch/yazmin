@@ -10,37 +10,37 @@ public:
     
     ZMStoryAdapter(Story *story);
     
-    virtual ~ZMStoryAdapter();
+    ~ZMStoryAdapter() override;
     
-    virtual void setWindow(int window);
+    void setWindow(int window) override;
     
-    virtual void splitWindow(int lines);
+    void splitWindow(int lines) override;
     
-    virtual void eraseWindow(int window);
+    void eraseWindow(int window) override;
     
-    virtual void showStatus();
+    void showStatus() override;
     
-    virtual void setColour(int foreground, int background);
+    void setColour(int foreground, int background) override;
     
-    virtual void setCursor(int line, int column);
+    void setCursor(int line, int column) override;
     
-    virtual void setTextStyle(int style);
+    void setTextStyle(int style) override;
     
-    virtual void print(const char *str);
+    void print(const char *str) override;
     
-    virtual void printNumber(int number);
+    void printNumber(int number) override;
     
-    virtual void newLine();
+    void newLine() override;
     
-    virtual size_t input(char *str, size_t maxLen);
+    size_t input(char *str, size_t maxLen) override;
     
-    virtual char inputChar();
+    char inputChar() override;
 
-    virtual void restore(const void **data, size_t *length);
+    void restore(const void **data, size_t *length) override;
 
-    virtual void save(const void *data, size_t length);
+    void save(const void *data, size_t length) override;
 
-    virtual uint16_t getRestoreOrSaveResult();
+    uint16_t getRestoreOrSaveResult() override;
 
 private:
     Story *_story;
