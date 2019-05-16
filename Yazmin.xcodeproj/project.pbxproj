@@ -74,6 +74,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03217B07228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Abbreviations.xib; sourceTree = "<group>"; };
+		03217B08228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Debug.xib; sourceTree = "<group>"; };
+		03217B09228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Library.xib; sourceTree = "<group>"; };
+		03217B0A228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ObjectBrowser.xib; sourceTree = "<group>"; };
+		03217B0B228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Preferences.xib; sourceTree = "<group>"; };
+		03217B0C228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StoryInformation.xib; sourceTree = "<group>"; };
+		03217B0D228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Story.xib; sourceTree = "<group>"; };
+		03217B0E228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
@@ -90,12 +98,6 @@
 		6338E059180AB53B005A3263 /* DebugInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugInfo.m; sourceTree = "<group>"; };
 		6338E05A180AB53B005A3263 /* DebugInfoReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DebugInfoReader.h; sourceTree = "<group>"; };
 		6338E05B180AB53B005A3263 /* DebugInfoReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DebugInfoReader.m; sourceTree = "<group>"; };
-		6338E05D180AB53B005A3263 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Abbreviations.xib; sourceTree = "<group>"; };
-		6338E05F180AB53B005A3263 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Debug.xib; sourceTree = "<group>"; };
-		6338E061180AB53B005A3263 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Library.xib; sourceTree = "<group>"; };
-		6338E063180AB53B005A3263 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ObjectBrowser.xib; sourceTree = "<group>"; };
-		6338E065180AB53B005A3263 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Preferences.xib; sourceTree = "<group>"; };
-		6338E067180AB53B005A3263 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/StoryInformation.xib; sourceTree = "<group>"; };
 		6338E068180AB53B005A3263 /* GridStoryFacet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridStoryFacet.h; sourceTree = "<group>"; };
 		6338E069180AB53B005A3263 /* GridStoryFacet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridStoryFacet.m; sourceTree = "<group>"; };
 		6338E06A180AB53B005A3263 /* IFBibliographic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFBibliographic.h; sourceTree = "<group>"; };
@@ -165,8 +167,6 @@
 		639A098B13322F08000E27F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		639A099013322F08000E27F4 /* Story.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Story.h; sourceTree = "<group>"; };
 		639A099113322F08000E27F4 /* Story.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Story.m; sourceTree = "<group>"; };
-		639A099413322F08000E27F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Story.xib; sourceTree = "<group>"; };
-		639A099713322F08000E27F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		639A099E13322F08000E27F4 /* YazminTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YazminTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		639A09A413322F08000E27F4 /* YazminTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YazminTests-Info.plist"; sourceTree = "<group>"; };
 		639A09A613322F08000E27F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -402,15 +402,16 @@
 		639A097113322F07000E27F4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "David Schweinsberg";
 			};
 			buildConfigurationList = 639A097413322F07000E27F4 /* Build configuration list for PBXProject "Yazmin" */;
 			compatibilityVersion = "Xcode 9.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 639A096F13322F07000E27F4;
 			productRefGroup = 639A097B13322F08000E27F4 /* Products */;
@@ -521,7 +522,7 @@
 		6338E05C180AB53B005A3263 /* Abbreviations.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6338E05D180AB53B005A3263 /* en */,
+				03217B07228E2ADE006DC380 /* Base */,
 			);
 			name = Abbreviations.xib;
 			sourceTree = "<group>";
@@ -529,7 +530,7 @@
 		6338E05E180AB53B005A3263 /* Debug.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6338E05F180AB53B005A3263 /* en */,
+				03217B08228E2ADE006DC380 /* Base */,
 			);
 			name = Debug.xib;
 			sourceTree = "<group>";
@@ -537,7 +538,7 @@
 		6338E060180AB53B005A3263 /* Library.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6338E061180AB53B005A3263 /* en */,
+				03217B09228E2ADE006DC380 /* Base */,
 			);
 			name = Library.xib;
 			sourceTree = "<group>";
@@ -545,7 +546,7 @@
 		6338E062180AB53B005A3263 /* ObjectBrowser.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6338E063180AB53B005A3263 /* en */,
+				03217B0A228E2ADE006DC380 /* Base */,
 			);
 			name = ObjectBrowser.xib;
 			sourceTree = "<group>";
@@ -553,7 +554,7 @@
 		6338E064180AB53B005A3263 /* Preferences.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6338E065180AB53B005A3263 /* en */,
+				03217B0B228E2ADF006DC380 /* Base */,
 			);
 			name = Preferences.xib;
 			sourceTree = "<group>";
@@ -561,7 +562,7 @@
 		6338E066180AB53B005A3263 /* StoryInformation.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6338E067180AB53B005A3263 /* en */,
+				03217B0C228E2ADF006DC380 /* Base */,
 			);
 			name = StoryInformation.xib;
 			sourceTree = "<group>";
@@ -577,7 +578,7 @@
 		639A099313322F08000E27F4 /* Story.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				639A099413322F08000E27F4 /* en */,
+				03217B0D228E2ADF006DC380 /* Base */,
 			);
 			name = Story.xib;
 			sourceTree = "<group>";
@@ -585,7 +586,7 @@
 		639A099613322F08000E27F4 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				639A099713322F08000E27F4 /* en */,
+				03217B0E228E2ADF006DC380 /* Base */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -604,6 +605,7 @@
 		639A09AD13322F08000E27F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
@@ -655,6 +657,7 @@
 		639A09AE13322F08000E27F4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
