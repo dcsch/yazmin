@@ -25,7 +25,7 @@
 @property (readonly) int currentStyle;
 @property  int numberOfLines;
 - (void)erase;
-- (void)setColourForeground:(int)fg background:(int)bg;
+- (void)setColorForeground:(int)fg background:(int)bg;
 - (void)setCursorLine:(int)line column:(int)column;
 - (void)setTextStyle:(int)style;
 - (void)print:(NSString *)text;

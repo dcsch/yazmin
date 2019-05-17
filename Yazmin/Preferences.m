@@ -8,8 +8,8 @@
 
 #import "Preferences.h"
 
-NSString *SMBackgroundColourKey = @"BackgroundColour";
-NSString *SMForegroundColourKey = @"ForegroundColour";
+NSString *SMBackgroundColorKey = @"BackgroundColor";
+NSString *SMForegroundColorKey = @"ForegroundColor";
 NSString *SMMonospacedFontKey = @"MonospacedFont";
 NSString *SMProportionalFontKey = @"ProportionalFont";
 NSString *SMFontSizeKey = @"FontSize";
@@ -39,30 +39,30 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 }
 
 
-- (NSColor *)backgroundColour
+- (NSColor *)backgroundColor
 {
-    NSData *colourAsData = [defaults objectForKey:SMBackgroundColourKey];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:colourAsData];
+    NSData *colorAsData = [defaults objectForKey:SMBackgroundColorKey];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:colorAsData];
 }
 
-- (void)setBackgroundColour:(NSColor *)colour
+- (void)setBackgroundColor:(NSColor *)color
 {
-    NSData *colourAsData = [NSKeyedArchiver archivedDataWithRootObject:colour];
-    [defaults setObject:colourAsData forKey:SMBackgroundColourKey];
-    [nc postNotificationName:@"SMBackgroundColourChanged" object:self];
+    NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [defaults setObject:colorAsData forKey:SMBackgroundColorKey];
+    [nc postNotificationName:@"SMBackgroundColorChanged" object:self];
 }
 
-- (NSColor *)foregroundColour
+- (NSColor *)foregroundColor
 {
-    NSData *colourAsData = [defaults objectForKey:SMForegroundColourKey];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:colourAsData];
+    NSData *colorAsData = [defaults objectForKey:SMForegroundColorKey];
+    return [NSKeyedUnarchiver unarchiveObjectWithData:colorAsData];
 }
 
-- (void)setForegroundColour:(NSColor *)colour
+- (void)setForegroundColor:(NSColor *)color
 {
-    NSData *colourAsData = [NSKeyedArchiver archivedDataWithRootObject:colour];
-    [defaults setObject:colourAsData forKey:SMForegroundColourKey];
-    [nc postNotificationName:@"SMForegroundColourChanged" object:self];
+    NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    [defaults setObject:colorAsData forKey:SMForegroundColorKey];
+    [nc postNotificationName:@"SMForegroundColorChanged" object:self];
 }
 
 - (NSString *)proportionalFontFamily

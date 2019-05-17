@@ -52,12 +52,12 @@
                    name:NSViewFrameDidChangeNotification
                  object:nil];
         [nc addObserver:self
-               selector:@selector(handleBackgroundColourChange:)
-                   name:@"SMBackgroundColourChanged"
+               selector:@selector(handleBackgroundColorChange:)
+                   name:@"SMBackgroundColorChanged"
                  object:nil];
         [nc addObserver:self
-               selector:@selector(handleForegroundColourChange:)
-                   name:@"SMForegroundColourChanged"
+               selector:@selector(handleForegroundColorChange:)
+                   name:@"SMForegroundColorChanged"
                  object:nil];
         
         // When the user closes the story window, we want all other windows
@@ -94,8 +94,8 @@
     Story *story = self.document;
     
     // Retrieve defaults
-    NSColor *backgroundColour =
-        [Preferences sharedPreferences].backgroundColour;
+    NSColor *backgroundColor =
+        [Preferences sharedPreferences].backgroundColor;
     
 //    // Create layout managers
 //    NSTextStorage *textStorage;
@@ -124,7 +124,7 @@
 
 //    StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame
 //                                                       textContainer:container];
-//    [textView setBackgroundColor:backgroundColour];
+//    [textView setBackgroundColor:backgroundColor];
 //    [textView setAutoresizingMask:NSViewWidthSizable];
 //    [textView setVerticallyResizable:YES];
 //    [textView setStoryInput:(StoryInput *)self];
@@ -134,7 +134,7 @@
 
     // TESTING a different way of creating the text view
     StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
-    textView.backgroundColor = backgroundColour;
+//    textView.backgroundColor = backgroundColor;
     textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
     [(story.facets)[0] setTextStorage:textView.textStorage];
     textView.storyInput = self;
@@ -152,14 +152,14 @@
 //    
 //    textView = [[StoryFacetView alloc] initWithFrame:upperFrame
 //                                       textContainer:container];
-//    [textView setBackgroundColor:backgroundColour];
+//    [textView setBackgroundColor:backgroundColor];
 //    [textView setAutoresizingMask:NSViewWidthSizable];
 //    [layoutView setUpperWindow:textView];
 //    [textView release];
 
     // TESTING a different way of creating the text view
     textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
-    textView.backgroundColor = backgroundColour;
+//    textView.backgroundColor = backgroundColor;
     //[textView setAutoresizingMask:NSViewWidthSizable];
     textView.autoresizingMask = 0;
     //[[textView textContainer] setWidthTracksTextView:NO];
@@ -203,21 +203,22 @@
     }
 }
 
-- (void)handleBackgroundColourChange:(NSNotification *)note
+- (void)handleBackgroundColorChange:(NSNotification *)note
 {
     Preferences *sender = note.object;
-    NSColor *newColour = [sender backgroundColour];
-    [layoutView lowerWindow].backgroundColor = newColour;
-    [layoutView upperWindow].backgroundColor = newColour;
+    NSColor *newColor = [sender backgroundColor];
+    [layoutView lowerWindow].backgroundColor = newColor;
+    [layoutView upperWindow].backgroundColor = newColor;
     [layoutView setNeedsDisplay:YES];
 }
 
-- (void)handleForegroundColourChange:(NSNotification *)note
+- (void)handleForegroundColorChange:(NSNotification *)note
 {
+    NSLog(@"handleForegroundColorChange:");
 }
 
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
-didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
+didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainerre 
                 atEnd:(BOOL)flag
 {
     // Ensure the scroll position is at the bottom of the transcript

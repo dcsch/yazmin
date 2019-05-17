@@ -1929,7 +1929,7 @@ void ZMProcessor::set_colour()
 {
     log("set_colour", false, false);
     
-    _io.setColour(_operands[0], _operands[1]);
+    _io.setColor(_operands[0], _operands[1]);
     advancePC();
 }
 

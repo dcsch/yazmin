@@ -28,8 +28,8 @@
 @property (readonly, strong) LayoutView *view;
 @property (readonly) float calculateScreenWidth;
 - (void)handleViewFrameChange:(NSNotification *)note;
-- (void)handleBackgroundColourChange:(NSNotification *)note;
-- (void)handleForegroundColourChange:(NSNotification *)note;
+- (void)handleBackgroundColorChange:(NSNotification *)note;
+- (void)handleForegroundColorChange:(NSNotification *)note;
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
 didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                 atEnd:(BOOL)flag;

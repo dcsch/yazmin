@@ -24,10 +24,10 @@
         // We don't want this window to appear in the Windows menu
         [self.window setExcludedFromWindowsMenu:YES];
 
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
-                                                             NSUserDomainMask,
-                                                             NO);
-        NSLog(@"Paths: %@", paths);
+//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
+//                                                             NSUserDomainMask,
+//                                                             NO);
+//        NSLog(@"Paths: %@", paths);
     }
     return self;
 }

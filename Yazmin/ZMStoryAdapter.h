@@ -20,7 +20,7 @@ public:
     
     void showStatus() override;
     
-    void setColour(int foreground, int background) override;
+    void setColor(int foreground, int background) override;
     
     void setCursor(int line, int column) override;
     

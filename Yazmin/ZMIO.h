@@ -26,7 +26,7 @@ public:
     
     virtual void showStatus() = 0;
     
-    virtual void setColour(int foreground, int background) = 0;
+    virtual void setColor(int foreground, int background) = 0;
     
     virtual void setCursor(int line, int column) = 0;
     

@@ -19,15 +19,15 @@
     // Create a dictionary
     NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
     
-    // Archive the colour objects
-    NSData *backgroundColourAsData = [NSKeyedArchiver archivedDataWithRootObject:
-        [NSColor yellowColor]];
-    NSData *foregroundColourAsData = [NSKeyedArchiver archivedDataWithRootObject:
-        [NSColor blackColor]];
+    // Archive the color objects
+    NSData *backgroundColorAsData = [NSKeyedArchiver archivedDataWithRootObject:
+        [NSColor textBackgroundColor]];
+    NSData *foregroundColorAsData = [NSKeyedArchiver archivedDataWithRootObject:
+        [NSColor textColor]];
 
     // Put the defaults in the dictionary
-    defaultValues[SMBackgroundColourKey] = backgroundColourAsData;
-    defaultValues[SMForegroundColourKey] = foregroundColourAsData;
+    defaultValues[SMBackgroundColorKey] = backgroundColorAsData;
+    defaultValues[SMForegroundColorKey] = foregroundColorAsData;
     defaultValues[SMMonospacedFontKey] = @"Courier";
     defaultValues[SMProportionalFontKey] = @"Helvetica";
     defaultValues[SMFontSizeKey] = @12.0f;
@@ -36,7 +36,7 @@
     // Register the dictionary of defaults
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
     
-    NSLog(@"registered defaults: %@", defaultValues);
+//    NSLog(@"registered defaults: %@", defaultValues);
 }
 
 - (instancetype)init

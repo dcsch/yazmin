@@ -20,14 +20,14 @@
     return self;
 }
 
-- (NSColor *)backgroundColour
+- (NSColor *)backgroundColor
 {
-    return [[Preferences sharedPreferences] backgroundColour];
+    return [[Preferences sharedPreferences] backgroundColor];
 }
 
-- (NSColor *)foregroundColour
+- (NSColor *)foregroundColor
 {
-    return [[Preferences sharedPreferences] foregroundColour];
+    return [[Preferences sharedPreferences] foregroundColor];
 }
 
 - (NSString *)proportionalFontFamily
@@ -47,8 +47,8 @@
 
 - (void)windowDidLoad
 {
-    backgroundColourWell.color = [self backgroundColour];
-    foregroundColourWell.color = [self foregroundColour];
+    backgroundColorWell.color = [self backgroundColor];
+    foregroundColorWell.color = [self foregroundColor];
     
     // Clear out the pop-up list
     [proportionalFontPopUpButton removeAllItems];
@@ -82,14 +82,14 @@
     fontSizeTextField.floatValue = [self fontSize];
 }
 
-- (IBAction)changeBackgroundColour:(id)sender
+- (IBAction)changeBackgroundColor:(id)sender
 {
-    [[Preferences sharedPreferences] setBackgroundColour:[sender color]];
+    [[Preferences sharedPreferences] setBackgroundColor:[sender color]];
 }
 
-- (IBAction)changeForegroundColour:(id)sender
+- (IBAction)changeForegroundColor:(id)sender
 {
-    [[Preferences sharedPreferences] setForegroundColour:[sender color]];
+    [[Preferences sharedPreferences] setForegroundColor:[sender color]];
 }
 
 - (IBAction)changeProportionalFont:(id)sender

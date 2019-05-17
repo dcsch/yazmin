@@ -53,12 +53,12 @@
         // Listen to notifications
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self
-               selector:@selector(handleBackgroundColourChange:)
-                   name:@"SMBackgroundColourChanged"
+               selector:@selector(handleBackgroundColorChange:)
+                   name:@"SMBackgroundColorChanged"
                  object:nil];
         [nc addObserver:self
-               selector:@selector(handleForegroundColourChange:)
-                   name:@"SMForegroundColourChanged"
+               selector:@selector(handleForegroundColorChange:)
+                   name:@"SMForegroundColorChanged"
                  object:nil];
         [nc addObserver:self
                selector:@selector(handleFontChange:)
@@ -256,17 +256,18 @@
     [_controller updateWindowWidth];
 }
 
-- (void)handleBackgroundColourChange:(NSNotification *)note
+- (void)handleBackgroundColorChange:(NSNotification *)note
 {
     //    Preferences *sender = [note object];
-    //    NSColor *newColour = [sender backgroundColour];
-    //    [[layoutView lowerWindow] setBackgroundColor:newColour];
-    //    [[layoutView upperWindow] setBackgroundColor:newColour];
+    //    NSColor *newColor = [sender backgroundColor];
+    //    [[layoutView lowerWindow] setBackgroundColor:newColor];
+    //    [[layoutView upperWindow] setBackgroundColor:newColor];
     //    [layoutView setNeedsDisplay:YES];
 }
 
-- (void)handleForegroundColourChange:(NSNotification *)note
+- (void)handleForegroundColorChange:(NSNotification *)note
 {
+    NSLog(@"handleForegroundColorChange:");
 }
 
 - (void)handleFontChange:(NSNotification *)note

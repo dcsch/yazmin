@@ -10,20 +10,20 @@
 
 @interface PreferenceController : NSWindowController
 {
-    IBOutlet NSColorWell *backgroundColourWell;
-    IBOutlet NSColorWell *foregroundColourWell;
+    IBOutlet NSColorWell *backgroundColorWell;
+    IBOutlet NSColorWell *foregroundColorWell;
     IBOutlet NSPopUpButton *proportionalFontPopUpButton;
     IBOutlet NSPopUpButton *monospacedFontPopUpButton;
     IBOutlet NSTextField *fontSizeTextField;
 }
 
-@property (readonly, copy) NSColor *backgroundColour;
-@property (readonly, copy) NSColor *foregroundColour;
+@property (readonly, copy) NSColor *backgroundColor;
+@property (readonly, copy) NSColor *foregroundColor;
 @property (readonly, copy) NSString *proportionalFontFamily;
 @property (readonly, copy) NSString *monospacedFontFamily;
 @property (readonly) float fontSize;
-- (IBAction)changeBackgroundColour:(id)sender;
-- (IBAction)changeForegroundColour:(id)sender;
+- (IBAction)changeBackgroundColor:(id)sender;
+- (IBAction)changeForegroundColor:(id)sender;
 - (IBAction)changeProportionalFont:(id)sender;
 - (IBAction)changeMonospacedFont:(id)sender;
 - (IBAction)changeFontSize:(id)sender;

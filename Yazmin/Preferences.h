@@ -13,8 +13,8 @@
 */
 #import <Cocoa/Cocoa.h>
 
-extern NSString *SMBackgroundColourKey;
-extern NSString *SMForegroundColourKey;
+extern NSString *SMBackgroundColorKey;
+extern NSString *SMForegroundColorKey;
 extern NSString *SMMonospacedFontKey;
 extern NSString *SMProportionalFontKey;
 extern NSString *SMFontSizeKey;
@@ -42,27 +42,27 @@ extern NSString *SMShowLibraryOnStartupKey;
 + (Preferences *)sharedPreferences;
 
 /*!
- @method backgroundColour
- @abstract Returns the preferred background colour.
+ @method backgroundColor
+ @abstract Returns the preferred background color.
 */
-@property (copy) NSColor *backgroundColour;
+@property (copy) NSColor *backgroundColor;
 
 /*!
- @method setBackgroundColour
- @abstract Sets the preferred background colour.
- @param colour The new background colour.
+ @method setBackgroundColor
+ @abstract Sets the preferred background color.
+ @param color The new background color.
 */
 
 /*!
- @method foregroundColour
- @abstract Returns the preferred foreground colour.
+ @method foregroundColor
+ @abstract Returns the preferred foreground color.
 */
-@property (copy) NSColor *foregroundColour;
+@property (copy) NSColor *foregroundColor;
 
 /*!
- @method setForegroundColour
- @abstract Sets the preferred foreground colour.
- @param colour The new foreground colour.
+ @method setForegroundColor
+ @abstract Sets the preferred foreground color.
+ @param color The new foreground color.
 */
 
 /*!

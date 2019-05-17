@@ -2,4 +2,4 @@
 
 ## Introduction
 
-Yazmin is a Z-Machine interpreter for macOS, developed in Objective-C & C++.
+Yazmin is Yet Another Z-Machine Interpreter for macOS, developed in Objective-C & C++.

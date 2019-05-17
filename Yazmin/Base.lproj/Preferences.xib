@@ -8,9 +8,9 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PreferenceController">
             <connections>
-                <outlet property="backgroundColourWell" destination="8" id="12"/>
+                <outlet property="backgroundColorWell" destination="8" id="12"/>
                 <outlet property="fontSizeTextField" destination="36" id="39"/>
-                <outlet property="foregroundColourWell" destination="9" id="13"/>
+                <outlet property="foregroundColorWell" destination="9" id="13"/>
                 <outlet property="monospacedFontPopUpButton" destination="21" id="33"/>
                 <outlet property="proportionalFontPopUpButton" destination="27" id="32"/>
                 <outlet property="window" destination="5" id="7"/>
@@ -33,7 +33,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
-                            <action selector="changeBackgroundColour:" target="-2" id="14"/>
+                            <action selector="changeBackgroundColor:" target="-2" id="14"/>
                         </connections>
                     </colorWell>
                     <colorWell id="9">
@@ -41,13 +41,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="color" red="0.05813049898" green="0.055541899059999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <connections>
-                            <action selector="changeForegroundColour:" target="-2" id="15"/>
+                            <action selector="changeForegroundColor:" target="-2" id="15"/>
                         </connections>
                     </colorWell>
                     <textField verticalHuggingPriority="750" id="10">
                         <rect key="frame" x="77" y="201" width="153" height="14"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Window background colour" id="42">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Window background color" id="42">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -56,7 +56,7 @@
                     <textField verticalHuggingPriority="750" id="11">
                         <rect key="frame" x="77" y="169" width="153" height="14"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Window foreground colour" id="43">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Window foreground color" id="43">
                             <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

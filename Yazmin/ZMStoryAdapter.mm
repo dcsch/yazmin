@@ -116,9 +116,9 @@ void ZMStoryAdapter::showStatus()
     setWindow(0);
 }
 
-void ZMStoryAdapter::setColour(int foreground, int background)
+void ZMStoryAdapter::setColor(int foreground, int background)
 {
-    [_storyFacet setColourForeground:foreground background:background];
+    [_storyFacet setColorForeground:foreground background:background];
 }
 
 void ZMStoryAdapter::setCursor(int line, int column)

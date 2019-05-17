@@ -31,8 +31,8 @@
 - (void)error:(NSString *)errorMessage;
 - (void)updateWindowLayout;
 - (void)updateWindowWidth;
-- (void)handleBackgroundColourChange:(NSNotification *)note;
-- (void)handleForegroundColourChange:(NSNotification *)note;
+- (void)handleBackgroundColorChange:(NSNotification *)note;
+- (void)handleForegroundColorChange:(NSNotification *)note;
 - (void)handleFontChange:(NSNotification *)note;
 
 @property (readonly, copy) NSString *input;

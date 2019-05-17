@@ -64,7 +64,7 @@
     [textStorage deleteCharactersInRange:range];
 }
 
-- (void)setColourForeground:(int)fg background:(int)bg
+- (void)setColorForeground:(int)fg background:(int)bg
 {
 }
 
@@ -80,19 +80,23 @@
     // Retrieve the preferred font for this style
     NSFont *font = [[Preferences sharedPreferences] fontForStyle:style];
     currentAttributes[NSFontAttributeName] = font;
-    
-    // Is it reverse video?
-    NSColor *bgColour = [[Preferences sharedPreferences] backgroundColour];
-    NSColor *fgColour = [[Preferences sharedPreferences] foregroundColour];
+
+//    // Is it reverse video?
+//    NSColor *bgColor = [[Preferences sharedPreferences] backgroundColor];
+//    NSColor *fgColor = [[Preferences sharedPreferences] foregroundColor];
+
+    NSColor *bgColor = [NSColor textBackgroundColor];
+    NSColor *fgColor = [NSColor textColor];
+
     if (style & 1)
     {
-        currentAttributes[NSBackgroundColorAttributeName] = fgColour;
-        currentAttributes[NSForegroundColorAttributeName] = bgColour;
+        currentAttributes[NSBackgroundColorAttributeName] = fgColor;
+        currentAttributes[NSForegroundColorAttributeName] = bgColor;
     }
     else
     {
-        [currentAttributes removeObjectForKey:NSBackgroundColorAttributeName];
-        currentAttributes[NSForegroundColorAttributeName] = fgColour;
+        currentAttributes[NSBackgroundColorAttributeName] = bgColor;
+        currentAttributes[NSForegroundColorAttributeName] = fgColor;
     }
 }
 
