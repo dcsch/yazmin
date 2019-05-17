@@ -42,12 +42,16 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 - (NSColor *)backgroundColor
 {
     NSData *colorAsData = [defaults objectForKey:SMBackgroundColorKey];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:colorAsData];
+    return [NSKeyedUnarchiver unarchivedObjectOfClass:NSColor.class
+                                             fromData:colorAsData
+                                                error:nil];
 }
 
 - (void)setBackgroundColor:(NSColor *)color
 {
-    NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color
+                                                requiringSecureCoding:NO
+                                                                error:nil];
     [defaults setObject:colorAsData forKey:SMBackgroundColorKey];
     [nc postNotificationName:@"SMBackgroundColorChanged" object:self];
 }
@@ -55,12 +59,16 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 - (NSColor *)foregroundColor
 {
     NSData *colorAsData = [defaults objectForKey:SMForegroundColorKey];
-    return [NSKeyedUnarchiver unarchiveObjectWithData:colorAsData];
+    return [NSKeyedUnarchiver unarchivedObjectOfClass:NSColor.class
+                                             fromData:colorAsData
+                                                error:nil];
 }
 
 - (void)setForegroundColor:(NSColor *)color
 {
-    NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color];
+    NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color
+                                                requiringSecureCoding:NO
+                                                                error:nil];
     [defaults setObject:colorAsData forKey:SMForegroundColorKey];
     [nc postNotificationName:@"SMForegroundColorChanged" object:self];
 }

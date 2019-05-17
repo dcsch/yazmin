@@ -67,7 +67,7 @@ public:
     uint16_t getFrameLocal(int frame, int index) const;
     
 private:
-    size_t _maxSize;
+//    size_t _maxSize;
     //uint16_t *_entries;
     uint16_t _entries[1024];
     int _sp;

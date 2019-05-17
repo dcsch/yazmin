@@ -94,8 +94,8 @@
     Story *story = self.document;
     
     // Retrieve defaults
-    NSColor *backgroundColor =
-        [Preferences sharedPreferences].backgroundColor;
+//    NSColor *backgroundColor =
+//        [Preferences sharedPreferences].backgroundColor;
     
 //    // Create layout managers
 //    NSTextStorage *textStorage;

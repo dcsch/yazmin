@@ -3,7 +3,7 @@
  *  yazmin
  *
  *  Created by David Schweinsberg on 21/12/06.
- *  Copyright 2006 __MyCompanyName__. All rights reserved.
+ *  Copyright 2006 David Schweinsberg. All rights reserved.
  *
  */
 #ifndef ZM_DICTIONARY_IO_H__

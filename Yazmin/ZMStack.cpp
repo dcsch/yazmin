@@ -12,7 +12,7 @@
 #include <string.h>
 
 ZMStack::ZMStack(size_t size) :
-_maxSize(size),
+//_maxSize(size),
 //_entries(new uint16_t[size]),
 _sp(0),
 _fp(0),

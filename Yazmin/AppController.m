@@ -21,9 +21,13 @@
     
     // Archive the color objects
     NSData *backgroundColorAsData = [NSKeyedArchiver archivedDataWithRootObject:
-        [NSColor textBackgroundColor]];
+                                     [NSColor textBackgroundColor]
+                                                          requiringSecureCoding:NO
+                                                                          error:nil];
     NSData *foregroundColorAsData = [NSKeyedArchiver archivedDataWithRootObject:
-        [NSColor textColor]];
+                                     [NSColor textColor]
+                                                          requiringSecureCoding:NO
+                                                                          error:nil];
 
     // Put the defaults in the dictionary
     defaultValues[SMBackgroundColorKey] = backgroundColorAsData;
