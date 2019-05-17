@@ -8,47 +8,37 @@
 
 #import "IFIdentification.h"
 
-
 @implementation IFIdentification
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element
-{
-    self = [super init];
-    if (self)
-    {
-        ifids = [[NSMutableArray alloc] init];
+- (instancetype)initWithXMLElement:(NSXMLElement *)element {
+  self = [super init];
+  if (self) {
+    ifids = [[NSMutableArray alloc] init];
 
-        NSEnumerator *enumChildren = [element.children objectEnumerator];
-        NSXMLNode *node;
-        while ((node = [enumChildren nextObject]))
-        {
-            if ([node.name compare:@"ifid"] == 0)
-                [ifids addObject:node.stringValue];
-            else if ([node.name compare:@"format"] == 0)
-            {
-                format = node.stringValue;
-            }
-            else if ([node.name compare:@"bafn"] == 0)
-                bafn = node.stringValue.intValue;
-        }
+    NSEnumerator *enumChildren = [element.children objectEnumerator];
+    NSXMLNode *node;
+    while ((node = [enumChildren nextObject])) {
+      if ([node.name compare:@"ifid"] == 0)
+        [ifids addObject:node.stringValue];
+      else if ([node.name compare:@"format"] == 0) {
+        format = node.stringValue;
+      } else if ([node.name compare:@"bafn"] == 0)
+        bafn = node.stringValue.intValue;
     }
-    return self;
+  }
+  return self;
 }
 
-
-- (NSArray *)ifids
-{
-    return ifids;
+- (NSArray *)ifids {
+  return ifids;
 }
 
-- (NSString *)format
-{
-    return format;
+- (NSString *)format {
+  return format;
 }
 
-- (int)bafn
-{
-    return bafn;
+- (int)bafn {
+  return bafn;
 }
 
 @end

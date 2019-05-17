@@ -10,16 +10,11 @@
 #import "ZMErrorAdapter.h"
 #import "Story.h"
 
-ZMErrorAdapter::ZMErrorAdapter(Story *story) : _story(story)
-{
-}
+ZMErrorAdapter::ZMErrorAdapter(Story *story) : _story(story) {}
 
-ZMErrorAdapter::~ZMErrorAdapter()
-{
-}
+ZMErrorAdapter::~ZMErrorAdapter() {}
 
-void ZMErrorAdapter::error(char *message)
-{
-    [_story error:[NSString stringWithCString:message
-                                     encoding:[NSString defaultCStringEncoding]]];
+void ZMErrorAdapter::error(char *message) {
+  [_story error:[NSString stringWithCString:message
+                                   encoding:[NSString defaultCStringEncoding]]];
 }

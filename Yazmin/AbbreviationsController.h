@@ -8,11 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface AbbreviationsController : NSWindowController <NSTableViewDataSource>
-{
-    IBOutlet NSTableView *tableView;
-    NSArray *abbreviations;
+@interface AbbreviationsController
+    : NSWindowController <NSTableViewDataSource> {
+  IBOutlet NSTableView *tableView;
+  NSArray *abbreviations;
 }
 
 @end

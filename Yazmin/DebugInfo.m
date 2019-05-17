@@ -10,32 +10,26 @@
 
 @implementation DebugInfo
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        propertyNames = [[NSMutableDictionary alloc] init];
-        objectNames = [[NSMutableDictionary alloc] init];
-        routines = [[NSMutableDictionary alloc] init];
-    }
-    return self;
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    propertyNames = [[NSMutableDictionary alloc] init];
+    objectNames = [[NSMutableDictionary alloc] init];
+    routines = [[NSMutableDictionary alloc] init];
+  }
+  return self;
 }
 
-
-- (NSMutableDictionary *)propertyNames
-{
-    return propertyNames;
+- (NSMutableDictionary *)propertyNames {
+  return propertyNames;
 }
 
-- (NSMutableDictionary *)objectNames
-{
-    return objectNames;
+- (NSMutableDictionary *)objectNames {
+  return objectNames;
 }
 
-- (NSMutableDictionary *)routines
-{
-    return routines;
+- (NSMutableDictionary *)routines {
+  return routines;
 }
 
 @end

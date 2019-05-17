@@ -6,8 +6,8 @@
 //  Copyright 2007 David Schweinsberg. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "StoryInput.h"
+#import <Cocoa/Cocoa.h>
 
 @class LayoutView;
 @class StoryInformationController;
@@ -15,24 +15,24 @@
 @class ObjectBrowserController;
 @class AbbreviationsController;
 
-@interface StoryController : NSWindowController <StoryInput, NSLayoutManagerDelegate>
-{
-    IBOutlet LayoutView *layoutView;
-    unsigned int inputLocation;
-    StoryInformationController *informationController;
-    DebugController *debugController;
-    ObjectBrowserController *objectBrowserController;
-    AbbreviationsController *abbreviationsController;
+@interface StoryController
+    : NSWindowController <StoryInput, NSLayoutManagerDelegate> {
+  IBOutlet LayoutView *layoutView;
+  unsigned int inputLocation;
+  StoryInformationController *informationController;
+  DebugController *debugController;
+  ObjectBrowserController *objectBrowserController;
+  AbbreviationsController *abbreviationsController;
 }
 
-@property (readonly, strong) LayoutView *view;
-@property (readonly) float calculateScreenWidth;
+@property(readonly, strong) LayoutView *view;
+@property(readonly) float calculateScreenWidth;
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
-didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
-                atEnd:(BOOL)flag;
+    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
+                                atEnd:(BOOL)flag;
 - (void)prepareInput;
 - (void)prepareInputChar;
 - (void)restoreSession;

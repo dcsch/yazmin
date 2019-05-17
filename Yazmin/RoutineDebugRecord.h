@@ -10,25 +10,24 @@
 
 @class DebugInfo;
 
-@interface RoutineDebugRecord : NSObject
-{
-    unsigned int routineNumber;
-    NSString *defnStart;
-    unsigned int pcStart;
-    NSString *name;
-    NSMutableArray *localNames;
+@interface RoutineDebugRecord : NSObject {
+  unsigned int routineNumber;
+  NSString *defnStart;
+  unsigned int pcStart;
+  NSString *name;
+  NSMutableArray *localNames;
 }
 
 - (instancetype)initWithNumber:(unsigned int)number
-               start:(NSString *)start
-             pcStart:(unsigned int)aPCStart
-                name:(NSString *)aName NS_DESIGNATED_INITIALIZER;
+                         start:(NSString *)start
+                       pcStart:(unsigned int)aPCStart
+                          name:(NSString *)aName NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 
-@property (readonly) unsigned int routineNumber;
-@property (readonly, copy) NSString *defnStart;
-@property (readonly) unsigned int pcStart;
-@property (readonly, copy) NSString *name;
-@property (readonly, copy) NSMutableArray *localNames;
+@property(readonly) unsigned int routineNumber;
+@property(readonly, copy) NSString *defnStart;
+@property(readonly) unsigned int pcStart;
+@property(readonly, copy) NSString *name;
+@property(readonly, copy) NSMutableArray *localNames;
 
 @end

@@ -10,17 +10,15 @@
 #define IFF_H__
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif //__cplusplus
 
-typedef struct
-{
-    unsigned char *data;
-    unsigned long bufferSize;
-    unsigned long pos;
-    unsigned long chunkStart;
-    unsigned long chunkLen;
+typedef struct {
+  unsigned char *data;
+  unsigned long bufferSize;
+  unsigned long pos;
+  unsigned long chunkStart;
+  unsigned long chunkLen;
 } IFFHandle;
 
 unsigned int IFFID(char c1, char c2, char c3, char c4);
@@ -51,7 +49,7 @@ void IFFWriteByte(IFFHandle *handle, unsigned char byte);
 void IFFWrite(IFFHandle *handle, const void *data, unsigned long len);
 
 #ifdef __cplusplus
-} //extern "C"
+} // extern "C"
 #endif //__cplusplus
 
-#endif //IFF_H__
+#endif // IFF_H__

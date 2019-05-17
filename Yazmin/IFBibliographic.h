@@ -8,34 +8,33 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface IFBibliographic : NSObject
-{
-    NSString *title;
-    NSString *author;
-    NSString *language;
-    NSString *headline;
-    NSString *firstPublished;
-    NSString *genre;
-    NSString *group;
-    NSString *description;
-    NSString *series;
-    int seriesNumber;
-    NSString *forgiveness;
+@interface IFBibliographic : NSObject {
+  NSString *title;
+  NSString *author;
+  NSString *language;
+  NSString *headline;
+  NSString *firstPublished;
+  NSString *genre;
+  NSString *group;
+  NSString *description;
+  NSString *series;
+  int seriesNumber;
+  NSString *forgiveness;
 }
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
-@property (readonly, copy) NSString *title;
-@property (readonly, copy) NSString *author;
-@property (readonly, copy) NSString *language;
-@property (readonly, copy) NSString *headline;
-@property (readonly, copy) NSString *firstPublished;
-@property (readonly, copy) NSString *genre;
-@property (readonly, copy) NSString *group;
-@property (readonly, copy) NSString *description;
-@property (readonly, copy) NSString *series;
-@property (readonly) int seriesNumber;
-@property (readonly, copy) NSString *forgiveness;
+@property(readonly, copy) NSString *title;
+@property(readonly, copy) NSString *author;
+@property(readonly, copy) NSString *language;
+@property(readonly, copy) NSString *headline;
+@property(readonly, copy) NSString *firstPublished;
+@property(readonly, copy) NSString *genre;
+@property(readonly, copy) NSString *group;
+@property(readonly, copy) NSString *description;
+@property(readonly, copy) NSString *series;
+@property(readonly) int seriesNumber;
+@property(readonly, copy) NSString *forgiveness;
 
 @end

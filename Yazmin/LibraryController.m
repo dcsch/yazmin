@@ -7,43 +7,42 @@
 //
 
 #import "LibraryController.h"
+#import "AppController.h"
 #import "Library.h"
 #import "LibraryEntry.h"
-#import "AppController.h"
 
 @implementation LibraryController
 
-- (instancetype)init
-{
-    self = [super initWithWindowNibName:@"Library"];
-    if (self)
-    {
-        AppController *app = NSApp.delegate;
-        library = app.library;
+- (instancetype)init {
+  self = [super initWithWindowNibName:@"Library"];
+  if (self) {
+    AppController *app = NSApp.delegate;
+    library = app.library;
 
-        // We don't want this window to appear in the Windows menu
-        [self.window setExcludedFromWindowsMenu:YES];
+    // We don't want this window to appear in the Windows menu
+    [self.window setExcludedFromWindowsMenu:YES];
 
-//        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
-//                                                             NSUserDomainMask,
-//                                                             NO);
-//        NSLog(@"Paths: %@", paths);
-    }
-    return self;
+    //        NSArray *paths =
+    //        NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
+    //                                                             NSUserDomainMask,
+    //                                                             NO);
+    //        NSLog(@"Paths: %@", paths);
+  }
+  return self;
 }
 
-
-- (void)playStory
-{
-    NSInteger row = tableView.selectedRow;
-    if (row >= 0)
-    {
-        LibraryEntry *entry = library.entries[row];
-        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:entry.fileURL
-                                                                               display:YES
-                                                                     completionHandler:^(NSDocument * _Nullable document, BOOL documentWasAlreadyOpen, NSError * _Nullable error) {
-        }];
-    }
+- (void)playStory {
+  NSInteger row = tableView.selectedRow;
+  if (row >= 0) {
+    LibraryEntry *entry = library.entries[row];
+    [[NSDocumentController sharedDocumentController]
+        openDocumentWithContentsOfURL:entry.fileURL
+                              display:YES
+                    completionHandler:^(NSDocument *_Nullable document,
+                                        BOOL documentWasAlreadyOpen,
+                                        NSError *_Nullable error){
+                    }];
+  }
 }
 
 //- (void)update
@@ -51,11 +50,10 @@
 //    [tableView reloadData];
 //}
 
-- (void)windowDidLoad
-{
-//    [tableView setDataSource:self];
-//    [tableView setTarget:self];
-//    [tableView setDoubleAction:@selector(playStory)];
+- (void)windowDidLoad {
+  //    [tableView setDataSource:self];
+  //    [tableView setTarget:self];
+  //    [tableView setDoubleAction:@selector(playStory)];
 }
 
 //- (id)tableView:(NSTableView *)aTableView
@@ -76,7 +74,7 @@
 //}
 //
 //- (void)tableView:(NSTableView *)aTableView
-//sortDescriptorsDidChange:(NSArray *)oldDescriptors
+// sortDescriptorsDidChange:(NSArray *)oldDescriptors
 //{
 //    NSArray *newDescriptors = [tableView sortDescriptors];
 //    [[library entries] sortUsingDescriptors:newDescriptors];

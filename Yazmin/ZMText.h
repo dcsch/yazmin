@@ -12,57 +12,50 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-class ZMText
-{
+class ZMText {
 public:
-    
-    ZMText(uint8_t *memoryBase);
-    
-    int decode(const uint8_t *data,
-               char *ascii,
-               size_t maxLen,
-               size_t *encodedLen = 0);
-    
-    void encode(uint8_t *data,
-                const char *ascii,
-                size_t asciiLen,
-                size_t encodedLen);
+  ZMText(uint8_t *memoryBase);
 
-    int abbreviation(int index, char *ascii, size_t maxLen);
-    
-    size_t getEncodedLength(uint32_t addr);
-    
-    size_t getDecodedLength(uint32_t addr);
-    
-    size_t getString(uint32_t addr, char *ascii, size_t maxLen);
-    
+  int decode(const uint8_t *data, char *ascii, size_t maxLen,
+             size_t *encodedLen = 0);
+
+  void encode(uint8_t *data, const char *ascii, size_t asciiLen,
+              size_t encodedLen);
+
+  int abbreviation(int index, char *ascii, size_t maxLen);
+
+  size_t getEncodedLength(uint32_t addr);
+
+  size_t getDecodedLength(uint32_t addr);
+
+  size_t getString(uint32_t addr, char *ascii, size_t maxLen);
+
 private:
-    
-    uint8_t *_memoryBase;
-    
-    const char *_a0;
-    
-    const char *_a1;
-    
-    const char *_a2;
-    
-    const char *_charset;
-    
-    int _abbreviation;
-    
-    int _10bit;
-    
-    char _highBits;
-    
-    static bool unpackWord(uint16_t word, char *bytes);
-    
-    static uint16_t packWord(const uint8_t *bytes);
+  uint8_t *_memoryBase;
 
-    int zsciiToAscii(char z, char *ascii, size_t maxLen);
-    
-    int asciiToZscii(char ascii, uint8_t *zscii);
-    
-    bool findInAlphabet(char ascii, int *charset, uint8_t *zscii);
+  const char *_a0;
+
+  const char *_a1;
+
+  const char *_a2;
+
+  const char *_charset;
+
+  int _abbreviation;
+
+  int _10bit;
+
+  char _highBits;
+
+  static bool unpackWord(uint16_t word, char *bytes);
+
+  static uint16_t packWord(const uint8_t *bytes);
+
+  int zsciiToAscii(char z, char *ascii, size_t maxLen);
+
+  int asciiToZscii(char ascii, uint8_t *zscii);
+
+  bool findInAlphabet(char ascii, int *charset, uint8_t *zscii);
 };
 
-#endif //ZM_TEXT_H__
+#endif // ZM_TEXT_H__

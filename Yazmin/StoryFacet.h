@@ -10,20 +10,19 @@
 
 @class Story;
 
-@interface StoryFacet : NSObject
-{
-    Story *story;
-    NSTextStorage *textStorage;
-    NSMutableDictionary *currentAttributes;
-    int currentStyle;
+@interface StoryFacet : NSObject {
+  Story *story;
+  NSTextStorage *textStorage;
+  NSMutableDictionary *currentAttributes;
+  int currentStyle;
 }
 
 - (instancetype)initWithStory:(Story *)aStory NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
-@property (copy) NSTextStorage *textStorage;
-@property (readonly, copy) NSMutableDictionary *currentAttributes;
-@property (readonly) int currentStyle;
-@property  int numberOfLines;
+@property(copy) NSTextStorage *textStorage;
+@property(readonly, copy) NSMutableDictionary *currentAttributes;
+@property(readonly) int currentStyle;
+@property int numberOfLines;
 - (void)erase;
 - (void)setColorForeground:(int)fg background:(int)bg;
 - (void)setCursorLine:(int)line column:(int)column;

@@ -10,10 +10,9 @@
 
 @class Library;
 
-@interface LibraryController : NSWindowController
-{
-    IBOutlet NSTableView *tableView;
-    Library *library;
+@interface LibraryController : NSWindowController {
+  IBOutlet NSTableView *tableView;
+  Library *library;
 }
 
 - (void)playStory;

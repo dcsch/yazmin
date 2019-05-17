@@ -11,102 +11,90 @@
 
 @implementation PreferenceController
 
-- (instancetype)init
-{
-    self = [super initWithWindowNibName:@"Preferences"];
-    if (self)
-    {
-    }
-    return self;
+- (instancetype)init {
+  self = [super initWithWindowNibName:@"Preferences"];
+  if (self) {
+  }
+  return self;
 }
 
-- (NSColor *)backgroundColor
-{
-    return [[Preferences sharedPreferences] backgroundColor];
+- (NSColor *)backgroundColor {
+  return [[Preferences sharedPreferences] backgroundColor];
 }
 
-- (NSColor *)foregroundColor
-{
-    return [[Preferences sharedPreferences] foregroundColor];
+- (NSColor *)foregroundColor {
+  return [[Preferences sharedPreferences] foregroundColor];
 }
 
-- (NSString *)proportionalFontFamily
-{
-    return [[Preferences sharedPreferences] proportionalFontFamily];
+- (NSString *)proportionalFontFamily {
+  return [[Preferences sharedPreferences] proportionalFontFamily];
 }
 
-- (NSString *)monospacedFontFamily
-{
-    return [[Preferences sharedPreferences] monospacedFontFamily];
+- (NSString *)monospacedFontFamily {
+  return [[Preferences sharedPreferences] monospacedFontFamily];
 }
 
-- (float)fontSize
-{
-    return [[Preferences sharedPreferences] fontSize];
+- (float)fontSize {
+  return [[Preferences sharedPreferences] fontSize];
 }
 
-- (void)windowDidLoad
-{
-    backgroundColorWell.color = [self backgroundColor];
-    foregroundColorWell.color = [self foregroundColor];
-    
-    // Clear out the pop-up list
-    [proportionalFontPopUpButton removeAllItems];
+- (void)windowDidLoad {
+  backgroundColorWell.color = [self backgroundColor];
+  foregroundColorWell.color = [self foregroundColor];
 
-    // Generate an alphabetically ordered array of font families
-    NSFontManager *fm = [NSFontManager sharedFontManager];
-    NSArray *fontNames = fm.availableFontFamilies;
-//    NSArray *fontNames = [fm availableFonts];
-    NSSortDescriptor *sortDescriptor =
-        [[NSSortDescriptor alloc] initWithKey:@"description" ascending:YES];
-    NSArray *sortDescriptors = @[sortDescriptor];
-    NSArray *sortedFontNames =
-        [fontNames sortedArrayUsingDescriptors:sortDescriptors];
-    
-    // Stick all of these into the list
-    NSString *fontName;
-    for (fontName in sortedFontNames)
-        [proportionalFontPopUpButton addItemWithTitle:fontName];
-    
-    // Select the one that we're using
-    [proportionalFontPopUpButton selectItemWithTitle:[self proportionalFontFamily]];
+  // Clear out the pop-up list
+  [proportionalFontPopUpButton removeAllItems];
 
-    // Now build our list of monospaced fonts
-    [monospacedFontPopUpButton removeAllItems];
-    for (fontName in sortedFontNames)
-        //if ([fm fontNamed:fontName hasTraits:NSFixedPitchFontMask])
-            [monospacedFontPopUpButton addItemWithTitle:fontName];
-    [monospacedFontPopUpButton selectItemWithTitle:[self monospacedFontFamily]];
+  // Generate an alphabetically ordered array of font families
+  NSFontManager *fm = [NSFontManager sharedFontManager];
+  NSArray *fontNames = fm.availableFontFamilies;
+  //    NSArray *fontNames = [fm availableFonts];
+  NSSortDescriptor *sortDescriptor =
+      [[NSSortDescriptor alloc] initWithKey:@"description" ascending:YES];
+  NSArray *sortDescriptors = @[ sortDescriptor ];
+  NSArray *sortedFontNames =
+      [fontNames sortedArrayUsingDescriptors:sortDescriptors];
 
-    // Font size
-    fontSizeTextField.floatValue = [self fontSize];
+  // Stick all of these into the list
+  NSString *fontName;
+  for (fontName in sortedFontNames)
+    [proportionalFontPopUpButton addItemWithTitle:fontName];
+
+  // Select the one that we're using
+  [proportionalFontPopUpButton
+      selectItemWithTitle:[self proportionalFontFamily]];
+
+  // Now build our list of monospaced fonts
+  [monospacedFontPopUpButton removeAllItems];
+  for (fontName in sortedFontNames)
+    // if ([fm fontNamed:fontName hasTraits:NSFixedPitchFontMask])
+    [monospacedFontPopUpButton addItemWithTitle:fontName];
+  [monospacedFontPopUpButton selectItemWithTitle:[self monospacedFontFamily]];
+
+  // Font size
+  fontSizeTextField.floatValue = [self fontSize];
 }
 
-- (IBAction)changeBackgroundColor:(id)sender
-{
-    [[Preferences sharedPreferences] setBackgroundColor:[sender color]];
+- (IBAction)changeBackgroundColor:(id)sender {
+  [[Preferences sharedPreferences] setBackgroundColor:[sender color]];
 }
 
-- (IBAction)changeForegroundColor:(id)sender
-{
-    [[Preferences sharedPreferences] setForegroundColor:[sender color]];
+- (IBAction)changeForegroundColor:(id)sender {
+  [[Preferences sharedPreferences] setForegroundColor:[sender color]];
 }
 
-- (IBAction)changeProportionalFont:(id)sender
-{
-    [[Preferences sharedPreferences] setProportionalFontFamily:
-        [sender titleOfSelectedItem]];
+- (IBAction)changeProportionalFont:(id)sender {
+  [[Preferences sharedPreferences]
+      setProportionalFontFamily:[sender titleOfSelectedItem]];
 }
 
-- (IBAction)changeMonospacedFont:(id)sender
-{
-    [[Preferences sharedPreferences] setMonospacedFontFamily:
-        [sender titleOfSelectedItem]];
+- (IBAction)changeMonospacedFont:(id)sender {
+  [[Preferences sharedPreferences]
+      setMonospacedFontFamily:[sender titleOfSelectedItem]];
 }
 
-- (IBAction)changeFontSize:(id)sender
-{
-    [[Preferences sharedPreferences] setFontSize:[sender floatValue]];
+- (IBAction)changeFontSize:(id)sender {
+  [[Preferences sharedPreferences] setFontSize:[sender floatValue]];
 }
 
 @end

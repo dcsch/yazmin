@@ -11,16 +11,15 @@
 @class DebugInfo;
 @class RoutineDebugRecord;
 
-@interface DebugInfoReader : NSObject
-{
-    NSData *debugData;
-    unsigned char *ptr;
-    DebugInfo *debugInfo;
-    RoutineDebugRecord *currentRoutine;
+@interface DebugInfoReader : NSObject {
+  NSData *debugData;
+  unsigned char *ptr;
+  DebugInfo *debugInfo;
+  RoutineDebugRecord *currentRoutine;
 }
 
 - (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
-@property (readonly, strong) DebugInfo *debugInfo;
+@property(readonly, strong) DebugInfo *debugInfo;
 
 @end

@@ -10,18 +10,16 @@
 
 @implementation LibraryEntry
 
-- (instancetype)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl
-{
-    self = [super init];
-    if (self)
-    {
-        _ifid = [anIfid copy];
-        _fileURL = [aUrl copy];
-        
-        // Create a default title of the file name
-        self.title = _fileURL.path.lastPathComponent;
-    }
-    return self;
+- (instancetype)initWithIfid:(NSString *)anIfid url:(NSURL *)aUrl {
+  self = [super init];
+  if (self) {
+    _ifid = [anIfid copy];
+    _fileURL = [aUrl copy];
+
+    // Create a default title of the file name
+    self.title = _fileURL.path.lastPathComponent;
+  }
+  return self;
 }
 
 @end

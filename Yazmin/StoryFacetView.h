@@ -8,23 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define kNoInputState        0
+#define kNoInputState 0
 #define kCharacterInputState 1
-#define kStringInputState    2
+#define kStringInputState 2
 
 @protocol StoryInput;
 
-@interface StoryFacetView : NSTextView
-{
-    unsigned int inputLocation;
-    id <StoryInput> storyInput;
-    BOOL inputView;
-    int inputState;
+@interface StoryFacetView : NSTextView {
+  unsigned int inputLocation;
+  id<StoryInput> storyInput;
+  BOOL inputView;
+  int inputState;
 }
 
-@property  unsigned int inputLocation;
-@property (strong) id<StoryInput> storyInput;
-@property (getter=isInputView) BOOL inputView;
-@property  int inputState;
+@property unsigned int inputLocation;
+@property(strong) id<StoryInput> storyInput;
+@property(getter=isInputView) BOOL inputView;
+@property int inputState;
 
 @end

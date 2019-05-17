@@ -11,14 +11,13 @@
 @class Blorb;
 @class IFictionMetadata;
 
-@interface StoryInformationController : NSWindowController
-{
-    IBOutlet NSImageView *imageView;
-    IBOutlet NSTextField *title;
-    IBOutlet NSTextField *author;
-    IBOutlet NSTextView *description;
-    Blorb *blorb;
-    IFictionMetadata *metadata;
+@interface StoryInformationController : NSWindowController {
+  IBOutlet NSImageView *imageView;
+  IBOutlet NSTextField *title;
+  IBOutlet NSTextField *author;
+  IBOutlet NSTextView *description;
+  Blorb *blorb;
+  IFictionMetadata *metadata;
 }
 
 - (instancetype)initWithBlorb:(Blorb *)aBlorb;

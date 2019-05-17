@@ -26,11 +26,10 @@ extern NSString *SMShowLibraryOnStartupKey;
  and can be modified by the user via the Preferences.nib/PreferenceController
  object.
 */
-@interface Preferences : NSObject
-{
-    NSUserDefaults *defaults;
-    NSNotificationCenter *nc;
-    NSMutableDictionary *fonts;
+@interface Preferences : NSObject {
+  NSUserDefaults *defaults;
+  NSNotificationCenter *nc;
+  NSMutableDictionary *fonts;
 }
 
 /*!
@@ -45,7 +44,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  @method backgroundColor
  @abstract Returns the preferred background color.
 */
-@property (copy) NSColor *backgroundColor;
+@property(copy) NSColor *backgroundColor;
 
 /*!
  @method setBackgroundColor
@@ -57,7 +56,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  @method foregroundColor
  @abstract Returns the preferred foreground color.
 */
-@property (copy) NSColor *foregroundColor;
+@property(copy) NSColor *foregroundColor;
 
 /*!
  @method setForegroundColor
@@ -69,7 +68,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  @method proportionalFontFamily
  @abstract Returns the preferred font family name for proportional fonts.
 */
-@property (copy) NSString *proportionalFontFamily;
+@property(copy) NSString *proportionalFontFamily;
 
 /*!
  @method setProportionalFontFamily
@@ -81,7 +80,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  @method monospacedFontFamily
  @abstract Returns the preferred font family name for monospaced fonts.
 */
-@property (copy) NSString *monospacedFontFamily;
+@property(copy) NSString *monospacedFontFamily;
 
 /*!
  @method setMonospacedFontFamily
@@ -93,7 +92,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  @method fontSize
  @abstract Returns the preferred font size.
 */
-@property  float fontSize;
+@property float fontSize;
 
 /*!
  @method setFontSize
@@ -122,30 +121,31 @@ extern NSString *SMShowLibraryOnStartupKey;
 
 /*!
  @method proportionalLineHeight
- @abstract Returns the height of a proportional text line, based on the preferred
+ @abstract Returns the height of a proportional text line, based on the
+ preferred
            font selection.
 */
-@property (readonly) float proportionalLineHeight;
+@property(readonly) float proportionalLineHeight;
 
 /*!
  @method monospacedlineHeight
  @abstract Returns the height of a monospaced text line, based on the preferred
            font selection.
  */
-@property (readonly) float monospacedLineHeight;
+@property(readonly) float monospacedLineHeight;
 
 /*!
  @method monospacedCharacterWidth
  @abstract Returns the width of a monospaced character, based on the preferred
            font selection.
  */
-@property (readonly) float monospacedCharacterWidth;
+@property(readonly) float monospacedCharacterWidth;
 
 /*!
  @method showsLibraryOnStartup
  @abstract Returns YES if the IF library is to be shown when starting the app.
  */
-@property  BOOL showsLibraryOnStartup;
+@property BOOL showsLibraryOnStartup;
 
 /*!
  @method setShowsLibraryOnStartup

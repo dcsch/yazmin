@@ -10,16 +10,14 @@
 
 @class Story;
 
-class ZMErrorAdapter : public ZMError
-{
+class ZMErrorAdapter : public ZMError {
 public:
-    
-    ZMErrorAdapter(Story *story);
-    
-    virtual ~ZMErrorAdapter();
-    
-    virtual void error(char *message);
+  ZMErrorAdapter(Story *story);
+
+  virtual ~ZMErrorAdapter();
+
+  virtual void error(char *message);
 
 private:
-    Story *_story;
+  Story *_story;
 };

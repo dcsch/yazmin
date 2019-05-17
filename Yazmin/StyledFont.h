@@ -8,16 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface StyledFont : NSFont
-{
-    int style;
+@interface StyledFont : NSFont {
+  int style;
 }
 
 /*!
  @method style
  @abstract Returns the style value associated with the font.
 */
-@property  int style;
+@property int style;
 
 /*!
  @method setStyle

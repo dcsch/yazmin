@@ -12,44 +12,37 @@
 
 @implementation AbbreviationsController
 
-- (instancetype)init
-{
-    self = [super initWithWindowNibName:@"Abbreviations"];
-    if (self)
-    {
-    }
-    return self;
+- (instancetype)init {
+  self = [super initWithWindowNibName:@"Abbreviations"];
+  if (self) {
+  }
+  return self;
 }
 
-
-- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName
-{
-    NSMutableString *ms = [[NSMutableString alloc] initWithString:displayName];
-    [ms appendString:@" - Abbreviations"];
-    return ms;
+- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+  NSMutableString *ms = [[NSMutableString alloc] initWithString:displayName];
+  [ms appendString:@" - Abbreviations"];
+  return ms;
 }
 
-- (void)windowDidLoad
-{
-    Story *story = self.document;
-    abbreviations = [[story zMachine] abbreviations];
+- (void)windowDidLoad {
+  Story *story = self.document;
+  abbreviations = [[story zMachine] abbreviations];
 
-    tableView.dataSource = self;
+  tableView.dataSource = self;
 }
 
 - (id)tableView:(NSTableView *)aTableView
     objectValueForTableColumn:(NSTableColumn *)aTableColumn
-            row:(NSInteger)rowIndex
-{
-    if ([aTableColumn.identifier isEqualTo:@"index"])
-        return @(rowIndex);
-    else
-        return abbreviations[rowIndex];
+                          row:(NSInteger)rowIndex {
+  if ([aTableColumn.identifier isEqualTo:@"index"])
+    return @(rowIndex);
+  else
+    return abbreviations[rowIndex];
 }
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
-{
-    return abbreviations.count;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
+  return abbreviations.count;
 }
 
 @end

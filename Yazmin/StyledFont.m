@@ -10,14 +10,12 @@
 
 @implementation StyledFont
 
-- (int)style
-{
-    return style;
+- (int)style {
+  return style;
 }
 
-- (void)setStyle:(int)aStyle
-{
-    style = aStyle;
+- (void)setStyle:(int)aStyle {
+  style = aStyle;
 }
 
 @end

@@ -11,53 +11,45 @@
 #import "Story.h"
 
 @interface Library ()
-@property (readonly, copy) NSDictionary *ifidURLDictionary;
+@property(readonly, copy) NSDictionary *ifidURLDictionary;
 @end
 
 @implementation Library
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        _entries = [[NSMutableArray alloc] init];
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+    _entries = [[NSMutableArray alloc] init];
 
-        // Load the library entries saved in the user preferences
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSDictionary *stories = [defaults objectForKey:@"Stories"];
-        for (NSString *url in stories)
-        {
-            LibraryEntry *entry =
-            [[LibraryEntry alloc] initWithIfid:[stories valueForKey:url]
-                                           url:[NSURL URLWithString:url]];
-            [_entries addObject:entry];
-        }
-    }
-    return self;
-}
-
-
-- (NSDictionary *)ifidURLDictionary
-{
-    NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-    for (LibraryEntry *entry in _entries)
-        dictionary[entry.fileURL.absoluteString] = entry.ifid;
-    return dictionary;
-}
-
-- (void)addStory:(Story *)story
-{
-    LibraryEntry *entry =
-    [[LibraryEntry alloc] initWithIfid:story.ifid
-                                   url:story.fileURL];
-    [self.entries addObject:entry];
-}
-
-- (void)save
-{
+    // Load the library entries saved in the user preferences
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:self.ifidURLDictionary forKey:@"Stories"];
+    NSDictionary *stories = [defaults objectForKey:@"Stories"];
+    for (NSString *url in stories) {
+      LibraryEntry *entry =
+          [[LibraryEntry alloc] initWithIfid:[stories valueForKey:url]
+                                         url:[NSURL URLWithString:url]];
+      [_entries addObject:entry];
+    }
+  }
+  return self;
+}
+
+- (NSDictionary *)ifidURLDictionary {
+  NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+  for (LibraryEntry *entry in _entries)
+    dictionary[entry.fileURL.absoluteString] = entry.ifid;
+  return dictionary;
+}
+
+- (void)addStory:(Story *)story {
+  LibraryEntry *entry =
+      [[LibraryEntry alloc] initWithIfid:story.ifid url:story.fileURL];
+  [self.entries addObject:entry];
+}
+
+- (void)save {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  [defaults setObject:self.ifidURLDictionary forKey:@"Stories"];
 }
 
 @end

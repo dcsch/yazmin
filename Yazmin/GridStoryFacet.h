@@ -8,18 +8,17 @@
 
 #import "StoryFacet.h"
 
-@interface GridStoryFacet : StoryFacet
-{
-    int numberOfLines;
-    int numberOfColumns;
-    int resizeToNumberOfColumns;
-    int x;
-    int y;
+@interface GridStoryFacet : StoryFacet {
+  int numberOfLines;
+  int numberOfColumns;
+  int resizeToNumberOfColumns;
+  int x;
+  int y;
 }
 
 - (instancetype)initWithStory:(Story *)aStory columns:(int)columns;
-@property  int numberOfLines;
-@property  int numberOfColumns;
+@property int numberOfLines;
+@property int numberOfColumns;
 - (void)setCursorLine:(int)line column:(int)column;
 - (void)setTextStyle:(int)style;
 - (void)print:(NSString *)text;

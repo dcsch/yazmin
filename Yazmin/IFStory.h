@@ -11,15 +11,15 @@
 @class IFIdentification;
 @class IFBibliographic;
 
-@interface IFStory : NSObject
-{
-    IFIdentification *identification;
-    IFBibliographic *bibliographic;
+@interface IFStory : NSObject {
+  IFIdentification *identification;
+  IFBibliographic *bibliographic;
 }
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
-@property (readonly, strong) IFIdentification *identification;
-@property (readonly, strong) IFBibliographic *bibliographic;
+@property(readonly, strong) IFIdentification *identification;
+@property(readonly, strong) IFBibliographic *bibliographic;
 
 @end

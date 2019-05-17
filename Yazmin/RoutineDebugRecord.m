@@ -12,46 +12,38 @@
 @implementation RoutineDebugRecord
 
 - (instancetype)initWithNumber:(unsigned int)number
-               start:(NSString *)start
-             pcStart:(unsigned int)aPCStart
-                name:(NSString *)aName
-{
-    self = [super init];
-    if (self)
-    {
-        routineNumber = number;
-        defnStart = [start copy];
-        pcStart = aPCStart;
-        name = [aName copy];
-        localNames = [[NSMutableArray alloc] init];
-    }
-    return self;
+                         start:(NSString *)start
+                       pcStart:(unsigned int)aPCStart
+                          name:(NSString *)aName {
+  self = [super init];
+  if (self) {
+    routineNumber = number;
+    defnStart = [start copy];
+    pcStart = aPCStart;
+    name = [aName copy];
+    localNames = [[NSMutableArray alloc] init];
+  }
+  return self;
 }
 
-
-- (unsigned int)routineNumber
-{
-    return routineNumber;
+- (unsigned int)routineNumber {
+  return routineNumber;
 }
 
-- (NSString *)defnStart
-{
-    return defnStart;
+- (NSString *)defnStart {
+  return defnStart;
 }
 
-- (unsigned int)pcStart
-{
-    return pcStart;
+- (unsigned int)pcStart {
+  return pcStart;
 }
 
-- (NSString *)name
-{
-    return name;
+- (NSString *)name {
+  return name;
 }
 
-- (NSMutableArray *)localNames
-{
-    return localNames;
+- (NSMutableArray *)localNames {
+  return localNames;
 }
 
 @end

@@ -10,12 +10,11 @@
 
 @class RoutineDebugRecord;
 
-@interface DebugController : NSWindowController
-{
-    IBOutlet NSTableView *callStackView;
-    IBOutlet NSOutlineView *variableView;
-    IBOutlet NSTextView *sourceView;
-    RoutineDebugRecord *selectedRoutine;
+@interface DebugController : NSWindowController {
+  IBOutlet NSTableView *callStackView;
+  IBOutlet NSOutlineView *variableView;
+  IBOutlet NSTextView *sourceView;
+  RoutineDebugRecord *selectedRoutine;
 }
 
 //- (void)dumpMemory;

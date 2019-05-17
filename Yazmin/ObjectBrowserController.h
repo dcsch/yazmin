@@ -8,12 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface ObjectBrowserController : NSWindowController
-{
-    IBOutlet NSOutlineView *outlineView;
-    IBOutlet NSTableView *propView;
-    int selectedObject;
+@interface ObjectBrowserController : NSWindowController {
+  IBOutlet NSOutlineView *outlineView;
+  IBOutlet NSTableView *propView;
+  int selectedObject;
 }
 
 - (void)update;

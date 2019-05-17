@@ -11,13 +11,11 @@
 
 #include <stdlib.h>
 
-class ZMError
-{
+class ZMError {
 public:
-    
-    virtual ~ZMError() { }
-    
-    virtual void error(char *message) = 0;
+  virtual ~ZMError() {}
+
+  virtual void error(char *message) = 0;
 };
 
-#endif //ZM_ERROR_H__
+#endif // ZM_ERROR_H__

@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface IFictionMetadata : NSObject
-{
-    NSMutableArray *stories;
+@interface IFictionMetadata : NSObject {
+  NSMutableArray *stories;
 }
 
 - (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
-@property (readonly, copy) NSArray *stories;
+@property(readonly, copy) NSArray *stories;
 
 @end
