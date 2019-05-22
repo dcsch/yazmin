@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		0366C80E21002FAC003EEEB6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80D21002FAC003EEEB6 /* README.md */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
@@ -74,6 +75,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridStoryFacetTest.m; sourceTree = "<group>"; };
 		03217B07228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Abbreviations.xib; sourceTree = "<group>"; };
 		03217B08228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Debug.xib; sourceTree = "<group>"; };
 		03217B09228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Library.xib; sourceTree = "<group>"; };
@@ -277,8 +279,6 @@
 				6338E062180AB53B005A3263 /* ObjectBrowser.xib */,
 				6338E064180AB53B005A3263 /* Preferences.xib */,
 				6338E066180AB53B005A3263 /* StoryInformation.xib */,
-				6338E068180AB53B005A3263 /* GridStoryFacet.h */,
-				6338E069180AB53B005A3263 /* GridStoryFacet.m */,
 				6338E06A180AB53B005A3263 /* IFBibliographic.h */,
 				6338E06B180AB53B005A3263 /* IFBibliographic.m */,
 				6338E06C180AB53B005A3263 /* iff.c */,
@@ -309,6 +309,8 @@
 				6338E085180AB53B005A3263 /* StoryController.m */,
 				6338E086180AB53B005A3263 /* StoryFacet.h */,
 				6338E087180AB53B005A3263 /* StoryFacet.m */,
+				6338E068180AB53B005A3263 /* GridStoryFacet.h */,
+				6338E069180AB53B005A3263 /* GridStoryFacet.m */,
 				6338E088180AB53B005A3263 /* StoryFacetView.h */,
 				6338E089180AB53B005A3263 /* StoryFacetView.m */,
 				6338E08A180AB53B005A3263 /* StoryInformationController.h */,
@@ -343,6 +345,7 @@
 			children = (
 				639A09A913322F08000E27F4 /* YazminTests.h */,
 				639A09AB13322F08000E27F4 /* YazminTests.m */,
+				0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */,
 				639A09A313322F08000E27F4 /* Supporting Files */,
 			);
 			path = YazminTests;
@@ -505,6 +508,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				639A09AC13322F08000E27F4 /* YazminTests.m in Sources */,
+				0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +755,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YazminTests/YazminTests-Prefix.pch";
+				GCC_WARN_PEDANTIC = NO;
 				INFOPLIST_FILE = "YazminTests/YazminTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.synchroma.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -770,6 +775,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YazminTests/YazminTests-Prefix.pch";
+				GCC_WARN_PEDANTIC = NO;
 				INFOPLIST_FILE = "YazminTests/YazminTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.synchroma.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";

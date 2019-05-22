@@ -8,13 +8,7 @@
 
 #import "StoryFacet.h"
 
-@interface GridStoryFacet : StoryFacet {
-  int numberOfLines;
-  int numberOfColumns;
-  int resizeToNumberOfColumns;
-  int x;
-  int y;
-}
+@interface GridStoryFacet : StoryFacet
 
 - (instancetype)initWithStory:(Story *)aStory columns:(int)columns;
 @property int numberOfLines;

@@ -155,10 +155,22 @@
   // TESTING a different way of creating the text view
   textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
   //    textView.backgroundColor = backgroundColor;
-  //[textView setAutoresizingMask:NSViewWidthSizable];
-  textView.autoresizingMask = 0;
-  //[[textView textContainer] setWidthTracksTextView:NO];
-  [textView.textContainer setHeightTracksTextView:NO];
+
+  textView.minSize = NSMakeSize(0.0, 10.0);
+  textView.maxSize = NSMakeSize(FLT_MAX, FLT_MAX);
+  textView.verticallyResizable = NO;
+  textView.horizontallyResizable = NO;
+  //  textView.autoresizingMask = 0;
+  textView.autoresizingMask = NSViewWidthSizable;
+
+  textView.textContainer.containerSize = NSMakeSize(FLT_MAX, FLT_MAX);
+
+  textView.textContainer.widthTracksTextView = YES;
+  textView.textContainer.heightTracksTextView = YES;
+  //  textView.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
+
+  //  textView.layoutManager.showsInvisibleCharacters = YES;
+
   [[story facets][1] setTextStorage:textView.textStorage];
   [layoutView setUpperWindow:textView];
 

@@ -29,8 +29,9 @@
   return textStorage;
 }
 
-- (void)setTextStorage:(NSTextStorage *)aTextStorage;
-{ textStorage = aTextStorage; }
+- (void)setTextStorage:(NSTextStorage *)aTextStorage {
+  textStorage = aTextStorage;
+}
 
 - (NSMutableDictionary *)currentAttributes {
   return currentAttributes;
