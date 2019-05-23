@@ -9,6 +9,18 @@
 #import "StoryFacetView.h"
 #import "LayoutView.h"
 #import "StoryInput.h"
+#include <Carbon/Carbon.h>
+
+@interface StoryFacetView () {
+  unsigned int inputLocation;
+  InputState _inputState;
+  NSMutableArray<NSString *> *inputHistory;
+  NSUInteger historyIndex;
+}
+
+- (void)useInputHistoryIndex:(NSUInteger)index;
+
+@end
 
 @implementation StoryFacetView
 
@@ -17,15 +29,17 @@
   self = [super initWithFrame:frame textContainer:container];
   if (self) {
     inputLocation = 0;
-    storyInput = nil;
-    inputView = NO;
-    [self setInputState:kNoInputState];
+    _storyInput = nil;
+    _inputView = NO;
+    self.inputState = kNoInputState;
+    inputHistory = [NSMutableArray array];
+    historyIndex = 0;
   }
   return self;
 }
 
 - (BOOL)acceptsFirstResponder {
-  return inputView;
+  return _inputView;
 }
 
 - (BOOL)resignFirstResponder {
@@ -33,7 +47,7 @@
 }
 
 - (BOOL)becomeFirstResponder {
-  return inputView;
+  return _inputView;
 }
 
 - (unsigned int)inputLocation {
@@ -44,32 +58,27 @@
   inputLocation = location;
 }
 
-- (id<StoryInput>)storyInput {
-  return storyInput;
+- (InputState)inputState {
+  return _inputState;
 }
 
-- (void)setStoryInput:(id<StoryInput>)input {
-  storyInput = input;
-}
-
-- (BOOL)isInputView {
-  return inputView;
-}
-
-- (void)setInputView:(BOOL)flag {
-  inputView = flag;
-}
-
-- (int)inputState {
-  return inputState;
-}
-
-- (void)setInputState:(int)state {
-  inputState = state;
-  if (inputState == kStringInputState)
+- (void)setInputState:(InputState)state {
+  _inputState = state;
+  if (_inputState == kStringInputState)
     [self setEditable:YES];
   else
     [self setEditable:NO];
+}
+
+- (void)useInputHistoryIndex:(NSUInteger)index {
+  NSRange range = NSMakeRange(inputLocation,
+                              self.textStorage.length - inputLocation);
+  if (index > 0) {
+    NSString *input = inputHistory[inputHistory.count - index];
+    [self.textStorage replaceCharactersInRange:range withString:input];
+  } else {
+    [self.textStorage deleteCharactersInRange:range];
+  }
 }
 
 - (BOOL)shouldChangeTextInRange:(NSRange)affectedCharRange
@@ -82,41 +91,73 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-  if (inputState == kCharacterInputState) {
+  if (_inputState == kCharacterInputState) {
     // We'll simulate pressing the space bar if the user clicks in the
     // view in this state
-    [self setInputState:kNoInputState];
-    [storyInput characterInput:' '];
+    self.inputState = kNoInputState;
+    [_storyInput characterInput:' '];
   } else
     [super mouseDown:event];
 }
 
 - (void)keyDown:(NSEvent *)event {
-  //    [self interpretKeyEvents:[NSArray arrayWithObject:event]];
+  if (_inputState == kStringInputState) {
 
-  if (inputState == kStringInputState)
-    [super keyDown:event];
-  else if (inputState == kCharacterInputState) {
+    switch (event.keyCode) {
+      case kVK_LeftArrow:
+      {
+        NSRange selection = self.selectedRange;
+        if (selection.location > inputLocation)
+          [super keyDown:event];
+        break;
+      }
+
+      case kVK_UpArrow:
+        if (inputHistory.count > historyIndex) {
+          historyIndex++;
+          [self useInputHistoryIndex:historyIndex];
+        }
+        break;
+
+      case kVK_DownArrow:
+        if (historyIndex > 0) {
+          historyIndex--;
+          [self useInputHistoryIndex:historyIndex];
+        }
+        break;
+
+      default:
+      {
+        NSRange selection = self.selectedRange;
+        if (selection.location < inputLocation)
+          self.selectedRange = NSMakeRange(self.textStorage.length, 0);
+        [super keyDown:event];
+      }
+    }
+
+  } else if (_inputState == kCharacterInputState) {
     // Reset the input state
-    [self setInputState:kNoInputState];
-    [storyInput characterInput:[event.characters characterAtIndex:0]];
+    self.inputState = kNoInputState;
+    [_storyInput characterInput:[event.characters characterAtIndex:0]];
   }
 }
 
 - (void)insertNewline:(id)sender {
-  NSLog(@"[New Line]");
   [super insertNewline:sender];
 
   // Reset the input state
-  [self setInputState:kNoInputState];
+  self.inputState = kNoInputState;
 
   NSRange range =
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation - 1);
   NSAttributedString *input =
       [self.textStorage attributedSubstringFromRange:range];
 
-  NSString *input2 = [NSString stringWithString:input.string];
-  [storyInput stringInput:input2];
+  NSString *rawInput = [NSString stringWithString:input.string];
+  [_storyInput stringInput:rawInput];
+
+  [inputHistory addObject:rawInput];
+  historyIndex = 0;
 }
 
 @end

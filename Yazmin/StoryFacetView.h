@@ -8,22 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define kNoInputState 0
-#define kCharacterInputState 1
-#define kStringInputState 2
+typedef NS_ENUM(NSUInteger, InputState) {
+  kNoInputState,
+  kCharacterInputState,
+  kStringInputState
+};
 
 @protocol StoryInput;
 
-@interface StoryFacetView : NSTextView {
-  unsigned int inputLocation;
-  id<StoryInput> storyInput;
-  BOOL inputView;
-  int inputState;
-}
+@interface StoryFacetView : NSTextView
 
 @property unsigned int inputLocation;
 @property(strong) id<StoryInput> storyInput;
 @property(getter=isInputView) BOOL inputView;
-@property int inputState;
+@property InputState inputState;
 
 @end
