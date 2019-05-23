@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class StoryFacet;
 @class Blorb;
 @class IFStory;
 @class ZMachine;
@@ -15,7 +16,7 @@
 
 @interface Story : NSDocument
 
-@property(readonly, copy) NSArray *facets;
+@property(readonly, copy) NSArray<StoryFacet *> *facets;
 @property(copy) NSString *inputString;
 @property(readonly, copy) NSData *zcodeData;
 @property(readonly, strong) Blorb *blorb;

@@ -4,7 +4,8 @@
 #import "StoryFacet.h"
 #import "ZMachine.h"
 
-ZMStoryAdapter::ZMStoryAdapter(Story *story) : _story(story), _storyFacet(0) {
+ZMStoryAdapter::ZMStoryAdapter(Story *story)
+    : _story(story), _storyFacet(nullptr) {
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
 }
@@ -112,22 +113,12 @@ void ZMStoryAdapter::setTextStyle(int style) {
 }
 
 void ZMStoryAdapter::print(const char *str) {
-  char buf[8192];
-  const char *src = str;
-  char *dest = buf;
-
-  // Copy the string into a buffer, converting '^'s into '\n's along the way
-  while (*src) {
-    if (*src == '^') {
-      *dest++ = 13;
-      *dest++ = 10;
-      ++src;
-    } else
-      *dest++ = *src++;
-  }
-  *dest = 0;
-
-  [_storyFacet print:@(buf)];
+  NSMutableString *printable = [NSMutableString stringWithUTF8String:str];
+  [printable replaceOccurrencesOfString:@"^"
+                             withString:@"\n"
+                                options:0
+                                  range:NSMakeRange(0, printable.length)];
+  [_storyFacet print:printable];
 }
 
 void ZMStoryAdapter::printNumber(int number) {

@@ -9,45 +9,16 @@
 #import "StoryInput.h"
 #import <Cocoa/Cocoa.h>
 
-@class LayoutView;
-@class StoryInformationController;
-@class DebugController;
-@class ObjectBrowserController;
-@class AbbreviationsController;
-
 @interface StoryController
-    : NSWindowController <StoryInput, NSLayoutManagerDelegate> {
-  IBOutlet LayoutView *layoutView;
-  unsigned int inputLocation;
-  StoryInformationController *informationController;
-  DebugController *debugController;
-  ObjectBrowserController *objectBrowserController;
-  AbbreviationsController *abbreviationsController;
-}
+    : NSWindowController <StoryInput, NSLayoutManagerDelegate>
 
-@property(readonly, strong) LayoutView *view;
-@property(readonly) float calculateScreenWidth;
-- (void)handleViewFrameChange:(NSNotification *)note;
-- (void)handleBackgroundColorChange:(NSNotification *)note;
-- (void)handleForegroundColorChange:(NSNotification *)note;
-- (void)layoutManager:(NSLayoutManager *)aLayoutManager
-    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
-                                atEnd:(BOOL)flag;
 - (void)prepareInput;
 - (void)prepareInputChar;
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;
 - (void)showError:(NSString *)errorMessage;
-- (void)update;
 - (void)updateWindowLayout;
 - (void)updateWindowWidth;
 - (void)updateTextAttributes;
-//- (void)characterInput:(char)c;
-//- (void)stringInput:(NSString *)string;
-- (IBAction)showInformationPanel:(id)sender;
-- (IBAction)showDebuggerWindow:(id)sender;
-- (IBAction)showObjectBrowserWindow:(id)sender;
-- (IBAction)showAbbreviationsWindow:(id)sender;
-- (void)updateViews;
 
 @end

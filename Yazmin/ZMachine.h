@@ -10,12 +10,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class Story;
-struct MachineParts;
 
-@interface ZMachine : NSObject {
-  Story *story;
-  struct MachineParts *parts;
-}
+@interface ZMachine : NSObject
 
 - (instancetype)initWithStory:(Story *)aStory NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
@@ -23,7 +19,7 @@ struct MachineParts;
 @property(readonly) unsigned char *memory;
 @property(readonly) size_t memorySize;
 @property(readonly) BOOL hasQuit;
-@property(readonly) BOOL executeUntilHalt;
+- (BOOL)executeUntilHalt;
 //- (void)restart;
 
 - (int)numberOfChildrenOfObject:(int)objNumber;

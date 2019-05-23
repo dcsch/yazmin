@@ -23,15 +23,30 @@
 #import "StoryInformationController.h"
 #import "ZMachine.h"
 
-@interface StoryController ()
+@interface StoryController () {
+  IBOutlet LayoutView *layoutView;
+  unsigned int inputLocation;
+  StoryInformationController *informationController;
+  DebugController *debugController;
+  ObjectBrowserController *objectBrowserController;
+  AbbreviationsController *abbreviationsController;
+}
 
-//- (void)openPanelDidEnd:(NSOpenPanel *)openPanel
-//             returnCode:(int)returnCode
-//            contextInfo:(void *)contextInfo;
-
-//- (void)savePanelDidEnd:(NSSavePanel *)savePanel
-//             returnCode:(int)returnCode
-//            contextInfo:(void *)contextInfo;
+- (float)calculateScreenWidth;
+- (void)handleViewFrameChange:(NSNotification *)note;
+- (void)handleBackgroundColorChange:(NSNotification *)note;
+- (void)handleForegroundColorChange:(NSNotification *)note;
+- (void)layoutManager:(NSLayoutManager *)aLayoutManager
+    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
+                                atEnd:(BOOL)flag;
+- (void)characterInput:(char)c;
+- (void)stringInput:(NSString *)string;
+- (void)update;
+- (IBAction)showInformationPanel:(id)sender;
+- (IBAction)showDebuggerWindow:(id)sender;
+- (IBAction)showObjectBrowserWindow:(id)sender;
+- (IBAction)showAbbreviationsWindow:(id)sender;
+- (void)updateViews;
 
 @end
 
@@ -87,107 +102,42 @@
 
   Story *story = self.document;
 
-  // Retrieve defaults
-  //    NSColor *backgroundColor =
-  //        [Preferences sharedPreferences].backgroundColor;
-
-  //    // Create layout managers
-  //    NSTextStorage *textStorage;
-  //
-  //    NSLayoutManager *lowerLayoutManager = [[NSLayoutManager alloc] init];
-  //    [lowerLayoutManager setUsesScreenFonts:NO];
-  //    textStorage = [[[story facets] objectAtIndex:0] textStorage];
-  //    [textStorage addLayoutManager:lowerLayoutManager];
-  //    [lowerLayoutManager release];
-
-  //    NSLayoutManager *upperLayoutManager = [[NSLayoutManager alloc] init];
-  //    [upperLayoutManager setUsesScreenFonts:NO];
-  //    textStorage = [[[story facets] objectAtIndex:1] textStorage];
-  //    [textStorage addLayoutManager:upperLayoutManager];
-  //    [upperLayoutManager release];
-
+  // Lower Window (initially full frame)
   NSRect frame = layoutView.lowerScrollView.contentView.frame;
-
-  //    // Create the NSTextContainers and NSTextFrames to handle the document
-  //    NSSize lowerContainerSize = NSMakeSize(frame.size.width, 1000000000);
-  //    NSTextContainer *container =
-  //        [[NSTextContainer alloc] initWithContainerSize:lowerContainerSize];
-  //    [container setWidthTracksTextView:YES];
-  //    [lowerLayoutManager addTextContainer:container];
-  //    [container release];
-
-  //    StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame
-  //                                                       textContainer:container];
-  //    [textView setBackgroundColor:backgroundColor];
-  //    [textView setAutoresizingMask:NSViewWidthSizable];
-  //    [textView setVerticallyResizable:YES];
-  //    [textView setStoryInput:(StoryInput *)self];
-  //    [textView setInputView:YES];
-  //    [layoutView setLowerWindow:textView];
-  //    [textView release];
-
-  // TESTING a different way of creating the text view
   StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
-  //    textView.backgroundColor = backgroundColor;
   textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-  [(story.facets)[0] setTextStorage:textView.textStorage];
-  textView.storyInput = self;
-  [textView setInputView:YES];
-  layoutView.lowerWindow = textView;
   textView.layoutManager.delegate = self;
+  textView.storyInput = self;
+  textView.inputView = YES;
 
-  // Upper Window
+  story.facets[0].textStorage = textView.textStorage;
+  layoutView.lowerWindow = textView;
+
+  // Upper Window (initially zero height)
   NSRect upperFrame = NSMakeRect(0, 0, frame.size.width, 0);
-  //    container = [[NSTextContainer alloc]
-  //    initWithContainerSize:upperFrame.size];
-  //    [container setWidthTracksTextView:YES];
-  //    [container setHeightTracksTextView:YES];
-  //    [upperLayoutManager addTextContainer:container];
-  //    [container release];
-  //
-  //    textView = [[StoryFacetView alloc] initWithFrame:upperFrame
-  //                                       textContainer:container];
-  //    [textView setBackgroundColor:backgroundColor];
-  //    [textView setAutoresizingMask:NSViewWidthSizable];
-  //    [layoutView setUpperWindow:textView];
-  //    [textView release];
-
-  // TESTING a different way of creating the text view
   textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
-  //    textView.backgroundColor = backgroundColor;
-
-  textView.minSize = NSMakeSize(0.0, 10.0);
-  textView.maxSize = NSMakeSize(FLT_MAX, FLT_MAX);
+  //  textView.minSize = NSMakeSize(0.0, 10.0);
+  //  textView.maxSize = NSMakeSize(FLT_MAX, FLT_MAX);
   textView.verticallyResizable = NO;
   textView.horizontallyResizable = NO;
-  //  textView.autoresizingMask = 0;
   textView.autoresizingMask = NSViewWidthSizable;
 
-  textView.textContainer.containerSize = NSMakeSize(FLT_MAX, FLT_MAX);
-
+  //  textView.textContainer.containerSize = NSMakeSize(FLT_MAX, FLT_MAX);
   textView.textContainer.widthTracksTextView = YES;
   textView.textContainer.heightTracksTextView = YES;
-  //  textView.textContainer.lineBreakMode = NSLineBreakByCharWrapping;
 
-  //  textView.layoutManager.showsInvisibleCharacters = YES;
-
-  [[story facets][1] setTextStorage:textView.textStorage];
-  [layoutView setUpperWindow:textView];
+  story.facets[1].textStorage = textView.textStorage;
+  layoutView.upperWindow = textView;
 
   // TESTING
-  [[story zMachine] setScreenHeight:0xff];
-  [[story zMachine] setScreenWidth:[self calculateScreenWidth]];
-  [[story zMachine] executeUntilHalt];
-}
-
-- (LayoutView *)view {
-  return layoutView;
+  story.zMachine.screenHeight = 0xff;
+  story.zMachine.screenWidth = [self calculateScreenWidth];
+  [story.zMachine executeUntilHalt];
 }
 
 - (float)calculateScreenWidth {
   NSSize frameSize = layoutView.frame.size;
-  float linePadding =
-      [layoutView upperWindow].textContainer.lineFragmentPadding;
+  float linePadding = layoutView.upperWindow.textContainer.lineFragmentPadding;
   float lineWidth = frameSize.width - 2 * linePadding;
   float charWidth = [[Preferences sharedPreferences] monospacedCharacterWidth];
   return lineWidth / charWidth;
@@ -200,46 +150,54 @@
     // update to the top window.
     float screenWidthInChars = [self calculateScreenWidth];
     Story *story = self.document;
-    [[story zMachine] setScreenWidth:(unsigned int)screenWidthInChars];
+    story.zMachine.screenWidth = (unsigned int)screenWidthInChars;
 
-    GridStoryFacet *facet = [self.document facets][1];
-    [facet setNumberOfColumns:(int)screenWidthInChars];
+    GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
+    facet.numberOfColumns = (int)screenWidthInChars;
   }
 }
 
 - (void)handleBackgroundColorChange:(NSNotification *)note {
-  Preferences *sender = note.object;
-  NSColor *newColor = [sender backgroundColor];
-  [layoutView lowerWindow].backgroundColor = newColor;
-  [layoutView upperWindow].backgroundColor = newColor;
-  [layoutView setNeedsDisplay:YES];
+  Preferences *prefs = note.object;
+  NSColor *newColor = prefs.backgroundColor;
+  layoutView.lowerWindow.backgroundColor = newColor;
+  layoutView.upperWindow.backgroundColor = newColor;
+  layoutView.needsDisplay = YES;
 }
 
 - (void)handleForegroundColorChange:(NSNotification *)note {
   NSLog(@"handleForegroundColorChange:");
 }
 
+- (void)scrollLowerWindowToEnd {
+  NSScrollView *scrollView = layoutView.lowerScrollView;
+  NSPoint p = NSMakePoint(0, NSMaxY(scrollView.documentView.frame) -
+                                 NSHeight(scrollView.contentView.bounds));
+  [layoutView.lowerWindow scrollPoint:p];
+}
+
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
     didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainerre
                                 atEnd:(BOOL)flag {
   // Ensure the scroll position is at the bottom of the transcript
-  NSScrollView *scrollView = [layoutView lowerScrollView];
-  NSPoint p = NSMakePoint(0, NSMaxY(scrollView.documentView.frame) -
-                                 NSHeight(scrollView.contentView.bounds));
-  [[layoutView lowerWindow] scrollPoint:p];
+  // (Note: all this scrolling to the end seems a little
+  // excessive just at the moment)
+  [self scrollLowerWindowToEnd];
 }
 
 - (void)prepareInput {
-  NSLog(@"prepareInput");
+  //  NSLog(@"prepareInput");
   Story *story = self.document;
-  NSUInteger len = [[story facets][0] textStorage].length;
-  [[layoutView lowerWindow] setInputLocation:(unsigned int)len];
-  [[layoutView lowerWindow] setInputState:kStringInputState];
+  NSUInteger len = story.facets[0].textStorage.length;
+  [layoutView.lowerWindow setInputLocation:(unsigned int)len];
+  [layoutView.lowerWindow setInputState:kStringInputState];
+  [self scrollLowerWindowToEnd];
 }
 
 - (void)prepareInputChar {
-  NSLog(@"prepareInputChar");
+  //  NSLog(@"prepareInputChar");
   [[layoutView lowerWindow] setInputState:kCharacterInputState];
+  [self scrollLowerWindowToEnd];
 }
 
 - (void)restoreSession {
@@ -294,9 +252,10 @@
 
 - (void)updateWindowLayout {
   // Retrieve the height of the upper window
-  StoryFacet *facet = [self.document facets][1];
-  [layoutView resizeUpperWindow:[facet numberOfLines]];
-  [layoutView setNeedsDisplay:YES];
+  Story *story = self.document;
+  StoryFacet *facet = story.facets[1];
+  [layoutView resizeUpperWindow:facet.numberOfLines];
+  layoutView.needsDisplay = YES;
 }
 
 - (void)updateWindowWidth {
@@ -309,12 +268,13 @@
 
 - (void)updateTextAttributes {
   // Set the typing attributes of the lower window so they reflect the change
-  StoryFacet *facet = [self.document facets][0];
-  (layoutView.lowerWindow).typingAttributes = facet.currentAttributes;
+  Story *story = self.document;
+  StoryFacet *facet = story.facets[0];
+  layoutView.lowerWindow.typingAttributes = facet.currentAttributes;
 }
 
 - (void)characterInput:(char)c {
-  NSLog(@"characterInput: %c", c);
+  //  NSLog(@"characterInput: %c", c);
   Story *story = self.document;
 
   NSString *str = [[NSString alloc] initWithBytes:&c
@@ -335,7 +295,7 @@
 }
 
 - (void)stringInput:(NSString *)string {
-  NSLog(@"stringInput: %@", string);
+  //  NSLog(@"stringInput: %@", string);
   Story *story = self.document;
   [story setInputString:string];
 

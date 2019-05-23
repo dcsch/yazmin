@@ -34,6 +34,13 @@ struct MachineParts {
   ZMProcessor *_proc;
 };
 
+@interface ZMachine () {
+  Story *story;
+  struct MachineParts *parts;
+}
+
+@end
+
 @implementation ZMachine
 
 static const size_t kMaxStorySize = 0x8ffff;

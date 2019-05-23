@@ -71,8 +71,8 @@
 }
 
 - (void)useInputHistoryIndex:(NSUInteger)index {
-  NSRange range = NSMakeRange(inputLocation,
-                              self.textStorage.length - inputLocation);
+  NSRange range =
+      NSMakeRange(inputLocation, self.textStorage.length - inputLocation);
   if (index > 0) {
     NSString *input = inputHistory[inputHistory.count - index];
     [self.textStorage replaceCharactersInRange:range withString:input];
@@ -104,35 +104,33 @@
   if (_inputState == kStringInputState) {
 
     switch (event.keyCode) {
-      case kVK_LeftArrow:
-      {
-        NSRange selection = self.selectedRange;
-        if (selection.location > inputLocation)
-          [super keyDown:event];
-        break;
-      }
-
-      case kVK_UpArrow:
-        if (inputHistory.count > historyIndex) {
-          historyIndex++;
-          [self useInputHistoryIndex:historyIndex];
-        }
-        break;
-
-      case kVK_DownArrow:
-        if (historyIndex > 0) {
-          historyIndex--;
-          [self useInputHistoryIndex:historyIndex];
-        }
-        break;
-
-      default:
-      {
-        NSRange selection = self.selectedRange;
-        if (selection.location < inputLocation)
-          self.selectedRange = NSMakeRange(self.textStorage.length, 0);
+    case kVK_LeftArrow: {
+      NSRange selection = self.selectedRange;
+      if (selection.location > inputLocation)
         [super keyDown:event];
+      break;
+    }
+
+    case kVK_UpArrow:
+      if (inputHistory.count > historyIndex) {
+        historyIndex++;
+        [self useInputHistoryIndex:historyIndex];
       }
+      break;
+
+    case kVK_DownArrow:
+      if (historyIndex > 0) {
+        historyIndex--;
+        [self useInputHistoryIndex:historyIndex];
+      }
+      break;
+
+    default: {
+      NSRange selection = self.selectedRange;
+      if (selection.location < inputLocation)
+        self.selectedRange = NSMakeRange(self.textStorage.length, 0);
+      [super keyDown:event];
+    }
     }
 
   } else if (_inputState == kCharacterInputState) {
@@ -150,13 +148,10 @@
 
   NSRange range =
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation - 1);
-  NSAttributedString *input =
-      [self.textStorage attributedSubstringFromRange:range];
+  NSString *input = [self.textStorage.string substringWithRange:range];
+  [_storyInput stringInput:input];
 
-  NSString *rawInput = [NSString stringWithString:input.string];
-  [_storyInput stringInput:rawInput];
-
-  [inputHistory addObject:rawInput];
+  [inputHistory addObject:input];
   historyIndex = 0;
 }
 
