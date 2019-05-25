@@ -3,65 +3,67 @@
 #import "Preferences.h"
 #import "StoryFacetView.h"
 
+@interface LayoutView () {
+  StoryFacetView *_upperWindow;
+  StoryFacetView *_lowerWindow;
+}
+
+@end
+
 @implementation LayoutView
 
 - (instancetype)initWithFrame:(NSRect)frameRect {
   if ((self = [super initWithFrame:frameRect]) != nil) {
-    NSLog(@"initializing layout view");
-
-    lowerScrollView = [[NSScrollView alloc] initWithFrame:frameRect];
-    [lowerScrollView setHasVerticalScroller:YES];
-    lowerScrollView.borderType = NSNoBorder;
-    lowerScrollView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-    [self addSubview:lowerScrollView];
+    _lowerScrollView = [[NSScrollView alloc] initWithFrame:frameRect];
+    [_lowerScrollView setHasVerticalScroller:YES];
+    _lowerScrollView.borderType = NSNoBorder;
+    _lowerScrollView.autoresizingMask =
+        NSViewWidthSizable | NSViewHeightSizable;
+    [self addSubview:_lowerScrollView];
   }
   return self;
 }
 
-- (StoryController *)controller {
-  return controller;
-}
-
 - (StoryFacetView *)upperWindow {
-  return upperWindow;
+  return _upperWindow;
 }
 
 - (void)setUpperWindow:(StoryFacetView *)view {
-  NSLog(@"setUpperWindow");
-
-  upperWindow = view;
-  [self addSubview:upperWindow];
+  _upperWindow = view;
+  [self addSubview:_upperWindow];
 }
 
 - (StoryFacetView *)lowerWindow {
-  return lowerWindow;
+  return _lowerWindow;
 }
 
 - (void)setLowerWindow:(StoryFacetView *)view {
-  NSLog(@"setLowerWindow");
-
-  lowerWindow = view;
-  lowerScrollView.documentView = lowerWindow;
-}
-
-- (NSScrollView *)lowerScrollView {
-  return lowerScrollView;
+  _lowerWindow = view;
+  _lowerScrollView.documentView = _lowerWindow;
 }
 
 - (void)resizeUpperWindow:(int)lines {
-  NSRect lowerFrameRect = lowerScrollView.frame;
+  NSRect lowerFrameRect = _lowerScrollView.frame;
   float layoutHeight = self.frame.size.height;
+
+  NSFont *font = [[Preferences sharedPreferences] fontForStyle:8];
+  float lineHeight = [_upperWindow.layoutManager defaultLineHeightForFont:font];
   float upperHeight =
-      [[Preferences sharedPreferences] monospacedLineHeight] * lines;
+      lines > 0
+          ? lineHeight * lines + 2.0 * _upperWindow.textContainerInset.height
+          : 0;
 
   // Move the lower window
   lowerFrameRect.origin.y = upperHeight;
   lowerFrameRect.size.height = layoutHeight - upperHeight;
-  lowerScrollView.frame = lowerFrameRect;
+  _lowerScrollView.frame = lowerFrameRect;
 
   // Move the upper window
+  //  _upperWindow.backgroundColor = NSColor.redColor;
+  _upperWindow.textContainer.maximumNumberOfLines = lines;
+
   NSRect frameRect = NSMakeRect(0, 0, lowerFrameRect.size.width, upperHeight);
-  upperWindow.frame = frameRect;
+  _upperWindow.frame = frameRect;
 }
 
 - (BOOL)isFlipped {

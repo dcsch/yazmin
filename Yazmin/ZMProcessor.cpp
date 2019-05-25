@@ -1478,7 +1478,7 @@ void ZMProcessor::random() {
     }
   }
 
-  printf("Random number: %d (%d)\n", _lastRandomNumber, _seed);
+  //  printf("Random number: %d (%d)\n", _lastRandomNumber, _seed);
 
   setVariable(_store, _lastRandomNumber);
   advancePC();

@@ -15,6 +15,14 @@ NSString *SMProportionalFontKey = @"ProportionalFont";
 NSString *SMFontSizeKey = @"FontSize";
 NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 
+@interface Preferences () {
+  NSUserDefaults *defaults;
+  NSNotificationCenter *nc;
+  NSMutableDictionary *fonts;
+}
+
+@end
+
 @implementation Preferences
 
 + (Preferences *)sharedPreferences {
@@ -139,16 +147,6 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
   if ((traits & NSFixedPitchFontMask) || fixedPitch)
     style |= 8;
   return [self fontForStyle:style];
-}
-
-- (float)proportionalLineHeight {
-  NSFont *font = [self fontForStyle:0];
-  return font.boundingRectForFont.size.height;
-}
-
-- (float)monospacedLineHeight {
-  NSFont *font = [self fontForStyle:8];
-  return font.boundingRectForFont.size.height;
 }
 
 - (float)monospacedCharacterWidth {

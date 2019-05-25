@@ -11,8 +11,10 @@
 @interface GridStoryFacet : StoryFacet
 
 - (instancetype)initWithStory:(Story *)aStory columns:(int)columns;
+
 @property int numberOfLines;
 @property int numberOfColumns;
+
 - (void)setCursorLine:(int)line column:(int)column;
 - (void)setTextStyle:(int)style;
 - (void)print:(NSString *)text;

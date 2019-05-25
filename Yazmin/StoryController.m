@@ -32,7 +32,7 @@
   AbbreviationsController *abbreviationsController;
 }
 
-- (float)calculateScreenWidth;
+- (int)calculateScreenWidthInColumns;
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
@@ -106,6 +106,7 @@
   NSRect frame = layoutView.lowerScrollView.contentView.frame;
   StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
   textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+  textView.textContainerInset = NSMakeSize(20.0, 20.0);
   textView.layoutManager.delegate = self;
   textView.storyInput = self;
   textView.inputView = YES;
@@ -116,29 +117,26 @@
   // Upper Window (initially zero height)
   NSRect upperFrame = NSMakeRect(0, 0, frame.size.width, 0);
   textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
-  //  textView.minSize = NSMakeSize(0.0, 10.0);
-  //  textView.maxSize = NSMakeSize(FLT_MAX, FLT_MAX);
   textView.verticallyResizable = NO;
   textView.horizontallyResizable = NO;
   textView.autoresizingMask = NSViewWidthSizable;
+  textView.textContainerInset = NSMakeSize(20.0, 10.0);
 
-  //  textView.textContainer.containerSize = NSMakeSize(FLT_MAX, FLT_MAX);
   textView.textContainer.widthTracksTextView = YES;
-  textView.textContainer.heightTracksTextView = YES;
+  textView.textContainer.heightTracksTextView = NO;
+  textView.textContainer.maximumNumberOfLines = 0;
 
   story.facets[1].textStorage = textView.textStorage;
   layoutView.upperWindow = textView;
 
   // TESTING
   story.zMachine.screenHeight = 0xff;
-  story.zMachine.screenWidth = [self calculateScreenWidth];
+  story.zMachine.screenWidth = [self calculateScreenWidthInColumns];
   [story.zMachine executeUntilHalt];
 }
 
-- (float)calculateScreenWidth {
-  NSSize frameSize = layoutView.frame.size;
-  float linePadding = layoutView.upperWindow.textContainer.lineFragmentPadding;
-  float lineWidth = frameSize.width - 2 * linePadding;
+- (int)calculateScreenWidthInColumns {
+  float lineWidth = layoutView.upperWindow.textContainer.size.width;
   float charWidth = [[Preferences sharedPreferences] monospacedCharacterWidth];
   return lineWidth / charWidth;
 }
@@ -148,12 +146,12 @@
     // Adjust to the new width in terms of the character count in the
     // top window.  Note that this won't become visible until the next
     // update to the top window.
-    float screenWidthInChars = [self calculateScreenWidth];
+    int screenWidthInChars = [self calculateScreenWidthInColumns];
     Story *story = self.document;
     story.zMachine.screenWidth = (unsigned int)screenWidthInChars;
 
     GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
-    facet.numberOfColumns = (int)screenWidthInChars;
+    facet.numberOfColumns = screenWidthInChars;
   }
 }
 

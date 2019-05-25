@@ -11,6 +11,14 @@
 #import "Library.h"
 #import "LibraryEntry.h"
 
+@interface LibraryController () {
+  IBOutlet NSTableView *tableView;
+  IBOutlet NSArrayController *arrayController;
+  Library *library;
+}
+
+@end
+
 @implementation LibraryController
 
 - (instancetype)init {
@@ -20,65 +28,20 @@
     library = app.library;
 
     // We don't want this window to appear in the Windows menu
-    [self.window setExcludedFromWindowsMenu:YES];
-
-    //        NSArray *paths =
-    //        NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory,
-    //                                                             NSUserDomainMask,
-    //                                                             NO);
-    //        NSLog(@"Paths: %@", paths);
+    self.window.excludedFromWindowsMenu = YES;
   }
   return self;
 }
 
 - (void)playStory {
-  NSInteger row = tableView.selectedRow;
-  if (row >= 0) {
-    LibraryEntry *entry = library.entries[row];
-    [[NSDocumentController sharedDocumentController]
-        openDocumentWithContentsOfURL:entry.fileURL
-                              display:YES
-                    completionHandler:^(NSDocument *_Nullable document,
-                                        BOOL documentWasAlreadyOpen,
-                                        NSError *_Nullable error){
-                    }];
-  }
+  LibraryEntry *entry = arrayController.selectedObjects.firstObject;
+  [NSDocumentController.sharedDocumentController
+      openDocumentWithContentsOfURL:entry.fileURL
+                            display:YES
+                  completionHandler:^(NSDocument *_Nullable document,
+                                      BOOL documentWasAlreadyOpen,
+                                      NSError *_Nullable error){
+                  }];
 }
-
-//- (void)update
-//{
-//    [tableView reloadData];
-//}
-
-- (void)windowDidLoad {
-  //    [tableView setDataSource:self];
-  //    [tableView setTarget:self];
-  //    [tableView setDoubleAction:@selector(playStory)];
-}
-
-//- (id)tableView:(NSTableView *)aTableView
-//    objectValueForTableColumn:(NSTableColumn *)aTableColumn
-//            row:(int)rowIndex
-//{
-//    if ([[aTableColumn identifier] isEqualTo:@"title"])
-//    {
-//        LibraryEntry *entry = [[library entries] objectAtIndex:rowIndex];
-//        return [entry title];
-//    }
-//    return nil;
-//}
-//
-//- (int)numberOfRowsInTableView:(NSTableView *)aTableView
-//{
-//    return [[library entries] count];
-//}
-//
-//- (void)tableView:(NSTableView *)aTableView
-// sortDescriptorsDidChange:(NSArray *)oldDescriptors
-//{
-//    NSArray *newDescriptors = [tableView sortDescriptors];
-//    [[library entries] sortUsingDescriptors:newDescriptors];
-//    [tableView reloadData];
-//}
 
 @end

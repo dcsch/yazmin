@@ -1,21 +1,16 @@
-/* LowerWindow */
 
 #import <Cocoa/Cocoa.h>
 
 @class StoryController;
 @class StoryFacetView;
 
-@interface LayoutView : NSView {
-  IBOutlet StoryController *controller;
-  StoryFacetView *upperWindow;
-  StoryFacetView *lowerWindow;
-  NSScrollView *lowerScrollView;
-}
+@interface LayoutView : NSView
 
-@property(readonly, strong) StoryController *controller;
-@property(strong) StoryFacetView *upperWindow;
-@property(strong) StoryFacetView *lowerWindow;
-@property(readonly, strong) NSScrollView *lowerScrollView;
+@property IBOutlet StoryController *controller;
+@property StoryFacetView *upperWindow;
+@property StoryFacetView *lowerWindow;
+@property(readonly) NSScrollView *lowerScrollView;
+
 - (void)resizeUpperWindow:(int)lines;
 
 @end

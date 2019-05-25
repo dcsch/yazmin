@@ -50,7 +50,7 @@ void ZMStoryAdapter::showStatus() {
     [_storyFacet print:@" "];
 
   // Overlay with text
-  [_storyFacet setCursorLine:1 column:1];
+  [_storyFacet setCursorLine:1 column:2];
 
   // From the spec:
   // Section 8.2.2

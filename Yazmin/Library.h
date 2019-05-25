@@ -9,10 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 @class Story;
+@class LibraryEntry;
 
 @interface Library : NSObject
 
-@property(strong, readonly) NSMutableArray *entries;
+@property(strong, readonly) NSMutableArray<LibraryEntry *> *entries;
 
 - (void)addStory:(Story *)story;
 - (void)save;

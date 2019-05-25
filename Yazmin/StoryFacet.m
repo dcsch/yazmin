@@ -12,33 +12,17 @@
 
 @implementation StoryFacet
 
-- (instancetype)initWithStory:(Story *)aStory {
+- (instancetype)initWithStory:(Story *)story {
   self = [super init];
   if (self) {
-    story = aStory;
-    textStorage = [[NSTextStorage alloc] init];
-    currentAttributes = [[NSMutableDictionary alloc] init];
+    _story = story;
+    _textStorage = [[NSTextStorage alloc] init];
+    _currentAttributes = [[NSMutableDictionary alloc] init];
 
     // Initialize with the user-defined font
     [self setTextStyle:0];
   }
   return self;
-}
-
-- (NSTextStorage *)textStorage {
-  return textStorage;
-}
-
-- (void)setTextStorage:(NSTextStorage *)aTextStorage {
-  textStorage = aTextStorage;
-}
-
-- (NSMutableDictionary *)currentAttributes {
-  return currentAttributes;
-}
-
-- (int)currentStyle {
-  return currentStyle;
 }
 
 - (int)numberOfLines {
@@ -50,8 +34,8 @@
 }
 
 - (void)erase {
-  NSRange range = NSMakeRange(0, textStorage.length);
-  [textStorage deleteCharactersInRange:range];
+  NSRange range = NSMakeRange(0, _textStorage.length);
+  [_textStorage deleteCharactersInRange:range];
 }
 
 - (void)setColorForeground:(int)fg background:(int)bg {
@@ -62,11 +46,23 @@
 }
 
 - (void)setTextStyle:(int)style {
-  currentStyle = style;
+  _currentStyle = style;
+
+  NSMutableParagraphStyle *paragraphStyle =
+      [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+  if (self.numberOfLines > -1) {
+    // Upper window
+    paragraphStyle.lineBreakMode = NSLineBreakByClipping;
+  } else {
+    // Lower window
+    paragraphStyle.alignment = NSTextAlignmentJustified;
+    paragraphStyle.hyphenationFactor = 1.0;
+  }
+  _currentAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
 
   // Retrieve the preferred font for this style
   NSFont *font = [[Preferences sharedPreferences] fontForStyle:style];
-  currentAttributes[NSFontAttributeName] = font;
+  _currentAttributes[NSFontAttributeName] = font;
 
   //    // Is it reverse video?
   //    NSColor *bgColor = [[Preferences sharedPreferences] backgroundColor];
@@ -76,33 +72,33 @@
   NSColor *fgColor = [NSColor textColor];
 
   if (style & 1) {
-    currentAttributes[NSBackgroundColorAttributeName] = fgColor;
-    currentAttributes[NSForegroundColorAttributeName] = bgColor;
+    _currentAttributes[NSBackgroundColorAttributeName] = fgColor;
+    _currentAttributes[NSForegroundColorAttributeName] = bgColor;
   } else {
-    currentAttributes[NSBackgroundColorAttributeName] = bgColor;
-    currentAttributes[NSForegroundColorAttributeName] = fgColor;
+    _currentAttributes[NSBackgroundColorAttributeName] = bgColor;
+    _currentAttributes[NSForegroundColorAttributeName] = fgColor;
   }
 }
 
 - (void)print:(NSString *)text {
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:text
-                                      attributes:currentAttributes];
-  [textStorage appendAttributedString:attrText];
+                                      attributes:_currentAttributes];
+  [_textStorage appendAttributedString:attrText];
 }
 
 - (void)printNumber:(int)number {
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:(@(number)).stringValue
-                                      attributes:currentAttributes];
-  [textStorage appendAttributedString:attrText];
+                                      attributes:_currentAttributes];
+  [_textStorage appendAttributedString:attrText];
 }
 
 - (void)newLine {
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:@"\n"
-                                      attributes:currentAttributes];
-  [textStorage appendAttributedString:attrText];
+                                      attributes:_currentAttributes];
+  [_textStorage appendAttributedString:attrText];
 }
 
 @end

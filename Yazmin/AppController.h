@@ -9,20 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @class Library;
-@class LibraryController;
-@class PreferenceController;
 
-@interface AppController : NSObject {
-  Library *library;
-  LibraryController *libraryController;
-  PreferenceController *preferenceController;
-}
+@interface AppController : NSObject <NSApplicationDelegate>
 
 @property(readonly, strong) Library *library;
-@property(readonly, strong) LibraryController *libraryController;
-- (IBAction)showLibraryWindow:(id)sender;
-- (IBAction)showPreferencePanel:(id)sender;
-- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
-- (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 @end

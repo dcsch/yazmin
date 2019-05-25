@@ -8,14 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class Library;
-
-@interface LibraryController : NSWindowController {
-  IBOutlet NSTableView *tableView;
-  Library *library;
-}
+@interface LibraryController : NSWindowController
 
 - (void)playStory;
-//- (void)update;
 
 @end

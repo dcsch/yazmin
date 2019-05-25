@@ -31,7 +31,7 @@
     _numberOfLines = 0;
     _numberOfColumns = columns;
     [self setTextStyle:0];
-    fixedFontAttributes = [currentAttributes copy];
+    fixedFontAttributes = [self.currentAttributes copy];
   }
   return self;
 }
@@ -42,7 +42,7 @@
 
 - (void)setNumberOfLines:(int)lines {
   _numberOfLines = lines;
-  [story updateWindowLayout];
+  [self.story updateWindowLayout];
 }
 
 - (int)numberOfColumns {
@@ -52,7 +52,7 @@
 - (void)setNumberOfColumns:(int)columns {
   _numberOfColumns = columns;
   //  [story updateWindowLayout];
-  [story updateWindowWidth];
+  [self.story updateWindowWidth];
 }
 
 - (void)setCursorLine:(int)line column:(int)column {
@@ -101,7 +101,7 @@
 
 - (NSArray<NSValue *> *)rangesOfLines {
   NSMutableArray *array = [NSMutableArray array];
-  NSString *str = textStorage.string;
+  NSString *str = self.textStorage.string;
   NSUInteger start = 0;
   for (NSUInteger i = 0; i < str.length; i++) {
     if ([str characterAtIndex:i] == '\n') {
@@ -123,7 +123,7 @@
         [[NSAttributedString alloc] initWithString:@"\n"
                                         attributes:fixedFontAttributes];
     for (int i = 0; i <= y - ranges.count; i++)
-      [textStorage appendAttributedString:attrText];
+      [self.textStorage appendAttributedString:attrText];
     ranges = [self rangesOfLines];
   }
 
@@ -140,13 +140,16 @@
     NSAttributedString *attrText =
         [[NSAttributedString alloc] initWithString:padding
                                         attributes:fixedFontAttributes];
-    [textStorage insertAttributedString:attrText atIndex:NSMaxRange(range)];
+    [self.textStorage insertAttributedString:attrText
+                                     atIndex:NSMaxRange(range)];
 
     // Append string (with full attributes)
-    attrText = [[NSAttributedString alloc] initWithString:string
-                                               attributes:currentAttributes];
-    [textStorage insertAttributedString:attrText
-                                atIndex:NSMaxRange(range) + padding.length];
+    attrText =
+        [[NSAttributedString alloc] initWithString:string
+                                        attributes:self.currentAttributes];
+    [self.textStorage
+        insertAttributedString:attrText
+                       atIndex:NSMaxRange(range) + padding.length];
 
   } else {
 
@@ -163,9 +166,9 @@
 
     NSAttributedString *attrText =
         [[NSAttributedString alloc] initWithString:string
-                                        attributes:currentAttributes];
-    [textStorage replaceCharactersInRange:replaceRange
-                     withAttributedString:attrText];
+                                        attributes:self.currentAttributes];
+    [self.textStorage replaceCharactersInRange:replaceRange
+                          withAttributedString:attrText];
   }
 
   y += (x + string.length) / _numberOfColumns;

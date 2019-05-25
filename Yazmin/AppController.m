@@ -12,6 +12,19 @@
 #import "PreferenceController.h"
 #import "Preferences.h"
 
+@interface AppController () {
+  PreferenceController *preferenceController;
+}
+
+@property(readonly, strong) LibraryController *libraryController;
+
+- (IBAction)showLibraryWindow:(id)sender;
+- (IBAction)showPreferencePanel:(id)sender;
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
+
+@end
+
 @implementation AppController
 
 + (void)initialize {
@@ -31,39 +44,29 @@
   // Put the defaults in the dictionary
   defaultValues[SMBackgroundColorKey] = backgroundColorAsData;
   defaultValues[SMForegroundColorKey] = foregroundColorAsData;
-  defaultValues[SMMonospacedFontKey] = @"Courier";
-  defaultValues[SMProportionalFontKey] = @"Helvetica";
+  defaultValues[SMMonospacedFontKey] = @"Monaco";
+  defaultValues[SMProportionalFontKey] = @"Helvetica Neue";
   defaultValues[SMFontSizeKey] = @12.0f;
   defaultValues[SMShowLibraryOnStartupKey] = @1;
 
   // Register the dictionary of defaults
   [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
-
-  //    NSLog(@"registered defaults: %@", defaultValues);
 }
 
 - (instancetype)init {
   self = [super init];
   if (self) {
-    library = [[Library alloc] init];
-    libraryController = nil;
+    _library = [[Library alloc] init];
+    _libraryController = nil;
     preferenceController = nil;
   }
   return self;
 }
 
-- (Library *)library {
-  return library;
-}
-
-- (LibraryController *)libraryController {
-  return libraryController;
-}
-
 - (IBAction)showLibraryWindow:(id)sender {
-  if (!libraryController)
-    libraryController = [[LibraryController alloc] init];
-  [libraryController showWindow:self];
+  if (!_libraryController)
+    _libraryController = [[LibraryController alloc] init];
+  [_libraryController showWindow:self];
 }
 
 - (IBAction)showPreferencePanel:(id)sender {
@@ -84,7 +87,7 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   // Make sure we've saved our library
-  [library save];
+  [_library save];
 }
 
 @end

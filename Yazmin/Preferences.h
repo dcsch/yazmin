@@ -26,11 +26,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  and can be modified by the user via the Preferences.nib/PreferenceController
  object.
 */
-@interface Preferences : NSObject {
-  NSUserDefaults *defaults;
-  NSNotificationCenter *nc;
-  NSMutableDictionary *fonts;
-}
+@interface Preferences : NSObject
 
 /*!
  @method sharedPreferences
@@ -118,21 +114,6 @@ extern NSString *SMShowLibraryOnStartupKey;
  @result The converted font.
 */
 - (NSFont *)convertFont:(NSFont *)font forceFixedPitch:(BOOL)fixedPitch;
-
-/*!
- @method proportionalLineHeight
- @abstract Returns the height of a proportional text line, based on the
- preferred
-           font selection.
-*/
-@property(readonly) float proportionalLineHeight;
-
-/*!
- @method monospacedlineHeight
- @abstract Returns the height of a monospaced text line, based on the preferred
-           font selection.
- */
-@property(readonly) float monospacedLineHeight;
 
 /*!
  @method monospacedCharacterWidth
