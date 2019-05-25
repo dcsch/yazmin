@@ -133,6 +133,11 @@ size_t ZMStoryAdapter::input(char *str, size_t maxLen) {
   return string.length;
 }
 
+void ZMStoryAdapter::setWordWrap(bool wordWrap) {
+  // nop -- word wrapping is handled by the window and is permanently
+  // on at present
+}
+
 char ZMStoryAdapter::inputChar() { return _story.inputChar; }
 
 void ZMStoryAdapter::restore(const void **data, size_t *length) {

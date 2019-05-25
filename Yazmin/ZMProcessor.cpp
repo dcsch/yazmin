@@ -783,8 +783,7 @@ void ZMProcessor::_and() {
 void ZMProcessor::buffer_mode() {
   log("buffer_mode", false, false);
 
-  printf("WARNING: buffer_mode NOT YET IMPLEMENTED\n");
-
+  _io.setWordWrap(_operands[0] == 1);
   advancePC();
 }
 

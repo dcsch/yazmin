@@ -36,6 +36,8 @@ public:
 
   virtual void newLine() = 0;
 
+  virtual void setWordWrap(bool wordWrap) = 0;
+
   virtual size_t input(char *str, size_t maxLen) = 0;
 
   virtual char inputChar() = 0;

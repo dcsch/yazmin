@@ -30,6 +30,8 @@ public:
 
   void newLine() override;
 
+  void setWordWrap(bool wordWrap) override;
+
   size_t input(char *str, size_t maxLen) override;
 
   char inputChar() override;
