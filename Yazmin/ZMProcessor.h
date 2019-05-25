@@ -319,6 +319,9 @@ private:
   // -- -- VAR:239 F 4 set_cursor line column
   void set_cursor();
 
+  // St -- EXT:4 4 5 set_font font -> (result)
+  void set_font();
+
   // -- -- VAR:241 11 4 set_text_style style
   void set_text_style();
 

@@ -44,7 +44,7 @@
   // Put the defaults in the dictionary
   defaultValues[SMBackgroundColorKey] = backgroundColorAsData;
   defaultValues[SMForegroundColorKey] = foregroundColorAsData;
-  defaultValues[SMMonospacedFontKey] = @"Monaco";
+  defaultValues[SMMonospacedFontKey] = @"Menlo";
   defaultValues[SMProportionalFontKey] = @"Helvetica Neue";
   defaultValues[SMFontSizeKey] = @12.0f;
   defaultValues[SMShowLibraryOnStartupKey] = @1;

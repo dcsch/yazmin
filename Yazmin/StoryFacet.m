@@ -10,6 +10,12 @@
 #import "Preferences.h"
 #import "Story.h"
 
+@interface StoryFacet () {
+  int _fontId;
+}
+
+@end
+
 @implementation StoryFacet
 
 - (instancetype)initWithStory:(Story *)story {
@@ -20,6 +26,7 @@
     _currentAttributes = [[NSMutableDictionary alloc] init];
 
     // Initialize with the user-defined font
+    [self setFont:1];
     [self setTextStyle:0];
   }
   return self;
@@ -43,6 +50,23 @@
 
 - (void)setCursorLine:(int)line column:(int)column {
   // nop
+}
+
+- (int)setFont:(int)fontId {
+  NSFont *font = nil;
+  if (fontId == 0)
+    return _fontId;
+  else if (fontId == 1)
+    font = [[Preferences sharedPreferences] fontForStyle:0];
+  else if (fontId == 4)
+    font = [[Preferences sharedPreferences] fontForStyle:8];
+  if (font) {
+    _currentAttributes[NSFontAttributeName] = font;
+    int prevFontId = _fontId;
+    _fontId = fontId;
+    return prevFontId;
+  }
+  return 0;
 }
 
 - (void)setTextStyle:(int)style {

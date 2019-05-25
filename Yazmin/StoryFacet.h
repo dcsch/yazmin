@@ -24,6 +24,7 @@
 - (void)erase;
 - (void)setColorForeground:(int)fg background:(int)bg;
 - (void)setCursorLine:(int)line column:(int)column;
+- (int)setFont:(int)fontId;
 - (void)setTextStyle:(int)style;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;

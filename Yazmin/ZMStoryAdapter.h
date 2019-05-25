@@ -22,6 +22,8 @@ public:
 
   void setCursor(int line, int column) override;
 
+  int setFont(int font) override;
+
   void setTextStyle(int style) override;
 
   void print(const char *str) override;

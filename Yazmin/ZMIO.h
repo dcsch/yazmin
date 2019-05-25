@@ -28,6 +28,8 @@ public:
 
   virtual void setCursor(int line, int column) = 0;
 
+  virtual int setFont(int font) = 0;
+
   virtual void setTextStyle(int style) = 0;
 
   virtual void print(const char *str) = 0;

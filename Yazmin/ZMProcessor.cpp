@@ -589,9 +589,30 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   case 0x01:
     restore();
     break;
+  //  case 0x02:
+  //    log_shift();
+  //    break;
+  //  case 0x03:
+  //    art_shift();
+  //    break;
+  case 0x04:
+    set_font();
+    break;
   case 0x09:
     save_undo();
     break;
+  //  case 0x0a:
+  //    restore_undo();
+  //    break;
+  //  case 0x0b:
+  //    print_unicode();
+  //    break;
+  //  case 0x0c:
+  //    check_unicode();
+  //    break;
+  //  case 0x0d:
+  //    set_true_colour();
+  //    break;
   default: {
     char msg[256];
     snprintf(msg, 256, "Quitting on: %05x: %x\n", _pc, _memory[_pc]);
@@ -1709,6 +1730,15 @@ void ZMProcessor::set_cursor() {
   log("set_cursor", false, false);
 
   _io.setCursor(_operands[0], _operands[1]);
+  advancePC();
+}
+
+void ZMProcessor::set_font() {
+  decodeStore();
+  log("set_font", true, false);
+
+  int result = _io.setFont(_operands[0]);
+  setVariable(_store, result);
   advancePC();
 }
 

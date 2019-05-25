@@ -108,6 +108,8 @@ void ZMStoryAdapter::setCursor(int line, int column) {
   [_storyFacet setCursorLine:line column:column];
 }
 
+int ZMStoryAdapter::setFont(int font) { return [_storyFacet setFont:font]; }
+
 void ZMStoryAdapter::setTextStyle(int style) {
   [_storyFacet setTextStyle:style];
 }
