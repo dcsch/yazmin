@@ -118,6 +118,10 @@ void ZMStoryAdapter::print(const char *str) {
                              withString:@"\n"
                                 options:0
                                   range:NSMakeRange(0, printable.length)];
+  [printable replaceOccurrencesOfString:@"\r"
+                             withString:@"\n"
+                                options:0
+                                  range:NSMakeRange(0, printable.length)];
   [_storyFacet print:printable];
 }
 

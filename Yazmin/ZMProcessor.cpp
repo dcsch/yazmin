@@ -1411,6 +1411,7 @@ void ZMProcessor::print_ret() {
   char *str = getStringBuf(len);
   text.getString(_pc + 1, str, len);
   print(str);
+  print("\r");
 
   // Return and set true
   _pc = _stack.popFrame(&_store);
