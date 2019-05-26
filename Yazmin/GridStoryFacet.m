@@ -41,6 +41,7 @@
 }
 
 - (void)setNumberOfLines:(int)lines {
+  NSLog(@"setNumberOfLines: %d", lines);
   _numberOfLines = lines;
   [self.story updateWindowLayout];
 }
@@ -66,10 +67,26 @@
 }
 
 - (void)print:(NSString *)text {
-  NSArray<NSValue *> *chunks = [self chunksOfString:text];
-  for (NSValue *chunk in chunks) {
-    NSString *textChunk = [text substringWithRange:chunk.rangeValue];
-    [self emplaceString:textChunk];
+
+  // Break into individual lines
+  NSArray<NSString *> *components =
+      [text componentsSeparatedByCharactersInSet:[NSCharacterSet
+                                                     newlineCharacterSet]];
+  NSUInteger count = components.count;
+  for (NSString *component in components) {
+
+    // Break into chunks that wrap at line ends
+    NSArray<NSValue *> *chunks = [self chunksOfString:component];
+    for (NSValue *chunk in chunks) {
+      NSString *textChunk = [component substringWithRange:chunk.rangeValue];
+      [self emplaceString:textChunk];
+    }
+
+    if (--count > 0) {
+      // Explicit new line
+      y++;
+      x = 0;
+    }
   }
 }
 
@@ -79,7 +96,7 @@
 }
 
 - (void)newLine {
-  // nop
+  NSLog(@"newLine");
 }
 
 - (NSArray<NSValue *> *)chunksOfString:(NSString *)string {

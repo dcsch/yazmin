@@ -121,4 +121,27 @@
           @"\n                           Thi\nsshouldbesplitAnother line"]);
 }
 
+- (void)testMultipleLines {
+  facet = [[GridStoryFacet alloc] initWithStory:nil columns:80];
+  [facet setCursorLine:1 column:1];
+  [facet print:@"Information is available on the following subjects:\n\n"
+               @"Instructions    giving some basic information\n"
+               @"Commands        detailing some common commands\n"
+               @"Credits         game credits\n"
+               @"Release         release notes\n"
+               @"Legal           legal disclaimers\n"
+               @"Inform          advertising the compiler Inform\n"
+               @"Archive         and the interactive fiction archive\n"];
+  XCTAssertTrue([facet.textStorage.string
+      isEqualToString:
+          @"Information is available on the following subjects:\n\n"
+          @"Instructions    giving some basic information\n"
+          @"Commands        detailing some common commands\n"
+          @"Credits         game credits\n"
+          @"Release         release notes\n"
+          @"Legal           legal disclaimers\n"
+          @"Inform          advertising the compiler Inform\n"
+          @"Archive         and the interactive fiction archive\n"]);
+}
+
 @end

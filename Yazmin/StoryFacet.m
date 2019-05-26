@@ -46,10 +46,11 @@
 }
 
 - (void)setColorForeground:(int)fg background:(int)bg {
+  NSLog(@"setColorForeground:background: %d %d", fg, bg);
 }
 
 - (void)setCursorLine:(int)line column:(int)column {
-  // nop
+  NSLog(@"setCursorLine:column: %d %d", line, column);
 }
 
 - (int)setFont:(int)fontId {

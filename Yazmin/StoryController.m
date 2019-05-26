@@ -193,7 +193,7 @@
 }
 
 - (void)prepareInputChar {
-  //  NSLog(@"prepareInputChar");
+  //    NSLog(@"prepareInputChar");
   [[layoutView lowerWindow] setInputState:kCharacterInputState];
   [self scrollLowerWindowToEnd];
 }
