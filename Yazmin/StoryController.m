@@ -30,6 +30,9 @@
   DebugController *debugController;
   ObjectBrowserController *objectBrowserController;
   AbbreviationsController *abbreviationsController;
+  int curheight;
+  int maxheight;
+  int seenheight;
 }
 
 - (int)calculateScreenWidthInColumns;
@@ -47,6 +50,7 @@
 - (IBAction)showObjectBrowserWindow:(id)sender;
 - (IBAction)showAbbreviationsWindow:(id)sender;
 - (void)updateViews;
+- (void)resolveStatusHeight;
 
 @end
 
@@ -56,6 +60,9 @@
   self = [super initWithWindowNibName:@"Story"];
   if (self) {
     inputLocation = 0;
+    curheight = 0;
+    maxheight = 0;
+    seenheight = 0;
 
     // Listen to some notifications
     NSNotificationCenter *nc;
@@ -249,11 +256,46 @@
 }
 
 - (void)updateWindowLayout {
+
   // Retrieve the height of the upper window
   Story *story = self.document;
   StoryFacet *facet = story.facets[1];
-  [layoutView resizeUpperWindow:facet.numberOfLines];
+
+  // Implement zarf's fix to the quote box problem
+  // (https://eblong.com/zarf/glk/quote-box.html)
+  int oldheight = curheight;
+  curheight = facet.numberOfLines;
+
+  // We do not decrease the height at this time -- it can only
+  // increase.
+  if (curheight > maxheight)
+    maxheight = curheight;
+
+  // However, if the VM thinks it's increasing the height, we must be
+  // careful to clear the "newly created" space.
+  if (curheight > oldheight) {
+    // blank out all lines from oldheight to the bottom of the window
+  }
+
+  [layoutView resizeUpperWindow:maxheight];
   layoutView.needsDisplay = YES;
+}
+
+// If the status height is too large because of last turn's quote box,
+// shrink it down now.
+// This must be called immediately before any input event. (That is,
+// the beginning of the @read and @read_char opcodes.)
+- (void)resolveStatusHeight {
+
+  // If the player has seen the entire window, we can shrink it.
+  if (seenheight == maxheight)
+    maxheight = curheight;
+
+  [layoutView resizeUpperWindow:maxheight];
+  layoutView.needsDisplay = YES;
+
+  seenheight = maxheight;
+  maxheight = curheight;
 }
 
 - (void)updateWindowWidth {
@@ -272,6 +314,8 @@
 }
 
 - (void)characterInput:(char)c {
+  [self resolveStatusHeight];
+
   //  NSLog(@"characterInput: %c", c);
   Story *story = self.document;
 
@@ -293,6 +337,8 @@
 }
 
 - (void)stringInput:(NSString *)string {
+  [self resolveStatusHeight];
+
   //  NSLog(@"stringInput: %@", string);
   Story *story = self.document;
   [story setInputString:string];

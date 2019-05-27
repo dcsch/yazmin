@@ -5,7 +5,8 @@
 #import "ZMachine.h"
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
-    : _story(story), _storyFacet(nullptr) {
+    : _story(story), _storyFacet(nullptr), screenEnabled(true),
+      transcriptEnabled(false) {
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
 }
@@ -100,18 +101,43 @@ void ZMStoryAdapter::showStatus() {
   setWindow(0);
 }
 
+void ZMStoryAdapter::outputStream(int stream) {
+  switch (stream) {
+  case 1:
+    screenEnabled = true;
+    break;
+  case -1:
+    screenEnabled = false;
+    break;
+  case 2:
+    transcriptEnabled = true;
+    break;
+  case -2:
+    transcriptEnabled = false;
+    break;
+  }
+}
+
 void ZMStoryAdapter::setColor(int foreground, int background) {
-  [_storyFacet setColorForeground:foreground background:background];
+  if (screenEnabled)
+    [_storyFacet setColorForeground:foreground background:background];
 }
 
 void ZMStoryAdapter::setCursor(int line, int column) {
-  [_storyFacet setCursorLine:line column:column];
+  if (screenEnabled)
+    [_storyFacet setCursorLine:line column:column];
 }
 
-int ZMStoryAdapter::setFont(int font) { return [_storyFacet setFont:font]; }
+int ZMStoryAdapter::setFont(int font) {
+  if (screenEnabled)
+    return [_storyFacet setFont:font];
+  else
+    return 0;
+}
 
 void ZMStoryAdapter::setTextStyle(int style) {
-  [_storyFacet setTextStyle:style];
+  if (screenEnabled)
+    [_storyFacet setTextStyle:style];
 }
 
 void ZMStoryAdapter::print(const char *str) {
@@ -124,14 +150,19 @@ void ZMStoryAdapter::print(const char *str) {
                              withString:@"\n"
                                 options:0
                                   range:NSMakeRange(0, printable.length)];
-  [_storyFacet print:printable];
+  if (screenEnabled)
+    [_storyFacet print:printable];
 }
 
 void ZMStoryAdapter::printNumber(int number) {
-  [_storyFacet printNumber:number];
+  if (screenEnabled)
+    [_storyFacet printNumber:number];
 }
 
-void ZMStoryAdapter::newLine() { [_storyFacet newLine]; }
+void ZMStoryAdapter::newLine() {
+  if (screenEnabled)
+    [_storyFacet newLine];
+}
 
 size_t ZMStoryAdapter::input(char *str, size_t maxLen) {
   NSString *string = _story.input;

@@ -18,6 +18,8 @@ public:
 
   void showStatus() override;
 
+  void outputStream(int stream) override;
+
   void setColor(int foreground, int background) override;
 
   void setCursor(int line, int column) override;
@@ -47,4 +49,6 @@ public:
 private:
   Story *_story;
   StoryFacet *_storyFacet;
+  bool screenEnabled;
+  bool transcriptEnabled;
 };

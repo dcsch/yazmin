@@ -24,6 +24,8 @@ public:
 
   virtual void showStatus() = 0;
 
+  virtual void outputStream(int stream) = 0;
+
   virtual void setColor(int foreground, int background) = 0;
 
   virtual void setCursor(int line, int column) = 0;

@@ -1335,6 +1335,7 @@ void ZMProcessor::output_stream() {
   log("output_stream", false, false);
 
   int16_t number = static_cast<int16_t>(_operands[0]);
+  _io.outputStream(number);
   if (number > 0) {
     if (number == 3) {
       ++_redirectIndex;
