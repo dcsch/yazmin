@@ -41,18 +41,13 @@
   return dictionary;
 }
 
-- (void)addStory:(Story *)story {
+- (BOOL)containsStory:(Story *)story {
   NSUInteger index = [self.entries
       indexOfObjectPassingTest:^BOOL(LibraryEntry *_Nonnull entry,
                                      NSUInteger idx, BOOL *_Nonnull stop) {
         return [entry.fileURL isEqualTo:story.fileURL];
       }];
-
-  if (index == NSNotFound) {
-    LibraryEntry *entry =
-        [[LibraryEntry alloc] initWithIfid:story.ifid url:story.fileURL];
-    [self.entries addObject:entry];
-  }
+  return index != NSNotFound;
 }
 
 - (void)save {

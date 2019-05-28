@@ -11,6 +11,7 @@
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		0366C80E21002FAC003EEEB6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80D21002FAC003EEEB6 /* README.md */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
+		03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03898113229CAB5F004EDC55 /* StoryDocumentController.m */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
 		6338E0A7180AB53B005A3263 /* Blorb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E053180AB53B005A3263 /* Blorb.m */; };
@@ -88,6 +89,8 @@
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		038980FD22960792004EDC55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		03898112229CAB5F004EDC55 /* StoryDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryDocumentController.h; sourceTree = "<group>"; };
+		03898113229CAB5F004EDC55 /* StoryDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryDocumentController.m; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				6338E079180AB53B005A3263 /* LibraryController.m */,
 				6338E07A180AB53B005A3263 /* LibraryEntry.h */,
 				6338E07B180AB53B005A3263 /* LibraryEntry.m */,
+				03898112229CAB5F004EDC55 /* StoryDocumentController.h */,
+				03898113229CAB5F004EDC55 /* StoryDocumentController.m */,
 				6338E07C180AB53B005A3263 /* ObjectBrowserController.h */,
 				6338E07D180AB53B005A3263 /* ObjectBrowserController.m */,
 				6338E07E180AB53B005A3263 /* PreferenceController.h */,
@@ -474,6 +479,7 @@
 				6338E0CE180AB53B005A3263 /* ZMText.cpp in Sources */,
 				6338E0B3180AB53B005A3263 /* IFBibliographic.m in Sources */,
 				6338E0B5180AB53B005A3263 /* IFictionMetadata.m in Sources */,
+				03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */,
 				6338E0B2180AB53B005A3263 /* GridStoryFacet.m in Sources */,
 				6338E0B4180AB53B005A3263 /* iff.c in Sources */,
 				6338E0CC180AB53B005A3263 /* ZMStack.cpp in Sources */,

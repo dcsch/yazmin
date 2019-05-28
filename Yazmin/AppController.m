@@ -11,12 +11,11 @@
 #import "LibraryController.h"
 #import "PreferenceController.h"
 #import "Preferences.h"
+#import "StoryDocumentController.h"
 
 @interface AppController () {
   PreferenceController *preferenceController;
 }
-
-@property(readonly, strong) LibraryController *libraryController;
 
 - (IBAction)showLibraryWindow:(id)sender;
 - (IBAction)showPreferencePanel:(id)sender;
@@ -51,21 +50,26 @@
 
   // Register the dictionary of defaults
   [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+
+  // These days we have to get in really early with the creation
+  // of our custom document controller
+  StoryDocumentController *storyDocumentController =
+      [[StoryDocumentController alloc] init];
+  if (storyDocumentController) {
+  }
 }
 
 - (instancetype)init {
   self = [super init];
   if (self) {
     _library = [[Library alloc] init];
-    _libraryController = nil;
+    _libraryController = [[LibraryController alloc] initWithLibrary:_library];
     preferenceController = nil;
   }
   return self;
 }
 
 - (IBAction)showLibraryWindow:(id)sender {
-  if (!_libraryController)
-    _libraryController = [[LibraryController alloc] init];
   [_libraryController showWindow:self];
 }
 

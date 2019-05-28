@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -7,8 +7,8 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryController">
             <connections>
-                <outlet property="arrayController" destination="19" id="OTX-TR-F9P"/>
-                <outlet property="tableView" destination="9" id="12"/>
+                <outlet property="arrayController" destination="19" id="Zm2-yZ-93A"/>
+                <outlet property="tableView" destination="9" id="KTJ-Ow-uXU"/>
                 <outlet property="window" destination="5" id="7"/>
             </connections>
         </customObject>
@@ -18,20 +18,19 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="242" y="399" width="480" height="360"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="6">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="8">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="7TL-4X-Bsy">
                             <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" headerView="46" id="9">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="46" viewBased="YES" id="9">
                                     <rect key="frame" x="0.0" y="0.0" width="480" height="343"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -52,13 +51,33 @@
                                             </textFieldCell>
                                             <sortDescriptor key="sortDescriptorPrototype" selector="caseInsensitiveCompare:" sortKey="title"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <connections>
-                                                <binding destination="19" name="value" keyPath="arrangedObjects.title" id="24">
-                                                    <dictionary key="options">
-                                                        <bool key="NSConditionallySetsEditable" value="YES"/>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
+                                            <prototypeCellViews>
+                                                <tableCellView id="Yxf-Za-Ifx">
+                                                    <rect key="frame" x="1" y="1" width="299" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="12t-82-6wE">
+                                                            <rect key="frame" x="0.0" y="0.0" width="299" height="17"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="xRZ-yw-2Jn">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                <connections>
+                                                                    <binding destination="Yxf-Za-Ifx" name="value" keyPath="objectValue.title" id="pMH-Nb-s5y"/>
+                                                                </connections>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="12t-82-6wE" firstAttribute="centerY" secondItem="Yxf-Za-Ifx" secondAttribute="centerY" id="72V-Xg-NEo"/>
+                                                        <constraint firstItem="12t-82-6wE" firstAttribute="leading" secondItem="Yxf-Za-Ifx" secondAttribute="leading" constant="2" id="LrI-z6-veZ"/>
+                                                        <constraint firstItem="12t-82-6wE" firstAttribute="centerX" secondItem="Yxf-Za-Ifx" secondAttribute="centerX" id="sEW-ZR-sn0"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="textField" destination="12t-82-6wE" id="bN8-d5-8ve"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
                                         </tableColumn>
                                         <tableColumn identifier="author" editable="NO" width="159.61474609375" minWidth="44.61474609375" maxWidth="1000" id="10">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Author">
@@ -73,21 +92,40 @@
                                             </textFieldCell>
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="author"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <connections>
-                                                <binding destination="19" name="value" keyPath="arrangedObjects.author" id="26">
-                                                    <dictionary key="options">
-                                                        <bool key="NSConditionallySetsEditable" value="YES"/>
-                                                    </dictionary>
-                                                </binding>
-                                            </connections>
+                                            <prototypeCellViews>
+                                                <tableCellView id="ay2-Cl-tCg">
+                                                    <rect key="frame" x="303" y="1" width="160" height="17"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="z0e-oC-EP1">
+                                                            <rect key="frame" x="0.0" y="0.0" width="160" height="17"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="zwh-Se-Uqh">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="ay2-Cl-tCg" name="value" keyPath="objectValue.author" id="5kd-NS-BDR"/>
+                                                            </connections>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="z0e-oC-EP1" firstAttribute="centerX" secondItem="ay2-Cl-tCg" secondAttribute="centerX" id="FnA-QG-kvX"/>
+                                                        <constraint firstItem="z0e-oC-EP1" firstAttribute="leading" secondItem="ay2-Cl-tCg" secondAttribute="leading" constant="2" id="ZbA-3D-w6i"/>
+                                                        <constraint firstItem="z0e-oC-EP1" firstAttribute="centerY" secondItem="ay2-Cl-tCg" secondAttribute="centerY" id="hPa-lY-esM"/>
+                                                    </constraints>
+                                                    <connections>
+                                                        <outlet property="textField" destination="z0e-oC-EP1" id="APn-PU-tuW"/>
+                                                    </connections>
+                                                </tableCellView>
+                                            </prototypeCellViews>
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <binding destination="-2" name="doubleClickTarget" keyPath="self" id="42">
-                                            <dictionary key="options">
-                                                <string key="NSSelectorName">playStory</string>
-                                            </dictionary>
-                                        </binding>
+                                        <action trigger="doubleAction" selector="openStory:" target="-2" id="vus-cg-Wad"/>
+                                        <binding destination="19" name="content" keyPath="arrangedObjects" id="73w-ae-B16"/>
+                                        <binding destination="19" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="73w-ae-B16" id="QFA-rq-vDn"/>
+                                        <outlet property="menu" destination="qfJ-oJ-Z9j" id="xS6-1N-h0Z"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -106,9 +144,15 @@
                         </tableHeaderView>
                     </scrollView>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="8" firstAttribute="top" secondItem="6" secondAttribute="top" id="1VH-Pl-BBq"/>
+                    <constraint firstAttribute="bottom" secondItem="8" secondAttribute="bottom" id="DE6-nn-qiM"/>
+                    <constraint firstAttribute="trailing" secondItem="8" secondAttribute="trailing" id="Ecb-qj-PHK"/>
+                    <constraint firstItem="8" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="gxM-Of-Dww"/>
+                </constraints>
             </view>
         </window>
-        <arrayController objectClassName="LibraryController" id="19" userLabel="Array Controller">
+        <arrayController objectClassName="LibraryController" avoidsEmptySelection="NO" id="19" userLabel="Array Controller">
             <declaredKeys>
                 <string>title</string>
                 <string>author</string>
@@ -118,5 +162,29 @@
                 <outlet property="content" destination="-2" id="20"/>
             </connections>
         </arrayController>
+        <menu id="qfJ-oJ-Z9j">
+            <items>
+                <menuItem title="Open" id="Fhk-09-m5I">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="openStory:" target="-2" id="ia4-ds-HpE"/>
+                    </connections>
+                </menuItem>
+                <menuItem title="Get Info" id="jHK-fB-8tp">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="showStoryInfo:" target="-2" id="Ff6-0k-TJU"/>
+                    </connections>
+                </menuItem>
+                <menuItem isSeparatorItem="YES" id="J8P-j9-r4P"/>
+                <menuItem title="Remove" id="BYo-df-vIp">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <connections>
+                        <action selector="removeStory:" target="-2" id="WHl-AD-DHb"/>
+                    </connections>
+                </menuItem>
+            </items>
+            <point key="canvasLocation" x="257" y="-257"/>
+        </menu>
     </objects>
 </document>

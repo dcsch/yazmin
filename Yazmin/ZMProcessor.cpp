@@ -316,10 +316,11 @@ bool ZMProcessor::dispatch0OP(uint8_t opCode) {
     break;
   default: {
     char msg[256];
-    snprintf(msg, 256, "Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    snprintf(msg, 256, "Quitting on: %05x: 0OP:%x (%x)\n", _pc, opCode,
+             _memory[_pc]);
     _error.error(msg);
 
-    printf("Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    printf("Quitting on: %05x: 0OP:%x (%x)\n", _pc, opCode, _memory[_pc]);
     _hasHalted = true;
     _hasQuit = true;
     return false;
@@ -376,17 +377,18 @@ bool ZMProcessor::dispatch1OP(uint8_t opCode) {
     load();
     break;
   case 0x0f:
-    if (_version >= 5) {
+    if (_version >= 5)
       call_1n();
-      break;
-    }
-  // otherwise fall through to default
+    else
+      _not();
+    break;
   default: {
     char msg[256];
-    snprintf(msg, 256, "Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    snprintf(msg, 256, "Quitting on: %05x: 1OP:%d (%x)\n", _pc, _memory[_pc],
+             opCode);
     _error.error(msg);
 
-    printf("Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    printf("Quitting on: %05x: 1OP:%d (%x)\n", _pc, _memory[_pc], opCode);
     _hasHalted = true;
     _hasQuit = true;
     return false;
@@ -479,12 +481,16 @@ bool ZMProcessor::dispatch2OP(uint8_t opCode) {
   case 0x1b:
     set_colour(); // v5
     break;
+  //  case 0x1c:
+  //    _throw(); // v5
+  //    break;
   default: {
     char msg[256];
-    snprintf(msg, 256, "Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    snprintf(msg, 256, "Quitting on: %05x: 2OP:%d (%x)\n", _pc, _memory[_pc],
+             opCode);
     _error.error(msg);
 
-    printf("Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    printf("Quitting on: %05x: 2OP:%d (%x)\n", _pc, _memory[_pc], opCode);
     _hasHalted = true;
     _hasQuit = true;
     return false;
@@ -540,9 +546,15 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x0d:
     erase_window(); // v4
     break;
+  //  case 0x0e:
+  //    erase_line(); // v4
+  //    break;
   case 0x0f:
     set_cursor(); // v4
     break;
+  //  case 0x10:
+  //    get_cursor(); // v4
+  //    break;
   case 0x11:
     set_text_style(); // v4
     break;
@@ -552,8 +564,20 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x13:
     output_stream(); // v3
     break;
+  //  case 0x14:
+  //    input_stream(); // v3
+  //    break;
+  //  case 0x15:
+  //    sound_effect(); // v5/3
+  //    break;
   case 0x16:
     read_char(); // v4
+    break;
+  //  case 0x17:
+  //    scan_table(); // v4
+  //    break;
+  case 0x18:
+    _not(); // v5
     break;
   case 0x19:
     call_vn(); // v5
@@ -564,15 +588,25 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x1b:
     tokenise(); // v5
     break;
+  //  case 0x1c:
+  //    encode_text(); // v5
+  //    break;
+  //  case 0x1d:
+  //    copy_table(); // v5
+  //    break;
+  //  case 0x1e:
+  //    print_table(); // v5
+  //    break;
   case 0x1f:
     check_arg_count(); // v5
     break;
   default: {
     char msg[256];
-    snprintf(msg, 256, "Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    snprintf(msg, 256, "Quitting on: %05x: VAR:%d (%x)\n", _pc, _memory[_pc],
+             opCode);
     _error.error(msg);
 
-    printf("Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    printf("Quitting on: %05x: VAR:%d (%x)\n", _pc, _memory[_pc], opCode);
     _hasHalted = true;
     _hasQuit = true;
     return false;
@@ -615,10 +649,11 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   //    break;
   default: {
     char msg[256];
-    snprintf(msg, 256, "Quitting on: %05x: %x\n", _pc, _memory[_pc]);
+    snprintf(msg, 256, "Quitting on: %05x: EXT:%d (%x)\n", _pc, _memory[_pc],
+             opCode);
     _error.error(msg);
 
-    printf("Quitting on: %05x: EXT:%x\n", _pc, _memory[_pc]);
+    printf("Quitting on: %05x: EXT:%d (%x)\n", _pc, _memory[_pc], opCode);
     _hasHalted = true;
     _hasQuit = true;
     return false;
@@ -1314,6 +1349,14 @@ void ZMProcessor::new_line() {
   log("new_line", false, false);
 
   _io.newLine();
+  advancePC();
+}
+
+void ZMProcessor::_not() {
+  decodeStore();
+  log("or", true, false);
+
+  setVariable(_store, ~_operands[0]);
   advancePC();
 }
 

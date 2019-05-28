@@ -15,7 +15,7 @@
 
 @property(strong, readonly) NSMutableArray<LibraryEntry *> *entries;
 
-- (void)addStory:(Story *)story;
+- (BOOL)containsStory:(Story *)story;
 - (void)save;
 
 @end

@@ -15,8 +15,8 @@
 #import "IFIdentification.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
-#import "Library.h"
-#import "LibraryController.h"
+//#import "Library.h"
+//#import "LibraryController.h"
 #import "Preferences.h"
 #import "StoryController.h"
 #import "StoryFacet.h"
@@ -96,10 +96,6 @@
   // Do we have an IFID?  If not, find one
   if (_ifid == nil)
     _ifid = _zMachine.ifid;
-
-  // Add this to the library
-  AppController *app = NSApp.delegate;
-  [app.library addStory:self];
 }
 
 - (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper

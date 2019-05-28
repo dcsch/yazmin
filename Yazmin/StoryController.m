@@ -51,6 +51,7 @@
 - (IBAction)showAbbreviationsWindow:(id)sender;
 - (void)updateViews;
 - (void)resolveStatusHeight;
+- (void)executeStory;
 
 @end
 
@@ -96,12 +97,20 @@
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
+
   // Retrieve the title from metadata, if present.  Otherwise use the
   // default display name.
   Story *story = self.document;
+  NSString *title;
   if (story.metadata)
-    return story.metadata.bibliographic.title;
-  return [super windowTitleForDocumentDisplayName:displayName];
+    title = story.metadata.bibliographic.title;
+  else
+    title = [super windowTitleForDocumentDisplayName:displayName];
+
+  if (story.hasEnded)
+    title = [title stringByAppendingString:@" — Ended"];
+
+  return title;
 }
 
 - (void)windowDidLoad {
@@ -112,6 +121,8 @@
   // Lower Window (initially full frame)
   NSRect frame = layoutView.lowerScrollView.contentView.frame;
   StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
+  textView.automaticQuoteSubstitutionEnabled = YES;
+  textView.automaticDashSubstitutionEnabled = YES;
   textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
   textView.textContainerInset = NSMakeSize(20.0, 20.0);
   textView.layoutManager.delegate = self;
@@ -124,6 +135,8 @@
   // Upper Window (initially zero height)
   NSRect upperFrame = NSMakeRect(0, 0, frame.size.width, 0);
   textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
+  textView.automaticQuoteSubstitutionEnabled = YES;
+  textView.automaticDashSubstitutionEnabled = YES;
   textView.verticallyResizable = NO;
   textView.horizontallyResizable = NO;
   textView.autoresizingMask = NSViewWidthSizable;
@@ -136,10 +149,10 @@
   story.facets[1].textStorage = textView.textStorage;
   layoutView.upperWindow = textView;
 
-  // TESTING
+  // Kick off the story
   story.zMachine.screenHeight = 0xff;
   story.zMachine.screenWidth = [self calculateScreenWidthInColumns];
-  [story.zMachine executeUntilHalt];
+  [self executeStory];
 }
 
 - (int)calculateScreenWidthInColumns {
@@ -182,7 +195,7 @@
 }
 
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
-    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainerre
+    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                 atEnd:(BOOL)flag {
   // Ensure the scroll position is at the bottom of the transcript
   // (Note: all this scrolling to the end seems a little
@@ -201,7 +214,7 @@
 
 - (void)prepareInputChar {
   //    NSLog(@"prepareInputChar");
-  [[layoutView lowerWindow] setInputState:kCharacterInputState];
+  [layoutView.lowerWindow setInputState:kCharacterInputState];
   [self scrollLowerWindowToEnd];
 }
 
@@ -323,17 +336,7 @@
                                            length:1
                                          encoding:NSASCIIStringEncoding];
   [story setInputString:str];
-
-  // TESTING
-  [story.zMachine executeUntilHalt];
-  [self updateViews];
-
-  if (story.hasEnded) {
-    NSMutableString *windowTitle =
-        [NSMutableString stringWithString:self.window.title];
-    [windowTitle appendString:@" - Ended"];
-    self.window.title = windowTitle;
-  }
+  [self executeStory];
 }
 
 - (void)stringInput:(NSString *)string {
@@ -342,17 +345,7 @@
   //  NSLog(@"stringInput: %@", string);
   Story *story = self.document;
   [story setInputString:string];
-
-  // TESTING
-  [story.zMachine executeUntilHalt];
-  [self updateViews];
-
-  if (story.hasEnded) {
-    NSMutableString *windowTitle =
-        [NSMutableString stringWithString:self.window.title];
-    [windowTitle appendString:@" - Ended"];
-    self.window.title = windowTitle;
-  }
+  [self executeStory];
 }
 
 - (IBAction)showInformationPanel:(id)sender {
@@ -391,6 +384,16 @@
 
 - (void)updateViews {
   [objectBrowserController update];
+}
+
+- (void)executeStory {
+  Story *story = self.document;
+  [story.zMachine executeUntilHalt];
+  if (story.hasEnded) {
+    [layoutView.lowerWindow setInputState:kNoInputState];
+  }
+  [self synchronizeWindowTitleWithDocumentName];
+  [self updateViews];
 }
 
 @end

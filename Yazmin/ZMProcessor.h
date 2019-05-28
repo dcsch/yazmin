@@ -225,6 +225,10 @@ private:
   // -- -- 0OP:180 4 1/- nop
   void nop();
 
+  // St -- 1OP:143 F 1/4 not value -> (result)
+  // St -- VAR:248 18 5/6 not value -> (result)
+  void _not();
+
   // St -- 2OP:8 8 or a b -> (result)
   void _or();
 

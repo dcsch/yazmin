@@ -8,8 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class Library;
+@class Story;
+
 @interface LibraryController : NSWindowController
 
-- (void)playStory;
+- (instancetype)initWithLibrary:(Library *)aLibrary;
+
+- (void)addStory:(Story *)story;
 
 @end
