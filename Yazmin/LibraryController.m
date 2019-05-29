@@ -7,6 +7,8 @@
 //
 
 #import "LibraryController.h"
+#import "IFBibliographic.h"
+#import "IFStory.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"
@@ -40,6 +42,11 @@
   if (![library containsStory:story]) {
     LibraryEntry *entry =
         [[LibraryEntry alloc] initWithIfid:story.ifid url:story.fileURL];
+    IFBibliographic *bib = story.metadata.bibliographic;
+    if (bib) {
+      entry.title = bib.title;
+      entry.author = bib.author;
+    }
     [arrayController addObject:entry];
   }
 }

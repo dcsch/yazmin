@@ -1679,6 +1679,11 @@ void ZMProcessor::save() {
     log("save", true, false);
   }
 
+  // 'save' operates in two parts. When first called, the save image is
+  // generated and the processor halts, allowing the client app to store
+  // the save image to disk. Execution then resumes and 'save' is called
+  // again since the IP was not advanced, and 'continuingAfterHalt' will
+  // be true, so this following block is skipped.
   if (!_continuingAfterHalt) {
     uint8_t *cmemBuf;
     size_t cmemLen;

@@ -7,6 +7,10 @@
 //
 
 #import "Library.h"
+#import "Blorb.h"
+#import "IFBibliographic.h"
+#import "IFStory.h"
+#import "IFictionMetadata.h"
 #import "LibraryEntry.h"
 #import "Story.h"
 
@@ -53,6 +57,25 @@
 - (void)save {
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   [defaults setObject:self.ifidURLDictionary forKey:@"Stories"];
+}
+
+- (void)syncMetadata {
+  for (LibraryEntry *entry in _entries) {
+    NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
+    if ([Blorb isBlorbData:data]) {
+      Blorb *blorb = [[Blorb alloc] initWithData:data];
+      NSData *mddata = blorb.metaData;
+      if (mddata) {
+        IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
+        IFStory *metadata = ifmd.stories[0];
+        IFBibliographic *bib = metadata.bibliographic;
+        if (bib) {
+          entry.title = bib.title;
+          entry.author = bib.author;
+        }
+      }
+    }
+  }
 }
 
 @end

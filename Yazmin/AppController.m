@@ -63,6 +63,7 @@
   self = [super init];
   if (self) {
     _library = [[Library alloc] init];
+    [_library syncMetadata]; // This might be a little heavy handed
     _libraryController = [[LibraryController alloc] initWithLibrary:_library];
     preferenceController = nil;
   }

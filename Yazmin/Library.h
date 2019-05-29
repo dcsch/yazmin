@@ -17,5 +17,6 @@
 
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
+- (void)syncMetadata;
 
 @end

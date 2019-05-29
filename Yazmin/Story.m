@@ -15,8 +15,6 @@
 #import "IFIdentification.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
-//#import "Library.h"
-//#import "LibraryController.h"
 #import "Preferences.h"
 #import "StoryController.h"
 #import "StoryFacet.h"

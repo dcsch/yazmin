@@ -241,12 +241,10 @@
                   Story *story = self.document;
                   if (result == NSModalResponseOK) {
                     [data writeToURL:panel.URL atomically:YES];
-                    [story setLastRestoreOrSaveResult:1];
+                    story.lastRestoreOrSaveResult = 1;
                   } else
-                    [story setLastRestoreOrSaveResult:0];
-
-                  // TESTING
-                  //[[story zMachine] executeUntilHalt];
+                    story.lastRestoreOrSaveResult = 0;
+                  [self executeStory];
                 }];
 }
 
