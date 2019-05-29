@@ -158,13 +158,16 @@
     // This is a blorb, so we need to unwrap
     if ([Blorb isBlorbData:data]) {
       _blorb = [[Blorb alloc] initWithData:data];
-      NSData *mddata = [_blorb metaData];
+      NSData *mddata = _blorb.metaData;
       if (mddata) {
         IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
-        _metadata = [ifmd stories][0];
-        _ifid = [[_metadata identification] ifids][0];
+        if (ifmd.stories.count > 0) {
+          _metadata = ifmd.stories[0];
+          if (_metadata.identification.ifids.count > 0)
+            _ifid = _metadata.identification.ifids[0];
+        }
       }
-      _zcodeData = [_blorb zcodeData];
+      _zcodeData = _blorb.zcodeData;
     }
   } else {
     // Treat this data as executable z-code story data

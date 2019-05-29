@@ -67,11 +67,14 @@
       NSData *mddata = blorb.metaData;
       if (mddata) {
         IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
-        IFStory *metadata = ifmd.stories[0];
-        IFBibliographic *bib = metadata.bibliographic;
-        if (bib) {
-          entry.title = bib.title;
-          entry.author = bib.author;
+        IFStory *metadata;
+        if (ifmd.stories.count > 0) {
+          metadata = ifmd.stories[0];
+          IFBibliographic *bib = metadata.bibliographic;
+          if (bib) {
+            entry.title = bib.title;
+            entry.author = bib.author;
+          }
         }
       }
     }
