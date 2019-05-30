@@ -34,8 +34,7 @@
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
 - (void)handleFontChange:(NSNotification *)note;
-
-@property(readonly, copy) NSString *input;
-@property(readonly) char inputChar;
+- (NSString *)input;
+- (char)inputChar;
 
 @end

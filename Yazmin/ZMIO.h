@@ -46,6 +46,10 @@ public:
 
   virtual char inputChar() = 0;
 
+  virtual void startTimedRoutine(int time, int routine) = 0;
+
+  virtual void stopTimedRoutine() = 0;
+
   virtual void restore(const void **data, size_t *length) = 0;
 
   virtual void save(const void *data, size_t length) = 0;

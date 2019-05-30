@@ -20,6 +20,7 @@
 @property(readonly) size_t memorySize;
 @property(readonly) BOOL hasQuit;
 - (BOOL)executeUntilHalt;
+- (BOOL)callRoutine:(int)routine;
 //- (void)restart;
 
 - (int)numberOfChildrenOfObject:(int)objNumber;

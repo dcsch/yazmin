@@ -101,6 +101,25 @@ bool ZMProcessor::executeUntilHalt() {
   return _hasQuit;
 }
 
+bool ZMProcessor::callRoutine(int routine) {
+
+  // Called by timers while waiting for input, therefore processor
+  // must be halted
+  if (!_hasHalted)
+    return false;
+
+  //  uint32_t originalPC = _pc;
+  //  _operands[0] = routine;
+  //  call_1s();
+  //  while (originalPC != _pc - 8) {
+  //    execute();
+  //  }
+  //  _pc = originalPC;
+
+  //  return _store;
+  return false;
+}
+
 //
 // Long instructions have 2 operands
 //
@@ -1549,6 +1568,7 @@ void ZMProcessor::random() {
   advancePC();
 }
 
+// -- -- VAR:228 4 1 sread text parse
 void ZMProcessor::sread() {
   log("sread", false, false);
 
@@ -1570,25 +1590,33 @@ void ZMProcessor::sread() {
   for (unsigned int i = 0; i < len; ++i)
     textBuf[i] = tolower(textBuf[i]);
 
-  //_io.newLine();
   _memory.getDictionary().lex(_operands[0], _operands[1]);
   advancePC();
 }
 
+// St -- VAR:228 4 5 aread text parse time routine -> (result)
 void ZMProcessor::aread() {
   decodeStore();
   log("aread", true, false);
 
   size_t maxLen = _memory.getByte(_operands[0]);
-  size_t len = _io.input(
-      reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 2, maxLen);
-  //_io.newLine();
+  char *textBuf =
+      reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 2;
+  size_t len = _io.input(textBuf, maxLen);
 
   // If there is nothing in the input buffer, halt so that input can be made
   if (len == 0) {
     _hasHalted = true;
+    if (_operandCount == 4 && _operands[2] && _operands[3]) {
+      _io.startTimedRoutine(_operands[2], _operands[3]);
+    }
     return;
   }
+  _io.stopTimedRoutine();
+
+  // Convert the text to lower case
+  for (unsigned int i = 0; i < len; ++i)
+    textBuf[i] = tolower(textBuf[i]);
 
   // Put the character count into byte 1
   _memory.setByte(_operands[0] + 1, len);
@@ -1598,6 +1626,7 @@ void ZMProcessor::aread() {
   advancePC();
 }
 
+// St -- VAR:246 16 4 read_char 1 time routine -> (result)
 void ZMProcessor::read_char() {
   decodeStore();
   log("read_char", true, false);
@@ -1607,8 +1636,12 @@ void ZMProcessor::read_char() {
   // If there is nothing in the input buffer, halt so that input can be made
   if (c == 0) {
     _hasHalted = true;
+    if (_operandCount == 3 && _operands[1] && _operands[2]) {
+      _io.startTimedRoutine(_operands[1], _operands[2]);
+    }
     return;
   }
+  _io.stopTimedRoutine();
 
   setVariable(_store, c);
   advancePC();

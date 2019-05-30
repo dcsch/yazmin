@@ -5,7 +5,7 @@
 #import "ZMachine.h"
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
-    : _story(story), _storyFacet(nullptr), screenEnabled(true),
+    : _story(story), _storyFacet(nil), timer(nil), screenEnabled(true),
       transcriptEnabled(false) {
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
@@ -176,6 +176,22 @@ void ZMStoryAdapter::setWordWrap(bool wordWrap) {
 }
 
 char ZMStoryAdapter::inputChar() { return _story.inputChar; }
+
+void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
+  NSTimeInterval interval = time / 10.0;
+  timer = [NSTimer
+      scheduledTimerWithTimeInterval:interval
+                             repeats:YES
+                               block:^(NSTimer *_Nonnull timer) {
+                                 NSLog(@"Fire!");
+                                 [this->_story.zMachine callRoutine:routine];
+                               }];
+}
+
+void ZMStoryAdapter::stopTimedRoutine() {
+  [timer invalidate];
+  timer = nil;
+}
 
 void ZMStoryAdapter::restore(const void **data, size_t *length) {
   [_story savedSessionData];

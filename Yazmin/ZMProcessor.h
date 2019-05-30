@@ -33,6 +33,8 @@ public:
 
   bool executeUntilHalt();
 
+  bool callRoutine(int routine);
+
 private:
   enum OperandType { kLargeConstant, kSmallConstant, kVariable, kOmitted };
 

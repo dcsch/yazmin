@@ -40,6 +40,10 @@ public:
 
   char inputChar() override;
 
+  void startTimedRoutine(int time, int routine) override;
+
+  void stopTimedRoutine() override;
+
   void restore(const void **data, size_t *length) override;
 
   void save(const void *data, size_t length) override;
@@ -49,6 +53,7 @@ public:
 private:
   Story *_story;
   StoryFacet *_storyFacet;
+  NSTimer *timer;
   bool screenEnabled;
   bool transcriptEnabled;
 };

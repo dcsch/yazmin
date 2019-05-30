@@ -18,7 +18,9 @@
 
     NSError *error;
     NSXMLDocument *xml =
-        [[NSXMLDocument alloc] initWithData:data options:0 error:&error];
+        [[NSXMLDocument alloc] initWithData:data
+                                    options:NSXMLDocumentTidyXML
+                                      error:&error];
     NSEnumerator *enumerator =
         [[[xml rootElement] elementsForName:@"story"] objectEnumerator];
     NSXMLElement *child;

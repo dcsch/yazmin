@@ -152,6 +152,10 @@ static const size_t kMaxStorySize = 0x8ffff;
     return NO;
 }
 
+- (BOOL)callRoutine:(int)routine {
+  return parts->_proc->callRoutine(routine);
+}
+
 //- (void)restart
 //{
 //    NSData *data = [story zcodeData];
