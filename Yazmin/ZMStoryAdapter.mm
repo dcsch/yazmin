@@ -1,6 +1,7 @@
 
 #import "ZMStoryAdapter.h"
 #import "Story.h"
+#import "StoryController.h"
 #import "StoryFacet.h"
 #import "ZMachine.h"
 
@@ -164,18 +165,22 @@ void ZMStoryAdapter::newLine() {
     [_storyFacet newLine];
 }
 
-size_t ZMStoryAdapter::input(char *str, size_t maxLen) {
-  NSString *string = _story.input;
-  [string getCString:str maxLength:maxLen encoding:NSASCIIStringEncoding];
-  return string.length;
-}
-
 void ZMStoryAdapter::setWordWrap(bool wordWrap) {
   // nop -- word wrapping is handled by the window and is permanently
   // on at present
 }
 
-char ZMStoryAdapter::inputChar() { return _story.inputChar; }
+void ZMStoryAdapter::beginInput() { [_story beginInput]; }
+
+size_t ZMStoryAdapter::endInput(char *str, size_t maxLen) {
+  NSString *string = [_story endInput];
+  [string getCString:str maxLength:maxLen encoding:NSASCIIStringEncoding];
+  return string.length;
+}
+
+void ZMStoryAdapter::beginInputChar() { [_story beginInputChar]; }
+
+char ZMStoryAdapter::endInputChar() { return [_story endInputChar]; }
 
 void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
   NSTimeInterval interval = time / 10.0;
@@ -183,8 +188,9 @@ void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
       scheduledTimerWithTimeInterval:interval
                              repeats:YES
                                block:^(NSTimer *_Nonnull timer) {
-                                 NSLog(@"Fire!");
-                                 [this->_story.zMachine callRoutine:routine];
+                                 if ([this->_story.zMachine
+                                         callRoutine:routine])
+                                   [this->_story.storyController executeStory];
                                }];
 }
 

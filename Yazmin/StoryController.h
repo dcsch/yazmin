@@ -20,5 +20,6 @@
 - (void)updateWindowLayout;
 - (void)updateWindowWidth;
 - (void)updateTextAttributes;
+- (void)executeStory;
 
 @end

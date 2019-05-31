@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class StoryFacet;
+@class StoryController;
 @class Blorb;
 @class IFStory;
 @class ZMachine;
@@ -17,6 +18,7 @@
 @interface Story : NSDocument
 
 @property(readonly, copy) NSArray<StoryFacet *> *facets;
+@property(readonly) StoryController *storyController;
 @property(copy) NSString *inputString;
 @property(readonly, copy) NSData *zcodeData;
 @property(readonly, strong) Blorb *blorb;
@@ -34,7 +36,9 @@
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
 - (void)handleFontChange:(NSNotification *)note;
-- (NSString *)input;
-- (char)inputChar;
+- (void)beginInput;
+- (NSString *)endInput;
+- (void)beginInputChar;
+- (char)endInputChar;
 
 @end

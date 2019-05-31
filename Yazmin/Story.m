@@ -22,7 +22,6 @@
 
 @interface Story () {
   NSMutableArray *_facets;
-  StoryController *_controller;
 }
 
 - (void)createZMachine;
@@ -77,11 +76,11 @@
 }
 
 - (void)makeWindowControllers {
-  _controller = [[StoryController alloc] init];
-  [self addWindowController:_controller];
+  _storyController = [[StoryController alloc] init];
+  [self addWindowController:_storyController];
 
   // Make sure the controller knows the score with text attributes
-  [_controller updateTextAttributes];
+  [_storyController updateTextAttributes];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -204,24 +203,24 @@
 }
 
 - (NSData *)savedSessionData {
-  [_controller restoreSession];
+  [_storyController restoreSession];
   return nil;
 }
 
 - (void)saveSessionData:(NSData *)data {
-  [_controller saveSessionData:data];
+  [_storyController saveSessionData:data];
 }
 
 - (void)error:(NSString *)errorMessage {
-  [_controller showError:errorMessage];
+  [_storyController showError:errorMessage];
 }
 
 - (void)updateWindowLayout {
-  [_controller updateWindowLayout];
+  [_storyController updateWindowLayout];
 }
 
 - (void)updateWindowWidth {
-  [_controller updateWindowWidth];
+  [_storyController updateWindowWidth];
 }
 
 - (void)handleBackgroundColorChange:(NSNotification *)note {
@@ -264,22 +263,26 @@
       index += range.length;
     }
   }
-  [_controller updateTextAttributes];
-  [_controller updateWindowLayout];
+  [_storyController updateTextAttributes];
+  [_storyController updateWindowLayout];
 }
 
-- (NSString *)input {
-  [_controller prepareInput];
+- (void)beginInput {
+  [_storyController prepareInput];
+}
 
+- (NSString *)endInput {
   // 'input' consumes the input string
   NSString *retString = _inputString;
   _inputString = nil;
   return retString;
 }
 
-- (char)inputChar {
-  [_controller prepareInputChar];
+- (void)beginInputChar {
+  [_storyController prepareInputChar];
+}
 
+- (char)endInputChar {
   // 'inputChar' consumes the input string
   char c = [_inputString characterAtIndex:0];
   _inputString = nil;

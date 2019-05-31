@@ -42,9 +42,13 @@ public:
 
   virtual void setWordWrap(bool wordWrap) = 0;
 
-  virtual size_t input(char *str, size_t maxLen) = 0;
+  virtual void beginInput() = 0;
 
-  virtual char inputChar() = 0;
+  virtual size_t endInput(char *str, size_t maxLen) = 0;
+
+  virtual void beginInputChar() = 0;
+
+  virtual char endInputChar() = 0;
 
   virtual void startTimedRoutine(int time, int routine) = 0;
 

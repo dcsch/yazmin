@@ -42,7 +42,7 @@
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
     didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                 atEnd:(BOOL)flag;
-- (void)characterInput:(char)c;
+- (void)characterInput:(int)c;
 - (void)stringInput:(NSString *)string;
 - (void)update;
 - (IBAction)showInformationPanel:(id)sender;
@@ -51,7 +51,6 @@
 - (IBAction)showAbbreviationsWindow:(id)sender;
 - (void)updateViews;
 - (void)resolveStatusHeight;
-- (void)executeStory;
 
 @end
 
@@ -324,13 +323,13 @@
   layoutView.lowerWindow.typingAttributes = facet.currentAttributes;
 }
 
-- (void)characterInput:(char)c {
+- (void)characterInput:(int)c {
   [self resolveStatusHeight];
 
   //  NSLog(@"characterInput: %c", c);
   Story *story = self.document;
-
-  NSString *str = [[NSString alloc] initWithBytes:&c
+  unsigned char byteChar = (unsigned char)c;
+  NSString *str = [[NSString alloc] initWithBytes:&byteChar
                                            length:1
                                          encoding:NSASCIIStringEncoding];
   [story setInputString:str];
@@ -385,13 +384,19 @@
 }
 
 - (void)executeStory {
-  Story *story = self.document;
-  [story.zMachine executeUntilHalt];
-  if (story.hasEnded) {
-    [layoutView.lowerWindow setInputState:kNoInputState];
-  }
-  [self synchronizeWindowTitleWithDocumentName];
-  [self updateViews];
+  [NSTimer
+      scheduledTimerWithTimeInterval:0.0
+                             repeats:NO
+                               block:^(NSTimer *_Nonnull timer) {
+                                 Story *story = self.document;
+                                 [story.zMachine executeUntilHalt];
+                                 if (story.hasEnded) {
+                                   [self->layoutView.lowerWindow
+                                       setInputState:kNoInputState];
+                                 }
+                                 [self synchronizeWindowTitleWithDocumentName];
+                                 [self updateViews];
+                               }];
 }
 
 @end

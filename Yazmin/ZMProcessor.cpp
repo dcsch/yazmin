@@ -108,16 +108,15 @@ bool ZMProcessor::callRoutine(int routine) {
   if (!_hasHalted)
     return false;
 
-  //  uint32_t originalPC = _pc;
-  //  _operands[0] = routine;
-  //  call_1s();
-  //  while (originalPC != _pc - 8) {
-  //    execute();
-  //  }
-  //  _pc = originalPC;
-
-  //  return _store;
-  return false;
+  int startingSP = _stack.getStackPointer();
+  uint32_t originalPC = _pc;
+  _operands[0] = routine;
+  call_1s();
+  while (startingSP != _stack.getStackPointer()) {
+    execute();
+  }
+  _pc = originalPC;
+  return getVariable(_store);
 }
 
 //
@@ -1575,16 +1574,17 @@ void ZMProcessor::sread() {
   if (_version <= 3)
     _io.showStatus();
 
+  // Are we starting the read operation?
+  if (!_continuingAfterHalt) {
+    _hasHalted = true;
+    _io.beginInput();
+    return;
+  }
+
   size_t maxLen = _memory.getByte(_operands[0]);
   char *textBuf =
       reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 1;
-  size_t len = _io.input(textBuf, maxLen);
-
-  // If there is nothing in the input buffer, halt so that input can be made
-  if (len == 0) {
-    _hasHalted = true;
-    return;
-  }
+  size_t len = _io.endInput(textBuf, maxLen);
 
   // Convert the text to lower case
   for (unsigned int i = 0; i < len; ++i)
@@ -1599,20 +1599,21 @@ void ZMProcessor::aread() {
   decodeStore();
   log("aread", true, false);
 
-  size_t maxLen = _memory.getByte(_operands[0]);
-  char *textBuf =
-      reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 2;
-  size_t len = _io.input(textBuf, maxLen);
-
-  // If there is nothing in the input buffer, halt so that input can be made
-  if (len == 0) {
+  // Are we starting the read operation?
+  if (!_continuingAfterHalt) {
     _hasHalted = true;
+    _io.beginInput();
     if (_operandCount == 4 && _operands[2] && _operands[3]) {
       _io.startTimedRoutine(_operands[2], _operands[3]);
     }
     return;
   }
   _io.stopTimedRoutine();
+
+  size_t maxLen = _memory.getByte(_operands[0]);
+  char *textBuf =
+      reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 2;
+  size_t len = _io.endInput(textBuf, maxLen);
 
   // Convert the text to lower case
   for (unsigned int i = 0; i < len; ++i)
@@ -1631,17 +1632,18 @@ void ZMProcessor::read_char() {
   decodeStore();
   log("read_char", true, false);
 
-  char c = _io.inputChar();
-
-  // If there is nothing in the input buffer, halt so that input can be made
-  if (c == 0) {
+  // Are we starting the read operation?
+  if (!_continuingAfterHalt) {
     _hasHalted = true;
+    _io.beginInputChar();
     if (_operandCount == 3 && _operands[1] && _operands[2]) {
       _io.startTimedRoutine(_operands[1], _operands[2]);
     }
     return;
   }
   _io.stopTimedRoutine();
+
+  char c = _io.endInputChar();
 
   setVariable(_store, c);
   advancePC();

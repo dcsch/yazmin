@@ -1,7 +1,7 @@
 
 @protocol StoryInput
 
-- (void)characterInput:(char)c;
+- (void)characterInput:(int)c;
 - (void)stringInput:(NSString *)string;
 
 @end

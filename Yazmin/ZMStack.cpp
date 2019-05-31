@@ -234,3 +234,5 @@ uint16_t ZMStack::getFrameLocal(int frame, int index) const {
   int fp = _frames[frame];
   return _entries[fp + index + 6];
 }
+
+int ZMStack::getStackPointer() const { return _sp; }

@@ -134,9 +134,25 @@
     }
 
   } else if (_inputState == kCharacterInputState) {
-    // Reset the input state
     self.inputState = kNoInputState;
-    [_storyInput characterInput:[event.characters characterAtIndex:0]];
+    int code;
+    switch (event.keyCode) {
+    case kVK_UpArrow:
+      code = 129;
+      break;
+    case kVK_DownArrow:
+      code = 130;
+      break;
+    case kVK_LeftArrow:
+      code = 131;
+      break;
+    case kVK_RightArrow:
+      code = 132;
+      break;
+    default:
+      code = [event.characters characterAtIndex:0];
+    }
+    [_storyInput characterInput:code];
   }
 }
 

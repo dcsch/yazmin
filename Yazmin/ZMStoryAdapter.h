@@ -36,9 +36,13 @@ public:
 
   void setWordWrap(bool wordWrap) override;
 
-  size_t input(char *str, size_t maxLen) override;
+  void beginInput() override;
 
-  char inputChar() override;
+  size_t endInput(char *str, size_t maxLen) override;
+
+  void beginInputChar() override;
+
+  char endInputChar() override;
 
   void startTimedRoutine(int time, int routine) override;
 

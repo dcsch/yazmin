@@ -61,6 +61,8 @@ public:
 
   uint16_t getFrameLocal(int frame, int index) const;
 
+  int getStackPointer() const;
+
 private:
   //    size_t _maxSize;
   // uint16_t *_entries;
