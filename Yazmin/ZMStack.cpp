@@ -31,6 +31,10 @@ uint16_t ZMStack::pop() {
   return _entries[_sp];
 }
 
+uint16_t ZMStack::getTop() { return _entries[_sp - 1]; }
+
+void ZMStack::setTop(uint16_t value) { _entries[_sp - 1] = value; }
+
 void ZMStack::pushFrame(uint32_t callAddr, uint32_t returnAddr, int argCount,
                         int localCount, uint16_t returnStore) {
   // Set the frame pointer to the new frame

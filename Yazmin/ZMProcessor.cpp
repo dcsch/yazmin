@@ -641,12 +641,12 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   case 0x01:
     restore();
     break;
-  //  case 0x02:
-  //    log_shift();
-  //    break;
-  //  case 0x03:
-  //    art_shift();
-  //    break;
+  case 0x02:
+    log_shift();
+    break;
+  case 0x03:
+    art_shift();
+    break;
   case 0x04:
     set_font();
     break;
@@ -667,11 +667,11 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   //    break;
   default: {
     char msg[256];
-    snprintf(msg, 256, "Quitting on: %05x: EXT:%d (%x)\n", _pc, _memory[_pc],
-             opCode);
+    snprintf(msg, 256, "Quitting on: %05x: EXT:%d (%x)\n", _pc,
+             _memory[_pc + 1], opCode);
     _error.error(msg);
 
-    printf("Quitting on: %05x: EXT:%d (%x)\n", _pc, _memory[_pc], opCode);
+    printf("Quitting on: %05x: EXT:%d (%x)\n", _pc, _memory[_pc + 1], opCode);
     _hasHalted = true;
     _hasQuit = true;
     return false;
@@ -713,23 +713,29 @@ void ZMProcessor::decodeBranch() {
   }
 }
 
-uint16_t ZMProcessor::getVariable(int index) {
-  if (index == 0)
-    return _stack.pop();
-  else if (index < 0x10)
+uint16_t ZMProcessor::getVariable(int index, bool noPop) {
+  if (index == 0) {
+    if (noPop)
+      return _stack.getTop();
+    else
+      return _stack.pop();
+  } else if (index < 0x10)
     return _stack.getLocal(index - 1);
   else
     return _memory.getGlobal(index - 0x10);
 }
 
-void ZMProcessor::setVariable(int index, uint16_t value) {
+void ZMProcessor::setVariable(int index, uint16_t value, bool noPush) {
   // We use 0xffff as a value on the stack meaning to throw away the
   // returned result
   if (index == 0xffff)
     return;
-  else if (index == 0)
-    _stack.push(value);
-  else if (index < 0x10)
+  else if (index == 0) {
+    if (noPush)
+      _stack.setTop(value);
+    else
+      _stack.push(value);
+  } else if (index < 0x10)
     _stack.setLocal(index - 1, value);
   else
     _memory.setGlobal(index - 0x10, value);
@@ -851,6 +857,19 @@ void ZMProcessor::_and() {
   log("and", true, false);
 
   setVariable(_store, _operands[0] & _operands[1]);
+  advancePC();
+}
+
+void ZMProcessor::art_shift() {
+  decodeStore();
+  log("art_shift", true, false);
+
+  int16_t o0 = static_cast<int16_t>(_operands[0]);
+  int16_t o1 = static_cast<int16_t>(_operands[1]);
+  if (o1 < 0)
+    setVariable(_store, static_cast<int16_t>(o0 >> -o1));
+  else
+    setVariable(_store, static_cast<int16_t>(o0 << o1));
   advancePC();
 }
 
@@ -1093,7 +1112,7 @@ void ZMProcessor::dec_chk() {
   log("dec_chk", false, true);
 
   setVariable(_operands[0], getVariable(_operands[0]) - 1);
-  branchOrAdvancePC(static_cast<int16_t>(getVariable(_operands[0])) <
+  branchOrAdvancePC(static_cast<int16_t>(getVariable(_operands[0], true)) <
                     static_cast<int16_t>(_operands[1]));
 }
 
@@ -1236,8 +1255,8 @@ void ZMProcessor::inc_chk() {
   log("inc_chk", false, true);
 
   setVariable(_operands[0], getVariable(_operands[0]) + 1);
-  branchOrAdvancePC(static_cast<int16_t>(getVariable(_operands[0])) >
-                    static_cast<uint16_t>(_operands[1]));
+  branchOrAdvancePC(static_cast<int16_t>(getVariable(_operands[0], true)) >
+                    static_cast<int16_t>(_operands[1]));
 }
 
 void ZMProcessor::insert_obj() {
@@ -1323,7 +1342,8 @@ void ZMProcessor::load() {
   decodeStore();
   log("load", true, false);
 
-  setVariable(_store, getVariable(_operands[0]));
+  bool storeIsTopOfStack = _store == 0;
+  setVariable(_store, getVariable(_operands[0], true), !storeIsTopOfStack);
   advancePC();
 }
 
@@ -1342,6 +1362,19 @@ void ZMProcessor::loadw() {
 
   // Load variable with word from array at operand0 indexed by operand1
   setVariable(_store, _memory.getWord(_operands[0] + 2 * _operands[1]));
+  advancePC();
+}
+
+void ZMProcessor::log_shift() {
+  decodeStore();
+  log("log_shift", true, false);
+
+  uint16_t o0 = _operands[0];
+  int16_t o1 = static_cast<int16_t>(_operands[1]);
+  if (o1 < 0)
+    setVariable(_store, static_cast<uint16_t>(o0 >> -o1));
+  else
+    setVariable(_store, static_cast<uint16_t>(o0 << o1));
   advancePC();
 }
 
@@ -1504,7 +1537,7 @@ void ZMProcessor::print_ret() {
 void ZMProcessor::pull() {
   log("pull", false, false);
 
-  setVariable(_operands[0], _stack.pop());
+  setVariable(_operands[0], _stack.pop(), true);
   advancePC();
 }
 
@@ -1858,7 +1891,7 @@ void ZMProcessor::split_window() {
 void ZMProcessor::store() {
   log("store", false, false);
 
-  setVariable(_operands[0], _operands[1]);
+  setVariable(_operands[0], _operands[1], true);
   advancePC();
 }
 

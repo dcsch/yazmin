@@ -88,9 +88,9 @@ private:
 
   void decodeBranch();
 
-  uint16_t getVariable(int index);
+  uint16_t getVariable(int index, bool noPop = false);
 
-  void setVariable(int index, uint16_t value);
+  void setVariable(int index, uint16_t value, bool noPush = false);
 
   void advancePC();
 
@@ -111,6 +111,9 @@ private:
 
   // St -- 2OP:9 9 and a b -> (result)
   void _and();
+
+  // St -- EXT:3 3 5 art_shift number places -> (result)
+  void art_shift();
 
   // -- -- VAR:242 12 4 buffer_mode flag
   void buffer_mode();
@@ -214,6 +217,9 @@ private:
 
   // St -- 2OP:15 F loadw array word-index -> (result)
   void loadw();
+
+  // St -- EXT:2 2 5 log_shift number places -> (result)
+  void log_shift();
 
   // St -- 2OP:24 18 mod a b -> (result)
   void mod();

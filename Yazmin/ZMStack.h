@@ -36,6 +36,10 @@ public:
 
   uint16_t pop();
 
+  uint16_t getTop();
+
+  void setTop(uint16_t value);
+
   void pushFrame(uint32_t callAddr, uint32_t returnAddr, int argCount,
                  int localCount, uint16_t returnStore);
 
