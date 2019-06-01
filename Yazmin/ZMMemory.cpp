@@ -15,9 +15,13 @@
 
 ZMMemory::ZMMemory(const uint8_t *data, size_t length)
     : _data(new uint8_t[length]), _originalDynamicData(0), _size(length),
-      _header(_data), _dict(_data), _objectMap() {
+      _header(_data), _dict(_data), _objectMap(), _checksum(0) {
   // Copy the data into memory
   memcpy(_data, data, length);
+
+  // Calculate checksum on the initial memory state
+  for (uint32_t i = 0x40; i < _header.getFileLength(); ++i)
+    _checksum += _data[i];
 
   // Create a copy of the original dynamic memory
   _originalDynamicData = new uint8_t[_header.getBaseStaticMemory()];

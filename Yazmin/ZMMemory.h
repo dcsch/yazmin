@@ -53,6 +53,8 @@ public:
 
   void setWord(uint32_t address, uint16_t value);
 
+  uint16_t getChecksum() const;
+
   uint8_t operator[](int index) const;
 
   void createCMemChunk(uint8_t **rleBuf, size_t *rleLen);
@@ -72,6 +74,7 @@ private:
   ZMHeader _header;
   ZMDictionary _dict;
   std::map<int, ZMObject *> _objectMap;
+  uint16_t _checksum;
 
   void initHeader();
 
@@ -106,6 +109,8 @@ inline uint16_t ZMMemory::getWord(uint32_t address) const {
 inline void ZMMemory::setWord(uint32_t address, uint16_t value) {
   writeWordToData(_data + address, value);
 }
+
+inline uint16_t ZMMemory::getChecksum() const { return _checksum; }
 
 inline uint8_t ZMMemory::operator[](int index) const { return _data[index]; }
 

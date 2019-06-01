@@ -318,7 +318,10 @@ bool ZMProcessor::dispatch0OP(uint8_t opCode) {
     ret_popped();
     break;
   case 0x09:
-    pop();
+    if (_version >= 5)
+      _catch();
+    else
+      pop();
     break;
   case 0x0a:
     quit();
@@ -331,6 +334,9 @@ bool ZMProcessor::dispatch0OP(uint8_t opCode) {
     break;
   case 0x0d:
     _verify();
+    break;
+  case 0x0f:
+    piracy();
     break;
   default: {
     char msg[256];
@@ -1085,6 +1091,15 @@ void ZMProcessor::call_vs2() {
   _pc = address + 1;
 }
 
+void ZMProcessor::_catch() {
+  decodeStore();
+  log("catch", true, false);
+
+  printf("WARNING: CATCH NOT YET IMPLEMENTED\n");
+
+  advancePC();
+}
+
 void ZMProcessor::check_arg_count() {
   decodeBranch();
   log("check_arg_count", false, true);
@@ -1442,6 +1457,13 @@ void ZMProcessor::output_stream() {
   }
 
   advancePC();
+}
+
+void ZMProcessor::piracy() {
+  decodeBranch();
+  log("piracy", false, true);
+
+  branchOrAdvancePC(true);
 }
 
 void ZMProcessor::pop() {
@@ -1953,7 +1975,6 @@ void ZMProcessor::_verify() {
   decodeBranch();
   log("verify", false, true);
 
-  printf("WARNING: VERIFY NOT YET IMPLEMENTED\n");
-
-  advancePC();
+  branchOrAdvancePC(_memory.getChecksum() ==
+                    _memory.getHeader().getFileChecksum());
 }

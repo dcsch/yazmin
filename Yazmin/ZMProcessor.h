@@ -143,6 +143,9 @@ private:
   // St -- VAR:236 C 4 call_vs2 routine ...up to 7 args... -> (result)
   void call_vs2();
 
+  // St -- 0OP:185 9 5/6 catch -> (result)
+  void _catch();
+
   // -- Br VAR:255 1F 5 check_arg_count argument-number
   void check_arg_count();
 
@@ -244,6 +247,9 @@ private:
   //                  5 output_stream number table
   //                  6 output_stream number table width
   void output_stream();
+
+  // -- Br 0OP:191 F 5/- piracy ?(label)
+  void piracy();
 
   // -- -- 0OP:185 9 1 pop
   void pop();
