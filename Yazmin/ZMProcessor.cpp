@@ -1367,7 +1367,8 @@ void ZMProcessor::loadb() {
   log("loadb", true, false);
 
   // Load variable with word from array at operand0 indexed by operand1
-  setVariable(_store, _memory.getByte(_operands[0] + _operands[1]));
+  setVariable(_store, _memory.getByte(_operands[0] +
+                                      static_cast<int16_t>(_operands[1])));
   advancePC();
 }
 
@@ -1376,7 +1377,8 @@ void ZMProcessor::loadw() {
   log("loadw", true, false);
 
   // Load variable with word from array at operand0 indexed by operand1
-  setVariable(_store, _memory.getWord(_operands[0] + 2 * _operands[1]));
+  setVariable(_store, _memory.getWord(_operands[0] +
+                                      2 * static_cast<int16_t>(_operands[1])));
   advancePC();
 }
 
@@ -1921,7 +1923,8 @@ void ZMProcessor::storeb() {
   log("storeb", false, false);
 
   // Store operand2 in array operand0 indexed by operand1
-  _memory.setByte(_operands[0] + _operands[1], _operands[2]);
+  _memory.setByte(_operands[0] + static_cast<int16_t>(_operands[1]),
+                  _operands[2]);
   advancePC();
 }
 
@@ -1929,7 +1932,8 @@ void ZMProcessor::storew() {
   log("storew", false, false);
 
   // Store operand2 in array operand0 indexed by operand1
-  _memory.setWord(_operands[0] + 2 * _operands[1], _operands[2]);
+  _memory.setWord(_operands[0] + 2 * static_cast<int16_t>(_operands[1]),
+                  _operands[2]);
   advancePC();
 }
 
