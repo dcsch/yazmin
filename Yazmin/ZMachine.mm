@@ -319,4 +319,12 @@ static const size_t kMaxStorySize = 0x8ffff;
   parts->_memory->getHeader().setScreenHeight(height);
 }
 
+- (BOOL)needsRedraw {
+  return parts->_memory->getHeader().getRequestScreenRedraw();
+}
+
+- (void)setNeedsRedraw:(BOOL)needsRedraw {
+  parts->_memory->getHeader().setRequestScreenRedraw(needsRedraw);
+}
+
 @end

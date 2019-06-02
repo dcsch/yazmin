@@ -1323,7 +1323,7 @@ void ZMProcessor::jin() {
     branchOrAdvancePC(_memory.getObject(_operands[0]).getParent() ==
                       _operands[1]);
   else
-    branchOrAdvancePC(false);
+    branchOrAdvancePC(_operands[0] == _operands[1]);
 }
 
 void ZMProcessor::jl() {

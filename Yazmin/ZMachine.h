@@ -39,5 +39,6 @@
 @property(getter=isTimeGame, readonly) BOOL timeGame;
 @property unsigned int screenWidth;
 @property unsigned int screenHeight;
+@property BOOL needsRedraw;
 
 @end

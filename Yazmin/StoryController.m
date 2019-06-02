@@ -168,6 +168,7 @@
     int screenWidthInChars = [self calculateScreenWidthInColumns];
     Story *story = self.document;
     story.zMachine.screenWidth = (unsigned int)screenWidthInChars;
+    story.zMachine.needsRedraw = YES;
 
     GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
     facet.numberOfColumns = screenWidthInChars;

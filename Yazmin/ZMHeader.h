@@ -34,6 +34,12 @@ public:
 
   uint16_t getBaseStaticMemory() const;
 
+  uint8_t getFlags2() const;
+
+  bool getRequestScreenRedraw() const;
+
+  void setRequestScreenRedraw(bool redraw);
+
   uint16_t getAbbreviationsTableLocation() const;
 
   uint32_t getFileLength() const;
@@ -90,6 +96,19 @@ inline uint16_t ZMHeader::getGlobalVariableTableLocation() const {
 
 inline uint16_t ZMHeader::getBaseStaticMemory() const {
   return ((uint16_t)_headerData[0x0e] << 8) | _headerData[0x0f];
+}
+
+inline uint8_t ZMHeader::getFlags2() const { return _headerData[0x10]; }
+
+inline bool ZMHeader::getRequestScreenRedraw() const {
+  return getFlags2() >> 2 & 1;
+}
+
+inline void ZMHeader::setRequestScreenRedraw(bool redraw) {
+  if (redraw)
+    _headerData[0x10] |= 1 << 2;
+  else
+    _headerData[0x10] &= ~(1 << 2);
 }
 
 inline uint16_t ZMHeader::getAbbreviationsTableLocation() const {

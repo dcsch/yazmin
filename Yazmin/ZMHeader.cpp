@@ -34,6 +34,7 @@ void ZMHeader::dump() const {
   printf("GlobalVariableTableLocation: %04x\n",
          getGlobalVariableTableLocation());
   printf("BaseStaticMemory:            %04x\n", getBaseStaticMemory());
+  printf("Flags 2:                     %02x\n", getFlags2());
   printf("AbbreviationsTableLocation:  %04x\n",
          getAbbreviationsTableLocation());
   printf("FileLength:                  %x\n", getFileLength());

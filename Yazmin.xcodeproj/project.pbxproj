@@ -12,6 +12,7 @@
 		0366C80E21002FAC003EEEB6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80D21002FAC003EEEB6 /* README.md */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
 		03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03898113229CAB5F004EDC55 /* StoryDocumentController.m */; };
+		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
 		6338E0A7180AB53B005A3263 /* Blorb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E053180AB53B005A3263 /* Blorb.m */; };
@@ -91,6 +92,7 @@
 		038980FD22960792004EDC55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		03898112229CAB5F004EDC55 /* StoryDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryDocumentController.h; sourceTree = "<group>"; };
 		03898113229CAB5F004EDC55 /* StoryDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryDocumentController.m; sourceTree = "<group>"; };
+		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				639A09A913322F08000E27F4 /* YazminTests.h */,
 				639A09AB13322F08000E27F4 /* YazminTests.m */,
 				0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */,
+				03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */,
 				639A09A313322F08000E27F4 /* Supporting Files */,
 			);
 			path = YazminTests;
@@ -518,6 +521,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				639A09AC13322F08000E27F4 /* YazminTests.m in Sources */,
+				03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */,
 				0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
