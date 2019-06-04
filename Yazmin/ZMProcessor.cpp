@@ -594,9 +594,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x16:
     read_char(); // v4
     break;
-  //  case 0x17:
-  //    scan_table(); // v4
-  //    break;
+  case 0x17:
+    scan_table(); // v4
+    break;
   case 0x18:
     _not(); // v5
     break;
@@ -1840,6 +1840,33 @@ void ZMProcessor::save_undo() {
   printf("WARNING: SAVE UNDO NOT YET IMPLEMENTED\n");
 
   advancePC();
+}
+
+void ZMProcessor::scan_table() {
+  decodeStore();
+  decodeBranch();
+  log("scan_table", true, true);
+
+  uint16_t form = 0x82;
+  if (_operandCount == 4)
+    form = _operands[3];
+  uint16_t fieldLength = form & 0x7f;
+  bool isWord = (form & 0x80) != 0;
+  uint16_t offset = _operands[1];
+  bool found = false;
+  for (uint16_t i = 0; i < _operands[2]; ++i) {
+    uint16_t read = isWord ? _memory.getWord(offset) : _memory.getByte(offset);
+    if (read == _operands[0]) {
+      found = true;
+      setVariable(_store, offset);
+      break;
+    }
+    offset += fieldLength;
+  }
+  if (!found) {
+    setVariable(_store, 0);
+  }
+  branchOrAdvancePC(found);
 }
 
 void ZMProcessor::set_attr() {

@@ -329,6 +329,9 @@ private:
   // St -- EXT:9 9 5 save_undo -> (result)
   void save_undo();
 
+  // St Br VAR:247 17 4 scan_table x table len form -> (result)
+  void scan_table();
+
   // -- -- 2OP:11 B set_attr object attribute
   void set_attr();
 
