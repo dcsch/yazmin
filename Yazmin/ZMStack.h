@@ -9,8 +9,10 @@
 #ifndef ZM_STACK_H__
 #define ZM_STACK_H__
 
+#include <map>
 #include <stdint.h>
 #include <stdlib.h>
+#include <vector>
 
 /*!
  The Yazmin stack is made up of frames that look like the following (before
@@ -57,7 +59,7 @@ public:
 
   uint16_t getEntry(int index) const;
 
-  int frameCount();
+  int frameCount() const;
 
   int framePointerArray(int *array, int maxCount);
 
@@ -67,15 +69,20 @@ public:
 
   int getStackPointer() const;
 
+  int getFramePointer() const;
+
+  int catchFrame();
+
+  void throwFrame(int frame);
+
 private:
-  //    size_t _maxSize;
-  // uint16_t *_entries;
   uint16_t _entries[1024];
   int _sp;
   int _fp;
   uint32_t _calls[1024];
   int _frames[1024];
   uint32_t _frameCount;
+  std::map<int, std::vector<uint16_t>> _caughtFrames;
 };
 
 #endif // ZM_STACK_H__

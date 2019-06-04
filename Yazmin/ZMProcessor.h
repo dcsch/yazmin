@@ -63,6 +63,7 @@ private:
   bool _hasQuit;
   bool _hasHalted;
   bool _continuingAfterHalt;
+  bool _logging;
 
   bool executeLongInstruction();
 
@@ -369,6 +370,9 @@ private:
 
   // -- Br 2OP:10 A test_attr object attribute ?(label)
   void test_attr();
+
+  // -- -- 2OP:28 1C 5/6 throw value stack-frame
+  void _throw();
 
   // -- -- VAR:251 1B 5 tokenise text parse dictionary flag
   void tokenise();

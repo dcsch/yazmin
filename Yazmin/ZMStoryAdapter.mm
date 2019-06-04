@@ -142,7 +142,9 @@ void ZMStoryAdapter::setTextStyle(int style) {
 }
 
 void ZMStoryAdapter::print(const char *str) {
-  NSMutableString *printable = [NSMutableString stringWithUTF8String:str];
+  NSMutableString *printable =
+      [NSMutableString stringWithCString:str
+                                encoding:NSISOLatin1StringEncoding];
   [printable replaceOccurrencesOfString:@"^"
                              withString:@"\n"
                                 options:0

@@ -42,10 +42,7 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
       _packedAddressFactor(0), _stringBuf(0), _stringBufLen(0), _redirectAddr(),
       _redirectIndex(-1), _hasQuit(false), _hasHalted(false),
-      _continuingAfterHalt(false) {
-  // If this is not a version 6 story, push a dummy frame onto the stack
-  if (_memory.getHeader().getVersion() != 6)
-    _stack.pushFrame(0, 0, 0, 0, 0);
+      _continuingAfterHalt(false), _logging(false) {
 
   // Seed the random number generator
   _seed = macuptime() + 1000;
@@ -505,9 +502,9 @@ bool ZMProcessor::dispatch2OP(uint8_t opCode) {
   case 0x1b:
     set_colour(); // v5
     break;
-  //  case 0x1c:
-  //    _throw(); // v5
-  //    break;
+  case 0x1c:
+    _throw(); // v5
+    break;
   default: {
     char msg[256];
     snprintf(msg, 256, "Quitting on: %05x: 2OP:%d (%x)\n", _pc, _memory[_pc],
@@ -787,57 +784,51 @@ void ZMProcessor::print(int16_t number) {
 }
 
 void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {
-  //    static int count = 0;
-  //    printf("%04x %05x: %s ", count++, _pc, name);
-  //    for (int i = 0; i < _operandCount; ++i)
-  //    {
-  //        if (_operandTypes[i] == kSmallConstant)
-  //        {
-  //            bool asVariable = false;
-  //            if (i == 0)
-  //            {
-  //                if (strcmp(name, "inc_chk") == 0)
-  //                    asVariable = true;
-  //            }
-  //
-  //            if (asVariable)
-  //                printf("%02x<%04x> ", _operands[i],
-  //                getVariable(_operands[i]));
-  //            else
-  //                printf("#%02x ", _operands[i]);
-  //        }
-  //        else if (_operandTypes[i] == kLargeConstant)
-  //        {
-  //            bool asPackedAddress = false;
-  //            if (i == 0)
-  //            {
-  //                if (strncmp(name, "call", 4) == 0)
-  //                    asPackedAddress = true;
-  //            }
-  //
-  //            if (asPackedAddress)
-  //                printf("%05x ", _packedAddressFactor * _operands[i]);
-  //            else
-  //                printf("#%04x ", _operands[i]);
-  //        }
-  //        else
-  //            printf("%02x<%04x> ", _operandVariables[i], _operands[i]);
-  //    }
-  //
-  //    if (showStore)
-  //        printf("-> %02x ", _store);
-  //    if (showBranch)
-  //    {
-  //        if (_branch == 0)
-  //            printf("%srfalse", _branchOnTrue ? "" : "~");
-  //        else if (_branch == 1)
-  //            printf("%srtrue", _branchOnTrue ? "" : "~");
-  //        else
-  //            printf("%s%04x",
-  //                   _branchOnTrue ? "" : "~",
-  //                   _pc + _instructionLength + _branch - 2);
-  //    }
-  //    printf("\n");
+  if (!_logging)
+    return;
+
+  static int count = 0;
+  printf("%04x %05x (+%05x)     %s ", count++, _pc,
+         _pc - _memory.getHeader().getInitialProgramCounter(), name);
+  for (int i = 0; i < _operandCount; ++i) {
+    if (_operandTypes[i] == kSmallConstant) {
+      bool asVariable = false;
+      if (i == 0) {
+        if (strcmp(name, "inc_chk") == 0)
+          asVariable = true;
+      }
+
+      if (asVariable)
+        printf("%02x<%04x> ", _operands[i], getVariable(_operands[i]));
+      else
+        printf("#%02x ", _operands[i]);
+    } else if (_operandTypes[i] == kLargeConstant) {
+      bool asPackedAddress = false;
+      if (i == 0) {
+        if (strncmp(name, "call", 4) == 0)
+          asPackedAddress = true;
+      }
+
+      if (asPackedAddress)
+        printf("%05x ", _packedAddressFactor * _operands[i]);
+      else
+        printf("#%04x ", _operands[i]);
+    } else
+      printf("%02x<%04x> ", _operandVariables[i], _operands[i]);
+  }
+
+  if (showStore)
+    printf("-> %02x ", _store);
+  if (showBranch) {
+    if (_branch == 0)
+      printf("%srfalse", _branchOnTrue ? "" : "~");
+    else if (_branch == 1)
+      printf("%srtrue", _branchOnTrue ? "" : "~");
+    else
+      printf("%s%04x", _branchOnTrue ? "" : "~",
+             _pc + _instructionLength + _branch - 2);
+  }
+  printf("\n");
 }
 
 char *ZMProcessor::getStringBuf(size_t len) {
@@ -1095,8 +1086,7 @@ void ZMProcessor::_catch() {
   decodeStore();
   log("catch", true, false);
 
-  printf("WARNING: CATCH NOT YET IMPLEMENTED\n");
-
+  setVariable(_store, _stack.catchFrame());
   advancePC();
 }
 
@@ -1962,6 +1952,14 @@ void ZMProcessor::test_attr() {
   else
     branchOrAdvancePC(
         _memory.getObject(_operands[0]).getAttribute(_operands[1]));
+}
+
+void ZMProcessor::_throw() {
+  log("throw", false, false);
+
+  _stack.throwFrame(_operands[1]);
+  _pc = _stack.popFrame(&_store);
+  setVariable(_store, _operands[0]);
 }
 
 void ZMProcessor::tokenise() {
