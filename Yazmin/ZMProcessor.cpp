@@ -12,10 +12,13 @@
 #include "ZMIO.h"
 #include "ZMMemory.h"
 #include "ZMObject.h"
+#include "ZMQuetzal.h"
 #include "ZMStack.h"
 #include "ZMText.h"
 #include "iff.h"
 #include <assert.h>
+#include <chrono>
+#include <cstring>
 #include <stdio.h>
 #include <sys/sysctl.h>
 #include <time.h>
@@ -612,9 +615,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   //  case 0x1c:
   //    encode_text(); // v5
   //    break;
-  //  case 0x1d:
-  //    copy_table(); // v5
-  //    break;
+  case 0x1d:
+    copy_table(); // v5
+    break;
   //  case 0x1e:
   //    print_table(); // v5
   //    break;
@@ -656,9 +659,9 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   case 0x09:
     save_undo();
     break;
-  //  case 0x0a:
-  //    restore_undo();
-  //    break;
+  case 0x0a:
+    restore_undo();
+    break;
   //  case 0x0b:
   //    print_unicode();
   //    break;
@@ -1102,6 +1105,20 @@ void ZMProcessor::clear_attr() {
 
   if (_operands[0] > 0)
     _memory.getObject(_operands[0]).setAttribute(_operands[1], false);
+  advancePC();
+}
+
+void ZMProcessor::copy_table() {
+  log("copy_table", false, false);
+
+  if (_operands[1] == 0)
+    memset(_memory.getData() + _operands[0], 0, _operands[2]);
+  else if (_operands[2] >= 0)
+    memmove(_memory.getData() + _operands[1], _memory.getData() + _operands[0],
+            _operands[2]);
+  else
+    memcpy(_memory.getData() + _operands[1], _memory.getData() + _operands[0],
+           -_operands[2]);
   advancePC();
 }
 
@@ -1591,8 +1608,9 @@ void ZMProcessor::random() {
     _lastRandomNumber = 0;
   } else if (value == 0) {
     // Randomly seed the random number generator
-    // TODO: seed with milliseconds
-    _seed = 0xbaad;
+    using namespace std::chrono;
+    _seed = duration_cast<milliseconds>(system_clock::now().time_since_epoch())
+                .count();
     srandom(_seed);
     _lastRandomNumber = 0;
   } else {
@@ -1719,6 +1737,15 @@ void ZMProcessor::restore() {
   _io.restore(0, 0);
 
   printf("WARNING: RESTORE NOT YET IMPLEMENTED\n");
+
+  advancePC();
+}
+
+void ZMProcessor::restore_undo() {
+  decodeStore();
+  log("restore_undo", true, false);
+
+  printf("WARNING: RESTORE_UNDO NOT YET IMPLEMENTED\n");
 
   advancePC();
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		03102FAD22A79B85004B280B /* ZMQuetzal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 03102FAB22A79B85004B280B /* ZMQuetzal.cpp */; };
 		0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		0366C80E21002FAC003EEEB6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80D21002FAC003EEEB6 /* README.md */; };
@@ -78,6 +79,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		03102FAB22A79B85004B280B /* ZMQuetzal.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ZMQuetzal.cpp; sourceTree = "<group>"; };
+		03102FAC22A79B85004B280B /* ZMQuetzal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZMQuetzal.h; sourceTree = "<group>"; };
 		0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridStoryFacetTest.m; sourceTree = "<group>"; };
 		03217B07228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Abbreviations.xib; sourceTree = "<group>"; };
 		03217B08228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Debug.xib; sourceTree = "<group>"; };
@@ -230,6 +233,8 @@
 				6338E0A2180AB53B005A3263 /* ZMStoryAdapter.mm */,
 				6338E0A3180AB53B005A3263 /* ZMText.cpp */,
 				6338E0A4180AB53B005A3263 /* ZMText.h */,
+				03102FAB22A79B85004B280B /* ZMQuetzal.cpp */,
+				03102FAC22A79B85004B280B /* ZMQuetzal.h */,
 			);
 			name = "Z-Machine";
 			sourceTree = "<group>";
@@ -493,6 +498,7 @@
 				6338E0C8180AB53B005A3263 /* ZMHeader.cpp in Sources */,
 				6338E0A8180AB53B005A3263 /* BlorbResource.m in Sources */,
 				6338E0BB180AB53B005A3263 /* LibraryEntry.m in Sources */,
+				03102FAD22A79B85004B280B /* ZMQuetzal.cpp in Sources */,
 				6338E0C9180AB53B005A3263 /* ZMMemory.cpp in Sources */,
 				6338E0BE180AB53B005A3263 /* Preferences.m in Sources */,
 				639A099213322F08000E27F4 /* Story.m in Sources */,

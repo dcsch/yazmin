@@ -153,6 +153,9 @@ private:
   // -- -- 2OP:12 C clear_attr object attribute
   void clear_attr();
 
+  // -- -- VAR:253 1D 5 copy_table first second size
+  void copy_table();
+
   // -- -- 1OP:134 6 dec (variable)
   void dec();
 
@@ -308,6 +311,9 @@ private:
 
   // -- Br 0OP:182 6 1 restore ?(label)
   void restore();
+
+  // St -- EXT:10 A 5 restore_undo -> (result)
+  void restore_undo();
 
   // -- -- 1OP:139 B ret value
   void ret();
