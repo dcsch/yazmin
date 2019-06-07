@@ -45,6 +45,11 @@ public:
   void pushFrame(uint32_t callAddr, uint32_t returnAddr, int argCount,
                  int localCount, uint16_t returnStore);
 
+  // Quetzal-compatible frame
+  void pushFrame(uint32_t returnAddr, uint8_t flags, uint8_t returnStore,
+                 uint8_t argsSupplied, uint16_t evalStackCount,
+                 uint16_t *varsAndEval);
+
   uint32_t popFrame(uint16_t *returnStore);
 
   uint16_t getLocal(int index) const;
@@ -52,8 +57,6 @@ public:
   void setLocal(int index, uint16_t value);
 
   uint16_t getArgCount() const;
-
-  void createStksChunk(uint8_t **buf, size_t *len);
 
   void dump() const;
 
@@ -75,12 +78,14 @@ public:
 
   void throwFrame(int frame);
 
+  void reset();
+
 private:
-  uint16_t _entries[1024];
+  uint16_t _entries[0xffff];
   int _sp;
   int _fp;
-  uint32_t _calls[1024];
-  int _frames[1024];
+  uint32_t _calls[0xffff];
+  int _frames[0xffff];
   uint32_t _frameCount;
   std::map<int, std::vector<uint16_t>> _caughtFrames;
 };

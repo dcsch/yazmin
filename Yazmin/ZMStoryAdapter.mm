@@ -201,11 +201,19 @@ void ZMStoryAdapter::stopTimedRoutine() {
   timer = nil;
 }
 
-void ZMStoryAdapter::restore(const void **data, size_t *length) {
-  [_story savedSessionData];
+void ZMStoryAdapter::beginRestore() const { [_story restoreSession]; }
+
+uint16_t ZMStoryAdapter::endRestore(const uint8_t **data,
+                                    size_t *length) const {
+  if (_story.restoreData) {
+    *length = _story.restoreData.length;
+    *data = new uint8_t[*length];
+    [_story.restoreData getBytes:(void *)*data length:*length];
+  }
+  return [_story lastRestoreOrSaveResult];
 }
 
-void ZMStoryAdapter::save(const void *data, size_t length) {
+void ZMStoryAdapter::save(const uint8_t *data, size_t length) const {
   [_story saveSessionData:[NSData dataWithBytes:data length:length]];
 }
 

@@ -48,9 +48,11 @@ public:
 
   void stopTimedRoutine() override;
 
-  void restore(const void **data, size_t *length) override;
+  void beginRestore() const override;
 
-  void save(const void *data, size_t length) override;
+  uint16_t endRestore(const uint8_t **data, size_t *length) const override;
+
+  void save(const uint8_t *data, size_t length) const override;
 
   uint16_t getRestoreOrSaveResult() override;
 

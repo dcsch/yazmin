@@ -27,9 +27,11 @@
 @property(readonly, strong) ZMachine *zMachine;
 @property(readonly, strong) DebugInfo *debugInfo;
 @property(readonly) BOOL hasEnded;
-@property(readonly, copy) NSData *savedSessionData;
-- (void)saveSessionData:(NSData *)data;
 @property unsigned int lastRestoreOrSaveResult;
+@property NSData *restoreData;
+
+- (void)restoreSession;
+- (void)saveSessionData:(NSData *)data;
 - (void)error:(NSString *)errorMessage;
 - (void)updateWindowLayout;
 - (void)updateWindowWidth;

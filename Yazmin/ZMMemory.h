@@ -43,6 +43,8 @@ public:
 
   uint8_t *getData();
 
+  const uint8_t *getOriginalDynamicData() const;
+
   size_t getSize() const;
 
   uint8_t getByte(uint32_t address) const;
@@ -56,10 +58,6 @@ public:
   uint16_t getChecksum() const;
 
   uint8_t operator[](int index) const;
-
-  void createCMemChunk(uint8_t **rleBuf, size_t *rleLen);
-
-  void createIFhdChunk(uint8_t **buf, size_t *len, uint32_t pc);
 
   void dump() const;
 
@@ -91,6 +89,10 @@ inline const ZMDictionary &ZMMemory::getDictionary() const { return _dict; }
 inline const uint8_t *ZMMemory::getData() const { return _data; }
 
 inline uint8_t *ZMMemory::getData() { return _data; }
+
+inline const uint8_t *ZMMemory::getOriginalDynamicData() const {
+  return _originalDynamicData;
+}
 
 inline size_t ZMMemory::getSize() const { return _size; }
 

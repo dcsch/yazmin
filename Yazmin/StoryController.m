@@ -223,11 +223,17 @@
   panel.allowedFileTypes = @[ @"qut" ];
   [panel beginSheetModalForWindow:self.window
                 completionHandler:^(NSInteger result) {
-                  NSURL *url;
-
+                  Story *story = self.document;
                   if (result == NSModalResponseOK) {
-                    url = panel.URL;
-                  }
+
+                    // Hand restore data to the story, to be picked up when
+                    // the story starts executing again
+                    story.restoreData =
+                        [NSData dataWithContentsOfURL:panel.URL];
+                    story.lastRestoreOrSaveResult = 2;
+                  } else
+                    story.lastRestoreOrSaveResult = 0;
+                  [self executeStory];
                 }];
 }
 

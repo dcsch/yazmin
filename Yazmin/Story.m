@@ -202,9 +202,8 @@
   return [_zMachine hasQuit];
 }
 
-- (NSData *)savedSessionData {
+- (void)restoreSession {
   [_storyController restoreSession];
-  return nil;
 }
 
 - (void)saveSessionData:(NSData *)data {

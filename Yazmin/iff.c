@@ -59,6 +59,14 @@ void IFFCreateBuffer(IFFHandle *handle, unsigned long initialBufferSize) {
   handle->chunkLen = 0;
 }
 
+void IFFSetBuffer(IFFHandle *handle, unsigned char *data, unsigned long bufferSize) {
+  handle->data = data;
+  handle->bufferSize = bufferSize;
+  handle->pos = 0;
+  handle->chunkStart = 0;
+  handle->chunkLen = 0;
+}
+
 void IFFCloseBuffer(IFFHandle *handle) { free(handle->data); }
 
 static void expandBufferIfNeeded(IFFHandle *handle,
@@ -93,6 +101,22 @@ void IFFEndForm(IFFHandle *handle) {
   IFFEndChunk(handle);
 }
 
+bool IFFNextForm(IFFHandle *handle, unsigned long *size, unsigned long *type) {
+  while (handle->pos < handle->bufferSize - 12) {
+    if (handle->data[handle->pos] == 'F' &&
+        handle->data[handle->pos + 1] == 'O' &&
+        handle->data[handle->pos + 2] == 'R' &&
+        handle->data[handle->pos + 3] == 'M') {
+      *size = unpackLong(handle->data + handle->pos + 4);
+      *type = unpackLong(handle->data + handle->pos + 8);
+      handle->pos += 12;
+      return true;
+    }
+    handle->pos += 1;
+  }
+  return false;
+}
+
 void IFFBeginChunk(IFFHandle *handle, unsigned long type) {
   expandBufferIfNeeded(handle, 8);
 
@@ -110,6 +134,23 @@ void IFFEndChunk(IFFHandle *handle) {
     IFFWriteByte(handle, 0);
   handle->chunkLen -= padding;
   packLong(handle->data + handle->chunkStart + 4, handle->chunkLen);
+}
+
+void IFFGetChunk(IFFHandle *handle, unsigned long *type, unsigned long *size) {
+  *type = unpackLong(handle->data + handle->pos);
+  *size = unpackLong(handle->data + handle->pos + 4);
+}
+
+bool IFFNextChunk(IFFHandle *handle) {
+  unsigned long type;
+  unsigned long size;
+  IFFGetChunk(handle, &type, &size);
+  unsigned long paddedSize = paddedLength(size);
+  if (handle->pos + paddedSize + 8 < handle->bufferSize) {
+    handle->pos += paddedSize + 8;
+    return true;
+  }
+  return false;
 }
 
 void IFFWriteByte(IFFHandle *handle, unsigned char byte) {

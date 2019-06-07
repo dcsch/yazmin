@@ -9,6 +9,8 @@
 #ifndef IFF_H__
 #define IFF_H__
 
+#include <stdbool.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
@@ -34,15 +36,24 @@ unsigned long paddedLength(unsigned long len);
 
 void IFFCreateBuffer(IFFHandle *handle, unsigned long initialBufferSize);
 
+void IFFSetBuffer(IFFHandle *handle, unsigned char *data,
+                  unsigned long bufferSize);
+
 void IFFCloseBuffer(IFFHandle *handle);
 
 void IFFBeginForm(IFFHandle *handle, unsigned long type);
 
 void IFFEndForm(IFFHandle *handle);
 
+bool IFFNextForm(IFFHandle *handle, unsigned long *size, unsigned long *type);
+
 void IFFBeginChunk(IFFHandle *handle, unsigned long type);
 
 void IFFEndChunk(IFFHandle *handle);
+
+void IFFGetChunk(IFFHandle *handle, unsigned long *type, unsigned long *size);
+
+bool IFFNextChunk(IFFHandle *handle);
 
 void IFFWriteByte(IFFHandle *handle, unsigned char byte);
 

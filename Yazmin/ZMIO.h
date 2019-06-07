@@ -54,9 +54,11 @@ public:
 
   virtual void stopTimedRoutine() = 0;
 
-  virtual void restore(const void **data, size_t *length) = 0;
+  virtual void beginRestore() const = 0;
 
-  virtual void save(const void *data, size_t length) = 0;
+  virtual uint16_t endRestore(const uint8_t **data, size_t *length) const = 0;
+
+  virtual void save(const uint8_t *data, size_t length) const = 0;
 
   virtual uint16_t getRestoreOrSaveResult() = 0;
 };

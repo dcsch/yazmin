@@ -310,7 +310,11 @@ private:
   void restart();
 
   // -- Br 0OP:182 6 1 restore ?(label)
+  // St -- 0OP:182 5 4 restore -> (result)
   void restore();
+
+  // St -- EXT:1 1 5 restore table bytes name prompt-> (result)
+  void restore_ext();
 
   // St -- EXT:10 A 5 restore_undo -> (result)
   void restore_undo();
@@ -329,8 +333,10 @@ private:
 
   // -- Br 0OP:181 5 1 save ?(label)
   // St -- 0OP:181 5 4 save -> (result)
-  // St -- EXT:0 0 5 save table bytes name -> (result)
   void save();
+
+  // St -- EXT:0 0 5 save table bytes name -> (result)
+  void save_ext();
 
   // St -- EXT:9 9 5 save_undo -> (result)
   void save_undo();

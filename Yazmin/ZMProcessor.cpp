@@ -15,7 +15,6 @@
 #include "ZMQuetzal.h"
 #include "ZMStack.h"
 #include "ZMText.h"
-#include "iff.h"
 #include <assert.h>
 #include <chrono>
 #include <cstring>
@@ -46,6 +45,16 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _packedAddressFactor(0), _stringBuf(0), _stringBufLen(0), _redirectAddr(),
       _redirectIndex(-1), _hasQuit(false), _hasHalted(false),
       _continuingAfterHalt(false), _logging(false) {
+
+  // If this is not a version 6 story, push a dummy frame onto the stack
+  // From the Quetzal spec (Section 4.11):
+  // In Z-machine versions other than V6 execution starts at an address rather
+  // than at a routine, and therefore data can be pushed on the evaluation stack
+  // without anything being on the call stack. Therefore, in all versions other
+  // than V6 a dummy stack frame must be stored as the first in the file (the
+  // oldest chunk).
+  if (_memory.getHeader().getVersion() != 6)
+    _stack.pushFrame(0, 0, 0, 0, 0);
 
   // Seed the random number generator
   _seed = macuptime() + 1000;
@@ -642,10 +651,10 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
 bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   switch (opCode) {
   case 0x00:
-    save();
+    save_ext();
     break;
   case 0x01:
-    restore();
+    restore_ext();
     break;
   case 0x02:
     log_shift();
@@ -1215,7 +1224,7 @@ void ZMProcessor::get_prop_addr() {
   log("get_prop_addr", true, false);
 
   // TESTING
-  assert(_operands[1] > 0);
+  //  assert(_operands[1] > 0);
   //    if (_operands[0] > 0)
   //    {
   //        uint16_t addr =
@@ -1731,13 +1740,44 @@ void ZMProcessor::restart() {
 }
 
 void ZMProcessor::restore() {
-  decodeBranch();
-  log("restore", false, true);
+  if (_version < 4) {
+    decodeBranch();
+    log("restore", false, true);
+  } else {
+    decodeStore();
+    log("restore", true, false);
+  }
 
-  _io.restore(0, 0);
+  if (!_continuingAfterHalt) {
+    _io.beginRestore();
+    _hasHalted = true;
+    return;
+  }
 
-  printf("WARNING: RESTORE NOT YET IMPLEMENTED\n");
+  ZMQuetzal quetzal(_memory, _stack);
+  uint32_t pc = quetzal.restore(_io);
+  uint16_t restoreResult = _io.getRestoreOrSaveResult();
+  if (restoreResult == 2)
+    _pc = pc;
 
+  if (_version < 4)
+    branchOrAdvancePC(restoreResult != 0);
+  else {
+    setVariable(_store, restoreResult);
+    advancePC();
+  }
+}
+
+void ZMProcessor::restore_ext() {
+  decodeStore();
+  log("restore", true, false);
+
+  printf("WARNING: RESTORE (EXT:1) NOT YET IMPLEMENTED\n");
+
+  //  uint16_t restoreResult = _io.getRestoreOrSaveResult();
+  uint16_t restoreResult = 0;
+
+  setVariable(_store, restoreResult);
   advancePC();
 }
 
@@ -1794,60 +1834,11 @@ void ZMProcessor::save() {
   // again since the IP was not advanced, and 'continuingAfterHalt' will
   // be true, so this following block is skipped.
   if (!_continuingAfterHalt) {
-    uint8_t *cmemBuf;
-    size_t cmemLen;
-    _memory.createCMemChunk(&cmemBuf, &cmemLen);
-
-    uint8_t *stksBuf;
-    size_t stksLen;
-    _stack.createStksChunk(&stksBuf, &stksLen);
-
-    uint8_t *ihhdBuf;
-    size_t ifhdLen;
-    _memory.createIFhdChunk(&ihhdBuf, &ifhdLen, _pc + _operandOffset);
-
-    // Calculate how much space we need for all these chunks
-    size_t iffLen = paddedLength(cmemLen) + paddedLength(stksLen) +
-                    paddedLength(ifhdLen) + 30;
-
-    IFFHandle handle;
-    IFFCreateBuffer(&handle, iffLen);
-    IFFBeginForm(&handle, IFFID('I', 'F', 'Z', 'S'));
-
-    IFFBeginChunk(&handle, IFFID('I', 'F', 'h', 'd'));
-    IFFWrite(&handle, ihhdBuf, ifhdLen);
-    IFFEndChunk(&handle);
-
-    IFFBeginChunk(&handle, IFFID('C', 'M', 'e', 'm'));
-    IFFWrite(&handle, cmemBuf, cmemLen);
-    IFFEndChunk(&handle);
-
-    IFFBeginChunk(&handle, IFFID('S', 't', 'k', 's'));
-    IFFWrite(&handle, stksBuf, stksLen);
-    IFFEndChunk(&handle);
-
-    char anno[256];
-    snprintf(anno, 256, "Version %d game, saved from Yazmin version 0.9.1",
-             _memory.getHeader().getVersion());
-    size_t annoLen = strlen(anno);
-    IFFBeginChunk(&handle, IFFID('A', 'N', 'N', 'O'));
-    IFFWrite(&handle, anno, annoLen);
-    IFFEndChunk(&handle);
-
-    IFFEndForm(&handle);
-
-    _io.save(handle.data, handle.pos);
-
-    IFFCloseBuffer(&handle);
-
-    delete[] ihhdBuf;
-    delete[] stksBuf;
-    delete[] cmemBuf;
-
+    ZMQuetzal quetzal(_memory, _stack);
+    quetzal.save(_io, _pc + _operandOffset);
     _hasHalted = true;
     return;
   }
-
   uint16_t saveResult = _io.getRestoreOrSaveResult();
 
   if (_version < 4)
@@ -1856,6 +1847,16 @@ void ZMProcessor::save() {
     setVariable(_store, saveResult);
     advancePC();
   }
+}
+
+void ZMProcessor::save_ext() {
+  decodeStore();
+  log("save", true, false);
+
+  printf("WARNING: SAVE (EXT:0) NOT YET IMPLEMENTED\n");
+
+  setVariable(_store, 0);
+  advancePC();
 }
 
 void ZMProcessor::save_undo() {
