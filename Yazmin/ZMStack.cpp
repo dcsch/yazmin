@@ -11,8 +11,8 @@
 #include <stdio.h>
 #include <string.h>
 
-ZMStack::ZMStack(size_t size)
-    : _sp(0), _fp(0), _calls(), _frames(), _frameCount(0) {}
+ZMStack::ZMStack()
+    : _sp(0), _fp(0), _frames(), _frameCount(0) {}
 
 ZMStack::~ZMStack() {}
 
@@ -30,14 +30,12 @@ uint16_t ZMStack::getTop() { return _entries[_sp - 1]; }
 
 void ZMStack::setTop(uint16_t value) { _entries[_sp - 1] = value; }
 
-void ZMStack::pushFrame(uint32_t callAddr, uint32_t returnAddr, int argCount,
+void ZMStack::pushFrame(uint32_t returnAddr, int argCount,
                         int localCount, uint16_t returnStore) {
   // Set the frame pointer to the new frame
   int prevFp = _fp;
   _fp = _sp;
 
-  // Note the calling address (for the z-code debugger)
-  _calls[_frameCount] = callAddr;
   _frames[_frameCount] = _fp;
   ++_frameCount;
 
@@ -62,38 +60,26 @@ void ZMStack::pushFrame(uint32_t callAddr, uint32_t returnAddr, int argCount,
     push(0);
 }
 
-void ZMStack::pushFrame(uint32_t returnAddr, uint8_t flags, uint8_t returnStore,
-                        uint8_t argsSupplied, uint16_t evalStackCount,
-                        uint16_t *varsAndEval) {
+void ZMStack::pushFrame(uint32_t returnAddr, uint8_t flags,
+               uint8_t resultVariable, uint8_t argsSupplied,
+               uint16_t evalCount, uint16_t *varsAndEval) {
 
-  // Set the frame pointer to the new frame
-  int prevFp = _fp;
-  _fp = _sp;
+  uint16_t argCount = 0;
+  for (int i = 0; i < 7; ++i)
+    if (argsSupplied & (1 << i))
+      ++argCount;
+  uint16_t localCount = flags & 0x0f;
+  uint16_t returnStore = (flags & 0x10) ? 0xffff : resultVariable;
 
-  // We can't set the calling address (for the z-code debugger)
-  _calls[_frameCount] = 0;
-  _frames[_frameCount] = _fp;
-  ++_frameCount;
+  pushFrame(returnAddr, argCount, localCount, returnStore);
 
-  // Push the return address (MSW, LSW) to the stack
-  push(returnAddr >> 16);
-  push(returnAddr);
+  // Set the local variables
+  for (int i = 0; i < localCount; ++i)
+    setLocal(i, varsAndEval[i]);
 
-  // Now the store location for the return value
-  push(returnStore);
-
-  // Now the previous frame pointer
-  push(prevFp);
-
-  // Now the argument count
-  //  push(argCount);
-
-  // Now the local variable count
-  //  push(localCount);
-
-  // And finally the local variables
-  //  for (int i = 0; i < localCount; ++i)
-  //    push(0);
+  // Push the evaluation stack
+  for (int i = 0; i < evalCount; ++i)
+    push(varsAndEval[localCount + i]);
 }
 
 uint32_t ZMStack::popFrame(uint16_t *returnStore) {
@@ -123,6 +109,8 @@ void ZMStack::setLocal(int index, uint16_t value) {
   _entries[_fp + index + 6] = value;
 }
 
+uint16_t ZMStack::getLocalCount() const { return _entries[_fp + 5]; }
+
 uint16_t ZMStack::getArgCount() const { return _entries[_fp + 4]; }
 
 void ZMStack::dump() const {
@@ -133,10 +121,10 @@ void ZMStack::dump() const {
 
 uint16_t ZMStack::getEntry(int index) const { return _entries[index]; }
 
-int ZMStack::frameCount() const { return _frameCount; }
+int ZMStack::getFrameCount() const { return _frameCount; }
 
 int ZMStack::framePointerArray(int *array, int maxCount) {
-  int count = frameCount();
+  int count = getFrameCount();
   if (count <= maxCount) {
     int fp = _fp;
     for (int i = count - 1; i >= 0; --i) {
@@ -147,8 +135,6 @@ int ZMStack::framePointerArray(int *array, int maxCount) {
   }
   return count;
 }
-
-uint32_t ZMStack::getCallEntry(int index) const { return _calls[index]; }
 
 uint16_t ZMStack::getFrameLocal(int frame, int index) const {
   int fp = _frames[frame];

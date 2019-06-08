@@ -26,7 +26,7 @@ public:
 
   void pushSnapshot(uint32_t pc);
 
-private:
+//private:
   ZMMemory &_memory;
   ZMStack &_stack;
 

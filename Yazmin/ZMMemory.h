@@ -29,8 +29,6 @@ public:
 
   const ZMDictionary &getDictionary() const;
 
-  // void initHeader();
-
   uint16_t getGlobal(int index) const;
 
   void setGlobal(int index, uint16_t value);

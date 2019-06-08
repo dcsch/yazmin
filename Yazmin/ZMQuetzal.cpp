@@ -202,10 +202,7 @@ void ZMQuetzal::extractCMemChunk(uint8_t *rleBuf, size_t rleLen) {
       offset += runLen + 1;
     } else {
       buf[offset] = rleBuf[i];
-    }
-
-    if (offset > dynLen) {
-      int foo = 0;
+      offset++;
     }
   }
 
@@ -363,5 +360,16 @@ void ZMQuetzal::extractStksChunk(uint8_t *buf, size_t len) {
   _stack.reset();
   size_t offset = 0;
   while (offset < len) {
+    uint32_t retAddr = static_cast<uint32_t>(buf[offset + 0] << 16) |
+    static_cast<uint32_t>(buf[offset + 1] << 8) | static_cast<uint32_t>(buf[offset + 2]);
+    uint8_t flags = buf[offset + 3];
+    uint8_t resultStore = buf[offset + 4];
+    uint8_t argsSupplied = buf[offset + 5];
+    uint16_t evalCount = static_cast<uint32_t>(buf[offset + 6] << 8) | static_cast<uint32_t>(buf[offset + 7]);
+    uint16_t frameSize = 2 * ((flags & 0x0f) + evalCount) + 8;
+    uint16_t *varsAndEvalStack = reinterpret_cast<uint16_t *>(buf + offset + 7);
+    _stack.pushFrame(retAddr, flags, resultStore, argsSupplied, evalCount, varsAndEvalStack);
+    printf("retAddr: %d\n", retAddr);
+    offset += frameSize;
   }
 }

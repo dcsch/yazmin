@@ -64,7 +64,7 @@ static const size_t kMaxStorySize = 0x8ffff;
 
       parts->_io = new ZMStoryAdapter(story);
       parts->_error = new ZMErrorAdapter(story);
-      parts->_stack = new ZMStack(1024);
+      parts->_stack = new ZMStack();
       parts->_proc = new ZMProcessor(*parts->_memory, *parts->_stack,
                                      *parts->_io, *parts->_error);
     }
@@ -274,17 +274,19 @@ static const size_t kMaxStorySize = 0x8ffff;
 }
 
 - (int)numberOfFrames {
-  return parts->_stack->frameCount();
+  return parts->_stack->getFrameCount();
 }
 
 - (NSUInteger)routineAddressForFrame:(NSInteger)frame {
-  return parts->_stack->getCallEntry(parts->_stack->frameCount() - (int)frame -
-                                     1);
+  // TODO: Reimplement the call entry
+//  return parts->_stack->getCallEntry(parts->_stack->frameCount() - (int)frame -
+//                                     1);
+  return 0;
 }
 
 - (NSUInteger)localAtIndex:(NSUInteger)index forFrame:(NSInteger)frame {
   return parts->_stack->getFrameLocal(
-      parts->_stack->frameCount() - (int)frame - 1, (int)index);
+      parts->_stack->getFrameCount() - (int)frame - 1, (int)index);
 }
 
 - (unsigned int)baseHighMemory {
