@@ -26,10 +26,6 @@ public:
 
   void pushSnapshot(uint32_t pc);
 
-//private:
-  ZMMemory &_memory;
-  ZMStack &_stack;
-
   void createCMemChunk(uint8_t **rleBuf, size_t *rleLen) const;
 
   void extractCMemChunk(uint8_t *rleBuf, size_t rleLen);
@@ -41,6 +37,10 @@ public:
   void createStksChunk(uint8_t **buf, size_t *len) const;
 
   void extractStksChunk(uint8_t *buf, size_t len);
+
+private:
+  ZMMemory &_memory;
+  ZMStack &_stack;
 };
 
 #endif // ZM_QUETZAL_H__

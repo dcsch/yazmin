@@ -6,10 +6,10 @@
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
-#include "../Yazmin/ZMStack.h"
-#include "../Yazmin/ZMMemory.h"
 #include "../Yazmin/ZMQuetzal.h"
+#include "../Yazmin/ZMMemory.h"
+#include "../Yazmin/ZMStack.h"
+#import <XCTest/XCTest.h>
 
 @interface ZMQuetzalTests : XCTestCase
 
@@ -37,7 +37,7 @@
   //                uint16_t evalCount,
   //                uint16_t *varsAndEval);
 
-  uint16_t dummyEval[] = { 123, 456, 789 };
+  uint16_t dummyEval[] = {123, 456, 789};
 
   // 0 argument, 0 locals, 3 eval
   stack.pushFrame(123456, 0x00, 0, 0, 3, dummyEval);
@@ -52,7 +52,7 @@
   XCTAssertEqual(stack.pop(), 789);
   XCTAssertEqual(stack.pop(), 456);
 
-  uint16_t dummyEval2[] = { 111, 222, 333, 444, 666, 999 };
+  uint16_t dummyEval2[] = {111, 222, 333, 444, 666, 999};
 
   // 2 argument, 3 locals, 3 eval, no return
   stack.pushFrame(234567, 0x13, 0, 0b00000011, 3, dummyEval2);
@@ -92,10 +92,10 @@
   // Set up a header
   data[0] = 5;
 
-  data[0x0e] = 0x10;  // base static memory (limit of dynamic memory)
+  data[0x0e] = 0x10; // base static memory (limit of dynamic memory)
   data[0x0f] = 0x00;
 
-  data[0x1a] = 0x04;  // file length / 4
+  data[0x1a] = 0x04; // file length / 4
   data[0x1b] = 0x00;
 
   // Set the test memory into some initial state
@@ -113,9 +113,9 @@
   size_t rleLen;
   quetzal.createCMemChunk(&rleBuf, &rleLen);
 
-  uint8_t rle[] = { 0x00, 0x00, 0x9d, 0x00, 0x1b, 0x03, 0x5a, 0x21,
-    0x5e, 0x00, 0x00, 0x5e, 0x00, 0x00, 0x21, 0x01, 0x01, 0x00, 0x03,
-    0x09, 0x02, 0x00, 0x03, 0x01, 0x01 };
+  uint8_t rle[] = {0x00, 0x00, 0x9d, 0x00, 0x1b, 0x03, 0x5a, 0x21, 0x5e,
+                   0x00, 0x00, 0x5e, 0x00, 0x00, 0x21, 0x01, 0x01, 0x00,
+                   0x03, 0x09, 0x02, 0x00, 0x03, 0x01, 0x01};
 
   XCTAssertEqual(rleLen, sizeof rle);
   for (size_t i = 0; i < rleLen; ++i)

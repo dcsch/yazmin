@@ -11,8 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 
-ZMStack::ZMStack()
-    : _sp(0), _fp(0), _frames(), _frameCount(0) {}
+ZMStack::ZMStack() : _sp(0), _fp(0), _frames(), _frameCount(0) {}
 
 ZMStack::~ZMStack() {}
 
@@ -30,8 +29,8 @@ uint16_t ZMStack::getTop() { return _entries[_sp - 1]; }
 
 void ZMStack::setTop(uint16_t value) { _entries[_sp - 1] = value; }
 
-void ZMStack::pushFrame(uint32_t returnAddr, int argCount,
-                        int localCount, uint16_t returnStore) {
+void ZMStack::pushFrame(uint32_t returnAddr, int argCount, int localCount,
+                        uint16_t returnStore) {
   // Set the frame pointer to the new frame
   int prevFp = _fp;
   _fp = _sp;
@@ -61,8 +60,8 @@ void ZMStack::pushFrame(uint32_t returnAddr, int argCount,
 }
 
 void ZMStack::pushFrame(uint32_t returnAddr, uint8_t flags,
-               uint8_t resultVariable, uint8_t argsSupplied,
-               uint16_t evalCount, uint16_t *varsAndEval) {
+                        uint8_t resultVariable, uint8_t argsSupplied,
+                        uint16_t evalCount, uint16_t *varsAndEval) {
 
   uint16_t argCount = 0;
   for (int i = 0; i < 7; ++i)

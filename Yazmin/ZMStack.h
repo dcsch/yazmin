@@ -42,13 +42,13 @@ public:
 
   void setTop(uint16_t value);
 
-  void pushFrame(uint32_t returnAddr, int argCount,
-                 int localCount, uint16_t returnStore);
+  void pushFrame(uint32_t returnAddr, int argCount, int localCount,
+                 uint16_t returnStore);
 
   // Quetzal-compatible frame
-  void pushFrame(uint32_t returnAddr, uint8_t flags,
-                 uint8_t resultVariable, uint8_t argsSupplied,
-                 uint16_t evalCount, uint16_t *varsAndEval);
+  void pushFrame(uint32_t returnAddr, uint8_t flags, uint8_t resultVariable,
+                 uint8_t argsSupplied, uint16_t evalCount,
+                 uint16_t *varsAndEval);
 
   uint32_t popFrame(uint16_t *returnStore);
 

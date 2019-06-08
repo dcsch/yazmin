@@ -6,8 +6,8 @@
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
 #include "../Yazmin/ZMStack.h"
+#import <XCTest/XCTest.h>
 
 @interface ZMStackTests : XCTestCase
 

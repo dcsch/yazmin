@@ -983,8 +983,8 @@ void ZMProcessor::call_vn() {
   }
 
   uint16_t localCount = _memory[address];
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1,
-                   localCount, 0xffff);
+  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
+                   0xffff);
 
   // Load argument into locals
   for (int i = 0; i < localCount; ++i)
@@ -1016,8 +1016,8 @@ void ZMProcessor::call_vs() {
   uint16_t localCount = _memory[address];
 
   //_stack.dump();
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1,
-                   localCount, _store);
+  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
+                   _store);
   //_stack.dump();
 
   // Load arguments/initial values into locals
@@ -1050,8 +1050,8 @@ void ZMProcessor::call_vn2() {
   }
 
   uint16_t localCount = _memory[address];
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1,
-                   localCount, 0xffff);
+  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
+                   0xffff);
 
   // Load argument into locals
   for (int i = 0; i < localCount; ++i)
@@ -1080,8 +1080,8 @@ void ZMProcessor::call_vs2() {
   uint16_t localCount = _memory[address];
 
   //_stack.dump();
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1,
-                   localCount, _store);
+  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
+                   _store);
   //_stack.dump();
 
   // Load arguments into locals
@@ -1766,7 +1766,7 @@ void ZMProcessor::restore() {
     // else do nothing, as the _pc
   } else {
     setVariable(_store, restoreResult);
-//    advancePC();
+    //    advancePC();
   }
 }
 
@@ -1775,7 +1775,8 @@ void ZMProcessor::restore_ext() {
   log("restore", true, false);
 
   if (_operandCount > 0)
-    printf("WARNING: RESTORE (EXT:1) OPTIONAL PARAMETERS NOT YET IMPLEMENTED\n");
+    printf(
+        "WARNING: RESTORE (EXT:1) OPTIONAL PARAMETERS NOT YET IMPLEMENTED\n");
 
   if (!_continuingAfterHalt) {
     _io.beginRestore();
@@ -1789,11 +1790,12 @@ void ZMProcessor::restore_ext() {
   if (restoreResult == 2) {
     _pc = pc + 1;
 
-    printf("Restoring to: +%05x\n", _pc - _memory.getHeader().getBaseHighMemory());
+    printf("Restoring to: +%05x\n",
+           _pc - _memory.getHeader().getBaseHighMemory());
   }
 
   setVariable(_store, restoreResult);
-//  advancePC();
+  //  advancePC();
 }
 
 void ZMProcessor::restore_undo() {

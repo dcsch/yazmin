@@ -279,8 +279,9 @@ static const size_t kMaxStorySize = 0x8ffff;
 
 - (NSUInteger)routineAddressForFrame:(NSInteger)frame {
   // TODO: Reimplement the call entry
-//  return parts->_stack->getCallEntry(parts->_stack->frameCount() - (int)frame -
-//                                     1);
+  //  return parts->_stack->getCallEntry(parts->_stack->frameCount() -
+  //  (int)frame -
+  //                                     1);
   return 0;
 }
 
