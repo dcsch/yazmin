@@ -1757,16 +1757,19 @@ void ZMProcessor::restore() {
   ZMQuetzal quetzal(_memory, _stack);
   uint32_t pc = quetzal.restore(_io);
   uint16_t restoreResult = _io.getRestoreOrSaveResult();
-  if (restoreResult == 2)
-    _pc = pc;
 
   if (_version < 4) {
     if (restoreResult == 0)
       branchOrAdvancePC(0);
-    // else do nothing, as the _pc
+    else if (restoreResult == 2)
+      _pc = pc + 1;
   } else {
+    // TODO: see note below
+    _pc = pc - 3;
+    _instructionLength--;
+    decodeStore();
+    _pc = pc + 1;
     setVariable(_store, restoreResult);
-    //    advancePC();
   }
 }
 
@@ -1787,15 +1790,20 @@ void ZMProcessor::restore_ext() {
   ZMQuetzal quetzal(_memory, _stack);
   uint32_t pc = quetzal.restore(_io);
   uint16_t restoreResult = _io.getRestoreOrSaveResult();
-  if (restoreResult == 2) {
+  if (restoreResult == 0) {
+    setVariable(_store, restoreResult);
+    advancePC();
+  } else if (restoreResult == 2) {
+
+    // TODO: Fix this horrible mess. decodeStore() needs to decode the
+    // store of the earlier save operation, and it is also messing with
+    // the instruction length tracking
+    _pc = pc - 3;
+    _instructionLength--;
+    decodeStore();
     _pc = pc + 1;
-
-    printf("Restoring to: +%05x\n",
-           _pc - _memory.getHeader().getBaseHighMemory());
+    setVariable(_store, restoreResult);
   }
-
-  setVariable(_store, restoreResult);
-  //  advancePC();
 }
 
 void ZMProcessor::restore_undo() {

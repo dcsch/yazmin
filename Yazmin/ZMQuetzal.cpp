@@ -372,7 +372,6 @@ void ZMQuetzal::extractStksChunk(uint8_t *buf, size_t len) {
     uint16_t *varsAndEvalStack = reinterpret_cast<uint16_t *>(buf + offset + 7);
     _stack.pushFrame(retAddr, flags, resultStore, argsSupplied, evalCount,
                      varsAndEvalStack);
-    printf("retAddr: %d\n", retAddr);
     offset += frameSize;
   }
 }
