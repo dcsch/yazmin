@@ -18,7 +18,7 @@ typedef NS_ENUM(NSUInteger, InputState) {
 
 @interface StoryFacetView : NSTextView
 
-@property unsigned int inputLocation;
+@property NSUInteger inputLocation;
 @property(strong) id<StoryInput> storyInput;
 @property(getter=isInputView) BOOL inputView;
 @property InputState inputState;

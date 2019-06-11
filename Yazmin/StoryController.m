@@ -25,7 +25,6 @@
 
 @interface StoryController () {
   IBOutlet LayoutView *layoutView;
-  unsigned int inputLocation;
   StoryInformationController *informationController;
   DebugController *debugController;
   ObjectBrowserController *objectBrowserController;
@@ -59,7 +58,6 @@
 - (instancetype)init {
   self = [super initWithWindowNibName:@"Story"];
   if (self) {
-    inputLocation = 0;
     curheight = 0;
     maxheight = 0;
     seenheight = 0;
@@ -203,11 +201,10 @@
   [self scrollLowerWindowToEnd];
 }
 
-- (void)prepareInput {
-  //  NSLog(@"prepareInput");
+- (void)prepareInputWithOffset:(NSInteger)offset {
   Story *story = self.document;
   NSUInteger len = story.facets[0].textStorage.length;
-  [layoutView.lowerWindow setInputLocation:(unsigned int)len];
+  [layoutView.lowerWindow setInputLocation:len + offset];
   [layoutView.lowerWindow setInputState:kStringInputState];
   [self scrollLowerWindowToEnd];
 }

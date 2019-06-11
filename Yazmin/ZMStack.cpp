@@ -11,32 +11,25 @@
 #include <stdio.h>
 #include <string.h>
 
-ZMStack::ZMStack() : _sp(0), _fp(0), _frames(), _frameCount(0) {}
+ZMStack::ZMStack() : _entries(), _fp(0), _caughtFrames() {}
 
-ZMStack::~ZMStack() {}
-
-void ZMStack::push(uint16_t value) {
-  _entries[_sp] = value;
-  ++_sp;
-}
+void ZMStack::push(uint16_t value) { _entries.push_back(value); }
 
 uint16_t ZMStack::pop() {
-  --_sp;
-  return _entries[_sp];
+  uint16_t entry = _entries.back();
+  _entries.pop_back();
+  return entry;
 }
 
-uint16_t ZMStack::getTop() { return _entries[_sp - 1]; }
+uint16_t ZMStack::getTop() { return _entries.back(); }
 
-void ZMStack::setTop(uint16_t value) { _entries[_sp - 1] = value; }
+void ZMStack::setTop(uint16_t value) { _entries.back() = value; }
 
 void ZMStack::pushFrame(uint32_t returnAddr, int argCount, int localCount,
                         uint16_t returnStore) {
   // Set the frame pointer to the new frame
   int prevFp = _fp;
-  _fp = _sp;
-
-  _frames[_frameCount] = _fp;
-  ++_frameCount;
+  _fp = static_cast<int>(_entries.size());
 
   // Push the return address (MSW, LSW) to the stack
   push(returnAddr >> 16);
@@ -61,7 +54,7 @@ void ZMStack::pushFrame(uint32_t returnAddr, int argCount, int localCount,
 
 void ZMStack::pushFrame(uint32_t returnAddr, uint8_t flags,
                         uint8_t resultVariable, uint8_t argsSupplied,
-                        uint16_t evalCount, uint16_t *varsAndEval) {
+                        uint16_t evalCount, const uint8_t *varsAndEval) {
 
   uint16_t argCount = 0;
   for (int i = 0; i < 7; ++i)
@@ -73,19 +66,26 @@ void ZMStack::pushFrame(uint32_t returnAddr, uint8_t flags,
   pushFrame(returnAddr, argCount, localCount, returnStore);
 
   // Set the local variables
-  for (int i = 0; i < localCount; ++i)
-    setLocal(i, varsAndEval[i]);
+  for (int i = 0; i < localCount; ++i) {
+    int index = 2 * i;
+    uint16_t value =
+        static_cast<uint16_t>(varsAndEval[index]) << 8 | varsAndEval[index + 1];
+    setLocal(i, value);
+  }
 
   // Push the evaluation stack
-  for (int i = 0; i < evalCount; ++i)
-    push(varsAndEval[localCount + i]);
+  for (int i = 0; i < evalCount; ++i) {
+    int index = 2 * (localCount + i);
+    uint16_t value =
+        static_cast<uint16_t>(varsAndEval[index]) << 8 | varsAndEval[index + 1];
+    push(value);
+  }
 }
 
 uint32_t ZMStack::popFrame(uint16_t *returnStore) {
-  --_frameCount;
 
   // Move the stack pointer to just above the previous frame pointer location
-  _sp = _fp + 4;
+  _entries.erase(_entries.begin() + _fp + 4, _entries.end());
 
   // Pop the previous frame pointer
   _fp = pop();
@@ -114,33 +114,39 @@ uint16_t ZMStack::getArgCount() const { return _entries[_fp + 4]; }
 
 void ZMStack::dump() const {
   printf("Stack:\n");
-  for (int i = _sp - 1; i >= 0; --i)
-    printf("%02x: %04x\n", i, _entries[i]);
+  for (size_t i = _entries.size() - 1; i >= 0; --i)
+    printf("%02lx: %04x\n", i, _entries[i]);
 }
 
 uint16_t ZMStack::getEntry(int index) const { return _entries[index]; }
 
-int ZMStack::getFrameCount() const { return _frameCount; }
+int ZMStack::getFrameCount() const {
+  auto pointers = getFramePointers();
+  return static_cast<int>(pointers.size());
+}
 
-int ZMStack::framePointerArray(int *array, int maxCount) {
-  int count = getFrameCount();
-  if (count <= maxCount) {
+std::vector<int> ZMStack::getFramePointers() const {
+  std::vector<int> pointers;
+  if (!_entries.empty()) {
     int fp = _fp;
-    for (int i = count - 1; i >= 0; --i) {
-      array[i] = fp;
-      if (fp > 0)
-        fp = _entries[fp + 3];
+    while (fp > 0) {
+      pointers.insert(pointers.begin(), fp);
+      fp = _entries[fp + 3];
     }
+    pointers.insert(pointers.begin(), fp);
   }
-  return count;
+  return pointers;
 }
 
 uint16_t ZMStack::getFrameLocal(int frame, int index) const {
-  int fp = _frames[frame];
+  auto pointers = getFramePointers();
+  int fp = pointers[frame];
   return _entries[fp + index + 6];
 }
 
-int ZMStack::getStackPointer() const { return _sp; }
+int ZMStack::getStackPointer() const {
+  return static_cast<int>(_entries.size());
+}
 
 int ZMStack::getFramePointer() const { return _fp; }
 
@@ -154,15 +160,15 @@ int ZMStack::catchFrame() {
   // "For greatest independence of internal interpreter implementation, catch is
   // hereby specified to return the number of frames currently on the system
   // stack.
-  _caughtFrames[_frameCount] = frame;
-  return _frameCount;
+  _caughtFrames[getFrameCount()] = frame;
+  return getFrameCount();
 }
 
 void ZMStack::throwFrame(int frame) {
 
   // Pop frames until we're back to this frame
   uint16_t dummy;
-  while (_frameCount > frame)
+  while (getFrameCount() > frame)
     popFrame(&dummy);
 
   // Restore the state of the caught frame
@@ -177,7 +183,6 @@ void ZMStack::throwFrame(int frame) {
 }
 
 void ZMStack::reset() {
-  _sp = 0;
+  _entries.clear();
   _fp = 0;
-  _frameCount = 0;
 }

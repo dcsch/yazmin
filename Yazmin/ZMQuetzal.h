@@ -11,6 +11,7 @@
 
 #include <cstdint>
 #include <cstdlib>
+#include <vector>
 
 class ZMIO;
 class ZMMemory;
@@ -24,23 +25,39 @@ public:
 
   uint32_t restore(const ZMIO &zmio);
 
-  void pushSnapshot(uint32_t pc);
+  void saveUndo(uint32_t pc);
+
+  uint32_t restoreUndo();
 
   void createCMemChunk(uint8_t **rleBuf, size_t *rleLen) const;
 
-  void extractCMemChunk(uint8_t *rleBuf, size_t rleLen);
+  void extractCMemChunk(const uint8_t *rleBuf, size_t rleLen);
+
+  void extractCMemChunk(const std::vector<uint8_t> cmem);
 
   void createIFhdChunk(uint8_t **buf, size_t *len, uint32_t pc) const;
 
   bool compareIFhdChunk(uint8_t *buf, size_t len, uint32_t *pc) const;
 
+  static void extractStksChunk(const uint8_t *buf, size_t len, ZMStack &stack);
+
   void createStksChunk(uint8_t **buf, size_t *len) const;
 
-  void extractStksChunk(uint8_t *buf, size_t len);
+  void extractStksChunk(const uint8_t *buf, size_t len);
+
+  void extractStksChunk(const std::vector<uint8_t> stks);
 
 private:
   ZMMemory &_memory;
   ZMStack &_stack;
+
+  struct Snapshot {
+    std::vector<uint8_t> cmem;
+    std::vector<uint8_t> stks;
+    uint32_t pc;
+  };
+
+  std::vector<std::shared_ptr<Snapshot>> undoStack;
 };
 
 #endif // ZM_QUETZAL_H__

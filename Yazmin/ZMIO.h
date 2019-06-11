@@ -42,7 +42,7 @@ public:
 
   virtual void setWordWrap(bool wordWrap) = 0;
 
-  virtual void beginInput() = 0;
+  virtual void beginInput(uint8_t existingLen) = 0;
 
   virtual size_t endInput(char *str, size_t maxLen) = 0;
 

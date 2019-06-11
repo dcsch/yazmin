@@ -12,7 +12,7 @@
 @interface StoryController
     : NSWindowController <StoryInput, NSLayoutManagerDelegate>
 
-- (void)prepareInput;
+- (void)prepareInputWithOffset:(NSInteger)offset;
 - (void)prepareInputChar;
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;

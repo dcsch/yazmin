@@ -13,6 +13,7 @@
 #include "ZMMemory.h"
 #include "ZMObject.h"
 #include "ZMProcessor.h"
+#include "ZMQuetzal.h"
 #include "ZMStack.h"
 #import "ZMStoryAdapter.h"
 #include "ZMText.h"
@@ -26,12 +27,14 @@ struct MachineParts {
     _error = 0;
     _stack = 0;
     _proc = 0;
+    _quetzal = 0;
   }
   ZMMemory *_memory;
   ZMStoryAdapter *_io;
   ZMErrorAdapter *_error;
   ZMStack *_stack;
   ZMProcessor *_proc;
+  ZMQuetzal *_quetzal;
 };
 
 @interface ZMachine () {
@@ -65,8 +68,10 @@ static const size_t kMaxStorySize = 0x8ffff;
       parts->_io = new ZMStoryAdapter(story);
       parts->_error = new ZMErrorAdapter(story);
       parts->_stack = new ZMStack();
-      parts->_proc = new ZMProcessor(*parts->_memory, *parts->_stack,
-                                     *parts->_io, *parts->_error);
+      parts->_quetzal = new ZMQuetzal(*parts->_memory, *parts->_stack);
+      parts->_proc =
+          new ZMProcessor(*parts->_memory, *parts->_stack, *parts->_io,
+                          *parts->_error, *parts->_quetzal);
     }
   }
   return self;

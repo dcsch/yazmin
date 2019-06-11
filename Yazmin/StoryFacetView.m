@@ -12,7 +12,7 @@
 #include <Carbon/Carbon.h>
 
 @interface StoryFacetView () {
-  unsigned int inputLocation;
+  NSUInteger inputLocation;
   InputState _inputState;
   NSMutableArray<NSString *> *inputHistory;
   NSUInteger historyIndex;
@@ -50,11 +50,11 @@
   return _inputView;
 }
 
-- (unsigned int)inputLocation {
+- (NSUInteger)inputLocation {
   return inputLocation;
 }
 
-- (void)setInputLocation:(unsigned int)location {
+- (void)setInputLocation:(NSUInteger)location {
   inputLocation = location;
 }
 

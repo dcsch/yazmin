@@ -32,7 +32,7 @@ class ZMStack {
 public:
   ZMStack();
 
-  ~ZMStack();
+  ~ZMStack() = default;
 
   void push(uint16_t value);
 
@@ -48,7 +48,7 @@ public:
   // Quetzal-compatible frame
   void pushFrame(uint32_t returnAddr, uint8_t flags, uint8_t resultVariable,
                  uint8_t argsSupplied, uint16_t evalCount,
-                 uint16_t *varsAndEval);
+                 const uint8_t *varsAndEval);
 
   uint32_t popFrame(uint16_t *returnStore);
 
@@ -66,7 +66,7 @@ public:
 
   int getFrameCount() const;
 
-  int framePointerArray(int *array, int maxCount);
+  std::vector<int> getFramePointers() const;
 
   uint16_t getFrameLocal(int frame, int index) const;
 
@@ -81,11 +81,8 @@ public:
   void reset();
 
 private:
-  uint16_t _entries[0xffff];
-  int _sp;
+  std::vector<uint16_t> _entries;
   int _fp;
-  int _frames[0xffff];
-  uint32_t _frameCount;
   std::map<int, std::vector<uint16_t>> _caughtFrames;
 };
 

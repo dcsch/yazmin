@@ -172,7 +172,9 @@ void ZMStoryAdapter::setWordWrap(bool wordWrap) {
   // on at present
 }
 
-void ZMStoryAdapter::beginInput() { [_story beginInput]; }
+void ZMStoryAdapter::beginInput(uint8_t existingLen) {
+  [_story beginInputWithOffset:-existingLen];
+}
 
 size_t ZMStoryAdapter::endInput(char *str, size_t maxLen) {
   NSString *string = [_story endInput];

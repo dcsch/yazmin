@@ -35,9 +35,9 @@
   //                uint8_t resultVariable,
   //                uint8_t argsSupplied,
   //                uint16_t evalCount,
-  //                uint16_t *varsAndEval);
+  //                uint8_t *varsAndEval);
 
-  uint16_t dummyEval[] = {123, 456, 789};
+  uint8_t dummyEval[] = {0x01, 0x23, 0x04, 0x56, 0x07, 0x89};
 
   // 0 argument, 0 locals, 3 eval
   stack.pushFrame(123456, 0x00, 0, 0, 3, dummyEval);
@@ -49,10 +49,11 @@
   XCTAssertEqual(stack.getArgCount(), 0);
   XCTAssertEqual(stack.getLocalCount(), 0);
 
-  XCTAssertEqual(stack.pop(), 789);
-  XCTAssertEqual(stack.pop(), 456);
+  XCTAssertEqual(stack.pop(), 0x0789);
+  XCTAssertEqual(stack.pop(), 0x0456);
 
-  uint16_t dummyEval2[] = {111, 222, 333, 444, 666, 999};
+  uint8_t dummyEval2[] = {0x01, 0x11, 0x02, 0x22, 0x03, 0x33,
+                          0x04, 0x44, 0x06, 0x66, 0x09, 0x99};
 
   // 2 argument, 3 locals, 3 eval, no return
   stack.pushFrame(234567, 0x13, 0, 0b00000011, 3, dummyEval2);
@@ -64,19 +65,19 @@
   XCTAssertEqual(stack.getArgCount(), 2);
   XCTAssertEqual(stack.getLocalCount(), 3);
 
-  XCTAssertEqual(stack.getLocal(0), 111);
-  XCTAssertEqual(stack.getLocal(1), 222);
-  XCTAssertEqual(stack.getLocal(2), 333);
+  XCTAssertEqual(stack.getLocal(0), 0x0111);
+  XCTAssertEqual(stack.getLocal(1), 0x0222);
+  XCTAssertEqual(stack.getLocal(2), 0x0333);
 
-  XCTAssertEqual(stack.pop(), 999);
-  XCTAssertEqual(stack.pop(), 666);
+  XCTAssertEqual(stack.pop(), 0x0999);
+  XCTAssertEqual(stack.pop(), 0x0666);
 
   uint16_t resultStore;
   uint32_t addr = stack.popFrame(&resultStore);
   XCTAssertEqual(addr, 234567);
   XCTAssertEqual(resultStore, 0xffff);
 
-  XCTAssertEqual(stack.pop(), 123);
+  XCTAssertEqual(stack.pop(), 0x0123);
 
   addr = stack.popFrame(&resultStore);
   XCTAssertEqual(addr, 123456);

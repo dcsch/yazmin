@@ -38,7 +38,7 @@
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
 - (void)handleFontChange:(NSNotification *)note;
-- (void)beginInput;
+- (void)beginInputWithOffset:(NSInteger)offset;
 - (NSString *)endInput;
 - (void)beginInputChar;
 - (char)endInputChar;

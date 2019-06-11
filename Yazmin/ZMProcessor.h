@@ -16,10 +16,12 @@ class ZMMemory;
 class ZMStack;
 class ZMIO;
 class ZMError;
+class ZMQuetzal;
 
 class ZMProcessor {
 public:
-  ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io, ZMError &error);
+  ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io, ZMError &error,
+              ZMQuetzal &quetzal);
 
   ~ZMProcessor();
 
@@ -42,6 +44,7 @@ private:
   ZMStack &_stack;
   ZMIO &_io;
   ZMError &_error;
+  ZMQuetzal &_quetzal;
   uint32_t _pc;
   int _operandOffset;
   int _instructionLength;

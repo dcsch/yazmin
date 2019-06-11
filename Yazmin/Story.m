@@ -266,8 +266,8 @@
   [_storyController updateWindowLayout];
 }
 
-- (void)beginInput {
-  [_storyController prepareInput];
+- (void)beginInputWithOffset:(NSInteger)offset {
+  [_storyController prepareInputWithOffset:offset];
 }
 
 - (NSString *)endInput {

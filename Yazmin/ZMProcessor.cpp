@@ -37,10 +37,10 @@ static unsigned int macuptime(void) {
 }
 
 ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
-                         ZMError &error)
-    : _memory(memory), _stack(stack), _io(io), _error(error), _pc(0),
-      _operandOffset(0), _instructionLength(0), _operandCount(0), _operands(),
-      _operandTypes(), _operandVariables(), _store(0), _branch(0),
+                         ZMError &error, ZMQuetzal &quetzal)
+    : _memory(memory), _stack(stack), _io(io), _error(error), _quetzal(quetzal),
+      _pc(0), _operandOffset(0), _instructionLength(0), _operandCount(0),
+      _operands(), _operandTypes(), _operandVariables(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
       _packedAddressFactor(0), _stringBuf(0), _stringBufLen(0), _redirectAddr(),
       _redirectIndex(-1), _hasQuit(false), _hasHalted(false),
@@ -194,11 +194,12 @@ bool ZMProcessor::executeExtendedInstruction() {
   uint8_t inst = _memory[_pc + 1];
   uint8_t opCode = inst & 0x1f; // opcode is bottom five bits
   int operands = (inst & 0x20) ? -1 : 2;
-  uint8_t operandTypeFields = _memory[_pc + 2];
   int operandFieldCount;
 
   _operandOffset = 3;
 
+  // 4 2-bit fields, specifying operand types (4.4.3)
+  uint8_t operandTypeFields = _memory[_pc + 2];
   _operandTypes[0] = operandType(operandTypeFields >> 6);
   _operandTypes[1] = operandType(operandTypeFields >> 4);
   _operandTypes[2] = operandType(operandTypeFields >> 2);
@@ -216,6 +217,7 @@ bool ZMProcessor::executeExtendedInstruction() {
     _operandTypes[7] = kOmitted;
   }
 
+  // (4.4.3)
   _operandCount = 0;
   for (int i = 0; i < operandFieldCount; ++i) {
     if (_operandTypes[i] == kOmitted)
@@ -242,11 +244,12 @@ bool ZMProcessor::executeVariableInstruction() {
   uint8_t inst = _memory[_pc];
   uint8_t opCode = inst & 0x1f; // opcode is bottom five bits
   int operands = (inst & 0x20) ? -1 : 2;
-  uint8_t operandTypeFields = _memory[_pc + 1];
   int operandFieldCount;
 
   _operandOffset = 2;
 
+  // 4 2-bit fields, specifying operand types (4.4.3)
+  uint8_t operandTypeFields = _memory[_pc + 1];
   _operandTypes[0] = operandType(operandTypeFields >> 6);
   _operandTypes[1] = operandType(operandTypeFields >> 4);
   _operandTypes[2] = operandType(operandTypeFields >> 2);
@@ -801,7 +804,7 @@ void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {
 
   static int count = 0;
   printf("%04x %05x (+%05x)     %s ", count++, _pc,
-         _pc - _memory.getHeader().getInitialProgramCounter(), name);
+         _pc - _memory.getHeader().getBaseHighMemory(), name);
   for (int i = 0; i < _operandCount; ++i) {
     if (_operandTypes[i] == kSmallConstant) {
       bool asVariable = false;
@@ -840,6 +843,11 @@ void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {
       printf("%s%04x", _branchOnTrue ? "" : "~",
              _pc + _instructionLength + _branch - 2);
   }
+  printf("\n");
+
+  printf("                       ");
+  for (int i = 0; i < _instructionLength; ++i)
+    printf(" %02x", _memory[_pc + i]);
   printf("\n");
 }
 
@@ -1651,7 +1659,7 @@ void ZMProcessor::sread() {
   // Are we starting the read operation?
   if (!_continuingAfterHalt) {
     _hasHalted = true;
-    _io.beginInput();
+    _io.beginInput(0);
     return;
   }
 
@@ -1676,7 +1684,8 @@ void ZMProcessor::aread() {
   // Are we starting the read operation?
   if (!_continuingAfterHalt) {
     _hasHalted = true;
-    _io.beginInput();
+    uint8_t existingLen = _memory.getByte(_operands[0] + 1);
+    _io.beginInput(existingLen);
     if (_operandCount == 4 && _operands[2] && _operands[3]) {
       _io.startTimedRoutine(_operands[2], _operands[3]);
     }
@@ -1810,9 +1819,17 @@ void ZMProcessor::restore_undo() {
   decodeStore();
   log("restore_undo", true, false);
 
-  printf("WARNING: RESTORE_UNDO NOT YET IMPLEMENTED\n");
-
-  advancePC();
+  uint32_t pc = _quetzal.restoreUndo();
+  if (pc > 0) {
+    _pc = pc - 3;
+    _instructionLength--;
+    decodeStore();
+    _pc = pc + 1;
+    setVariable(_store, 2);
+  } else {
+    setVariable(_store, 0);
+    advancePC();
+  }
 }
 
 void ZMProcessor::ret() {
@@ -1897,10 +1914,8 @@ void ZMProcessor::save_undo() {
   decodeStore();
   log("save_undo", true, false);
 
-  // setVariable(_store, 0xffff);
+  _quetzal.saveUndo(_pc + _operandOffset);
   setVariable(_store, 1);
-  printf("WARNING: SAVE UNDO NOT YET IMPLEMENTED\n");
-
   advancePC();
 }
 

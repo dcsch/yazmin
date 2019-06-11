@@ -120,4 +120,28 @@
   XCTAssertEqual(stack.getFrameCount(), 0);
 }
 
+- (void)testFramePointers {
+  ZMStack stack;
+
+  // 0 argument, 0 locals
+  stack.pushFrame(123456, 0, 0, 1);
+
+  // 2 argument, 3 locals (which incorporates the 2 args)
+  stack.pushFrame(234567, 2, 3, 4);
+
+  // 1 argument, 1 local
+  stack.pushFrame(345678, 1, 1, 1);
+
+  // 0 argument, 0 locals
+  stack.pushFrame(123456, 0, 0, 1);
+
+  XCTAssertEqual(stack.getFrameCount(), 4);
+
+  auto framePointers = stack.getFramePointers();
+  XCTAssertEqual(framePointers[0], 0);
+  XCTAssertEqual(framePointers[1], 6);
+  XCTAssertEqual(framePointers[2], 15);
+  XCTAssertEqual(framePointers[3], 22);
+}
+
 @end

@@ -24,9 +24,9 @@ void ZMQuetzal::save(const ZMIO &zmio, uint32_t pc) const {
   size_t stksLen;
   createStksChunk(&stksBuf, &stksLen);
 
-  uint8_t *ihhdBuf;
+  uint8_t *ifhdBuf;
   size_t ifhdLen;
-  createIFhdChunk(&ihhdBuf, &ifhdLen, pc);
+  createIFhdChunk(&ifhdBuf, &ifhdLen, pc);
 
   // Calculate how much space we need for all these chunks
   size_t iffLen = paddedLength(cmemLen) + paddedLength(stksLen) +
@@ -37,7 +37,7 @@ void ZMQuetzal::save(const ZMIO &zmio, uint32_t pc) const {
   IFFBeginForm(&handle, IFFID('I', 'F', 'Z', 'S'));
 
   IFFBeginChunk(&handle, IFFID('I', 'F', 'h', 'd'));
-  IFFWrite(&handle, ihhdBuf, ifhdLen);
+  IFFWrite(&handle, ifhdBuf, ifhdLen);
   IFFEndChunk(&handle);
 
   IFFBeginChunk(&handle, IFFID('C', 'M', 'e', 'm'));
@@ -62,7 +62,7 @@ void ZMQuetzal::save(const ZMIO &zmio, uint32_t pc) const {
 
   IFFCloseBuffer(&handle);
 
-  delete[] ihhdBuf;
+  delete[] ifhdBuf;
   delete[] stksBuf;
   delete[] cmemBuf;
 }
@@ -104,7 +104,12 @@ uint32_t ZMQuetzal::restore(const ZMIO &zmio) {
   return pc;
 }
 
-void ZMQuetzal::pushSnapshot(uint32_t pc) {
+void ZMQuetzal::saveUndo(uint32_t pc) {
+
+  // If the stack is exceeding the requested size, remove the oldest entry
+  if (undoStack.size() > 10)
+    undoStack.erase(undoStack.begin());
+
   uint8_t *cmemBuf;
   size_t cmemLen;
   createCMemChunk(&cmemBuf, &cmemLen);
@@ -113,13 +118,32 @@ void ZMQuetzal::pushSnapshot(uint32_t pc) {
   size_t stksLen;
   createStksChunk(&stksBuf, &stksLen);
 
-  uint8_t *ihhdBuf;
-  size_t ifhdLen;
-  createIFhdChunk(&ihhdBuf, &ifhdLen, pc);
+  auto snapshot = std::make_unique<Snapshot>();
+  snapshot->cmem.assign(cmemBuf, cmemBuf + cmemLen);
+  snapshot->stks.assign(stksBuf, stksBuf + stksLen);
+  snapshot->pc = pc;
+  undoStack.push_back(std::move(snapshot));
 
-  delete[] ihhdBuf;
   delete[] stksBuf;
   delete[] cmemBuf;
+}
+
+uint32_t ZMQuetzal::restoreUndo() {
+
+  if (undoStack.empty())
+    return 0;
+
+  auto snapshot = undoStack.back();
+
+  // Keep the last one
+  if (undoStack.size() > 1)
+    undoStack.pop_back();
+
+  extractCMemChunk(snapshot->cmem);
+  extractStksChunk(snapshot->stks);
+  uint32_t pc = snapshot->pc;
+
+  return pc;
 }
 
 void ZMQuetzal::createCMemChunk(uint8_t **rleBuf, size_t *rleLen) const {
@@ -185,7 +209,7 @@ void ZMQuetzal::createCMemChunk(uint8_t **rleBuf, size_t *rleLen) const {
   *rleLen = rlePtr - *rleBuf;
 }
 
-void ZMQuetzal::extractCMemChunk(uint8_t *rleBuf, size_t rleLen) {
+void ZMQuetzal::extractCMemChunk(const uint8_t *rleBuf, size_t rleLen) {
 
   // A chunk of memory to decode into
   size_t dynLen = _memory.getHeader().getBaseStaticMemory();
@@ -211,6 +235,10 @@ void ZMQuetzal::extractCMemChunk(uint8_t *rleBuf, size_t rleLen) {
     _memory.setByte(i, buf[i] ^ _memory.getOriginalDynamicData()[i]);
 
   delete[] buf;
+}
+
+void ZMQuetzal::extractCMemChunk(const std::vector<uint8_t> cmem) {
+  extractCMemChunk(cmem.data(), cmem.size());
 }
 
 void ZMQuetzal::createIFhdChunk(uint8_t **buf, size_t *len, uint32_t pc) const {
@@ -256,8 +284,7 @@ bool ZMQuetzal::compareIFhdChunk(uint8_t *buf, size_t len, uint32_t *pc) const {
 }
 
 void ZMQuetzal::createStksChunk(uint8_t **buf, size_t *len) const {
-  int framePointers[256];
-  int count = _stack.framePointerArray(framePointers, 256);
+  auto framePointers = _stack.getFramePointers();
 
   *len = 0;
   *buf = new uint8_t[2 * _stack.getStackPointer()];
@@ -265,7 +292,7 @@ void ZMQuetzal::createStksChunk(uint8_t **buf, size_t *len) const {
 
   // Go through the frame pointers, copying each frame into the
   // supplied buffer
-  for (int i = 0; i < count; ++i) {
+  for (int i = 0; i < framePointers.size(); ++i) {
     int fp = framePointers[i];
     int localCount = 0;
 
@@ -317,7 +344,7 @@ void ZMQuetzal::createStksChunk(uint8_t **buf, size_t *len) const {
 
     // number of words of evaluations stack used by this call
     int totalEntryCount = 0;
-    if (i == count - 1) {
+    if (i == framePointers.size() - 1) {
       // This is the last frame, so calculate the evaluation stack size
       // using the stack pointer
       totalEntryCount = _stack.getStackPointer() - framePointers[i];
@@ -356,8 +383,9 @@ void ZMQuetzal::createStksChunk(uint8_t **buf, size_t *len) const {
   }
 }
 
-void ZMQuetzal::extractStksChunk(uint8_t *buf, size_t len) {
-  _stack.reset();
+void ZMQuetzal::extractStksChunk(const uint8_t *buf, size_t len,
+                                 ZMStack &stack) {
+  stack.reset();
   size_t offset = 0;
   while (offset < len) {
     uint32_t retAddr = static_cast<uint32_t>(buf[offset + 0] << 16) |
@@ -366,12 +394,21 @@ void ZMQuetzal::extractStksChunk(uint8_t *buf, size_t len) {
     uint8_t flags = buf[offset + 3];
     uint8_t resultStore = buf[offset + 4];
     uint8_t argsSupplied = buf[offset + 5];
+    uint8_t localsCount = flags & 0x0f;
     uint16_t evalCount = static_cast<uint32_t>(buf[offset + 6] << 8) |
                          static_cast<uint32_t>(buf[offset + 7]);
-    uint16_t frameSize = 2 * ((flags & 0x0f) + evalCount) + 8;
-    uint16_t *varsAndEvalStack = reinterpret_cast<uint16_t *>(buf + offset + 7);
-    _stack.pushFrame(retAddr, flags, resultStore, argsSupplied, evalCount,
-                     varsAndEvalStack);
-    offset += frameSize;
+    uint16_t frameSizeInWords = (localsCount + evalCount) + 4;
+    const uint8_t *varsAndEvalStack = buf + offset + 8;
+    stack.pushFrame(retAddr, flags, resultStore, argsSupplied, evalCount,
+                    varsAndEvalStack);
+    offset += (2 * frameSizeInWords);
   }
+}
+
+void ZMQuetzal::extractStksChunk(const uint8_t *buf, size_t len) {
+  extractStksChunk(buf, len, _stack);
+}
+
+void ZMQuetzal::extractStksChunk(const std::vector<uint8_t> stks) {
+  extractStksChunk(stks.data(), stks.size());
 }

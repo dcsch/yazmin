@@ -36,7 +36,7 @@ public:
 
   void setWordWrap(bool wordWrap) override;
 
-  void beginInput() override;
+  void beginInput(uint8_t existingLen) override;
 
   size_t endInput(char *str, size_t maxLen) override;
 
