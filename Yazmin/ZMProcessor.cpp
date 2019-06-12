@@ -672,9 +672,9 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   case 0x0a:
     restore_undo();
     break;
-  //  case 0x0b:
-  //    print_unicode();
-  //    break;
+  case 0x0b:
+    print_unicode();
+    break;
   //  case 0x0c:
   //    check_unicode();
   //    break;
@@ -1558,6 +1558,15 @@ void ZMProcessor::print_ret() {
   // Return and set true
   _pc = _stack.popFrame(&_store);
   setVariable(_store, 1);
+}
+
+void ZMProcessor::print_unicode() {
+  log("print_unicode", false, false);
+
+  std::string str;
+  ZMText::appendAsUTF8(str, _operands[0]);
+  print(str);
+  advancePC();
 }
 
 void ZMProcessor::pull() {

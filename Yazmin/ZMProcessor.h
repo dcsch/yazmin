@@ -279,6 +279,9 @@ private:
   // -- -- 0OP:179 3 print_ret
   void print_ret();
 
+  // -- -- EXT:11 B 5/* print_unicode char-number
+  void print_unicode();
+
   // -- -- VAR:233 9 1 pull (variable)
   void pull();
 

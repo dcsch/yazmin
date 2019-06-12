@@ -113,7 +113,8 @@
     NSFont *font = _currentAttributes[NSFontAttributeName];
     if (!font.isFixedPitch) {
       NSMutableDictionary *fixedAttributes = [_currentAttributes mutableCopy];
-      fixedAttributes[NSFontAttributeName] = [[Preferences sharedPreferences] fontForStyle:8];
+      fixedAttributes[NSFontAttributeName] =
+          [[Preferences sharedPreferences] fontForStyle:8];
       attributes = fixedAttributes;
     }
   }
