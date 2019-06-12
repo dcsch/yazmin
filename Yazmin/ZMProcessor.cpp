@@ -42,9 +42,9 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _pc(0), _operandOffset(0), _instructionLength(0), _operandCount(0),
       _operands(), _operandTypes(), _operandVariables(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
-      _packedAddressFactor(0), _stringBuf(0), _stringBufLen(0), _redirectAddr(),
-      _redirectIndex(-1), _hasQuit(false), _hasHalted(false),
-      _continuingAfterHalt(false), _logging(false) {
+      _packedAddressFactor(0), _redirectAddr(), _redirectIndex(-1),
+      _hasQuit(false), _hasHalted(false), _continuingAfterHalt(false),
+      _logging(false) {
 
   // If this is not a version 6 story, push a dummy frame onto the stack
   // From the Quetzal spec (Section 4.11):
@@ -60,8 +60,6 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
   _seed = macuptime() + 1000;
   srandom(_seed);
 }
-
-ZMProcessor::~ZMProcessor() { delete[] _stringBuf; }
 
 bool ZMProcessor::execute() {
   // Lazy initialisation
@@ -774,14 +772,14 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
     advancePC();
 }
 
-void ZMProcessor::printToTable(const char *str) {
+void ZMProcessor::printToTable(const std::string &str) {
   uint16_t addr = _redirectAddr[_redirectIndex];
-  size_t len = strlen(str);
-  memcpy(_memory.getData() + addr + 2, str, len);
+  size_t len = str.length();
+  memcpy(_memory.getData() + addr + 2, str.c_str(), len);
   _memory.setWord(addr, len);
 }
 
-void ZMProcessor::print(const char *str) {
+void ZMProcessor::print(const std::string &str) {
   if (_redirectIndex == -1)
     _io.print(str);
   else
@@ -849,15 +847,6 @@ void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {
   for (int i = 0; i < _instructionLength; ++i)
     printf(" %02x", _memory[_pc + i]);
   printf("\n");
-}
-
-char *ZMProcessor::getStringBuf(size_t len) {
-  if (_stringBufLen < len) {
-    delete[] _stringBuf;
-    _stringBuf = new char[len];
-    _stringBufLen = len;
-  }
-  return _stringBuf;
 }
 
 void ZMProcessor::add() {
@@ -1304,9 +1293,9 @@ void ZMProcessor::insert_obj() {
   if (_operands[0] > 0) {
     ZMObject &obj = _memory.getObject(_operands[0]);
     if (_operands[1] > 0) {
-      ZMObject &dest = _memory.getObject(_operands[1]);
-      printf("Insert object: %s -> %s\n", obj.getShortName().c_str(),
-             dest.getShortName().c_str());
+      //      ZMObject &dest = _memory.getObject(_operands[1]);
+      //      printf("Insert object: %s -> %s\n", obj.getShortName().c_str(),
+      //             dest.getShortName().c_str());
 
       obj.insert(_operands[1]);
     }
@@ -1503,10 +1492,8 @@ void ZMProcessor::print() {
   log("print", false, false);
 
   ZMText text(_memory.getData());
-  size_t len = text.getDecodedLength(_pc + 1) + 1;
-  char *str = getStringBuf(len);
-  size_t encLen = text.getString(_pc + 1, str, len);
-  print(str);
+  size_t encLen;
+  print(text.getString(_pc + 1, encLen));
 
   // Advance by the length of the text
   _pc += encLen + 1;
@@ -1518,10 +1505,7 @@ void ZMProcessor::print_addr() {
   assert(_operands[0] > 1);
 
   ZMText text(_memory.getData());
-  size_t len = text.getDecodedLength(_operands[0]) + 1;
-  char *str = getStringBuf(len);
-  text.getString(_operands[0], str, len);
-  print(str);
+  print(text.getString(_operands[0]));
 
   advancePC();
 }
@@ -1559,10 +1543,7 @@ void ZMProcessor::print_paddr() {
   assert(_operands[0] > 1);
 
   ZMText text(_memory.getData());
-  size_t len = text.getDecodedLength(_packedAddressFactor * _operands[0]) + 1;
-  char *str = getStringBuf(len);
-  text.getString(_packedAddressFactor * _operands[0], str, len);
-  print(str);
+  print(text.getString(_packedAddressFactor * _operands[0]));
 
   advancePC();
 }
@@ -1571,10 +1552,7 @@ void ZMProcessor::print_ret() {
   log("print_ret", false, false);
 
   ZMText text(_memory.getData());
-  size_t len = text.getDecodedLength(_pc + 1) + 1;
-  char *str = getStringBuf(len);
-  text.getString(_pc + 1, str, len);
-  print(str);
+  print(text.getString(_pc + 1));
   print("\r");
 
   // Return and set true

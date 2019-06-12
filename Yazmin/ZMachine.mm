@@ -268,11 +268,10 @@ static const size_t kMaxStorySize = 0x8ffff;
 - (NSArray *)abbreviations {
   NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:96];
   ZMText text(parts->_memory->getData());
-  char buf[256];
   for (int i = 0; i < 96; ++i) {
-    text.abbreviation(i, buf, 255);
+    auto str = text.abbreviation(i);
     [array addObject:[NSString
-                         stringWithCString:buf
+                         stringWithCString:str.c_str()
                                   encoding:[NSString defaultCStringEncoding]]];
   }
   return array;

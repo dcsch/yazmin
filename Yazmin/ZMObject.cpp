@@ -81,12 +81,12 @@ void ZMObject::setAttribute(int attribute, bool b) {
 std::string ZMObject::getShortName() const {
   uint16_t addr = getPropertyTableAddress();
   size_t len = _memory.getByte(addr);
-  char shortName[766] = {0};
   if (len > 0) {
     ZMText text(_memory.getData());
-    text.decode(_memory.getData() + addr + 1, shortName, 766);
+    size_t encLen;
+    return text.decode(_memory.getData() + addr + 1, encLen);
   }
-  return std::string(shortName);
+  return "";
 }
 
 uint16_t ZMObject::getProperty(int property) const {

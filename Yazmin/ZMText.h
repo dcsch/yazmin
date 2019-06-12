@@ -9,26 +9,24 @@
 #ifndef ZM_TEXT_H__
 #define ZM_TEXT_H__
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
+#include <string>
 
 class ZMText {
 public:
   ZMText(uint8_t *memoryBase);
 
-  int decode(const uint8_t *data, char *ascii, size_t maxLen,
-             size_t *encodedLen = 0);
+  std::string decode(const uint8_t *data, size_t &encodedLen);
 
   void encode(uint8_t *data, const char *ascii, size_t asciiLen,
               size_t encodedLen);
 
-  int abbreviation(int index, char *ascii, size_t maxLen);
+  std::string abbreviation(int index);
 
-  size_t getEncodedLength(uint32_t addr);
+  std::string getString(uint32_t addr, size_t &encodedLen);
 
-  size_t getDecodedLength(uint32_t addr);
-
-  size_t getString(uint32_t addr, char *ascii, size_t maxLen);
+  std::string getString(uint32_t addr);
 
 private:
   uint8_t *_memoryBase;
@@ -47,15 +45,18 @@ private:
 
   char _highBits;
 
+public:
   static bool unpackWord(uint16_t word, char *bytes);
 
   static uint16_t packWord(const uint8_t *bytes);
 
-  int zsciiToAscii(char z, char *ascii, size_t maxLen);
+  void zsciiToUTF8(char z, std::string &str);
 
   int asciiToZscii(char ascii, uint8_t *zscii);
 
   bool findInAlphabet(char ascii, int *charset, uint8_t *zscii);
+
+  static void appendAsUTF8(std::string &str, wchar_t c);
 };
 
 #endif // ZM_TEXT_H__

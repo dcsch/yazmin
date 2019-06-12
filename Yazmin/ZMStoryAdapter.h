@@ -28,7 +28,7 @@ public:
 
   void setTextStyle(int style) override;
 
-  void print(const char *str) override;
+  void print(const std::string &str) override;
 
   void printNumber(int number) override;
 

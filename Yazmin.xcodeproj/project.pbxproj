@@ -11,6 +11,7 @@
 		0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */; };
 		0316CF8122AAEFF600C882C5 /* ZMStackTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0316CF8022AAEFF600C882C5 /* ZMStackTests.mm */; };
 		0316CF8322AAF02200C882C5 /* ZMQuetzalTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0316CF8222AAF02200C882C5 /* ZMQuetzalTests.mm */; };
+		0316CFCD22B07A4A00C882C5 /* ZMTextTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		0366C80E21002FAC003EEEB6 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80D21002FAC003EEEB6 /* README.md */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
@@ -86,6 +87,7 @@
 		0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridStoryFacetTest.m; sourceTree = "<group>"; };
 		0316CF8022AAEFF600C882C5 /* ZMStackTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMStackTests.mm; sourceTree = "<group>"; };
 		0316CF8222AAF02200C882C5 /* ZMQuetzalTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMQuetzalTests.mm; sourceTree = "<group>"; };
+		0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMTextTests.mm; sourceTree = "<group>"; };
 		03217B07228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Abbreviations.xib; sourceTree = "<group>"; };
 		03217B08228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Debug.xib; sourceTree = "<group>"; };
 		03217B09228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Library.xib; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */,
 				0316CF8022AAEFF600C882C5 /* ZMStackTests.mm */,
 				0316CF8222AAF02200C882C5 /* ZMQuetzalTests.mm */,
+				0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */,
 				639A09A313322F08000E27F4 /* Supporting Files */,
 			);
 			path = YazminTests;
@@ -535,6 +538,7 @@
 				639A09AC13322F08000E27F4 /* YazminTests.m in Sources */,
 				0316CF8122AAEFF600C882C5 /* ZMStackTests.mm in Sources */,
 				03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */,
+				0316CFCD22B07A4A00C882C5 /* ZMTextTests.mm in Sources */,
 				0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */,
 				0316CF8322AAF02200C882C5 /* ZMQuetzalTests.mm in Sources */,
 			);

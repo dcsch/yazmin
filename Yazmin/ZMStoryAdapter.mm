@@ -141,10 +141,9 @@ void ZMStoryAdapter::setTextStyle(int style) {
     [_storyFacet setTextStyle:style];
 }
 
-void ZMStoryAdapter::print(const char *str) {
+void ZMStoryAdapter::print(const std::string &str) {
   NSMutableString *printable =
-      [NSMutableString stringWithCString:str
-                                encoding:NSISOLatin1StringEncoding];
+      [NSMutableString stringWithUTF8String:str.c_str()];
   [printable replaceOccurrencesOfString:@"^"
                              withString:@"\n"
                                 options:0

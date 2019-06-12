@@ -9,8 +9,9 @@
 #ifndef ZM_PROCESSOR_H__
 #define ZM_PROCESSOR_H__
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
+#include <string>
 
 class ZMMemory;
 class ZMStack;
@@ -23,7 +24,7 @@ public:
   ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io, ZMError &error,
               ZMQuetzal &quetzal);
 
-  ~ZMProcessor();
+  ~ZMProcessor() = default;
 
   uint32_t getProgramCounter();
 
@@ -59,8 +60,6 @@ private:
   uint16_t _lastRandomNumber;
   int _version;
   int _packedAddressFactor;
-  char *_stringBuf;
-  size_t _stringBufLen;
   uint16_t _redirectAddr[16];
   int _redirectIndex;
   bool _hasQuit;
@@ -100,15 +99,13 @@ private:
 
   void branchOrAdvancePC(bool testResult);
 
-  void printToTable(const char *str);
+  void printToTable(const std::string &str);
 
-  void print(const char *str);
+  void print(const std::string &str);
 
   void print(int16_t number);
 
   void log(const char *name, bool showStore, bool showBranch);
-
-  char *getStringBuf(size_t len);
 
   // St -- 2OP:20 14 add a b -> (result)
   void add();

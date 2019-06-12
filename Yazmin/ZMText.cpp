@@ -22,6 +22,15 @@ static const char _defaultA2[] = {' ',  '^', '0', '1',  '2', '3', '4', '5', '6',
                                   '7',  '8', '9', '.',  ',', '!', '?', '_', '#',
                                   '\'', '"', '/', '\\', '-', ':', '(', ')'};
 
+// Unicode translations from 155 to 223
+static const wchar_t _defaultU[] = {
+    L'ä', L'ö', L'ü', L'Ä', L'Ö', L'Ü', L'ß', L'»', L'«', L'ë', L'ï', L'ÿ',
+    L'Ë', L'Ï', L'á', L'é', L'í', L'ó', L'ú', L'ý', L'Á', L'É', L'Í', L'Ó',
+    L'Ú', L'Ý', L'à', L'è', L'ì', L'ò', L'ù', L'À', L'È', L'Ì', L'Ò', L'Ù',
+    L'â', L'ê', L'î', L'ô', L'û', L'Â', L'Ê', L'Î', L'Ô', L'Û', L'å', L'Å',
+    L'ø', L'Ø', L'ã', L'ñ', L'õ', L'Ã', L'Ñ', L'Õ', L'æ', L'Æ', L'ç', L'Ç',
+    L'þ', L'ð', L'Þ', L'Ð', L'£', L'œ', L'Œ', L'¡', L'¿'};
+
 ZMText::ZMText(uint8_t *memoryBase)
     : _memoryBase(memoryBase), _a0(_defaultA0), _a1(_defaultA1),
       _a2(_defaultA2), _charset(_a0), _abbreviation(0), _10bit(0),
@@ -37,29 +46,20 @@ ZMText::ZMText(uint8_t *memoryBase)
   }
 }
 
-int ZMText::decode(const uint8_t *data, char *ascii, size_t maxLen,
-                   size_t *encodedLen) {
+std::string ZMText::decode(const uint8_t *data, size_t &encodedLen) {
+  std::string str;
   const uint8_t *ptr = data;
-  char *asciiPtr = ascii;
   char bytes[3];
   bool eol = false;
-  while (!eol && (static_cast<size_t>(asciiPtr - ascii) < maxLen)) {
+  while (!eol) {
     eol = unpackWord(ZMMemory::readWordFromData(ptr), bytes);
     ptr += 2;
     for (int i = 0; i < 3; ++i) {
-      int len = zsciiToAscii(bytes[i], asciiPtr, maxLen - (asciiPtr - ascii));
-      asciiPtr += len;
+      zsciiToUTF8(bytes[i], str);
     }
   }
-
-  // Null-terminate the string
-  *asciiPtr = 0;
-
-  if (encodedLen != 0)
-    *encodedLen = ptr - data;
-
-  // Return the length
-  return (int)(asciiPtr - ascii);
+  encodedLen = ptr - data;
+  return str;
 }
 
 void ZMText::encode(uint8_t *data, const char *ascii, size_t asciiLen,
@@ -104,42 +104,30 @@ void ZMText::encode(uint8_t *data, const char *ascii, size_t asciiLen,
   }
 }
 
-int ZMText::abbreviation(int index, char *ascii, size_t maxLen) {
+std::string ZMText::abbreviation(int index) {
   ZMHeader header(_memoryBase);
   uint16_t addr = header.getAbbreviationsTableLocation() + 2 * index;
 
   // The abbreviations table uses word addresses, so we must multiply the
   // address by 2
   uint16_t ptr = 2 * ZMMemory::readWordFromData(_memoryBase + addr);
-  int len = decode(_memoryBase + ptr, ascii, maxLen);
+  size_t encLen;
+  auto str = decode(_memoryBase + ptr, encLen);
 
   // 0x05s padding out the end of an abbreviation can leave the charset
   // set incorrectly
   _charset = _a0;
 
-  return len;
+  return str;
 }
 
-size_t ZMText::getEncodedLength(uint32_t addr) {
-  const uint8_t *p = _memoryBase + addr;
-  while ((*p & 0x80) != 0x80) {
-    p += 2;
-  }
-  return (p - (_memoryBase + addr));
+std::string ZMText::getString(uint32_t addr, size_t &encLen) {
+  return decode(_memoryBase + addr, encLen);
 }
 
-size_t ZMText::getDecodedLength(uint32_t addr) {
-  // This is simple at the moment, in that the length it returns can be a
-  // little longer that the string actually is
-  // NOTE: This doesn't work properly because it isn't taking abbreviations
-  // into account.  It will have to be reworked so that it does.
-  return getEncodedLength(addr) * 3 / 2 + 100;
-}
-
-size_t ZMText::getString(uint32_t addr, char *ascii, size_t maxLen) {
+std::string ZMText::getString(uint32_t addr) {
   size_t encLen;
-  decode(_memoryBase + addr, ascii, maxLen, &encLen);
-  return encLen;
+  return decode(_memoryBase + addr, encLen);
 }
 
 bool ZMText::unpackWord(uint16_t word, char *bytes) {
@@ -154,43 +142,42 @@ uint16_t ZMText::packWord(const uint8_t *bytes) {
          (bytes[2] & 0x1f);
 }
 
-int ZMText::zsciiToAscii(char z, char *ascii, size_t maxLen) {
+void ZMText::zsciiToUTF8(char z, std::string &str) {
   if (_10bit > 0) {
     if (_10bit == 2) {
       _highBits = z & 0x1f;
       _10bit = 1;
-      return 0;
     } else {
-      *ascii = _highBits << 5 | z;
+      int index = static_cast<int>(_highBits) << 5 | z;
+      wchar_t c;
+      if (155 <= index && index <= 223)
+        c = _defaultU[index - 155];
+      else
+        c = index;
+      appendAsUTF8(str, c);
       _10bit = 0;
     }
   } else if (_abbreviation != 0) {
     int n = _abbreviation;
     _abbreviation = 0;
-    return abbreviation(((n - 1) << 5) + z, ascii, maxLen);
+    str.append(abbreviation(((n - 1) << 5) + z));
   } else if (z > 5) {
     if (z == 6 && _charset == _a2) {
       _10bit = 2;
       _charset = _a0;
-      return 0;
+      return;
     }
-
-    *ascii = _charset[static_cast<int>(z) - 6];
+    str.append(1, _charset[static_cast<int>(z) - 6]);
     _charset = _a0;
   } else if (z == 0)
-    *ascii = ' ';
+    str.append(1, ' ');
   else if (z == 4) {
     _charset = _a1;
-    return 0;
   } else if (z == 5) {
     _charset = _a2;
-    return 0;
   } else {
     _abbreviation = z;
-    return 0;
   }
-
-  return 1;
 }
 
 bool ZMText::findInAlphabet(char ascii, int *charset, uint8_t *zscii) {
@@ -237,5 +224,32 @@ int ZMText::asciiToZscii(char ascii, uint8_t *zscii) {
     zscii[2] = (ascii >> 5) & 0x1f;
     zscii[3] = ascii & 0x1f;
     return 4;
+  }
+}
+
+void ZMText::appendAsUTF8(std::string &str, wchar_t c) {
+  if (c < 0x80)
+    str.append(1, static_cast<char>(c));
+  else if (c < 0x800) {
+    char enc[] = {
+        static_cast<char>(0b11000000 | c >> 6),
+        static_cast<char>(0b10000000 | (c & 0b00111111)),
+    };
+    str.append(enc, 2);
+  } else if (c < 0x10000) {
+    char enc[] = {
+        static_cast<char>(0b11100000 | c >> 12),
+        static_cast<char>(0b10000000 | ((c >> 6) & 0b00111111)),
+        static_cast<char>(0b10000000 | (c & 0b00111111)),
+    };
+    str.append(enc, 3);
+  } else if (c < 0x110000) {
+    char enc[] = {
+        static_cast<char>(0b11110000 | c >> 18),
+        static_cast<char>(0b10000000 | ((c >> 12) & 0b00111111)),
+        static_cast<char>(0b10000000 | ((c >> 6) & 0b00111111)),
+        static_cast<char>(0b10000000 | (c & 0b00111111)),
+    };
+    str.append(enc, 4);
   }
 }

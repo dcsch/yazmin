@@ -9,8 +9,9 @@
 #ifndef ZM_IO_H__
 #define ZM_IO_H__
 
-#include <stdint.h>
-#include <stdlib.h>
+#include <cstdint>
+#include <cstdlib>
+#include <string>
 
 class ZMIO {
 public:
@@ -34,7 +35,7 @@ public:
 
   virtual void setTextStyle(int style) = 0;
 
-  virtual void print(const char *str) = 0;
+  virtual void print(const std::string &str) = 0;
 
   virtual void printNumber(int number) = 0;
 

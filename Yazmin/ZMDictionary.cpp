@@ -53,13 +53,13 @@ void ZMDictionary::lex(uint16_t textBufferAddress,
                kMaxWordCount, wordIndex, wordLen);
 
   char buf[kMaxWordCount];
-  printf("Word count: %d\n", wordCount);
+  //  printf("Word count: %d\n", wordCount);
   for (int i = 0; i < wordCount; ++i) {
     memcpy(buf, reinterpret_cast<const char *>(_data) + textBufferAddress +
                     wordIndex[i],
            wordLen[i]);
     buf[wordLen[i]] = 0;
-    printf("%s\n", buf);
+    //    printf("%s\n", buf);
   }
 
   // Put the number of words into the parse buffer
@@ -83,7 +83,7 @@ void ZMDictionary::lex(uint16_t textBufferAddress,
       addr = getEntryAddress(j);
       const uint8_t *wordPtr = _data + addr;
       if (memcmp(packedWord, wordPtr, kPackedWordLen) == 0) {
-        printf("%04x\n", addr);
+        //        printf("%04x\n", addr);
         break;
       }
       addr = 0;
