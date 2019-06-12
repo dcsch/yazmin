@@ -152,13 +152,17 @@ void ZMStoryAdapter::print(const std::string &str) {
                              withString:@"\n"
                                 options:0
                                   range:NSMakeRange(0, printable.length)];
-  if (screenEnabled)
+  if (screenEnabled) {
+    _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
     [_storyFacet print:printable];
+  }
 }
 
 void ZMStoryAdapter::printNumber(int number) {
-  if (screenEnabled)
+  if (screenEnabled) {
+    _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
     [_storyFacet printNumber:number];
+  }
 }
 
 void ZMStoryAdapter::newLine() {

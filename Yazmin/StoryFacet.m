@@ -14,6 +14,8 @@
   int _fontId;
 }
 
+- (NSDictionary *)attributesForPrinting;
+
 @end
 
 @implementation StoryFacet
@@ -105,24 +107,37 @@
   }
 }
 
+- (NSDictionary *)attributesForPrinting {
+  NSDictionary *attributes = _currentAttributes;
+  if (_forceFixedPitchFont) {
+    NSFont *font = _currentAttributes[NSFontAttributeName];
+    if (!font.isFixedPitch) {
+      NSMutableDictionary *fixedAttributes = [_currentAttributes mutableCopy];
+      fixedAttributes[NSFontAttributeName] = [[Preferences sharedPreferences] fontForStyle:8];
+      attributes = fixedAttributes;
+    }
+  }
+  return attributes;
+}
+
 - (void)print:(NSString *)text {
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:text
-                                      attributes:_currentAttributes];
+                                      attributes:[self attributesForPrinting]];
   [_textStorage appendAttributedString:attrText];
 }
 
 - (void)printNumber:(int)number {
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:(@(number)).stringValue
-                                      attributes:_currentAttributes];
+                                      attributes:[self attributesForPrinting]];
   [_textStorage appendAttributedString:attrText];
 }
 
 - (void)newLine {
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:@"\n"
-                                      attributes:_currentAttributes];
+                                      attributes:[self attributesForPrinting]];
   [_textStorage appendAttributedString:attrText];
 }
 

@@ -8,10 +8,8 @@
 
 #import <XCTest/XCTest.h>
 
-
 @interface YazminTests : XCTestCase {
 @private
-    
 }
 
 @end

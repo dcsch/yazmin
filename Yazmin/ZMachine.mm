@@ -334,4 +334,8 @@ static const size_t kMaxStorySize = 0x8ffff;
   parts->_memory->getHeader().setRequestScreenRedraw(needsRedraw);
 }
 
+- (BOOL)forcedFixedPitchFont {
+  return parts->_memory->getHeader().getForceFixedPitchFont();
+}
+
 @end

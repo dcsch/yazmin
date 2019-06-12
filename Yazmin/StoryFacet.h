@@ -19,6 +19,7 @@
 @property NSTextStorage *textStorage;
 @property(readonly) NSMutableDictionary *currentAttributes;
 @property(readonly) int currentStyle;
+@property BOOL forceFixedPitchFont;
 @property int numberOfLines;
 
 - (void)erase;

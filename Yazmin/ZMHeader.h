@@ -34,7 +34,11 @@ public:
 
   uint16_t getBaseStaticMemory() const;
 
-  uint8_t getFlags2() const;
+  uint16_t getFlags2() const;
+
+  void setFlags2(uint16_t flags2);
+
+  bool getForceFixedPitchFont() const;
 
   bool getRequestScreenRedraw() const;
 
@@ -98,17 +102,28 @@ inline uint16_t ZMHeader::getBaseStaticMemory() const {
   return ((uint16_t)_headerData[0x0e] << 8) | _headerData[0x0f];
 }
 
-inline uint8_t ZMHeader::getFlags2() const { return _headerData[0x10]; }
+inline uint16_t ZMHeader::getFlags2() const {
+  return ((uint16_t)_headerData[0x10] << 8) | _headerData[0x11];
+}
+
+inline void ZMHeader::setFlags2(uint16_t flags2) {
+  _headerData[0x10] = flags2 >> 8;
+  _headerData[0x11] = flags2;
+}
+
+inline bool ZMHeader::getForceFixedPitchFont() const {
+  return (getFlags2() >> 1) & 1;
+}
 
 inline bool ZMHeader::getRequestScreenRedraw() const {
-  return getFlags2() >> 2 & 1;
+  return (getFlags2() >> 2) & 1;
 }
 
 inline void ZMHeader::setRequestScreenRedraw(bool redraw) {
   if (redraw)
-    _headerData[0x10] |= 1 << 2;
+    setFlags2(getFlags2() | (1 << 2));
   else
-    _headerData[0x10] &= ~(1 << 2);
+    setFlags2(getFlags2() & ~(1 << 2));
 }
 
 inline uint16_t ZMHeader::getAbbreviationsTableLocation() const {

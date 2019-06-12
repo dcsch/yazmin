@@ -40,5 +40,6 @@
 @property unsigned int screenWidth;
 @property unsigned int screenHeight;
 @property BOOL needsRedraw;
+@property(readonly) BOOL forcedFixedPitchFont;
 
 @end
