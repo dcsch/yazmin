@@ -49,54 +49,53 @@ ZMText::ZMText(uint8_t *memoryBase)
 std::string ZMText::decode(const uint8_t *data, size_t &encodedLen) {
   std::string str;
   const uint8_t *ptr = data;
-  char bytes[3];
+  char zchars[3];
   bool eol = false;
   while (!eol) {
-    eol = unpackWord(ZMMemory::readWordFromData(ptr), bytes);
+    eol = unpackWord(ZMMemory::readWordFromData(ptr), zchars);
     ptr += 2;
     for (int i = 0; i < 3; ++i) {
-      zsciiToUTF8(bytes[i], str);
+      zCharToUTF8(zchars[i], str);
     }
   }
   encodedLen = ptr - data;
   return str;
 }
 
-void ZMText::encode(uint8_t *data, const char *ascii, size_t asciiLen,
+void ZMText::encode(uint8_t *data, const char *zscii, size_t zsciiLen,
                     size_t encodedLen) {
-  //    char bytes[3];
-  uint8_t zscii[256];
-  uint8_t *zsciiPtr = zscii;
-  int zsciiLen;
-  const char *asciiPtr = ascii;
-  for (size_t i = 0; i < asciiLen; ++i) {
-    zsciiLen = asciiToZscii(*asciiPtr, zsciiPtr);
-    ++asciiPtr;
-    zsciiPtr += zsciiLen;
+  uint8_t zchars[256];
+  uint8_t *zcharsPtr = zchars;
+  int zcharLen;
+  const char *zsciiPtr = zscii;
+  for (size_t i = 0; i < zsciiLen; ++i) {
+    zcharLen = zsciiToZChar(*zsciiPtr, zcharsPtr);
+    ++zsciiPtr;
+    zcharsPtr += zcharLen;
   }
-  zsciiLen = (int)(zsciiPtr - zscii);
+  zcharLen = (int)(zcharsPtr - zchars);
 
   //    // Pad the buffer out to a multiple of three with 5s
-  //    int modLen = zsciiLen % 3;
+  //    int modLen = zcharLen % 3;
   //    if (modLen > 0)
   //        for (int i = 0; i < modLen; ++i)
-  //            *zsciiPtr++ = 5;
-  //    zsciiLen += modLen;
+  //            *zcharsPtr++ = 5;
+  //    zcharLen += modLen;
 
   // Pad the buffer so the length will pack down to the specified
   // encoded length (this assumes that the unpacked length is divisable
   // by three)
-  int paddingLen = (int)(encodedLen * 3 / 2) - zsciiLen;
+  int paddingLen = (int)(encodedLen * 3 / 2) - zcharLen;
   for (int i = 0; i < paddingLen; ++i)
-    *zsciiPtr++ = 5;
-  zsciiLen += paddingLen;
+    *zcharsPtr++ = 5;
+  zcharLen += paddingLen;
 
   uint8_t *dataPtr = data;
-  for (int i = 0; i < zsciiLen; i += 3) {
-    uint16_t word = packWord(zscii + i);
+  for (int i = 0; i < zcharLen; i += 3) {
+    uint16_t word = packWord(zchars + i);
 
     // Set the high bit of the last word to 1, thus terminating the string
-    if (i == zsciiLen - 3)
+    if (i == zcharLen - 3)
       word |= 0x8000;
 
     ZMMemory::writeWordToData(dataPtr, word);
@@ -130,19 +129,19 @@ std::string ZMText::getString(uint32_t addr) {
   return decode(_memoryBase + addr, encLen);
 }
 
-bool ZMText::unpackWord(uint16_t word, char *bytes) {
-  bytes[0] = static_cast<char>((word >> 10) & 0x1f);
-  bytes[1] = static_cast<char>((word >> 5) & 0x1f);
-  bytes[2] = static_cast<char>(word & 0x1f);
+bool ZMText::unpackWord(uint16_t word, char *zchars) {
+  zchars[0] = static_cast<char>((word >> 10) & 0x1f);
+  zchars[1] = static_cast<char>((word >> 5) & 0x1f);
+  zchars[2] = static_cast<char>(word & 0x1f);
   return (word & 0x8000) ? true : false;
 }
 
-uint16_t ZMText::packWord(const uint8_t *bytes) {
-  return ((bytes[0] & 0x1f) << 10) | ((bytes[1] & 0x1f) << 5) |
-         (bytes[2] & 0x1f);
+uint16_t ZMText::packWord(const uint8_t *zchars) {
+  return ((zchars[0] & 0x1f) << 10) | ((zchars[1] & 0x1f) << 5) |
+         (zchars[2] & 0x1f);
 }
 
-void ZMText::zsciiToUTF8(char z, std::string &str) {
+void ZMText::zCharToUTF8(char z, std::string &str) {
   if (_10bit > 0) {
     if (_10bit == 2) {
       _highBits = z & 0x1f;
@@ -180,51 +179,68 @@ void ZMText::zsciiToUTF8(char z, std::string &str) {
   }
 }
 
-bool ZMText::findInAlphabet(char ascii, int *charset, uint8_t *zscii) {
+bool ZMText::findInAlphabet(char zscii, int *charset, uint8_t *zchar) {
   const char *an[] = {_a0, _a1, _a2};
   for (int set = 0; set < 3; ++set) {
     // Scan for the character
     for (uint8_t i = 0; i < 26; ++i)
-      if (an[set][i] == ascii) {
+      if (an[set][i] == zscii) {
         *charset = set;
-        *zscii = i + 6;
+        *zchar = i + 6;
         return true;
       }
   }
   return false;
 }
 
-int ZMText::asciiToZscii(char ascii, uint8_t *zscii) {
+int ZMText::zsciiToZChar(char zscii, uint8_t *zchar) {
   // If the ascii char is in any of the three (A0, A1, A2) 5-bit charsets,
   // encode into 5 bits
   int set;
   uint8_t z;
-  if (ascii == 32) // space
+  if (zscii == 32) // space
   {
-    zscii[0] = 0;
+    zchar[0] = 0;
     return 1;
-  } else if (findInAlphabet(ascii, &set, &z)) {
+  } else if (findInAlphabet(zscii, &set, &z)) {
     if (set == 0) {
-      zscii[0] = z;
+      zchar[0] = z;
       return 1;
     } else if (set == 1) {
-      zscii[0] = 4;
-      zscii[1] = z;
+      zchar[0] = 4;
+      zchar[1] = z;
       return 2;
     } else if (set == 2) {
-      zscii[0] = 5;
-      zscii[1] = z;
+      zchar[0] = 5;
+      zchar[1] = z;
       return 2;
     }
     return 0;
   } else {
     // We need to encode the char as a 10-bit value
-    zscii[0] = 5;
-    zscii[1] = 6;
-    zscii[2] = (ascii >> 5) & 0x1f;
-    zscii[3] = ascii & 0x1f;
+    zchar[0] = 5;
+    zchar[1] = 6;
+    zchar[2] = (zscii >> 5) & 0x1f;
+    zchar[3] = zscii & 0x1f;
     return 4;
   }
+}
+
+uint16_t ZMText::findInExtras(wchar_t wc) {
+  // Scan for the character in the default unicode set
+  for (int i = 0; i < 69; ++i)
+    if (_defaultU[i] == wc)
+      return i + 155;
+  return 0;
+}
+
+uint16_t ZMText::wcharToZscii(wchar_t wc) {
+  if (32 <= wc && wc <= 126) // (3.8.3)
+    return wc;
+  uint16_t zscii = findInExtras(wc); // (3.8.5)
+  if (zscii)
+    return zscii;
+  return '?';
 }
 
 void ZMText::appendAsUTF8(std::string &str, wchar_t c) {

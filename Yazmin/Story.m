@@ -281,9 +281,9 @@
   [_storyController prepareInputChar];
 }
 
-- (char)endInputChar {
+- (unichar)endInputChar {
   // 'inputChar' consumes the input string
-  char c = [_inputString characterAtIndex:0];
+  unichar c = [_inputString characterAtIndex:0];
   _inputString = nil;
   return c;
 }

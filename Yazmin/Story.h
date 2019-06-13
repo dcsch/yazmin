@@ -41,6 +41,6 @@
 - (void)beginInputWithOffset:(NSInteger)offset;
 - (NSString *)endInput;
 - (void)beginInputChar;
-- (char)endInputChar;
+- (unichar)endInputChar;
 
 @end

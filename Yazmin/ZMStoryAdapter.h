@@ -44,7 +44,7 @@ public:
 
   void beginInputChar() override;
 
-  char endInputChar() override;
+  wchar_t endInputChar() override;
 
   void soundEffect(int number, int effect, int repeat, int volume) override;
 

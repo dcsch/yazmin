@@ -17,9 +17,11 @@ class ZMText {
 public:
   ZMText(uint8_t *memoryBase);
 
+  // Decode Z-characters into UTF-8
   std::string decode(const uint8_t *data, size_t &encodedLen);
 
-  void encode(uint8_t *data, const char *ascii, size_t asciiLen,
+  // Encode zscii into Z-characters
+  void encode(uint8_t *data, const char *zscii, size_t zsciiLen,
               size_t encodedLen);
 
   std::string abbreviation(int index);
@@ -46,15 +48,19 @@ private:
   char _highBits;
 
 public:
-  static bool unpackWord(uint16_t word, char *bytes);
+  static bool unpackWord(uint16_t word, char *zchars);
 
-  static uint16_t packWord(const uint8_t *bytes);
+  static uint16_t packWord(const uint8_t *zchars);
 
-  void zsciiToUTF8(char z, std::string &str);
+  void zCharToUTF8(char z, std::string &str);
 
-  int asciiToZscii(char ascii, uint8_t *zscii);
+  int zsciiToZChar(char zscii, uint8_t *zchar);
 
-  bool findInAlphabet(char ascii, int *charset, uint8_t *zscii);
+  bool findInAlphabet(char zscii, int *charset, uint8_t *zchar);
+
+  uint16_t findInExtras(wchar_t wc);
+
+  uint16_t wcharToZscii(wchar_t wc);
 
   static void appendAsUTF8(std::string &str, wchar_t c);
 };

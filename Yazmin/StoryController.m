@@ -328,15 +328,20 @@
 }
 
 - (void)characterInput:(int)c {
-  [self resolveStatusHeight];
 
-  //  NSLog(@"characterInput: %c", c);
-  Story *story = self.document;
-  unsigned char byteChar = (unsigned char)c;
-  NSString *str = [[NSString alloc] initWithBytes:&byteChar
-                                           length:1
-                                         encoding:NSASCIIStringEncoding];
-  [story setInputString:str];
+  // TODO: Deal with single character inputs that are composed of multiple key
+  // presses
+  if (c > -1) {
+    [self resolveStatusHeight];
+
+    //  NSLog(@"characterInput: %c", c);
+    Story *story = self.document;
+    unsigned char byteChar = (unsigned char)c;
+    NSString *str = [[NSString alloc] initWithBytes:&byteChar
+                                             length:1
+                                           encoding:NSASCIIStringEncoding];
+    [story setInputString:str];
+  }
   [self executeStory];
 }
 

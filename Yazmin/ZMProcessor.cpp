@@ -1712,9 +1712,10 @@ void ZMProcessor::read_char() {
   }
   _io.stopTimedRoutine();
 
-  char c = _io.endInputChar();
-
-  setVariable(_store, c);
+  wchar_t wc = _io.endInputChar();
+  ZMText text(_memory.getData());
+  uint16_t zsciiChar = text.wcharToZscii(wc);
+  setVariable(_store, zsciiChar);
   advancePC();
 }
 

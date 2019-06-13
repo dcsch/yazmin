@@ -196,7 +196,7 @@ size_t ZMStoryAdapter::endInput(char *str, size_t maxLen) {
 
 void ZMStoryAdapter::beginInputChar() { [_story beginInputChar]; }
 
-char ZMStoryAdapter::endInputChar() { return [_story endInputChar]; }
+wchar_t ZMStoryAdapter::endInputChar() { return [_story endInputChar]; }
 
 void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
                                  int volume) {

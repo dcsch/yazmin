@@ -150,7 +150,10 @@
       code = 132;
       break;
     default:
-      code = [event.characters characterAtIndex:0];
+      if (event.characters.length > 0)
+        code = [event.characters characterAtIndex:0];
+      else
+        code = -1;
     }
     [_storyInput characterInput:code];
   }

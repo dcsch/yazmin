@@ -51,7 +51,7 @@ public:
 
   virtual void beginInputChar() = 0;
 
-  virtual char endInputChar() = 0;
+  virtual wchar_t endInputChar() = 0;
 
   virtual void soundEffect(int number, int effect, int repeat, int volume) = 0;
 
