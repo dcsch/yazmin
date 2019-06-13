@@ -8,8 +8,12 @@
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
     : _story(story), _storyFacet(nil), timer(nil), screenEnabled(true),
       transcriptEnabled(false) {
+
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
+
+  lowSound = [NSSound soundNamed:@"Bottle"];
+  highSound = [NSSound soundNamed:@"Hero"];
 }
 
 ZMStoryAdapter::~ZMStoryAdapter() {}
@@ -124,6 +128,11 @@ void ZMStoryAdapter::setColor(int foreground, int background) {
     [_storyFacet setColorForeground:foreground background:background];
 }
 
+void ZMStoryAdapter::setTrueColor(int foreground, int background) {
+  if (screenEnabled)
+    [_storyFacet setTrueColorForeground:foreground background:background];
+}
+
 void ZMStoryAdapter::setCursor(int line, int column) {
   if (screenEnabled)
     [_storyFacet setCursorLine:line column:column];
@@ -188,6 +197,16 @@ size_t ZMStoryAdapter::endInput(char *str, size_t maxLen) {
 void ZMStoryAdapter::beginInputChar() { [_story beginInputChar]; }
 
 char ZMStoryAdapter::endInputChar() { return [_story endInputChar]; }
+
+void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
+                                 int volume) {
+
+  // Minimal implementation
+  if (number == 1 || number == 0)
+    [highSound play];
+  else if (number == 2)
+    [lowSound play];
+}
 
 void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
   NSTimeInterval interval = time / 10.0;

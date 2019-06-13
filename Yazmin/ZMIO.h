@@ -29,6 +29,8 @@ public:
 
   virtual void setColor(int foreground, int background) = 0;
 
+  virtual void setTrueColor(int foreground, int background) = 0;
+
   virtual void setCursor(int line, int column) = 0;
 
   virtual int setFont(int font) = 0;
@@ -50,6 +52,8 @@ public:
   virtual void beginInputChar() = 0;
 
   virtual char endInputChar() = 0;
+
+  virtual void soundEffect(int number, int effect, int repeat, int volume) = 0;
 
   virtual void startTimedRoutine(int time, int routine) = 0;
 

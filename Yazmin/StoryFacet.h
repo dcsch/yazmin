@@ -24,6 +24,7 @@
 
 - (void)erase;
 - (void)setColorForeground:(int)fg background:(int)bg;
+- (void)setTrueColorForeground:(int)fg background:(int)bg;
 - (void)setCursorLine:(int)line column:(int)column;
 - (int)setFont:(int)fontId;
 - (void)setTextStyle:(int)style;

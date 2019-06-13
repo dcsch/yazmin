@@ -362,11 +362,17 @@ private:
   // -- -- VAR:241 11 4 set_text_style style
   void set_text_style();
 
+  // -- -- EXT:13 D 5/* set_true_colour foreground background
+  void set_true_colour();
+
   // -- -- VAR:235 B 3 set_window window
   void set_window();
 
   // -- -- 0OP:188 C 3 show_status
   void show_status();
+
+  // -- -- VAR:245 15 5/3 sound_effect number effect volume routine
+  void sound_effect();
 
   // -- -- VAR:234 A 3 split_window lines
   void split_window();

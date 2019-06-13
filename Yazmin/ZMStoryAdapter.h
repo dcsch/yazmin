@@ -22,6 +22,8 @@ public:
 
   void setColor(int foreground, int background) override;
 
+  void setTrueColor(int foreground, int background) override;
+
   void setCursor(int line, int column) override;
 
   int setFont(int font) override;
@@ -44,6 +46,8 @@ public:
 
   char endInputChar() override;
 
+  void soundEffect(int number, int effect, int repeat, int volume) override;
+
   void startTimedRoutine(int time, int routine) override;
 
   void stopTimedRoutine() override;
@@ -59,6 +63,8 @@ public:
 private:
   Story *_story;
   StoryFacet *_storyFacet;
+  NSSound *lowSound;
+  NSSound *highSound;
   NSTimer *timer;
   bool screenEnabled;
   bool transcriptEnabled;

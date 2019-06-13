@@ -601,9 +601,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   //  case 0x14:
   //    input_stream(); // v3
   //    break;
-  //  case 0x15:
-  //    sound_effect(); // v5/3
-  //    break;
+  case 0x15:
+    sound_effect(); // v5/3
+    break;
   case 0x16:
     read_char(); // v4
     break;
@@ -678,9 +678,9 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   //  case 0x0c:
   //    check_unicode();
   //    break;
-  //  case 0x0d:
-  //    set_true_colour();
-  //    break;
+  case 0x0d:
+    set_true_colour();
+    break;
   default: {
     char msg[256];
     snprintf(msg, 256, "Quitting on: %05x: EXT:%d (%x)\n", _pc,
@@ -760,7 +760,6 @@ void ZMProcessor::setVariable(int index, uint16_t value, bool noPush) {
 void ZMProcessor::advancePC() { _pc += _instructionLength; }
 
 void ZMProcessor::branchOrAdvancePC(bool testResult) {
-  // if ((testResult && _branchOnTrue) || (!testResult && !_branchOnTrue))
   if (testResult == _branchOnTrue) {
     // If branch is 0 or 1, then rtrue or rfalse
     if (0 <= _branch && _branch <= 1) {
@@ -1971,6 +1970,13 @@ void ZMProcessor::set_text_style() {
   advancePC();
 }
 
+void ZMProcessor::set_true_colour() {
+  log("set_true_colour", false, false);
+
+  _io.setTrueColor(_operands[0], _operands[1]);
+  advancePC();
+}
+
 void ZMProcessor::set_window() {
   log("set_window", false, false);
 
@@ -1983,6 +1989,15 @@ void ZMProcessor::show_status() {
 
   if (_version == 3)
     _io.showStatus();
+  advancePC();
+}
+
+void ZMProcessor::sound_effect() {
+  log("sound_effect", false, false);
+
+  int repeat = _operands[2] >> 8;
+  int volume = _operands[2] & 0xff;
+  _io.soundEffect(_operands[0], _operands[1], repeat, volume);
   advancePC();
 }
 
