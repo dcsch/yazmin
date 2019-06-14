@@ -10,20 +10,21 @@
 #include "ZMText.h"
 #include "ZMMemory.h"
 
-static const char _defaultA0[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-                                  'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                                  's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+static const char defaultA0[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+                                 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
+                                 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
 
-static const char _defaultA1[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-                                  'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
-                                  'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+static const char defaultA1[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+                                 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+                                 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-static const char _defaultA2[] = {' ',  '^', '0', '1',  '2', '3', '4', '5', '6',
-                                  '7',  '8', '9', '.',  ',', '!', '?', '_', '#',
-                                  '\'', '"', '/', '\\', '-', ':', '(', ')'};
+static const char defaultA2[] = {' ',  '^', '0', '1',  '2', '3', '4', '5', '6',
+                                 '7',  '8', '9', '.',  ',', '!', '?', '_', '#',
+                                 '\'', '"', '/', '\\', '-', ':', '(', ')'};
 
 // Unicode translations from 155 to 223
-static const wchar_t _defaultU[] = {
+static const uint8_t defaultULength = 69;
+static const uint16_t defaultU[] = {
     L'ä', L'ö', L'ü', L'Ä', L'Ö', L'Ü', L'ß', L'»', L'«', L'ë', L'ï', L'ÿ',
     L'Ë', L'Ï', L'á', L'é', L'í', L'ó', L'ú', L'ý', L'Á', L'É', L'Í', L'Ó',
     L'Ú', L'Ý', L'à', L'è', L'ì', L'ò', L'ù', L'À', L'È', L'Ì', L'Ò', L'Ù',
@@ -32,9 +33,9 @@ static const wchar_t _defaultU[] = {
     L'þ', L'ð', L'Þ', L'Ð', L'£', L'œ', L'Œ', L'¡', L'¿'};
 
 ZMText::ZMText(uint8_t *memoryBase)
-    : _memoryBase(memoryBase), _a0(_defaultA0), _a1(_defaultA1),
-      _a2(_defaultA2), _charset(_a0), _abbreviation(0), _10bit(0),
-      _highBits(0) {
+    : _memoryBase(memoryBase), _a0(defaultA0), _a1(defaultA1), _a2(defaultA2),
+      _uTable(&defaultULength, defaultU, true), _charset(_a0), _abbreviation(0),
+      _10bit(0), _highBits(0) {
   // Are we to use an alphabet table from memory?
   ZMHeader header(_memoryBase);
   uint16_t addr = header.getAlphabetTableAddress();
@@ -44,6 +45,9 @@ ZMText::ZMText(uint8_t *memoryBase)
     _a2 = _a1 + 26;
     _charset = _a0;
   }
+  addr = header.getUnicodeTranslationTableAddress();
+  if (addr)
+    _uTable = ZMWordTable(_memoryBase + addr, _memoryBase + addr + 1);
 }
 
 std::string ZMText::decode(const uint8_t *data, size_t &encodedLen) {
@@ -149,8 +153,8 @@ void ZMText::zCharToUTF8(char z, std::string &str) {
     } else {
       int index = static_cast<int>(_highBits) << 5 | z;
       wchar_t c;
-      if (155 <= index && index <= 223)
-        c = _defaultU[index - 155];
+      if (155 <= index && index < 155 + _uTable.getLength())
+        c = _uTable.getWord(index - 155);
       else
         c = index;
       appendAsUTF8(str, c);
@@ -166,7 +170,13 @@ void ZMText::zCharToUTF8(char z, std::string &str) {
       _charset = _a0;
       return;
     }
-    str.append(1, _charset[static_cast<int>(z) - 6]);
+    uint8_t index = _charset[static_cast<int>(z) - 6];
+    wchar_t c;
+    if (155 <= index && index < 155 + _uTable.getLength())
+      c = _uTable.getWord(index - 155);
+    else
+      c = index;
+    appendAsUTF8(str, c);
     _charset = _a0;
   } else if (z == 0)
     str.append(1, ' ');
@@ -227,9 +237,9 @@ int ZMText::zsciiToZChar(char zscii, uint8_t *zchar) {
 }
 
 uint16_t ZMText::findInExtras(wchar_t wc) {
-  // Scan for the character in the default unicode set
-  for (int i = 0; i < 69; ++i)
-    if (_defaultU[i] == wc)
+  // Scan for the character in the unicode translation table
+  for (int i = 0; i < _uTable.getLength(); ++i)
+    if (_uTable.getWord(i) == wc)
       return i + 155;
   return 0;
 }
@@ -241,6 +251,30 @@ uint16_t ZMText::wcharToZscii(wchar_t wc) {
   if (zscii)
     return zscii;
   return '?';
+}
+
+size_t ZMText::UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen) {
+  char *zsciiPtr = zscii;
+  int len = 0;
+  wchar_t wc;
+  for (uint8_t c : str) {
+    if ((c & 0x80) == 0) { // stand-alone char
+      *zsciiPtr++ = wcharToZscii(c);
+    } else if ((c & 0xc0) == 0xc0) { // first byte in sequence
+      len = ((c >> 6) & 1) + ((c >> 5) & 1) + ((c >> 4) & 1);
+      uint8_t mask = 0xc0 | (len >= 2 ? 0x20 : 0) | (len >= 3 ? 0x10 : 0);
+      wc = static_cast<wchar_t>(c & ~mask) << (6 * len);
+    } else if (((c & 0x80) == 0x80) && len > 0) { // next byte in sequence
+      len--;
+      wc |= static_cast<wchar_t>(c & 0x7f) << (6 * len);
+      if (len == 0)
+        *zsciiPtr++ = wcharToZscii(wc);
+    }
+
+    if (zsciiPtr - zscii >= maxLen)
+      break;
+  }
+  return zsciiPtr - zscii;
 }
 
 void ZMText::appendAsUTF8(std::string &str, wchar_t c) {

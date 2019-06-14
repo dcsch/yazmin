@@ -1649,14 +1649,17 @@ void ZMProcessor::sread() {
     return;
   }
 
+  std::string str = _io.endInput();
+
+  // Convert the text to lower case
+  // (NOTE: This is now being done upstream, to handle localization issues)
+  // std::transform(str.begin(), str.end(), str.begin(), std::tolower);
+
   size_t maxLen = _memory.getByte(_operands[0]);
   char *textBuf =
       reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 1;
-  size_t len = _io.endInput(textBuf, maxLen);
-
-  // Convert the text to lower case
-  for (unsigned int i = 0; i < len; ++i)
-    textBuf[i] = tolower(textBuf[i]);
+  ZMText text(_memory.getData());
+  text.UTF8ToZscii(textBuf, str, maxLen);
 
   _memory.getDictionary().lex(_operands[0], _operands[1]);
   advancePC();
@@ -1679,14 +1682,17 @@ void ZMProcessor::aread() {
   }
   _io.stopTimedRoutine();
 
+  std::string str = _io.endInput();
+
+  // Convert the text to lower case
+  // (NOTE: This is now being done upstream, to handle localization issues)
+  // std::transform(str.begin(), str.end(), str.begin(), std::tolower);
+
   size_t maxLen = _memory.getByte(_operands[0]);
   char *textBuf =
       reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 2;
-  size_t len = _io.endInput(textBuf, maxLen);
-
-  // Convert the text to lower case
-  for (unsigned int i = 0; i < len; ++i)
-    textBuf[i] = tolower(textBuf[i]);
+  ZMText text(_memory.getData());
+  size_t len = text.UTF8ToZscii(textBuf, str, maxLen);
 
   // Put the character count into byte 1
   _memory.setByte(_operands[0] + 1, len);

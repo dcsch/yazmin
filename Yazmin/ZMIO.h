@@ -47,7 +47,7 @@ public:
 
   virtual void beginInput(uint8_t existingLen) = 0;
 
-  virtual size_t endInput(char *str, size_t maxLen) = 0;
+  virtual std::string endInput() = 0;
 
   virtual void beginInputChar() = 0;
 

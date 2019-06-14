@@ -40,7 +40,7 @@ public:
 
   void beginInput(uint8_t existingLen) override;
 
-  size_t endInput(char *str, size_t maxLen) override;
+  std::string endInput() override;
 
   void beginInputChar() override;
 

@@ -62,6 +62,12 @@ public:
 
   uint16_t getAlphabetTableAddress() const;
 
+  uint16_t getHeaderExtensionTableAddress() const;
+
+  uint16_t getExtensionLength() const;
+
+  uint16_t getUnicodeTranslationTableAddress() const;
+
   void dump() const;
 
 private:
@@ -177,6 +183,29 @@ inline uint16_t ZMHeader::getAlphabetTableAddress() const {
     return 0;
   else
     return ((uint16_t)_headerData[0x34] << 8) | _headerData[0x35];
+}
+
+inline uint16_t ZMHeader::getHeaderExtensionTableAddress() const {
+  if (getVersion() < 5)
+    return 0;
+  else
+    return ((uint16_t)_headerData[0x36] << 8) | _headerData[0x37];
+}
+
+inline uint16_t ZMHeader::getExtensionLength() const {
+  uint16_t addr = getHeaderExtensionTableAddress();
+  if (addr)
+    return ((uint16_t)_headerData[addr] << 8) | _headerData[addr + 1];
+  else
+    return 0;
+}
+
+inline uint16_t ZMHeader::getUnicodeTranslationTableAddress() const {
+  if (getExtensionLength() >= 3) {
+    uint16_t addr = getHeaderExtensionTableAddress();
+    return ((uint16_t)_headerData[addr + 6] << 8) | _headerData[addr + 7];
+  } else
+    return 0;
 }
 
 #endif // ZM_HEADER_H__

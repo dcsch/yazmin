@@ -153,17 +153,21 @@ void ZMStoryAdapter::setTextStyle(int style) {
 void ZMStoryAdapter::print(const std::string &str) {
   NSMutableString *printable =
       [NSMutableString stringWithUTF8String:str.c_str()];
-  [printable replaceOccurrencesOfString:@"^"
-                             withString:@"\n"
-                                options:0
-                                  range:NSMakeRange(0, printable.length)];
-  [printable replaceOccurrencesOfString:@"\r"
-                             withString:@"\n"
-                                options:0
-                                  range:NSMakeRange(0, printable.length)];
-  if (screenEnabled) {
-    _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
-    [_storyFacet print:printable];
+  if (printable) {
+    [printable replaceOccurrencesOfString:@"^"
+                               withString:@"\n"
+                                  options:0
+                                    range:NSMakeRange(0, printable.length)];
+    [printable replaceOccurrencesOfString:@"\r"
+                               withString:@"\n"
+                                  options:0
+                                    range:NSMakeRange(0, printable.length)];
+    if (screenEnabled) {
+      _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
+      [_storyFacet print:printable];
+    }
+  } else {
+    NSLog(@"Error: Unprintable string");
   }
 }
 
@@ -188,10 +192,11 @@ void ZMStoryAdapter::beginInput(uint8_t existingLen) {
   [_story beginInputWithOffset:-existingLen];
 }
 
-size_t ZMStoryAdapter::endInput(char *str, size_t maxLen) {
-  NSString *string = [_story endInput];
-  [string getCString:str maxLength:maxLen encoding:NSASCIIStringEncoding];
-  return string.length;
+std::string ZMStoryAdapter::endInput() {
+  NSString *string = [_story endInput].lowercaseString;
+  std::string str;
+  str.assign(string.UTF8String);
+  return str;
 }
 
 void ZMStoryAdapter::beginInputChar() { [_story beginInputChar]; }

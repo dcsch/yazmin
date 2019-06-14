@@ -13,6 +13,35 @@
 #include <cstdlib>
 #include <string>
 
+class ZMWordTable {
+public:
+  ZMWordTable(const uint8_t *lengthByte, const uint8_t *bytes,
+              bool nativeByteOrder = false)
+      : _lengthByte(lengthByte), _bytes(bytes),
+        _nativeByteOrder(nativeByteOrder) {}
+
+  ZMWordTable(const uint8_t *lengthByte, const uint16_t *words,
+              bool nativeByteOrder = false)
+      : _lengthByte(lengthByte),
+        _bytes(reinterpret_cast<const uint8_t *>(words)),
+        _nativeByteOrder(nativeByteOrder) {}
+
+  uint8_t getLength() const { return *_lengthByte; }
+
+  uint16_t getWord(int index) const {
+    if (_nativeByteOrder)
+      return reinterpret_cast<const uint16_t *>(_bytes)[index];
+    else
+      return static_cast<uint16_t>(_bytes[2 * index]) << 8 |
+             _bytes[2 * index + 1];
+  }
+
+private:
+  const uint8_t *_lengthByte;
+  const uint8_t *_bytes;
+  bool _nativeByteOrder;
+};
+
 class ZMText {
 public:
   ZMText(uint8_t *memoryBase);
@@ -39,6 +68,8 @@ private:
 
   const char *_a2;
 
+  ZMWordTable _uTable;
+
   const char *_charset;
 
   int _abbreviation;
@@ -61,6 +92,8 @@ public:
   uint16_t findInExtras(wchar_t wc);
 
   uint16_t wcharToZscii(wchar_t wc);
+
+  size_t UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen);
 
   static void appendAsUTF8(std::string &str, wchar_t c);
 };
