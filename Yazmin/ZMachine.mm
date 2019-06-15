@@ -56,16 +56,18 @@ static const size_t kMaxStorySize = 0x8ffff;
     NSData *data = [story zcodeData];
 
     if (data != nil) {
+      parts->_io = new ZMStoryAdapter(story);
+
       // If it is a legal size, load the whole thing into memory
       NSUInteger len = data.length;
       if (0 < len && len <= kMaxStorySize) {
-        parts->_memory = new ZMMemory((const uint8_t *)data.bytes, len);
+        parts->_memory =
+            new ZMMemory((const uint8_t *)data.bytes, len, *parts->_io);
 
         // parts->_memory->getHeader().dump();
         // parts->_memory->dump();
       }
 
-      parts->_io = new ZMStoryAdapter(story);
       parts->_error = new ZMErrorAdapter(story);
       parts->_stack = new ZMStack();
       parts->_quetzal = new ZMQuetzal(*parts->_memory, *parts->_stack);
@@ -306,26 +308,6 @@ static const size_t kMaxStorySize = 0x8ffff;
   return (parts->_memory->getHeader().getFlags1() & 0x02) ? YES : NO;
 }
 
-- (unsigned int)screenWidth {
-  return parts->_memory->getHeader().getScreenWidth();
-}
-
-- (void)setScreenWidth:(unsigned int)width {
-  if (width > 255)
-    width = 255;
-  parts->_memory->getHeader().setScreenWidth(width);
-}
-
-- (unsigned int)screenHeight {
-  return parts->_memory->getHeader().getScreenHeight();
-}
-
-- (void)setScreenHeight:(unsigned int)height {
-  if (height > 255)
-    height = 255;
-  parts->_memory->getHeader().setScreenHeight(height);
-}
-
 - (BOOL)needsRedraw {
   return parts->_memory->getHeader().getRequestScreenRedraw();
 }
@@ -336,6 +318,11 @@ static const size_t kMaxStorySize = 0x8ffff;
 
 - (BOOL)forcedFixedPitchFont {
   return parts->_memory->getHeader().getForceFixedPitchFont();
+}
+
+- (void)updateScreenSize {
+  parts->_memory->getHeader().setScreenWidth(parts->_io->getScreenWidth());
+  parts->_memory->getHeader().setScreenHeight(parts->_io->getScreenHeight());
 }
 
 @end

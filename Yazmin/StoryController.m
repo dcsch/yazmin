@@ -35,6 +35,8 @@
 }
 
 - (int)calculateScreenWidthInColumns;
+- (int)calculateLowerWindowHeightinLines;
+- (void)calculateStoryFacetDimensions;
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
@@ -146,9 +148,9 @@
   story.facets[1].textStorage = textView.textStorage;
   layoutView.upperWindow = textView;
 
+  [self calculateStoryFacetDimensions];
+
   // Kick off the story
-  story.zMachine.screenHeight = 0xff;
-  story.zMachine.screenWidth = [self calculateScreenWidthInColumns];
   [self executeStory];
 }
 
@@ -158,18 +160,32 @@
   return lineWidth / charWidth;
 }
 
+- (int)calculateLowerWindowHeightinLines {
+  // TODO: This is using frame height rather than layout height as the layout
+  // height was coming through as some rediculously large number. Needs to be
+  // checked as frame height won't account for the text container inset
+  // (does NSTextContainer size do that?)
+  CGFloat frameHeight = layoutView.lowerWindow.frame.size.height;
+  NSFont *font = [[Preferences sharedPreferences] fontForStyle:0];
+  CGFloat lineHeight =
+      [layoutView.lowerWindow.layoutManager defaultLineHeightForFont:font];
+  return MIN((int)(lineHeight / frameHeight), 255);
+}
+
+- (void)calculateStoryFacetDimensions {
+  int screenWidthInChars = [self calculateScreenWidthInColumns];
+  Story *story = self.document;
+  story.facets[0].widthInCharacters = screenWidthInChars;
+  story.facets[1].widthInCharacters = screenWidthInChars;
+  story.facets[1].heightInLines = [self calculateLowerWindowHeightinLines];
+  [story.zMachine updateScreenSize];
+}
+
 - (void)handleViewFrameChange:(NSNotification *)note {
   if (note.object == layoutView) {
-    // Adjust to the new width in terms of the character count in the
-    // top window.  Note that this won't become visible until the next
-    // update to the top window.
-    int screenWidthInChars = [self calculateScreenWidthInColumns];
+    [self calculateStoryFacetDimensions];
     Story *story = self.document;
-    story.zMachine.screenWidth = (unsigned int)screenWidthInChars;
     story.zMachine.needsRedraw = YES;
-
-    GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
-    facet.numberOfColumns = screenWidthInChars;
   }
 }
 
@@ -310,14 +326,6 @@
 
   seenheight = maxheight;
   maxheight = curheight;
-}
-
-- (void)updateWindowWidth {
-  // Adjust the width of the upper text view
-  NSRect layoutFrameRect = layoutView.frame;
-  NSRect upperFrameRect = layoutView.upperWindow.frame;
-  upperFrameRect.size.width = layoutFrameRect.size.width;
-  layoutView.upperWindow.frame = upperFrameRect;
 }
 
 - (void)updateTextAttributes {

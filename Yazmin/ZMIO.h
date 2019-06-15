@@ -17,6 +17,10 @@ class ZMIO {
 public:
   virtual ~ZMIO() {}
 
+  virtual int getScreenWidth() const = 0;
+
+  virtual int getScreenHeight() const = 0;
+
   virtual void setWindow(int window) = 0;
 
   virtual void splitWindow(int lines) = 0;

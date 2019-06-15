@@ -39,7 +39,7 @@
     StoryFacet *facet = [[StoryFacet alloc] initWithStory:self];
     [_facets addObject:facet];
 
-    facet = [[GridStoryFacet alloc] initWithStory:self columns:90];
+    facet = [[GridStoryFacet alloc] initWithStory:self];
     [_facets addObject:facet];
 
     [self setHasUndoManager:NO];
@@ -80,6 +80,7 @@
   [self addWindowController:_storyController];
 
   // Make sure the controller knows the score with text attributes
+  // TODO: This is pointless, as the views don't exist yet
   [_storyController updateTextAttributes];
 }
 
@@ -216,10 +217,6 @@
 
 - (void)updateWindowLayout {
   [_storyController updateWindowLayout];
-}
-
-- (void)updateWindowWidth {
-  [_storyController updateWindowWidth];
 }
 
 - (void)handleBackgroundColorChange:(NSNotification *)note {

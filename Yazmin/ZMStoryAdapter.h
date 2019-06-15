@@ -10,6 +10,10 @@ public:
 
   ~ZMStoryAdapter() override;
 
+  int getScreenWidth() const override;
+
+  int getScreenHeight() const override;
+
   void setWindow(int window) override;
 
   void splitWindow(int lines) override;

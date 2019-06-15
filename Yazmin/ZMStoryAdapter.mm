@@ -18,6 +18,14 @@ ZMStoryAdapter::ZMStoryAdapter(Story *story)
 
 ZMStoryAdapter::~ZMStoryAdapter() {}
 
+int ZMStoryAdapter::getScreenWidth() const {
+  return _story.facets[1].widthInCharacters;
+}
+
+int ZMStoryAdapter::getScreenHeight() const {
+  return _story.facets[1].heightInLines;
+}
+
 void ZMStoryAdapter::setWindow(int window) {
   _storyFacet = (_story.facets)[window];
 }
@@ -49,7 +57,7 @@ void ZMStoryAdapter::showStatus() {
   setWindow(1);
 
   // Display an inverse video bar
-  unsigned int screenWidth = [_story.zMachine screenWidth];
+  int screenWidth = getScreenWidth();
   [_storyFacet setCursorLine:1 column:1];
   [_storyFacet setTextStyle:1];
   for (unsigned int i = 0; i < screenWidth; ++i)

@@ -8,14 +8,15 @@
  */
 
 #include "ZMMemory.h"
+#include "ZMIO.h"
 #include "ZMObject.h"
 #include "ZMText.h"
 #include <assert.h>
 #include <stdio.h>
 
-ZMMemory::ZMMemory(const uint8_t *data, size_t length)
+ZMMemory::ZMMemory(const uint8_t *data, size_t length, const ZMIO &io)
     : _data(new uint8_t[length]), _originalDynamicData(0), _size(length),
-      _header(_data), _dict(_data), _objectMap(), _checksum(0) {
+      _header(_data), _dict(_data), _io(io), _objectMap(), _checksum(0) {
   // Copy the data into memory
   memcpy(_data, data, length);
 
@@ -28,7 +29,7 @@ ZMMemory::ZMMemory(const uint8_t *data, size_t length)
   memcpy(_originalDynamicData, data, _header.getBaseStaticMemory());
 
   // Prepare the header bytes
-  initHeader();
+  initHeader(_io.getScreenWidth(), _io.getScreenHeight());
 }
 
 ZMMemory::~ZMMemory() {
@@ -39,7 +40,7 @@ ZMMemory::~ZMMemory() {
   delete[] _originalDynamicData;
 }
 
-void ZMMemory::initHeader() {
+void ZMMemory::initHeader(uint8_t screenWidth, uint8_t screenHeight) {
   if (_header.getVersion() < 4) {
     _data[1] |= 0x60; // Variable-pitch font is the default
                       // Screen-splitting available
@@ -51,10 +52,10 @@ void ZMMemory::initHeader() {
     _data[1] |= 0x10; // Fixed-space font available
     _data[1] |= 0x80; // Timed keyboard input available
 
-    _data[0x1e] = 3;    // Interpreter number
-    _data[0x1f] = 'Z';  // Interpreter version
-    _data[0x20] = 0x21; // Screen height (set to match Zoom for testing)
-    _data[0x21] = 0x5e; // Screen width (set to match Zoom for testing)
+    _data[0x1e] = 3;            // Interpreter number
+    _data[0x1f] = 'Z';          // Interpreter version
+    _data[0x20] = screenWidth;  // Screen height
+    _data[0x21] = screenHeight; // Screen width
 
     if (_header.getVersion() >= 5) {
       // V5
@@ -73,6 +74,15 @@ void ZMMemory::initHeader() {
 
   _data[0x32] = 1; // Standard revision number (major)
   _data[0x33] = 1; // Standard revision number (minor)
+}
+
+void ZMMemory::reset() {
+
+  // Copy original memory state
+  memcpy(_data, _originalDynamicData, _header.getBaseStaticMemory());
+
+  // Prepare the header bytes
+  initHeader(_io.getScreenWidth(), _io.getScreenHeight());
 }
 
 uint16_t ZMMemory::getGlobal(int index) const {

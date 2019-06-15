@@ -39,12 +39,17 @@ static unsigned int macuptime(void) {
 ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
                          ZMError &error, ZMQuetzal &quetzal)
     : _memory(memory), _stack(stack), _io(io), _error(error), _quetzal(quetzal),
-      _pc(0), _operandOffset(0), _instructionLength(0), _operandCount(0),
-      _operands(), _operandTypes(), _operandVariables(), _store(0), _branch(0),
-      _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
-      _packedAddressFactor(0), _redirectAddr(), _redirectIndex(-1),
-      _hasQuit(false), _hasHalted(false), _continuingAfterHalt(false),
-      _logging(false) {
+      _pc(0), _initialPC(0), _operandOffset(0), _instructionLength(0),
+      _operandCount(0), _operands(), _operandTypes(), _operandVariables(),
+      _store(0), _branch(0), _branchOnTrue(false), _seed(0),
+      _lastRandomNumber(0), _version(0), _packedAddressFactor(0),
+      _redirectAddr(), _redirectIndex(-1), _hasQuit(false), _hasHalted(false),
+      _continuingAfterHalt(false), _logging(false) {
+
+  // Take a copy of the initial PC, as the standard prohibits any changes to the
+  // header having an effect when using `restart`
+  _initialPC = _memory.getHeader().getInitialProgramCounter();
+  _pc = _initialPC;
 
   // If this is not a version 6 story, push a dummy frame onto the stack
   // From the Quetzal spec (Section 4.11):
@@ -64,7 +69,6 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
 bool ZMProcessor::execute() {
   // Lazy initialisation
   if (_version != _memory.getHeader().getVersion()) {
-    _pc = _memory.getHeader().getInitialProgramCounter();
     _version = _memory.getHeader().getVersion();
     if (_version < 4)
       _packedAddressFactor = 2;
@@ -1659,7 +1663,8 @@ void ZMProcessor::sread() {
   char *textBuf =
       reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 1;
   ZMText text(_memory.getData());
-  text.UTF8ToZscii(textBuf, str, maxLen);
+  size_t len = text.UTF8ToZscii(textBuf, str, maxLen);
+  textBuf[len] = 0;
 
   _memory.getDictionary().lex(_operands[0], _operands[1]);
   advancePC();
@@ -1736,9 +1741,24 @@ void ZMProcessor::remove_obj() {
 void ZMProcessor::restart() {
   log("restart", false, false);
 
-  printf("WARNING: RESTART NOT YET IMPLEMENTED\n");
+  // Save the "transcribing to printer" and "use fixed pitch font bits
+  uint16_t flags2 = _memory.getHeader().getFlags2() & 0x03;
 
-  advancePC();
+  _memory.reset();
+  _stack.reset();
+
+  // TODO: This has become a complete hack. Get the Quetzal code
+  // to take care of its own damn requirements
+  if (_memory.getHeader().getVersion() != 6)
+    _stack.pushFrame(0, 0, 0, 0);
+
+  // Restore those saved bits
+  _memory.getHeader().setFlags2(_memory.getHeader().getFlags2() | flags2);
+
+  _memory.getHeader().setScreenWidth(_io.getScreenWidth());
+  _memory.getHeader().setScreenHeight(_io.getScreenHeight());
+
+  _pc = _initialPC;
 }
 
 void ZMProcessor::restore() {

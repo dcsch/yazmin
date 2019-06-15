@@ -11,7 +11,6 @@
 
 @interface GridStoryFacet () {
   int _numberOfLines;
-  int _numberOfColumns;
   int x;
   int y;
   NSDictionary *fixedFontAttributes;
@@ -25,11 +24,10 @@
 
 @implementation GridStoryFacet
 
-- (instancetype)initWithStory:(Story *)aStory columns:(int)columns {
+- (instancetype)initWithStory:(Story *)aStory {
   self = [super initWithStory:aStory];
   if (self) {
     _numberOfLines = 0;
-    _numberOfColumns = columns;
     [self setTextStyle:0];
     fixedFontAttributes = [self.currentAttributes copy];
   }
@@ -43,16 +41,6 @@
 - (void)setNumberOfLines:(int)lines {
   _numberOfLines = lines;
   [self.story updateWindowLayout];
-}
-
-- (int)numberOfColumns {
-  return _numberOfColumns;
-}
-
-- (void)setNumberOfColumns:(int)columns {
-  _numberOfColumns = columns;
-  //  [story updateWindowLayout];
-  [self.story updateWindowWidth];
 }
 
 - (void)setCursorLine:(int)line column:(int)column {
@@ -103,8 +91,8 @@
   NSUInteger pos = x;
   NSUInteger strLen = string.length;
   NSUInteger chunkStart = 0;
-  while (strLen > _numberOfColumns - pos) {
-    NSUInteger chunkLen = _numberOfColumns - pos;
+  while (strLen > self.widthInCharacters - pos) {
+    NSUInteger chunkLen = self.widthInCharacters - pos;
     [array
         addObject:[NSValue valueWithRange:NSMakeRange(chunkStart, chunkLen)]];
     chunkStart += chunkLen;
@@ -187,8 +175,8 @@
                           withAttributedString:attrText];
   }
 
-  y += (x + string.length) / _numberOfColumns;
-  x = (x + string.length) % _numberOfColumns;
+  y += (x + string.length) / self.widthInCharacters;
+  x = (x + string.length) % self.widthInCharacters;
 }
 
 @end

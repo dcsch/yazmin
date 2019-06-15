@@ -37,9 +37,8 @@
 
 - (unsigned int)globalAtIndex:(unsigned int)index;
 @property(getter=isTimeGame, readonly) BOOL timeGame;
-@property unsigned int screenWidth;
-@property unsigned int screenHeight;
 @property BOOL needsRedraw;
 @property(readonly) BOOL forcedFixedPitchFont;
+- (void)updateScreenSize;
 
 @end

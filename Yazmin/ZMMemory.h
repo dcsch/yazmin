@@ -16,10 +16,11 @@
 #include <stdlib.h>
 
 class ZMObject;
+class ZMIO;
 
 class ZMMemory {
 public:
-  ZMMemory(const uint8_t *data, size_t length);
+  ZMMemory(const uint8_t *data, size_t length, const ZMIO &io);
 
   ~ZMMemory();
 
@@ -57,6 +58,8 @@ public:
 
   uint8_t operator[](int index) const;
 
+  void reset();
+
   void dump() const;
 
   static uint16_t readWordFromData(const uint8_t *data);
@@ -69,10 +72,11 @@ private:
   size_t _size;
   ZMHeader _header;
   ZMDictionary _dict;
+  const ZMIO &_io;
   std::map<int, ZMObject *> _objectMap;
   uint16_t _checksum;
 
-  void initHeader();
+  void initHeader(uint8_t screenWidth, uint8_t screenHeight);
 
   ZMMemory(const ZMMemory &);
   void operator=(const ZMMemory &);

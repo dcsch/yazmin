@@ -47,6 +47,7 @@ private:
   ZMError &_error;
   ZMQuetzal &_quetzal;
   uint32_t _pc;
+  uint32_t _initialPC;
   int _operandOffset;
   int _instructionLength;
   int _operandCount;
