@@ -169,7 +169,7 @@
   NSFont *font = [[Preferences sharedPreferences] fontForStyle:0];
   CGFloat lineHeight =
       [layoutView.lowerWindow.layoutManager defaultLineHeightForFont:font];
-  return MIN((int)(lineHeight / frameHeight), 255);
+  return MIN((int)(frameHeight / lineHeight), 255);
 }
 
 - (void)calculateStoryFacetDimensions {
@@ -179,6 +179,8 @@
   story.facets[1].widthInCharacters = screenWidthInChars;
   story.facets[1].heightInLines = [self calculateLowerWindowHeightinLines];
   [story.zMachine updateScreenSize];
+  NSLog(@"Set screen size as: %d x %d", screenWidthInChars,
+        story.facets[1].heightInLines);
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {

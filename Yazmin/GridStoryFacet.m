@@ -44,8 +44,10 @@
 }
 
 - (void)setCursorLine:(int)line column:(int)column {
-  y = line - 1;
-  x = column - 1;
+  if (0 < line && line <= self.heightInLines)
+    y = line - 1;
+  if (0 < column && column <= self.widthInCharacters)
+    x = column - 1;
 }
 
 - (void)setTextStyle:(int)style {
@@ -83,7 +85,8 @@
 }
 
 - (void)newLine {
-  NSLog(@"newLine");
+  y++;
+  x = 0;
 }
 
 - (NSArray<NSValue *> *)chunksOfString:(NSString *)string {
