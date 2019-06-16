@@ -287,6 +287,15 @@ size_t ZMText::UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen) {
   return zsciiPtr - zscii;
 }
 
+std::string ZMText::zsciiToUTF8(uint16_t zsciiChar) {
+  std::string str;
+  if (32 <= zsciiChar && zsciiChar <= 126)
+    appendAsUTF8(str, zsciiChar);
+  else if (155 <= zsciiChar && zsciiChar < 155 + _uTable.getLength())
+    appendAsUTF8(str, _uTable.getWord(zsciiChar - 155));
+  return str;
+}
+
 void ZMText::appendAsUTF8(std::string &str, wchar_t c) {
   if (c < 0x80)
     str.append(1, static_cast<char>(c));

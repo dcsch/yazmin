@@ -1532,10 +1532,8 @@ void ZMProcessor::print_addr() {
 void ZMProcessor::print_char() {
   log("print_char", false, false);
 
-  char str[2];
-  str[0] = static_cast<char>(_operands[0]);
-  str[1] = 0;
-  print(str);
+  ZMText text(_memory.getData());
+  print(text.zsciiToUTF8(_operands[0]), false);
   advancePC();
 }
 

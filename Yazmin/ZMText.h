@@ -97,6 +97,8 @@ public:
 
   size_t UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen);
 
+  std::string zsciiToUTF8(uint16_t zsciiChar);
+
   static void appendAsUTF8(std::string &str, wchar_t c);
 };
 
