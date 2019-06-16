@@ -1,5 +1,6 @@
 
 #import "ZMStoryAdapter.h"
+#import "Preferences.h"
 #import "Story.h"
 #import "StoryController.h"
 #import "StoryFacet.h"
@@ -158,14 +159,16 @@ void ZMStoryAdapter::setTextStyle(int style) {
     [_storyFacet setTextStyle:style];
 }
 
+bool ZMStoryAdapter::checkUnicode(uint16_t uc) {
+  NSFont *font = _storyFacet.currentAttributes[NSFontAttributeName];
+  NSCharacterSet *charSet = font.coveredCharacterSet;
+  return [charSet characterIsMember:uc];
+}
+
 void ZMStoryAdapter::print(const std::string &str) {
   NSMutableString *printable =
       [NSMutableString stringWithUTF8String:str.c_str()];
   if (printable) {
-    [printable replaceOccurrencesOfString:@"^"
-                               withString:@"\n"
-                                  options:0
-                                    range:NSMakeRange(0, printable.length)];
     [printable replaceOccurrencesOfString:@"\r"
                                withString:@"\n"
                                   options:0

@@ -34,6 +34,8 @@ public:
 
   void setTextStyle(int style) override;
 
+  bool checkUnicode(uint16_t uc) override;
+
   void print(const std::string &str) override;
 
   void printNumber(int number) override;

@@ -244,6 +244,16 @@ uint16_t ZMText::findInExtras(wchar_t wc) {
   return 0;
 }
 
+bool ZMText::receivableChar(wchar_t wc) {
+  int charset;
+  uint8_t zchar;
+  if (wc < 256 && findInAlphabet(wc, &charset, &zchar))
+    return true;
+  else if (findInExtras(wc))
+    return true;
+  return false;
+}
+
 uint16_t ZMText::wcharToZscii(wchar_t wc) {
   if (32 <= wc && wc <= 126) // (3.8.3)
     return wc;

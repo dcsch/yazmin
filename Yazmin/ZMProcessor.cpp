@@ -679,9 +679,9 @@ bool ZMProcessor::dispatchEXT(uint8_t opCode) {
   case 0x0b:
     print_unicode();
     break;
-  //  case 0x0c:
-  //    check_unicode();
-  //    break;
+  case 0x0c:
+    check_unicode();
+    break;
   case 0x0d:
     set_true_colour();
     break;
@@ -782,7 +782,11 @@ void ZMProcessor::printToTable(const std::string &str) {
   _memory.setWord(addr, len);
 }
 
-void ZMProcessor::print(const std::string &str) {
+void ZMProcessor::print(std::string str, bool caratNewLine) {
+  if (caratNewLine)
+    std::transform(str.begin(), str.end(), str.begin(),
+                   [](char c) -> char { return c == '^' ? '\n' : c; });
+
   if (_redirectIndex == -1)
     _io.print(str);
   else
@@ -1107,6 +1111,18 @@ void ZMProcessor::check_arg_count() {
   log("check_arg_count", false, true);
 
   branchOrAdvancePC(_operands[0] <= _stack.getArgCount());
+}
+
+void ZMProcessor::check_unicode() {
+  decodeStore();
+  log("check_unicode", true, false);
+
+  bool printable = _io.checkUnicode(_operands[0]);
+  ZMText text(_memory.getData());
+  bool receivable = text.receivableChar(_operands[0]);
+  uint16_t setting = (printable ? 0x01 : 0x00) | (receivable ? 0x02 : 0x00);
+  setVariable(_store, setting);
+  advancePC();
 }
 
 void ZMProcessor::clear_attr() {
@@ -1568,7 +1584,7 @@ void ZMProcessor::print_unicode() {
 
   std::string str;
   ZMText::appendAsUTF8(str, _operands[0]);
-  print(str);
+  print(str, false);
   advancePC();
 }
 

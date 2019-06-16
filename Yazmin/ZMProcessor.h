@@ -102,7 +102,7 @@ private:
 
   void printToTable(const std::string &str);
 
-  void print(const std::string &str);
+  void print(std::string str, bool caratNewLine = true);
 
   void print(int16_t number);
 
@@ -150,6 +150,9 @@ private:
 
   // -- Br VAR:255 1F 5 check_arg_count argument-number
   void check_arg_count();
+
+  // -- -- EXT:12 C 5/* check_unicode char-number -> (result)
+  void check_unicode();
 
   // -- -- 2OP:12 C clear_attr object attribute
   void clear_attr();

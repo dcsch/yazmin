@@ -91,6 +91,8 @@ public:
 
   uint16_t findInExtras(wchar_t wc);
 
+  bool receivableChar(wchar_t wc);
+
   uint16_t wcharToZscii(wchar_t wc);
 
   size_t UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen);

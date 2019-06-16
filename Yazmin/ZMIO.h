@@ -41,6 +41,8 @@ public:
 
   virtual void setTextStyle(int style) = 0;
 
+  virtual bool checkUnicode(uint16_t uc) = 0;
+
   virtual void print(const std::string &str) = 0;
 
   virtual void printNumber(int number) = 0;
