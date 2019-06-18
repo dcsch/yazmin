@@ -43,9 +43,10 @@
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
     didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                 atEnd:(BOOL)flag;
-- (void)characterInput:(int)c;
+- (void)characterInput:(unichar)c;
 - (void)stringInput:(NSString *)string;
 - (void)update;
+- (IBAction)reload:(id)sender;
 - (IBAction)showInformationPanel:(id)sender;
 - (IBAction)showDebuggerWindow:(id)sender;
 - (IBAction)showObjectBrowserWindow:(id)sender;
@@ -120,8 +121,6 @@
   // Lower Window (initially full frame)
   NSRect frame = layoutView.lowerScrollView.contentView.frame;
   StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
-  textView.automaticQuoteSubstitutionEnabled = YES;
-  textView.automaticDashSubstitutionEnabled = YES;
   textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
   textView.textContainerInset = NSMakeSize(20.0, 20.0);
   textView.layoutManager.delegate = self;
@@ -134,8 +133,6 @@
   // Upper Window (initially zero height)
   NSRect upperFrame = NSMakeRect(0, 0, frame.size.width, 0);
   textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
-  textView.automaticQuoteSubstitutionEnabled = YES;
-  textView.automaticDashSubstitutionEnabled = YES;
   textView.verticallyResizable = NO;
   textView.horizontallyResizable = NO;
   textView.autoresizingMask = NSViewWidthSizable;
@@ -337,20 +334,15 @@
   layoutView.lowerWindow.typingAttributes = facet.currentAttributes;
 }
 
-- (void)characterInput:(int)c {
+- (void)characterInput:(unichar)c {
 
   // TODO: Deal with single character inputs that are composed of multiple key
   // presses
-  if (c > -1) {
+  if (c > 0) {
     [self resolveStatusHeight];
 
-    //  NSLog(@"characterInput: %c", c);
     Story *story = self.document;
-    unsigned char byteChar = (unsigned char)c;
-    NSString *str = [[NSString alloc] initWithBytes:&byteChar
-                                             length:1
-                                           encoding:NSASCIIStringEncoding];
-    [story setInputString:str];
+    story.inputCharacter = c;
   }
   [self executeStory];
 }
@@ -358,9 +350,22 @@
 - (void)stringInput:(NSString *)string {
   [self resolveStatusHeight];
 
-  //  NSLog(@"stringInput: %@", string);
   Story *story = self.document;
-  [story setInputString:string];
+  story.inputString = string;
+  [self executeStory];
+}
+
+- (IBAction)reload:(id)sender {
+  Story *story = self.document;
+  [story revertDocumentToSaved:sender];
+  [story.facets[0].textStorage
+      deleteCharactersInRange:NSMakeRange(0,
+                                          story.facets[0].textStorage.length)];
+  [story.facets[1].textStorage
+      deleteCharactersInRange:NSMakeRange(0,
+                                          story.facets[1].textStorage.length)];
+  [story.facets[1] setNumberOfLines:0];
+  [self calculateStoryFacetDimensions];
   [self executeStory];
 }
 

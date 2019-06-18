@@ -89,6 +89,11 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Reload" keyEquivalent="R" id="1DS-U1-2lU">
+                                <connections>
+                                    <action selector="reload:" target="-1" id="mFm-Za-blW"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="79">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>

@@ -279,10 +279,7 @@
 }
 
 - (unichar)endInputChar {
-  // 'inputChar' consumes the input string
-  unichar c = [_inputString characterAtIndex:0];
-  _inputString = nil;
-  return c;
+  return _inputCharacter;
 }
 
 @end

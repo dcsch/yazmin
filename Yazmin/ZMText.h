@@ -93,6 +93,7 @@ public:
 
   bool receivableChar(wchar_t wc);
 
+  // Encoding of input/output and input-only character codes
   uint16_t wcharToZscii(wchar_t wc);
 
   size_t UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen);

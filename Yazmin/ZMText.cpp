@@ -257,6 +257,10 @@ bool ZMText::receivableChar(wchar_t wc) {
 uint16_t ZMText::wcharToZscii(wchar_t wc) {
   if (32 <= wc && wc <= 126) // (3.8.3)
     return wc;
+  if (129 <= wc && wc <= 154) // (3.8.4) Input Only
+    return wc;
+  if (wc == 8 || wc == 13 || wc == 27 || wc == 254)
+    return wc;
   uint16_t zscii = findInExtras(wc); // (3.8.5)
   if (zscii)
     return zscii;

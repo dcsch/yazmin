@@ -20,6 +20,7 @@
 @property(readonly, copy) NSArray<StoryFacet *> *facets;
 @property(readonly) StoryController *storyController;
 @property(copy) NSString *inputString;
+@property unichar inputCharacter;
 @property(readonly, copy) NSData *zcodeData;
 @property(readonly, strong) Blorb *blorb;
 @property(readonly, strong) IFStory *metadata;

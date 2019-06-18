@@ -160,8 +160,11 @@ inline uint8_t ZMHeader::getScreenHeight() const {
 inline void ZMHeader::setScreenHeight(uint8_t height) {
   if (getVersion() < 4)
     _preV4ScreenHeight = height;
-  else
+  else {
     _headerData[0x20] = height;
+    _headerData[0x24] = 0;
+    _headerData[0x25] = height;
+  }
 }
 
 inline uint8_t ZMHeader::getScreenWidth() const {
@@ -174,8 +177,11 @@ inline uint8_t ZMHeader::getScreenWidth() const {
 inline void ZMHeader::setScreenWidth(uint8_t width) {
   if (getVersion() < 4)
     _preV4ScreenWidth = width;
-  else
+  else {
     _headerData[0x21] = width;
+    _headerData[0x22] = 0;
+    _headerData[0x23] = width;
+  }
 }
 
 inline uint16_t ZMHeader::getAlphabetTableAddress() const {

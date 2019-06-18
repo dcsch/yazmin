@@ -17,24 +17,8 @@
 #include "ZMText.h"
 #include <assert.h>
 #include <chrono>
+#include <cstdio>
 #include <cstring>
-#include <stdio.h>
-#include <sys/sysctl.h>
-#include <time.h>
-
-static unsigned int macuptime(void) {
-  int mib[2] = {CTL_KERN, KERN_BOOTTIME};
-  struct timeval boottime;
-  time_t now;
-  size_t size = sizeof(boottime);
-
-  if ((sysctl(mib, 2, &boottime, &size, NULL, 0) != -1) &&
-      (boottime.tv_sec != 0)) {
-    time(&now);
-    return (unsigned)(now - boottime.tv_sec) * 60;
-  } else
-    return (unsigned)0;
-}
 
 ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
                          ZMError &error, ZMQuetzal &quetzal)
@@ -62,7 +46,9 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
     _stack.pushFrame(0, 0, 0, 0);
 
   // Seed the random number generator
-  _seed = macuptime() + 1000;
+  using namespace std::chrono;
+  _seed = duration_cast<milliseconds>(system_clock::now().time_since_epoch())
+              .count();
   srandom(_seed);
 }
 
@@ -1624,10 +1610,16 @@ void ZMProcessor::random() {
   if (value < 0) {
     // Seed the random number generator with |value|
     _seed = static_cast<uint16_t>(-value);
+
+    // Section 2 Remarks suggest a predictable mode for the random number
+    // generator
+    // where any seed < 1000 generates predictable sequences from 1 to S
     if (_seed >= 1000)
       srandom(_seed);
+
     _lastRandomNumber = 0;
   } else if (value == 0) {
+
     // Randomly seed the random number generator
     using namespace std::chrono;
     _seed = duration_cast<milliseconds>(system_clock::now().time_since_epoch())
@@ -1635,10 +1627,13 @@ void ZMProcessor::random() {
     srandom(_seed);
     _lastRandomNumber = 0;
   } else {
+
     // Generate a random number between 0 and value
     if (_seed == 0) {
       _lastRandomNumber = ::random() % value + 1;
     } else if (_seed < 1000) {
+
+      // The next value in a predictable sequence
       ++_lastRandomNumber;
       if ((_lastRandomNumber >= _seed) || (_lastRandomNumber >= value))
         _lastRandomNumber = 1;
@@ -1647,7 +1642,7 @@ void ZMProcessor::random() {
     }
   }
 
-  //  printf("Random number: %d (%d)\n", _lastRandomNumber, _seed);
+  // printf("Random number: %d (%d)\n", _lastRandomNumber, _seed);
 
   setVariable(_store, _lastRandomNumber);
   advancePC();
