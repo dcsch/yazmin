@@ -51,9 +51,7 @@ private:
   int _operandOffset;
   int _instructionLength;
   int _operandCount;
-  uint16_t _operands[8];
   OperandType _operandTypes[8];
-  int _operandVariables[8];
   uint16_t _store;
   int16_t _branch;
   bool _branchOnTrue;
@@ -66,7 +64,6 @@ private:
   bool _hasQuit;
   bool _hasHalted;
   bool _continuingAfterHalt;
-  bool _logging;
 
   bool executeLongInstruction();
 
@@ -91,6 +88,8 @@ private:
   void decodeStore();
 
   void decodeBranch();
+
+  uint16_t getOperand(int index, bool noPop = false);
 
   uint16_t getVariable(int index, bool noPop = false);
 

@@ -24,11 +24,10 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
                          ZMError &error, ZMQuetzal &quetzal)
     : _memory(memory), _stack(stack), _io(io), _error(error), _quetzal(quetzal),
       _pc(0), _initialPC(0), _operandOffset(0), _instructionLength(0),
-      _operandCount(0), _operands(), _operandTypes(), _operandVariables(),
-      _store(0), _branch(0), _branchOnTrue(false), _seed(0),
-      _lastRandomNumber(0), _version(0), _packedAddressFactor(0),
-      _redirectAddr(), _redirectIndex(-1), _hasQuit(false), _hasHalted(false),
-      _continuingAfterHalt(false), _logging(false) {
+      _operandCount(0), _operandTypes(), _store(0), _branch(0),
+      _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
+      _packedAddressFactor(0), _redirectAddr(), _redirectIndex(-1),
+      _hasQuit(false), _hasHalted(false), _continuingAfterHalt(false) {
 
   // Take a copy of the initial PC, as the standard prohibits any changes to the
   // header having an effect when using `restart`
@@ -107,7 +106,7 @@ bool ZMProcessor::callRoutine(int routine) {
 
   int startingSP = _stack.getStackPointer();
   uint32_t originalPC = _pc;
-  _operands[0] = routine;
+  //  _operands[0] = routine;
   call_1s();
   while (startingSP != _stack.getStackPointer()) {
     execute();
@@ -127,17 +126,7 @@ bool ZMProcessor::executeLongInstruction() {
   _operandTypes[1] = (inst & 0x20) ? kVariable : kSmallConstant;
 
   _operandOffset = 1;
-
-  // Load each of the arguments
   _operandCount = 2;
-  for (int i = 0; i < _operandCount; ++i) {
-    if (_operandTypes[i] == kVariable) {
-      _operands[i] = getVariable(_memory[_pc + i + 1]);
-      _operandVariables[i] = _memory[_pc + i + 1];
-    } else if (_operandTypes[i] == kSmallConstant)
-      _operands[i] = _memory[_pc + i + 1];
-  }
-
   _instructionLength = _operandCount + 1;
 
   return dispatch2OP(opCode);
@@ -154,18 +143,14 @@ bool ZMProcessor::executeShortInstruction() {
   _instructionLength = 1;
   _operandOffset = 1;
 
-  // Load any argument
+  // Calculate operand count and instruction length
   if (_operandTypes[0] != kOmitted) {
     _operandCount = 1;
     if (_operandTypes[0] == kLargeConstant) {
-      _operands[0] = _memory.getWord(_pc + 1);
       _instructionLength += 2;
     } else if (_operandTypes[0] == kSmallConstant) {
-      _operands[0] = _memory[_pc + 1];
       ++_instructionLength;
     } else if (_operandTypes[0] == kVariable) {
-      _operands[0] = getVariable(_memory[_pc + 1]);
-      _operandVariables[0] = _memory[_pc + 1];
       ++_instructionLength;
     }
   } else
@@ -205,21 +190,17 @@ bool ZMProcessor::executeExtendedInstruction() {
     _operandTypes[7] = kOmitted;
   }
 
+  // Calculate operand count and instruction length
   // (4.4.3)
   _operandCount = 0;
   for (int i = 0; i < operandFieldCount; ++i) {
     if (_operandTypes[i] == kOmitted)
       break;
     else if (_operandTypes[i] == kLargeConstant) {
-      _operands[_operandCount] = ZMMemory::readWordFromData(
-          _memory.getData() + _pc + _instructionLength);
       _instructionLength += 2;
     } else if (_operandTypes[i] == kSmallConstant) {
-      _operands[_operandCount] = _memory[_pc + _instructionLength];
       ++_instructionLength;
     } else if (_operandTypes[i] == kVariable) {
-      _operands[_operandCount] = getVariable(_memory[_pc + _instructionLength]);
-      _operandVariables[_operandCount] = _memory[_pc + _instructionLength];
       ++_instructionLength;
     }
     ++_operandCount;
@@ -247,6 +228,7 @@ bool ZMProcessor::executeVariableInstruction() {
     _instructionLength = 2;
     operandFieldCount = 4;
   } else if (_version >= 4 && (opCode == 0x0c || opCode == 0x1a)) {
+    ++_operandOffset;
     _instructionLength = 3;
     operandFieldCount = 8;
     operandTypeFields = _memory[_pc + 2];
@@ -263,20 +245,16 @@ bool ZMProcessor::executeVariableInstruction() {
     _operandTypes[7] = kOmitted;
   }
 
+  // Calculate operand count and instruction length
   _operandCount = 0;
   for (int i = 0; i < operandFieldCount; ++i) {
     if (_operandTypes[i] == kOmitted)
       break;
     else if (_operandTypes[i] == kLargeConstant) {
-      _operands[_operandCount] = ZMMemory::readWordFromData(
-          _memory.getData() + _pc + _instructionLength);
       _instructionLength += 2;
     } else if (_operandTypes[i] == kSmallConstant) {
-      _operands[_operandCount] = _memory[_pc + _instructionLength];
       ++_instructionLength;
     } else if (_operandTypes[i] == kVariable) {
-      _operands[_operandCount] = getVariable(_memory[_pc + _instructionLength]);
-      _operandVariables[_operandCount] = _memory[_pc + _instructionLength];
       ++_instructionLength;
     }
     ++_operandCount;
@@ -719,6 +697,35 @@ void ZMProcessor::decodeBranch() {
   }
 }
 
+uint16_t ZMProcessor::getOperand(int index, bool noPop) {
+  if (index >= _operandCount)
+    return 0;
+
+  // Calculate offset
+  int offset = 0;
+  for (int i = 0; i < index; ++i) {
+    if (_operandTypes[i] == kOmitted)
+      continue;
+    else if (_operandTypes[i] == kLargeConstant)
+      offset += 2;
+    else if (_operandTypes[i] == kSmallConstant)
+      ++offset;
+    else if (_operandTypes[i] == kVariable)
+      ++offset;
+  }
+
+  switch (_operandTypes[index]) {
+  case kLargeConstant:
+    return _memory.getWord(_pc + _operandOffset + offset);
+  case kSmallConstant:
+    return _memory[_pc + _operandOffset + offset];
+  case kVariable:
+    return getVariable(_memory[_pc + _operandOffset + offset], noPop);
+  case kOmitted:
+    return 0;
+  }
+}
+
 uint16_t ZMProcessor::getVariable(int index, bool noPop) {
   if (index == 0) {
     if (noPop)
@@ -789,65 +796,15 @@ void ZMProcessor::print(int16_t number) {
   }
 }
 
-void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {
-  if (!_logging)
-    return;
-
-  static int count = 0;
-  printf("%04x %05x (+%05x)     %s ", count++, _pc,
-         _pc - _memory.getHeader().getBaseHighMemory(), name);
-  for (int i = 0; i < _operandCount; ++i) {
-    if (_operandTypes[i] == kSmallConstant) {
-      bool asVariable = false;
-      if (i == 0) {
-        if (strcmp(name, "inc_chk") == 0)
-          asVariable = true;
-      }
-
-      if (asVariable)
-        printf("%02x<%04x> ", _operands[i], getVariable(_operands[i]));
-      else
-        printf("#%02x ", _operands[i]);
-    } else if (_operandTypes[i] == kLargeConstant) {
-      bool asPackedAddress = false;
-      if (i == 0) {
-        if (strncmp(name, "call", 4) == 0)
-          asPackedAddress = true;
-      }
-
-      if (asPackedAddress)
-        printf("%05x ", _packedAddressFactor * _operands[i]);
-      else
-        printf("#%04x ", _operands[i]);
-    } else
-      printf("%02x<%04x> ", _operandVariables[i], _operands[i]);
-  }
-
-  if (showStore)
-    printf("-> %02x ", _store);
-  if (showBranch) {
-    if (_branch == 0)
-      printf("%srfalse", _branchOnTrue ? "" : "~");
-    else if (_branch == 1)
-      printf("%srtrue", _branchOnTrue ? "" : "~");
-    else
-      printf("%s%04x", _branchOnTrue ? "" : "~",
-             _pc + _instructionLength + _branch - 2);
-  }
-  printf("\n");
-
-  printf("                       ");
-  for (int i = 0; i < _instructionLength; ++i)
-    printf(" %02x", _memory[_pc + i]);
-  printf("\n");
-}
+void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {}
 
 void ZMProcessor::add() {
   decodeStore();
   log("add", true, false);
 
-  setVariable(_store, static_cast<int16_t>(_operands[0]) +
-                          static_cast<int16_t>(_operands[1]));
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
+  setVariable(_store, a + b);
   advancePC();
 }
 
@@ -855,7 +812,9 @@ void ZMProcessor::_and() {
   decodeStore();
   log("and", true, false);
 
-  setVariable(_store, _operands[0] & _operands[1]);
+  uint16_t a = getOperand(0);
+  uint16_t b = getOperand(1);
+  setVariable(_store, a & b);
   advancePC();
 }
 
@@ -863,26 +822,28 @@ void ZMProcessor::art_shift() {
   decodeStore();
   log("art_shift", true, false);
 
-  int16_t o0 = static_cast<int16_t>(_operands[0]);
-  int16_t o1 = static_cast<int16_t>(_operands[1]);
-  if (o1 < 0)
-    setVariable(_store, static_cast<int16_t>(o0 >> -o1));
+  int16_t number = static_cast<int16_t>(getOperand(0));
+  int16_t places = static_cast<int16_t>(getOperand(1));
+  if (places < 0)
+    setVariable(_store, static_cast<int16_t>(number >> -places));
   else
-    setVariable(_store, static_cast<int16_t>(o0 << o1));
+    setVariable(_store, static_cast<int16_t>(number << places));
   advancePC();
 }
 
 void ZMProcessor::buffer_mode() {
   log("buffer_mode", false, false);
 
-  _io.setWordWrap(_operands[0] == 1);
+  uint16_t flag = getOperand(0);
+  _io.setWordWrap(flag == 1);
   advancePC();
 }
 
 void ZMProcessor::call_1n() {
   log("call_1n", false, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -899,7 +860,8 @@ void ZMProcessor::call_1s() {
   decodeStore();
   log("call_1s", true, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -917,7 +879,8 @@ void ZMProcessor::call_1s() {
 void ZMProcessor::call_2n() {
   log("call_2n", false, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -925,13 +888,18 @@ void ZMProcessor::call_2n() {
     return;
   }
 
+  int argCount = _operandCount - 1;
+  uint16_t args[8];
+  for (int i = 0; i < argCount; ++i)
+    args[i] = getOperand(i + 1);
+
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, 1, localCount, 0xffff);
 
   // Load arguments into locals
   for (int i = 0; i < localCount; ++i)
-    if (i < _operandCount - 1)
-      _stack.setLocal(i, _operands[i + 1]);
+    if (i < argCount)
+      _stack.setLocal(i, args[i]);
 
   _pc = address + 1;
 }
@@ -940,7 +908,8 @@ void ZMProcessor::call_2s() {
   decodeStore();
   log("call_2s", true, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -950,13 +919,18 @@ void ZMProcessor::call_2s() {
     return;
   }
 
+  int argCount = _operandCount - 1;
+  uint16_t args[8];
+  for (int i = 0; i < argCount; ++i)
+    args[i] = getOperand(i + 1);
+
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, 1, localCount, _store);
 
   // Load arguments into locals
   for (int i = 0; i < localCount; ++i)
-    if (i < _operandCount - 1)
-      _stack.setLocal(i, _operands[i + 1]);
+    if (i < argCount)
+      _stack.setLocal(i, args[i]);
 
   _pc = address + 1;
 }
@@ -964,7 +938,8 @@ void ZMProcessor::call_2s() {
 void ZMProcessor::call_vn() {
   log("call_vn", false, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -972,14 +947,18 @@ void ZMProcessor::call_vn() {
     return;
   }
 
+  int argCount = _operandCount - 1;
+  uint16_t args[8];
+  for (int i = 0; i < argCount; ++i)
+    args[i] = getOperand(i + 1);
+
   uint16_t localCount = _memory[address];
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
-                   0xffff);
+  _stack.pushFrame(_pc + _instructionLength, argCount, localCount, 0xffff);
 
   // Load argument into locals
   for (int i = 0; i < localCount; ++i)
-    if (i < _operandCount - 1)
-      _stack.setLocal(i, _operands[i + 1]);
+    if (i < argCount)
+      _stack.setLocal(i, args[i]);
 
   // Change the program counter to the address of the routine's
   // first instruction
@@ -993,7 +972,8 @@ void ZMProcessor::call_vs() {
   decodeStore();
   log(_version < 4 ? "call" : "call_vs", true, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -1003,19 +983,23 @@ void ZMProcessor::call_vs() {
     return;
   }
 
+  int argCount = _operandCount - 1;
+  uint16_t args[8];
+  for (int i = 0; i < argCount; ++i)
+    args[i] = getOperand(i + 1);
+
   uint16_t localCount = _memory[address];
 
   //_stack.dump();
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
-                   _store);
+  _stack.pushFrame(_pc + _instructionLength, argCount, localCount, _store);
   //_stack.dump();
 
   // Load arguments/initial values into locals
   // (the initial values are only present up to version 3, and the stack
   // initialises the values to zero during the 'pushFrame' above)
   for (int i = 0; i < localCount; ++i)
-    if (i < _operandCount - 1)
-      _stack.setLocal(i, _operands[i + 1]);
+    if (i < argCount)
+      _stack.setLocal(i, args[i]);
     else if (_version <= 3)
       _stack.setLocal(i, (_memory[address + 2 * i + 1] << 8) |
                              _memory[address + 2 * i + 2]);
@@ -1031,7 +1015,8 @@ void ZMProcessor::call_vs() {
 void ZMProcessor::call_vn2() {
   log("call_vn2", false, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -1039,14 +1024,18 @@ void ZMProcessor::call_vn2() {
     return;
   }
 
+  int argCount = _operandCount - 1;
+  uint16_t args[8];
+  for (int i = 0; i < argCount; ++i)
+    args[i] = getOperand(i + 1);
+
   uint16_t localCount = _memory[address];
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
-                   0xffff);
+  _stack.pushFrame(_pc + _instructionLength, argCount, localCount, 0xffff);
 
   // Load argument into locals
   for (int i = 0; i < localCount; ++i)
-    if (i < _operandCount - 1)
-      _stack.setLocal(i, _operands[i + 1]);
+    if (i < argCount)
+      _stack.setLocal(i, args[i]);
 
   // Change the program counter to the address of the routine's
   // first instruction
@@ -1057,7 +1046,8 @@ void ZMProcessor::call_vs2() {
   decodeStore();
   log("call_vs2", true, false);
 
-  int address = _packedAddressFactor * _operands[0]; // Packed address
+  uint16_t routine = getOperand(0);
+  int address = _packedAddressFactor * routine; // Packed address
 
   // Check if this is a call to zero
   if (address == 0) {
@@ -1067,17 +1057,18 @@ void ZMProcessor::call_vs2() {
     return;
   }
 
-  uint16_t localCount = _memory[address];
+  int argCount = _operandCount - 1;
+  uint16_t args[8];
+  for (int i = 0; i < argCount; ++i)
+    args[i] = getOperand(i + 1);
 
-  //_stack.dump();
-  _stack.pushFrame(_pc + _instructionLength, _operandCount - 1, localCount,
-                   _store);
-  //_stack.dump();
+  uint16_t localCount = _memory[address];
+  _stack.pushFrame(_pc + _instructionLength, argCount, localCount, _store);
 
   // Load arguments into locals
   for (int i = 0; i < localCount; ++i)
-    if (i < _operandCount - 1)
-      _stack.setLocal(i, _operands[i + 1]);
+    if (i < argCount)
+      _stack.setLocal(i, args[i]);
 
   // Change the program counter to the address of the routine's
   // first instruction
@@ -1096,16 +1087,18 @@ void ZMProcessor::check_arg_count() {
   decodeBranch();
   log("check_arg_count", false, true);
 
-  branchOrAdvancePC(_operands[0] <= _stack.getArgCount());
+  uint16_t argument_number = getOperand(0);
+  branchOrAdvancePC(argument_number <= _stack.getArgCount());
 }
 
 void ZMProcessor::check_unicode() {
   decodeStore();
   log("check_unicode", true, false);
 
-  bool printable = _io.checkUnicode(_operands[0]);
+  uint16_t char_number = getOperand(0);
+  bool printable = _io.checkUnicode(char_number);
   ZMText text(_memory.getData());
-  bool receivable = text.receivableChar(_operands[0]);
+  bool receivable = text.receivableChar(char_number);
   uint16_t setting = (printable ? 0x01 : 0x00) | (receivable ? 0x02 : 0x00);
   setVariable(_store, setting);
   advancePC();
@@ -1114,29 +1107,33 @@ void ZMProcessor::check_unicode() {
 void ZMProcessor::clear_attr() {
   log("clear_attr", false, false);
 
-  if (_operands[0] > 0)
-    _memory.getObject(_operands[0]).setAttribute(_operands[1], false);
+  uint16_t object = getOperand(0);
+  uint16_t attribute = getOperand(1);
+  if (object > 0)
+    _memory.getObject(object).setAttribute(attribute, false);
   advancePC();
 }
 
 void ZMProcessor::copy_table() {
   log("copy_table", false, false);
 
-  if (_operands[1] == 0)
-    memset(_memory.getData() + _operands[0], 0, _operands[2]);
-  else if (_operands[2] >= 0)
-    memmove(_memory.getData() + _operands[1], _memory.getData() + _operands[0],
-            _operands[2]);
+  uint16_t first = getOperand(0);
+  uint16_t second = getOperand(1);
+  uint16_t size = getOperand(2);
+  if (second == 0)
+    memset(_memory.getData() + first, 0, size);
+  else if (size >= 0)
+    memmove(_memory.getData() + second, _memory.getData() + first, size);
   else
-    memcpy(_memory.getData() + _operands[1], _memory.getData() + _operands[0],
-           -_operands[2]);
+    memcpy(_memory.getData() + second, _memory.getData() + first, -size);
   advancePC();
 }
 
 void ZMProcessor::dec() {
   log("dec", false, false);
 
-  setVariable(_operands[0], getVariable(_operands[0]) - 1);
+  uint16_t variable = getOperand(0);
+  setVariable(variable, getVariable(variable) - 1);
   advancePC();
 }
 
@@ -1144,28 +1141,33 @@ void ZMProcessor::dec_chk() {
   decodeBranch();
   log("dec_chk", false, true);
 
-  setVariable(_operands[0], getVariable(_operands[0]) - 1);
-  branchOrAdvancePC(static_cast<int16_t>(getVariable(_operands[0], true)) <
-                    static_cast<int16_t>(_operands[1]));
+  uint16_t variable = getOperand(0);
+  uint16_t value = getOperand(1);
+  setVariable(variable, getVariable(variable) - 1);
+  branchOrAdvancePC(static_cast<int16_t>(getVariable(variable, true)) <
+                    static_cast<int16_t>(value));
 }
 
 void ZMProcessor::div() {
   decodeStore();
   log("div", true, false);
 
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
+
   // Divide by zero error?
-  if (_operands[1] == 0)
+  if (b == 0)
     throw false;
 
-  setVariable(_store, static_cast<int16_t>(_operands[0]) /
-                          static_cast<int16_t>(_operands[1]));
+  setVariable(_store, a / b);
   advancePC();
 }
 
 void ZMProcessor::erase_window() {
   log("erase_window", false, false);
 
-  _io.eraseWindow(static_cast<int16_t>(_operands[0]));
+  int16_t window = static_cast<int16_t>(getOperand(0));
+  _io.eraseWindow(window);
   advancePC();
 }
 
@@ -1174,10 +1176,11 @@ void ZMProcessor::get_child() {
   decodeBranch();
   log("get_child", true, true);
 
-  if (_operands[0] == 0)
+  uint16_t object = getOperand(0);
+  if (object == 0)
     branchOrAdvancePC(false);
   else {
-    uint16_t child = _memory.getObject(_operands[0]).getChild();
+    uint16_t child = _memory.getObject(object).getChild();
     setVariable(_store, child);
     branchOrAdvancePC(child != 0);
   }
@@ -1187,9 +1190,10 @@ void ZMProcessor::get_next_prop() {
   decodeStore();
   log("get_next_prop", true, false);
 
-  if (_operands[0] > 0)
-    setVariable(_store,
-                _memory.getObject(_operands[0]).getNextProperty(_operands[1]));
+  uint16_t object = getOperand(0);
+  uint16_t property = getOperand(1);
+  if (object > 0)
+    setVariable(_store, _memory.getObject(object).getNextProperty(property));
   else
     setVariable(_store, 0);
   advancePC();
@@ -1199,8 +1203,9 @@ void ZMProcessor::get_parent() {
   decodeStore();
   log("get_parent", true, false);
 
-  if (_operands[0] > 0)
-    setVariable(_store, _memory.getObject(_operands[0]).getParent());
+  uint16_t object = getOperand(0);
+  if (object > 0)
+    setVariable(_store, _memory.getObject(object).getParent());
   else
     setVariable(_store, 0);
   advancePC();
@@ -1210,12 +1215,14 @@ void ZMProcessor::get_prop() {
   decodeStore();
   log("get_prop", true, false);
 
-  // TESTING
-  assert(_operands[1] > 0);
+  uint16_t object = getOperand(0);
+  uint16_t property = getOperand(1);
 
-  if (_operands[0] > 0)
-    setVariable(_store,
-                _memory.getObject(_operands[0]).getProperty(_operands[1]));
+  // TESTING
+  assert(property > 0);
+
+  if (object > 0)
+    setVariable(_store, _memory.getObject(object).getProperty(property));
   else
     setVariable(_store, 0);
   advancePC();
@@ -1225,19 +1232,10 @@ void ZMProcessor::get_prop_addr() {
   decodeStore();
   log("get_prop_addr", true, false);
 
-  // TESTING
-  //  assert(_operands[1] > 0);
-  //    if (_operands[0] > 0)
-  //    {
-  //        uint16_t addr =
-  //        _memory.getObject(_operands[0]).getPropertyAddress(_operands[1]);
-  //        printf("Property address: %04x\n", addr);
-  //    }
-
-  if (_operands[0] > 0)
-    setVariable(
-        _store,
-        _memory.getObject(_operands[0]).getPropertyAddress(_operands[1]));
+  uint16_t object = getOperand(0);
+  uint16_t property = getOperand(1);
+  if (object > 0)
+    setVariable(_store, _memory.getObject(object).getPropertyAddress(property));
   else
     setVariable(_store, 0);
   advancePC();
@@ -1247,8 +1245,9 @@ void ZMProcessor::get_prop_len() {
   decodeStore();
   log("get_prop_len", true, false);
 
-  if (_operands[0] > 0) {
-    uint16_t addr = _operands[0];
+  uint16_t property_address = getOperand(0);
+  if (property_address > 0) {
+    uint16_t addr = property_address;
     --addr;
     if (_version >= 4 && ((_memory.getByte(addr) & 0x80) == 0x80))
       --addr;
@@ -1269,9 +1268,10 @@ void ZMProcessor::get_sibling() {
   decodeBranch();
   log("get_sibling", true, true);
 
+  uint16_t object = getOperand(0);
   uint16_t sibling = 0;
-  if (_operands[0] > 0)
-    sibling = _memory.getObject(_operands[0]).getSibling();
+  if (object > 0)
+    sibling = _memory.getObject(object).getSibling();
   setVariable(_store, sibling);
   branchOrAdvancePC(sibling != 0);
 }
@@ -1279,7 +1279,8 @@ void ZMProcessor::get_sibling() {
 void ZMProcessor::inc() {
   log("inc", false, false);
 
-  setVariable(_operands[0], getVariable(_operands[0]) + 1);
+  uint16_t variable = getOperand(0);
+  setVariable(variable, getVariable(variable) + 1);
   advancePC();
 }
 
@@ -1287,23 +1288,22 @@ void ZMProcessor::inc_chk() {
   decodeBranch();
   log("inc_chk", false, true);
 
-  setVariable(_operands[0], getVariable(_operands[0]) + 1);
-  branchOrAdvancePC(static_cast<int16_t>(getVariable(_operands[0], true)) >
-                    static_cast<int16_t>(_operands[1]));
+  uint16_t variable = getOperand(0);
+  uint16_t value = getOperand(1);
+  setVariable(variable, getVariable(variable) + 1);
+  branchOrAdvancePC(static_cast<int16_t>(getVariable(variable, true)) >
+                    static_cast<int16_t>(value));
 }
 
 void ZMProcessor::insert_obj() {
   log("insert_obj", false, false);
 
-  if (_operands[0] > 0) {
-    ZMObject &obj = _memory.getObject(_operands[0]);
-    if (_operands[1] > 0) {
-      //      ZMObject &dest = _memory.getObject(_operands[1]);
-      //      printf("Insert object: %s -> %s\n", obj.getShortName().c_str(),
-      //             dest.getShortName().c_str());
-
-      obj.insert(_operands[1]);
-    }
+  uint16_t object = getOperand(0);
+  uint16_t destination = getOperand(1);
+  if (object > 0) {
+    ZMObject &obj = _memory.getObject(object);
+    if (destination > 0)
+      obj.insert(destination);
   }
   advancePC();
 }
@@ -1312,9 +1312,10 @@ void ZMProcessor::je() {
   decodeBranch();
   log("je", false, true);
 
+  uint16_t a[4] = {getOperand(0), getOperand(1), getOperand(2), getOperand(3)};
   bool anyEqual = false;
   for (int i = 1; i < _operandCount; ++i)
-    if (_operands[0] == _operands[i]) {
+    if (a[0] == a[i]) {
       anyEqual = true;
       break;
     }
@@ -1326,9 +1327,10 @@ void ZMProcessor::jg() {
   decodeBranch();
   log("jg", false, true);
 
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
   if (_operandCount == 2)
-    branchOrAdvancePC(static_cast<int16_t>(_operands[0]) >
-                      static_cast<int16_t>(_operands[1]));
+    branchOrAdvancePC(a > b);
   else
     advancePC();
 }
@@ -1337,20 +1339,22 @@ void ZMProcessor::jin() {
   decodeBranch();
   log("jin", false, true);
 
-  if (_operands[0] > 0)
-    branchOrAdvancePC(_memory.getObject(_operands[0]).getParent() ==
-                      _operands[1]);
+  uint16_t obj1 = getOperand(0);
+  uint16_t obj2 = getOperand(1);
+  if (obj1 > 0)
+    branchOrAdvancePC(_memory.getObject(obj1).getParent() == obj2);
   else
-    branchOrAdvancePC(_operands[0] == _operands[1]);
+    branchOrAdvancePC(obj1 == obj2);
 }
 
 void ZMProcessor::jl() {
   decodeBranch();
   log("jl", false, true);
 
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
   if (_operandCount == 2)
-    branchOrAdvancePC(static_cast<int16_t>(_operands[0]) <
-                      static_cast<int16_t>(_operands[1]));
+    branchOrAdvancePC(a < b);
   else
     advancePC();
 }
@@ -1358,15 +1362,17 @@ void ZMProcessor::jl() {
 void ZMProcessor::jump() {
   log("jump", false, false);
 
-  _pc = _pc + static_cast<int16_t>(_operands[0]) + 1;
+  int16_t offset = static_cast<int16_t>(getOperand(0));
+  _pc = _pc + offset + 1;
 }
 
 void ZMProcessor::jz() {
   decodeBranch();
   log("jz", false, true);
 
+  uint16_t a = getOperand(0);
   if (_operandCount == 1)
-    branchOrAdvancePC(_operands[0] == 0);
+    branchOrAdvancePC(a == 0);
   else
     advancePC();
 }
@@ -1375,8 +1381,9 @@ void ZMProcessor::load() {
   decodeStore();
   log("load", true, false);
 
+  uint16_t variable = getOperand(0);
   bool storeIsTopOfStack = _store == 0;
-  setVariable(_store, getVariable(_operands[0], true), !storeIsTopOfStack);
+  setVariable(_store, getVariable(variable, true), !storeIsTopOfStack);
   advancePC();
 }
 
@@ -1384,9 +1391,11 @@ void ZMProcessor::loadb() {
   decodeStore();
   log("loadb", true, false);
 
+  uint16_t array = getOperand(0);
+  int16_t byte_index = static_cast<int16_t>(getOperand(1));
+
   // Load variable with word from array at operand0 indexed by operand1
-  setVariable(_store, _memory.getByte(_operands[0] +
-                                      static_cast<int16_t>(_operands[1])));
+  setVariable(_store, _memory.getByte(array + byte_index));
   advancePC();
 }
 
@@ -1394,9 +1403,11 @@ void ZMProcessor::loadw() {
   decodeStore();
   log("loadw", true, false);
 
+  uint16_t array = getOperand(0);
+  int16_t word_index = static_cast<int16_t>(getOperand(1));
+
   // Load variable with word from array at operand0 indexed by operand1
-  setVariable(_store, _memory.getWord(_operands[0] +
-                                      2 * static_cast<int16_t>(_operands[1])));
+  setVariable(_store, _memory.getWord(array + 2 * word_index));
   advancePC();
 }
 
@@ -1404,12 +1415,12 @@ void ZMProcessor::log_shift() {
   decodeStore();
   log("log_shift", true, false);
 
-  uint16_t o0 = _operands[0];
-  int16_t o1 = static_cast<int16_t>(_operands[1]);
-  if (o1 < 0)
-    setVariable(_store, static_cast<uint16_t>(o0 >> -o1));
+  uint16_t number = getOperand(0);
+  int16_t places = static_cast<int16_t>(getOperand(1));
+  if (places < 0)
+    setVariable(_store, static_cast<uint16_t>(number >> -places));
   else
-    setVariable(_store, static_cast<uint16_t>(o0 << o1));
+    setVariable(_store, static_cast<uint16_t>(number << places));
   advancePC();
 }
 
@@ -1417,8 +1428,9 @@ void ZMProcessor::mod() {
   decodeStore();
   log("mod", true, false);
 
-  setVariable(_store, static_cast<int16_t>(_operands[0]) %
-                          static_cast<int16_t>(_operands[1]));
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
+  setVariable(_store, a % b);
   advancePC();
 }
 
@@ -1426,8 +1438,9 @@ void ZMProcessor::mul() {
   decodeStore();
   log("mul", true, false);
 
-  setVariable(_store, static_cast<int16_t>(_operands[0]) *
-                          static_cast<int16_t>(_operands[1]));
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
+  setVariable(_store, a * b);
   advancePC();
 }
 
@@ -1442,7 +1455,8 @@ void ZMProcessor::_not() {
   decodeStore();
   log("or", true, false);
 
-  setVariable(_store, ~_operands[0]);
+  uint16_t value = getOperand(0);
+  setVariable(_store, ~value);
   advancePC();
 }
 
@@ -1456,19 +1470,22 @@ void ZMProcessor::_or() {
   decodeStore();
   log("or", true, false);
 
-  setVariable(_store, _operands[0] | _operands[1]);
+  uint16_t a = getOperand(0);
+  uint16_t b = getOperand(1);
+  setVariable(_store, a | b);
   advancePC();
 }
 
 void ZMProcessor::output_stream() {
   log("output_stream", false, false);
 
-  int16_t number = static_cast<int16_t>(_operands[0]);
+  int16_t number = static_cast<int16_t>(getOperand(0));
+  uint16_t table = getOperand(1);
   _io.outputStream(number);
   if (number > 0) {
     if (number == 3) {
       ++_redirectIndex;
-      _redirectAddr[_redirectIndex] = _operands[1];
+      _redirectAddr[_redirectIndex] = table;
     }
   } else if (number < 0) {
     if (number == -3) {
@@ -1507,10 +1524,11 @@ void ZMProcessor::print() {
 void ZMProcessor::print_addr() {
   log("print_addr", false, false);
 
-  assert(_operands[0] > 1);
+  uint16_t byte_address_of_string = getOperand(0);
+  assert(byte_address_of_string > 1);
 
   ZMText text(_memory.getData());
-  print(text.getString(_operands[0]));
+  print(text.getString(byte_address_of_string));
 
   advancePC();
 }
@@ -1518,23 +1536,26 @@ void ZMProcessor::print_addr() {
 void ZMProcessor::print_char() {
   log("print_char", false, false);
 
+  uint16_t output_character_code = getOperand(0);
   ZMText text(_memory.getData());
-  print(text.zsciiToUTF8(_operands[0]), false);
+  print(text.zsciiToUTF8(output_character_code), false);
   advancePC();
 }
 
 void ZMProcessor::print_num() {
   log("print_num", false, false);
 
-  print(static_cast<int16_t>(_operands[0]));
+  int16_t value = static_cast<int16_t>(getOperand(0));
+  print(value);
   advancePC();
 }
 
 void ZMProcessor::print_obj() {
   log("print_obj", false, false);
 
-  if (_operands[0] > 0) {
-    ZMObject &obj = _memory.getObject(_operands[0]);
+  uint16_t object = getOperand(0);
+  if (object > 0) {
+    ZMObject &obj = _memory.getObject(object);
     print(obj.getShortName().c_str());
   }
   advancePC();
@@ -1543,11 +1564,11 @@ void ZMProcessor::print_obj() {
 void ZMProcessor::print_paddr() {
   log("print_paddr", false, false);
 
-  assert(_operands[0] > 1);
+  uint16_t packed_address_of_string = getOperand(0);
+  assert(packed_address_of_string > 1);
 
   ZMText text(_memory.getData());
-  print(text.getString(_packedAddressFactor * _operands[0]));
-
+  print(text.getString(_packedAddressFactor * packed_address_of_string));
   advancePC();
 }
 
@@ -1566,8 +1587,9 @@ void ZMProcessor::print_ret() {
 void ZMProcessor::print_unicode() {
   log("print_unicode", false, false);
 
+  uint16_t char_number = getOperand(0);
   std::string str;
-  ZMText::appendAsUTF8(str, _operands[0]);
+  ZMText::appendAsUTF8(str, char_number);
   print(str, false);
   advancePC();
 }
@@ -1575,22 +1597,27 @@ void ZMProcessor::print_unicode() {
 void ZMProcessor::pull() {
   log("pull", false, false);
 
-  setVariable(_operands[0], _stack.pop(), true);
+  uint16_t variable = getOperand(0);
+  setVariable(variable, _stack.pop(), true);
   advancePC();
 }
 
 void ZMProcessor::push() {
   log("push", false, false);
 
-  _stack.push(_operands[0]);
+  uint16_t value = getOperand(0);
+  _stack.push(value);
   advancePC();
 }
 
 void ZMProcessor::put_prop() {
   log("put_prop", false, false);
 
-  if (_operands[0] > 0)
-    _memory.getObject(_operands[0]).setProperty(_operands[1], _operands[2]);
+  uint16_t object = getOperand(0);
+  uint16_t property = getOperand(1);
+  uint16_t value = getOperand(2);
+  if (object > 0)
+    _memory.getObject(object).setProperty(property, value);
   advancePC();
 }
 
@@ -1606,10 +1633,10 @@ void ZMProcessor::random() {
   decodeStore();
   log("random", true, false);
 
-  int16_t value = static_cast<int16_t>(_operands[0]);
-  if (value < 0) {
+  int16_t range = static_cast<int16_t>(getOperand(0));
+  if (range < 0) {
     // Seed the random number generator with |value|
-    _seed = static_cast<uint16_t>(-value);
+    _seed = static_cast<uint16_t>(-range);
 
     // Section 2 Remarks suggest a predictable mode for the random number
     // generator
@@ -1618,7 +1645,7 @@ void ZMProcessor::random() {
       srandom(_seed);
 
     _lastRandomNumber = 0;
-  } else if (value == 0) {
+  } else if (range == 0) {
 
     // Randomly seed the random number generator
     using namespace std::chrono;
@@ -1630,15 +1657,15 @@ void ZMProcessor::random() {
 
     // Generate a random number between 0 and value
     if (_seed == 0) {
-      _lastRandomNumber = ::random() % value + 1;
+      _lastRandomNumber = ::random() % range + 1;
     } else if (_seed < 1000) {
 
       // The next value in a predictable sequence
       ++_lastRandomNumber;
-      if ((_lastRandomNumber >= _seed) || (_lastRandomNumber >= value))
+      if ((_lastRandomNumber >= _seed) || (_lastRandomNumber >= range))
         _lastRandomNumber = 1;
     } else {
-      _lastRandomNumber = ::random() % value + 1;
+      _lastRandomNumber = ::random() % range + 1;
     }
   }
 
@@ -1668,14 +1695,15 @@ void ZMProcessor::sread() {
   // (NOTE: This is now being done upstream, to handle localization issues)
   // std::transform(str.begin(), str.end(), str.begin(), std::tolower);
 
-  size_t maxLen = _memory.getByte(_operands[0]);
-  char *textBuf =
-      reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 1;
-  ZMText text(_memory.getData());
-  size_t len = text.UTF8ToZscii(textBuf, str, maxLen);
+  uint16_t text = getOperand(0);
+  uint16_t parse = getOperand(1);
+  size_t maxLen = _memory.getByte(text);
+  char *textBuf = reinterpret_cast<char *>(_memory.getData()) + text + 1;
+  ZMText zmtext(_memory.getData());
+  size_t len = zmtext.UTF8ToZscii(textBuf, str, maxLen);
   textBuf[len] = 0;
 
-  _memory.getDictionary().lex(_operands[0], _operands[1]);
+  _memory.getDictionary().lex(text, parse);
   advancePC();
 }
 
@@ -1686,33 +1714,40 @@ void ZMProcessor::aread() {
 
   // Are we starting the read operation?
   if (!_continuingAfterHalt) {
+    uint16_t text = getOperand(0, true);
+    getOperand(1); // TODO: What if `parse` is `sp` as well?
+    uint16_t time = getOperand(2);
+    uint16_t routine = getOperand(3);
     _hasHalted = true;
-    uint8_t existingLen = _memory.getByte(_operands[0] + 1);
+    uint8_t existingLen = _memory.getByte(text + 1);
     _io.beginInput(existingLen);
-    if (_operandCount == 4 && _operands[2] && _operands[3]) {
-      _io.startTimedRoutine(_operands[2], _operands[3]);
+    if (_operandCount == 4 && time && routine) {
+      _io.startTimedRoutine(time, routine);
     }
     return;
   }
   _io.stopTimedRoutine();
 
+  uint16_t text = getOperand(0);
+  uint16_t parse = getOperand(1);
+  getOperand(2);
+  getOperand(3);
   std::string str = _io.endInput();
 
   // Convert the text to lower case
   // (NOTE: This is now being done upstream, to handle localization issues)
   // std::transform(str.begin(), str.end(), str.begin(), std::tolower);
 
-  size_t maxLen = _memory.getByte(_operands[0]);
-  char *textBuf =
-      reinterpret_cast<char *>(_memory.getData()) + _operands[0] + 2;
-  ZMText text(_memory.getData());
-  size_t len = text.UTF8ToZscii(textBuf, str, maxLen);
+  size_t maxLen = _memory.getByte(text);
+  char *textBuf = reinterpret_cast<char *>(_memory.getData()) + text + 2;
+  ZMText zmtext(_memory.getData());
+  size_t len = zmtext.UTF8ToZscii(textBuf, str, maxLen);
 
   // Put the character count into byte 1
-  _memory.setByte(_operands[0] + 1, len);
-  if (_operandTypes[1] != kOmitted && _operands[1] != 0)
-    _memory.getDictionary().lex(_operands[0], _operands[1]);
-  setVariable(_store, 10);
+  _memory.setByte(text + 1, len);
+  if (parse != 0)
+    _memory.getDictionary().lex(text, parse);
+  setVariable(_store, 13);
   advancePC();
 }
 
@@ -1723,10 +1758,14 @@ void ZMProcessor::read_char() {
 
   // Are we starting the read operation?
   if (!_continuingAfterHalt) {
+    getOperand(0);
+    uint16_t time = getOperand(1);
+    uint16_t routine = getOperand(2);
+
     _hasHalted = true;
     _io.beginInputChar();
-    if (_operandCount == 3 && _operands[1] && _operands[2]) {
-      _io.startTimedRoutine(_operands[1], _operands[2]);
+    if (_operandCount == 3 && time && routine) {
+      _io.startTimedRoutine(time, routine);
     }
     return;
   }
@@ -1742,8 +1781,9 @@ void ZMProcessor::read_char() {
 void ZMProcessor::remove_obj() {
   log("remove_obj", false, false);
 
-  if (_operands[0] > 0)
-    _memory.getObject(_operands[0]).remove();
+  uint16_t object = getOperand(0);
+  if (object > 0)
+    _memory.getObject(object).remove();
   advancePC();
 }
 
@@ -1857,8 +1897,9 @@ void ZMProcessor::restore_undo() {
 void ZMProcessor::ret() {
   log("ret", false, false);
 
+  uint16_t value = getOperand(0);
   _pc = _stack.popFrame(&_store);
-  setVariable(_store, _operands[0]);
+  setVariable(_store, value);
 }
 
 void ZMProcessor::ret_popped() {
@@ -1946,16 +1987,19 @@ void ZMProcessor::scan_table() {
   decodeBranch();
   log("scan_table", true, true);
 
+  uint16_t x = getOperand(0);
+  uint16_t table = getOperand(1);
+  uint16_t len = getOperand(2);
   uint16_t form = 0x82;
   if (_operandCount == 4)
-    form = _operands[3];
+    form = getOperand(3);
   uint16_t fieldLength = form & 0x7f;
   bool isWord = (form & 0x80) != 0;
-  uint16_t offset = _operands[1];
+  uint16_t offset = table;
   bool found = false;
-  for (uint16_t i = 0; i < _operands[2]; ++i) {
+  for (uint16_t i = 0; i < len; ++i) {
     uint16_t read = isWord ? _memory.getWord(offset) : _memory.getByte(offset);
-    if (read == _operands[0]) {
+    if (read == x) {
       found = true;
       setVariable(_store, offset);
       break;
@@ -1971,22 +2015,28 @@ void ZMProcessor::scan_table() {
 void ZMProcessor::set_attr() {
   log("set_attr", false, false);
 
-  if (_operands[0] > 0)
-    _memory.getObject(_operands[0]).setAttribute(_operands[1], true);
+  uint16_t object = getOperand(0);
+  uint16_t attribute = getOperand(1);
+  if (object > 0)
+    _memory.getObject(object).setAttribute(attribute, true);
   advancePC();
 }
 
 void ZMProcessor::set_colour() {
   log("set_colour", false, false);
 
-  _io.setColor(_operands[0], _operands[1]);
+  uint16_t foreground = getOperand(0);
+  uint16_t background = getOperand(1);
+  _io.setColor(foreground, background);
   advancePC();
 }
 
 void ZMProcessor::set_cursor() {
   log("set_cursor", false, false);
 
-  _io.setCursor(_operands[0], _operands[1]);
+  uint16_t line = getOperand(0);
+  uint16_t column = getOperand(1);
+  _io.setCursor(line, column);
   advancePC();
 }
 
@@ -1994,7 +2044,8 @@ void ZMProcessor::set_font() {
   decodeStore();
   log("set_font", true, false);
 
-  int result = _io.setFont(_operands[0]);
+  uint16_t font = getOperand(0);
+  int result = _io.setFont(font);
   setVariable(_store, result);
   advancePC();
 }
@@ -2002,21 +2053,25 @@ void ZMProcessor::set_font() {
 void ZMProcessor::set_text_style() {
   log("set_text_style", false, false);
 
-  _io.setTextStyle(_operands[0]);
+  uint16_t style = getOperand(0);
+  _io.setTextStyle(style);
   advancePC();
 }
 
 void ZMProcessor::set_true_colour() {
   log("set_true_colour", false, false);
 
-  _io.setTrueColor(_operands[0], _operands[1]);
+  uint16_t foreground = getOperand(0);
+  uint16_t background = getOperand(1);
+  _io.setTrueColor(foreground, background);
   advancePC();
 }
 
 void ZMProcessor::set_window() {
   log("set_window", false, false);
 
-  _io.setWindow(_operands[0]);
+  uint16_t window = getOperand(0);
+  _io.setWindow(window);
   advancePC();
 }
 
@@ -2031,41 +2086,55 @@ void ZMProcessor::show_status() {
 void ZMProcessor::sound_effect() {
   log("sound_effect", false, false);
 
-  int repeat = _operands[2] >> 8;
-  int volume = _operands[2] & 0xff;
-  _io.soundEffect(_operands[0], _operands[1], repeat, volume);
+  uint16_t number = getOperand(0);
+  uint16_t effect = getOperand(1);
+  uint16_t volume = getOperand(2);
+  // uint16_t routine = getOperand(3);
+  getOperand(3);
+  int repeat = volume >> 8;
+  int vol = volume & 0xff;
+  _io.soundEffect(number, effect, repeat, vol);
   advancePC();
 }
 
 void ZMProcessor::split_window() {
   log("split_window", false, false);
 
-  _io.splitWindow(_operands[0]);
+  uint16_t lines = getOperand(0);
+  _io.splitWindow(lines);
   advancePC();
 }
 
 void ZMProcessor::store() {
   log("store", false, false);
 
-  setVariable(_operands[0], _operands[1], true);
+  uint16_t variable = getOperand(0);
+  uint16_t value = getOperand(1);
+  setVariable(variable, value, true);
   advancePC();
 }
 
 void ZMProcessor::storeb() {
   log("storeb", false, false);
 
+  uint16_t array = getOperand(0);
+  int16_t byte_index = static_cast<int16_t>(getOperand(1));
+  uint16_t value = getOperand(2);
+
   // Store operand2 in array operand0 indexed by operand1
-  _memory.setByte(_operands[0] + static_cast<int16_t>(_operands[1]),
-                  _operands[2]);
+  _memory.setByte(array + byte_index, value);
   advancePC();
 }
 
 void ZMProcessor::storew() {
   log("storew", false, false);
 
+  uint16_t array = getOperand(0);
+  int16_t word_index = static_cast<int16_t>(getOperand(1));
+  uint16_t value = getOperand(2);
+
   // Store operand2 in array operand0 indexed by operand1
-  _memory.setWord(_operands[0] + 2 * static_cast<int16_t>(_operands[1]),
-                  _operands[2]);
+  _memory.setWord(array + 2 * word_index, value);
   advancePC();
 }
 
@@ -2073,8 +2142,9 @@ void ZMProcessor::sub() {
   decodeStore();
   log("sub", true, false);
 
-  setVariable(_store, static_cast<int16_t>(_operands[0]) -
-                          static_cast<int16_t>(_operands[1]));
+  int16_t a = static_cast<int16_t>(getOperand(0));
+  int16_t b = static_cast<int16_t>(getOperand(1));
+  setVariable(_store, a - b);
   advancePC();
 }
 
@@ -2082,36 +2152,44 @@ void ZMProcessor::test() {
   decodeBranch();
   log("test", false, true);
 
-  branchOrAdvancePC((_operands[0] & _operands[1]) == _operands[1]);
+  uint16_t bitmap = getOperand(0);
+  uint16_t flags = getOperand(1);
+  branchOrAdvancePC((bitmap & flags) == flags);
 }
 
 void ZMProcessor::test_attr() {
   decodeBranch();
   log("test_attr", false, true);
 
-  if (_operands[0] == 0)
+  uint16_t object = getOperand(0);
+  uint16_t attribute = getOperand(1);
+  if (object == 0)
     branchOrAdvancePC(false);
   else
-    branchOrAdvancePC(
-        _memory.getObject(_operands[0]).getAttribute(_operands[1]));
+    branchOrAdvancePC(_memory.getObject(object).getAttribute(attribute));
 }
 
 void ZMProcessor::_throw() {
   log("throw", false, false);
 
-  _stack.throwFrame(_operands[1]);
+  uint16_t value = getOperand(0);
+  uint16_t stack_frame = getOperand(1);
+  _stack.throwFrame(stack_frame);
   _pc = _stack.popFrame(&_store);
-  setVariable(_store, _operands[0]);
+  setVariable(_store, value);
 }
 
 void ZMProcessor::tokenise() {
   log("tokenise", false, false);
 
+  uint16_t text = getOperand(0);
+  uint16_t parse = getOperand(1);
+
   if (_operandCount > 2)
     printf(
         "WARNING: tokenise with more that two operands NOT YET IMPLEMENTED\n");
 
-  _memory.getDictionary().lex(_operands[0], _operands[1]);
+  _memory.getDictionary().lex(text, parse);
   advancePC();
 }
 
