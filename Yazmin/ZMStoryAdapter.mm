@@ -230,9 +230,7 @@ void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
       scheduledTimerWithTimeInterval:interval
                              repeats:YES
                                block:^(NSTimer *_Nonnull timer) {
-                                 if ([this->_story.zMachine
-                                         callRoutine:routine])
-                                   [this->_story.storyController executeStory];
+                                 [this->_story.storyController executeRoutine:routine];
                                }];
 }
 

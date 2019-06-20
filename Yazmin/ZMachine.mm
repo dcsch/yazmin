@@ -163,17 +163,6 @@ static const size_t kMaxStorySize = 0x8ffff;
   return parts->_proc->callRoutine(routine);
 }
 
-//- (void)restart
-//{
-//    NSData *data = [story zcodeData];
-//    if (data != nil)
-//    {
-//        [data getBytes:parts->_memory->getData()];
-//        parts->_memory->initHeader();
-//        parts->_stack->
-//    }
-//}
-
 - (int)numberOfChildrenOfObject:(int)objNumber {
   uint16_t objectCount = parts->_memory->getObjectCount();
   int childCount = 0;

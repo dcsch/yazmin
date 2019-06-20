@@ -101,16 +101,20 @@ bool ZMProcessor::callRoutine(int routine) {
 
   // Called by timers while waiting for input, therefore processor
   // must be halted
-  if (!_hasHalted)
+  if (!_hasHalted || routine == 0)
     return false;
 
-  int startingSP = _stack.getStackPointer();
   uint32_t originalPC = _pc;
-  //  _operands[0] = routine;
-  call_1s();
-  while (startingSP != _stack.getStackPointer()) {
-    execute();
-  }
+  _store = 0; // store return value to stack
+  int address = _packedAddressFactor * routine; // Packed address
+  uint16_t localCount = _memory[address];
+
+  // Set a return address of 0, and then execute until the PC is
+  // set to 0
+  _stack.pushFrame(0, 0, localCount, _store);
+  _pc = address + 1;
+  while (_pc != 0 && execute());
+
   _pc = originalPC;
   return getVariable(_store);
 }
@@ -989,10 +993,7 @@ void ZMProcessor::call_vs() {
     args[i] = getOperand(i + 1);
 
   uint16_t localCount = _memory[address];
-
-  //_stack.dump();
   _stack.pushFrame(_pc + _instructionLength, argCount, localCount, _store);
-  //_stack.dump();
 
   // Load arguments/initial values into locals
   // (the initial values are only present up to version 3, and the stack
@@ -1006,6 +1007,8 @@ void ZMProcessor::call_vs() {
 
   // Change the program counter to the address of the routine's
   // first instruction
+  // TODO: Spec says this is for v4 as well, which means other call variants
+  // will need this check
   if (_version <= 3)
     _pc = address + 2 * localCount + 1;
   else

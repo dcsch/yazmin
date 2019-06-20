@@ -423,4 +423,12 @@
                                }];
 }
 
+- (void)executeRoutine:(int)routine {
+
+  // TODO: deal with the user input string
+  Story *story = self.document;
+  if ([story.zMachine callRoutine:routine])
+    [story.storyController executeStory];
+}
+
 @end

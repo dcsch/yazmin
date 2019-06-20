@@ -20,5 +20,6 @@
 - (void)updateWindowLayout;
 - (void)updateTextAttributes;
 - (void)executeStory;
+- (void)executeRoutine:(int)routine;
 
 @end
