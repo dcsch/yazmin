@@ -91,10 +91,9 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-  if (_inputState == kCharacterInputState) {
-    self.inputState = kNoInputState;
+  if (_inputState == kCharacterInputState)
     [_storyInput characterInput:254];
-  } else
+  else
     [super mouseDown:event];
 }
 
@@ -132,7 +131,6 @@
     }
 
   } else if (_inputState == kCharacterInputState) {
-    self.inputState = kNoInputState;
     unichar code;
     switch (event.keyCode) {
     case kVK_Delete:
@@ -238,10 +236,6 @@
 
 - (void)insertNewline:(id)sender {
   [super insertNewline:sender];
-
-  // Reset the input state
-  self.inputState = kNoInputState;
-
   NSRange range =
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation - 1);
   NSString *input = [self.textStorage.string substringWithRange:range];

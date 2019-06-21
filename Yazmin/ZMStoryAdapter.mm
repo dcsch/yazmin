@@ -226,12 +226,18 @@ void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
 
 void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
   NSTimeInterval interval = time / 10.0;
-  timer = [NSTimer
-      scheduledTimerWithTimeInterval:interval
-                             repeats:YES
-                               block:^(NSTimer *_Nonnull timer) {
-                                 [this->_story.storyController executeRoutine:routine];
-                               }];
+  timer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                          repeats:YES
+                                            block:^(NSTimer *_Nonnull timer) {
+                                              BOOL retVal =
+                                                  [this->_story.storyController
+                                                      executeRoutine:routine];
+                                              if (retVal) {
+                                                [timer invalidate];
+                                                [this->_story.storyController
+                                                    stringInput:nil];
+                                              }
+                                            }];
 }
 
 void ZMStoryAdapter::stopTimedRoutine() {

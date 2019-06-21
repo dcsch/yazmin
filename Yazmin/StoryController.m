@@ -225,7 +225,6 @@
 }
 
 - (void)prepareInputChar {
-  //    NSLog(@"prepareInputChar");
   [layoutView.lowerWindow setInputState:kCharacterInputState];
   [self scrollLowerWindowToEnd];
 }
@@ -249,8 +248,8 @@
                 }];
 }
 
-- (void)saveSessionData:(NSData *)data;
-{
+- (void)saveSessionData:(NSData *)data {
+
   // Ask the user for a save file name
   NSSavePanel *panel = [NSSavePanel savePanel];
   panel.allowedFileTypes = @[ @"qut" ];
@@ -335,6 +334,7 @@
 }
 
 - (void)characterInput:(unichar)c {
+  layoutView.lowerWindow.inputState = kNoInputState;
 
   // TODO: Deal with single character inputs that are composed of multiple key
   // presses
@@ -348,6 +348,7 @@
 }
 
 - (void)stringInput:(NSString *)string {
+  layoutView.lowerWindow.inputState = kNoInputState;
   [self resolveStatusHeight];
 
   Story *story = self.document;
@@ -423,12 +424,34 @@
                                }];
 }
 
-- (void)executeRoutine:(int)routine {
-
-  // TODO: deal with the user input string
+- (BOOL)executeRoutine:(int)routine {
   Story *story = self.document;
-  if ([story.zMachine callRoutine:routine])
-    [story.storyController executeStory];
+  NSUInteger inputLoc = layoutView.lowerWindow.inputLocation;
+  NSUInteger totalLen = story.facets[0].textStorage.length;
+  NSUInteger inputLen = totalLen - inputLoc;
+  NSAttributedString *inputSoFar = nil;
+
+  if (layoutView.lowerWindow.inputState == kStringInputState) {
+    if (inputLen > 0) {
+      inputSoFar = [story.facets[0].textStorage
+          attributedSubstringFromRange:NSMakeRange(inputLoc, inputLen)];
+    }
+  }
+
+  BOOL retVal = [story.zMachine callRoutine:routine];
+
+  // If total text length is longer after the called routine, then text has been
+  // printed to the output. The input location must be moved forward by that
+  // amount, plus the length of the input we're leaving behind.
+  // If any text had previously been entered, then that must now be appended
+  // after the newly printed output.
+  NSUInteger addedLen = story.facets[0].textStorage.length - totalLen;
+  if (addedLen > 0) {
+    layoutView.lowerWindow.inputLocation += addedLen + inputLen;
+    if (inputSoFar)
+      [story.facets[0].textStorage appendAttributedString:inputSoFar];
+  }
+  return retVal;
 }
 
 @end
