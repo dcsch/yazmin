@@ -31,7 +31,11 @@ public:
 
   virtual void outputStream(int stream) = 0;
 
+  virtual void getColor(int &foreground, int &background) const = 0;
+
   virtual void setColor(int foreground, int background) = 0;
+
+  virtual void getTrueColor(int &foreground, int &background) const = 0;
 
   virtual void setTrueColor(int foreground, int background) = 0;
 

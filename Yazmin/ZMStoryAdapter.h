@@ -24,7 +24,11 @@ public:
 
   void outputStream(int stream) override;
 
+  void getColor(int &foreground, int &background) const override;
+
   void setColor(int foreground, int background) override;
+
+  void getTrueColor(int &foreground, int &background) const override;
 
   void setTrueColor(int foreground, int background) override;
 

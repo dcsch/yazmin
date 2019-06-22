@@ -132,9 +132,36 @@ void ZMStoryAdapter::outputStream(int stream) {
   }
 }
 
+void ZMStoryAdapter::getColor(int &foreground, int &background) const {
+  if (screenEnabled) {
+    foreground = _storyFacet.foregroundColorCode;
+    background = _storyFacet.backgroundColorCode;
+  }
+}
+
 void ZMStoryAdapter::setColor(int foreground, int background) {
   if (screenEnabled)
     [_storyFacet setColorForeground:foreground background:background];
+}
+
+uint16_t trueColorFromColor(NSColor *color) {
+  CGFloat r, g, b, a;
+  [color getRed:&r green:&g blue:&b alpha:&a];
+  uint16_t rc = static_cast<uint16_t>(31.0 * r);
+  uint16_t gc = static_cast<uint16_t>(31.0 * g) << 5;
+  uint16_t bc = static_cast<uint16_t>(31.0 * b) << 10;
+  return bc | gc | rc;
+}
+
+void ZMStoryAdapter::getTrueColor(int &foreground, int &background) const {
+  if (screenEnabled) {
+    NSColor *color = [_storyFacet.foregroundColor
+        colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+    foreground = trueColorFromColor(color);
+    color = [_storyFacet.backgroundColor
+        colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+    background = trueColorFromColor(color);
+  }
 }
 
 void ZMStoryAdapter::setTrueColor(int foreground, int background) {

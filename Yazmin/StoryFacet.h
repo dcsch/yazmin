@@ -23,6 +23,10 @@
 @property int numberOfLines;
 @property int widthInCharacters;
 @property int heightInLines;
+@property(readonly) NSColor *foregroundColor;
+@property(readonly) NSColor *backgroundColor;
+@property(readonly) int foregroundColorCode;
+@property(readonly) int backgroundColorCode;
 
 - (void)erase;
 - (void)setColorForeground:(int)fg background:(int)bg;

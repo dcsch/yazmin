@@ -12,8 +12,6 @@
 
 @interface StoryFacet () {
   int _fontId;
-  NSColor *foregroundColor;
-  NSColor *backgroundColor;
 }
 
 - (NSColor *)colorFromCode:(int)colorCode
@@ -53,6 +51,48 @@
 - (void)erase {
   NSRange range = NSMakeRange(0, _textStorage.length);
   [_textStorage deleteCharactersInRange:range];
+}
+
+- (NSColor *)foregroundColor {
+  return _currentAttributes[NSForegroundColorAttributeName];
+}
+
+- (NSColor *)backgroundColor {
+  return _currentAttributes[NSBackgroundColorAttributeName];
+}
+
+- (int)closestColorCodeToColor:(NSColor *)color {
+  color = [color colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+  CGFloat r1, g1, b1, a1;
+  [color getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+  int closestCode = 0;
+  CGFloat closestDistance = 2.0;
+  for (int i = 2; i <= 9; ++i) {
+    NSColor *paletteColor =
+        [[self colorFromCode:i currentColor:nil defaultColor:nil]
+            colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+    CGFloat r2, g2, b2, a2;
+    [paletteColor getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
+
+    CGFloat dr = fabs(r2 - r1);
+    CGFloat dg = fabs(g2 - g1);
+    CGFloat db = fabs(b2 - b1);
+    CGFloat distance = sqrt(dr * dr + dg * dg + db * db);
+
+    if (closestDistance > distance) {
+      closestDistance = distance;
+      closestCode = i;
+    }
+  }
+  return closestCode;
+}
+
+- (int)foregroundColorCode {
+  return [self closestColorCodeToColor:self.foregroundColor];
+}
+
+- (int)backgroundColorCode {
+  return [self closestColorCodeToColor:self.backgroundColor];
 }
 
 // From the Z-machine standard 1.1 (8.3.1):
@@ -122,6 +162,17 @@
 }
 
 - (void)setTrueColorForeground:(int)fg background:(int)bg {
+  NSColor *currentFgColor = _currentAttributes[NSForegroundColorAttributeName];
+  NSColor *currentBgColor = _currentAttributes[NSBackgroundColorAttributeName];
+  _currentAttributes[NSForegroundColorAttributeName] =
+      [self colorFromTrueColor:fg
+                  currentColor:currentFgColor
+                  defaultColor:[NSColor textColor]];
+
+  _currentAttributes[NSBackgroundColorAttributeName] =
+      [self colorFromTrueColor:bg
+                  currentColor:currentBgColor
+                  defaultColor:[NSColor textBackgroundColor]];
 }
 
 - (void)setCursorLine:(int)line column:(int)column {

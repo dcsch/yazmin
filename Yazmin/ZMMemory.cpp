@@ -41,6 +41,9 @@ ZMMemory::~ZMMemory() {
 }
 
 void ZMMemory::initHeader(uint8_t screenWidth, uint8_t screenHeight) {
+  int fgColor;
+  int bgColor;
+  _io.getColor(fgColor, bgColor);
   if (_header.getVersion() < 4) {
     _data[1] |= 0x60; // Variable-pitch font is the default
                       // Screen-splitting available
@@ -63,12 +66,8 @@ void ZMMemory::initHeader(uint8_t screenWidth, uint8_t screenHeight) {
       setWord(0x24, _data[0x20]); // Screen height in units
       setByte(0x26, 1);           // Font width in units
       setByte(0x27, 1);           // Font height in units
-      setByte(
-          0x2c,
-          0x09); // Default background colour (set to match Zoom for testing)
-      setByte(
-          0x2d,
-          0x02); // Default foreground colour (set to match Zoom for testing)
+      setByte(0x2c, bgColor);     // Default background colour
+      setByte(0x2d, fgColor);     // Default foreground colour
     }
   }
 

@@ -217,6 +217,7 @@
 }
 
 - (void)prepareInputWithOffset:(NSInteger)offset {
+  [self resolveStatusHeight];
   Story *story = self.document;
   NSUInteger len = story.facets[0].textStorage.length;
   [layoutView.lowerWindow setInputLocation:len + offset];
@@ -225,6 +226,7 @@
 }
 
 - (void)prepareInputChar {
+  [self resolveStatusHeight];
   [layoutView.lowerWindow setInputState:kCharacterInputState];
   [self scrollLowerWindowToEnd];
 }
@@ -319,8 +321,10 @@
   if (seenheight == maxheight)
     maxheight = curheight;
 
-  [layoutView resizeUpperWindow:maxheight];
-  layoutView.needsDisplay = YES;
+  if (layoutView.upperWindow.textContainer.maximumNumberOfLines != maxheight) {
+    [layoutView resizeUpperWindow:maxheight];
+    layoutView.needsDisplay = YES;
+  }
 
   seenheight = maxheight;
   maxheight = curheight;
@@ -335,22 +339,13 @@
 
 - (void)characterInput:(unichar)c {
   layoutView.lowerWindow.inputState = kNoInputState;
-
-  // TODO: Deal with single character inputs that are composed of multiple key
-  // presses
-  if (c > 0) {
-    [self resolveStatusHeight];
-
-    Story *story = self.document;
-    story.inputCharacter = c;
-  }
+  Story *story = self.document;
+  story.inputCharacter = c;
   [self executeStory];
 }
 
 - (void)stringInput:(NSString *)string {
   layoutView.lowerWindow.inputState = kNoInputState;
-  [self resolveStatusHeight];
-
   Story *story = self.document;
   story.inputString = string;
   [self executeStory];

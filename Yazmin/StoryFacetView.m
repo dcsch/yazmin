@@ -16,6 +16,7 @@
   InputState _inputState;
   NSMutableArray<NSString *> *inputHistory;
   NSUInteger historyIndex;
+  NSMutableArray<NSEvent *> *keyEvents;
 }
 
 - (void)useInputHistoryIndex:(NSUInteger)index;
@@ -34,6 +35,7 @@
     self.inputState = kNoInputState;
     inputHistory = [NSMutableArray array];
     historyIndex = 0;
+    keyEvents = [NSMutableArray array];
   }
   return self;
 }
@@ -88,6 +90,15 @@
     return NO;
   else
     return YES;
+}
+
+- (void)insertText:(NSString *)string
+    replacementRange:(NSRange)replacementRange {
+  [super insertText:string replacementRange:replacementRange];
+
+  if (_inputState == kCharacterInputState && string.length > 0) {
+    [_storyInput characterInput:[string characterAtIndex:0]];
+  }
 }
 
 - (void)mouseDown:(NSEvent *)event {
@@ -225,12 +236,18 @@
       code = 13;
       break;
     default:
-      if (event.characters.length > 0)
-        code = [event.characters characterAtIndex:0];
-      else
-        code = 0;
+      code = 0;
+      [keyEvents addObject:event];
+      if (event.characters.length > 0) {
+        [self interpretKeyEvents:keyEvents];
+        [keyEvents removeAllObjects];
+      }
     }
-    [_storyInput characterInput:code];
+    if (code) {
+      [_storyInput characterInput:code];
+      [keyEvents removeAllObjects];
+    }
+    [super keyDown:event];
   }
 }
 

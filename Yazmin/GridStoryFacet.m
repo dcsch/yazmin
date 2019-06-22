@@ -39,6 +39,7 @@
 }
 
 - (void)setNumberOfLines:(int)lines {
+  NSLog(@"setNumberOfLines: %d", lines);
   _numberOfLines = lines;
   [self.story updateWindowLayout];
 }

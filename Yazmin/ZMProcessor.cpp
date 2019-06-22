@@ -105,7 +105,7 @@ bool ZMProcessor::callRoutine(int routine) {
     return false;
 
   uint32_t originalPC = _pc;
-  _store = 0; // store return value to stack
+  _store = 0;                                   // store return value to stack
   int address = _packedAddressFactor * routine; // Packed address
   uint16_t localCount = _memory[address];
 
@@ -113,7 +113,8 @@ bool ZMProcessor::callRoutine(int routine) {
   // set to 0
   _stack.pushFrame(0, 0, localCount, _store);
   _pc = address + 1;
-  while (_pc != 0 && execute());
+  while (_pc != 0 && execute())
+    ;
 
   _pc = originalPC;
   return getVariable(_store);
