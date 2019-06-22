@@ -12,8 +12,12 @@
 
 @interface StoryFacet () {
   int _fontId;
+  NSColor *_foregroundColor;
+  NSColor *_backgroundColor;
+  BOOL _justSetTextStyle;
 }
 
+- (void)updateColorAttributes;
 - (NSColor *)colorFromCode:(int)colorCode
               currentColor:(NSColor *)currentColor
               defaultColor:(NSColor *)defaultColor;
@@ -33,6 +37,9 @@
     _textStorage = [[NSTextStorage alloc] init];
     _currentAttributes = [[NSMutableDictionary alloc] init];
 
+    // Default colors
+    [self setColorForeground:1 background:1];
+
     // Initialize with the user-defined font
     [self setFont:1];
     [self setTextStyle:0];
@@ -51,14 +58,6 @@
 - (void)erase {
   NSRange range = NSMakeRange(0, _textStorage.length);
   [_textStorage deleteCharactersInRange:range];
-}
-
-- (NSColor *)foregroundColor {
-  return _currentAttributes[NSForegroundColorAttributeName];
-}
-
-- (NSColor *)backgroundColor {
-  return _currentAttributes[NSBackgroundColorAttributeName];
 }
 
 - (int)closestColorCodeToColor:(NSColor *)color {
@@ -88,11 +87,11 @@
 }
 
 - (int)foregroundColorCode {
-  return [self closestColorCodeToColor:self.foregroundColor];
+  return [self closestColorCodeToColor:_foregroundColor];
 }
 
 - (int)backgroundColorCode {
-  return [self closestColorCodeToColor:self.backgroundColor];
+  return [self closestColorCodeToColor:_backgroundColor];
 }
 
 // From the Z-machine standard 1.1 (8.3.1):
@@ -134,18 +133,28 @@
   return currentColor;
 }
 
-- (void)setColorForeground:(int)fg background:(int)bg {
-  NSColor *currentFgColor = _currentAttributes[NSForegroundColorAttributeName];
-  NSColor *currentBgColor = _currentAttributes[NSBackgroundColorAttributeName];
-  _currentAttributes[NSForegroundColorAttributeName] =
-      [self colorFromCode:fg
-             currentColor:currentFgColor
-             defaultColor:[NSColor textColor]];
+- (void)updateColorAttributes {
 
-  _currentAttributes[NSBackgroundColorAttributeName] =
-      [self colorFromCode:bg
-             currentColor:currentBgColor
-             defaultColor:[NSColor textBackgroundColor]];
+  // If style is reverse, assign the colors appropriately
+  if (_currentStyle & 1) {
+    _currentAttributes[NSForegroundColorAttributeName] = _backgroundColor;
+    _currentAttributes[NSBackgroundColorAttributeName] = _foregroundColor;
+    //    NSLog(@"Video reverse");
+  } else {
+    _currentAttributes[NSForegroundColorAttributeName] = _foregroundColor;
+    _currentAttributes[NSBackgroundColorAttributeName] = _backgroundColor;
+    //    NSLog(@"Video normal");
+  }
+}
+
+- (void)setColorForeground:(int)fg background:(int)bg {
+  _foregroundColor = [self colorFromCode:fg
+                            currentColor:_foregroundColor
+                            defaultColor:[NSColor textColor]];
+  _backgroundColor = [self colorFromCode:bg
+                            currentColor:_backgroundColor
+                            defaultColor:[NSColor textBackgroundColor]];
+  [self updateColorAttributes];
 }
 
 - (NSColor *)colorFromTrueColor:(int)trueColor
@@ -162,21 +171,17 @@
 }
 
 - (void)setTrueColorForeground:(int)fg background:(int)bg {
-  NSColor *currentFgColor = _currentAttributes[NSForegroundColorAttributeName];
-  NSColor *currentBgColor = _currentAttributes[NSBackgroundColorAttributeName];
-  _currentAttributes[NSForegroundColorAttributeName] =
-      [self colorFromTrueColor:fg
-                  currentColor:currentFgColor
-                  defaultColor:[NSColor textColor]];
-
-  _currentAttributes[NSBackgroundColorAttributeName] =
-      [self colorFromTrueColor:bg
-                  currentColor:currentBgColor
-                  defaultColor:[NSColor textBackgroundColor]];
+  _foregroundColor = [self colorFromTrueColor:fg
+                                 currentColor:_foregroundColor
+                                 defaultColor:[NSColor textColor]];
+  _backgroundColor = [self colorFromTrueColor:bg
+                                 currentColor:_backgroundColor
+                                 defaultColor:[NSColor textBackgroundColor]];
+  [self updateColorAttributes];
 }
 
 - (void)setCursorLine:(int)line column:(int)column {
-  NSLog(@"setCursorLine:column: %d %d", line, column);
+  NSLog(@"setCursorLine:%d column:%d", line, column);
 }
 
 - (int)setFont:(int)fontId {
@@ -197,10 +202,17 @@
 }
 
 - (void)setTextStyle:(int)style {
+
+  // If multiple style commands are sent in a sequence, we'll
+  // OR together the values, otherwise we'll just use the value
+  // directly.
   if (style == 0)
     _currentStyle = style;
-  else
+  else if (_justSetTextStyle)
     _currentStyle |= style;
+  else
+    _currentStyle = style;
+  _justSetTextStyle = YES;
 
   NSMutableParagraphStyle *paragraphStyle =
       [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -218,20 +230,8 @@
   NSFont *font = [[Preferences sharedPreferences] fontForStyle:_currentStyle];
   _currentAttributes[NSFontAttributeName] = font;
 
-  //    // Is it reverse video?
-  //    NSColor *bgColor = [[Preferences sharedPreferences] backgroundColor];
-  //    NSColor *fgColor = [[Preferences sharedPreferences] foregroundColor];
-
-  NSColor *bgColor = [NSColor textBackgroundColor];
-  NSColor *fgColor = [NSColor textColor];
-
-  if (style & 1) {
-    _currentAttributes[NSBackgroundColorAttributeName] = fgColor;
-    _currentAttributes[NSForegroundColorAttributeName] = bgColor;
-  } else {
-    _currentAttributes[NSBackgroundColorAttributeName] = bgColor;
-    _currentAttributes[NSForegroundColorAttributeName] = fgColor;
-  }
+  // Handle reverse video with the color selection
+  [self updateColorAttributes];
 }
 
 - (NSDictionary *)attributesForPrinting {
@@ -253,20 +253,19 @@
       [[NSAttributedString alloc] initWithString:text
                                       attributes:[self attributesForPrinting]];
   [_textStorage appendAttributedString:attrText];
+  [self updateStyleState];
 }
 
 - (void)printNumber:(int)number {
-  NSAttributedString *attrText =
-      [[NSAttributedString alloc] initWithString:(@(number)).stringValue
-                                      attributes:[self attributesForPrinting]];
-  [_textStorage appendAttributedString:attrText];
+  [self print:(@(number)).stringValue];
 }
 
 - (void)newLine {
-  NSAttributedString *attrText =
-      [[NSAttributedString alloc] initWithString:@"\n"
-                                      attributes:[self attributesForPrinting]];
-  [_textStorage appendAttributedString:attrText];
+  [self print:@"\n"];
+}
+
+- (void)updateStyleState {
+  _justSetTextStyle = NO;
 }
 
 @end

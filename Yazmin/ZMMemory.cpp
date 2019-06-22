@@ -29,7 +29,7 @@ ZMMemory::ZMMemory(const uint8_t *data, size_t length, const ZMIO &io)
   memcpy(_originalDynamicData, data, _header.getBaseStaticMemory());
 
   // Prepare the header bytes
-  initHeader(_io.getScreenWidth(), _io.getScreenHeight());
+  initHeader();
 }
 
 ZMMemory::~ZMMemory() {
@@ -40,10 +40,12 @@ ZMMemory::~ZMMemory() {
   delete[] _originalDynamicData;
 }
 
-void ZMMemory::initHeader(uint8_t screenWidth, uint8_t screenHeight) {
+void ZMMemory::initHeader() {
   int fgColor;
   int bgColor;
   _io.getColor(fgColor, bgColor);
+  uint8_t screenWidth = _io.getScreenWidth();
+  uint8_t screenHeight = _io.getScreenHeight();
   if (_header.getVersion() < 4) {
     _data[1] |= 0x60; // Variable-pitch font is the default
                       // Screen-splitting available
@@ -81,7 +83,7 @@ void ZMMemory::reset() {
   memcpy(_data, _originalDynamicData, _header.getBaseStaticMemory());
 
   // Prepare the header bytes
-  initHeader(_io.getScreenWidth(), _io.getScreenHeight());
+  initHeader();
 }
 
 uint16_t ZMMemory::getGlobal(int index) const {

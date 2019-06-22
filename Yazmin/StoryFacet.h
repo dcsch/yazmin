@@ -37,5 +37,6 @@
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
+- (void)updateStyleState;
 
 @end

@@ -426,7 +426,7 @@
   NSUInteger inputLen = totalLen - inputLoc;
   NSAttributedString *inputSoFar = nil;
 
-  if (layoutView.lowerWindow.inputState == kStringInputState) {
+  if (totalLen > 0 && layoutView.lowerWindow.inputState == kStringInputState) {
     if (inputLen > 0) {
       inputSoFar = [story.facets[0].textStorage
           attributedSubstringFromRange:NSMakeRange(inputLoc, inputLen)];

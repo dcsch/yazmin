@@ -39,7 +39,6 @@
 }
 
 - (void)setNumberOfLines:(int)lines {
-  NSLog(@"setNumberOfLines: %d", lines);
   _numberOfLines = lines;
   [self.story updateWindowLayout];
 }
@@ -49,6 +48,16 @@
     y = line - 1;
   if (0 < column && column <= self.widthInCharacters)
     x = column - 1;
+
+  if (line > _numberOfLines) {
+    static BOOL quitGriping = NO;
+    if (!quitGriping) {
+      NSLog(@"Setting cursor to line %d in a window of height %d", line,
+            _numberOfLines);
+      quitGriping = YES;
+    }
+    self.numberOfLines = line;
+  }
 }
 
 - (void)setTextStyle:(int)style {
@@ -78,6 +87,7 @@
       x = 0;
     }
   }
+  [self updateStyleState];
 }
 
 - (void)printNumber:(int)number {
@@ -88,6 +98,7 @@
 - (void)newLine {
   y++;
   x = 0;
+  [self updateStyleState];
 }
 
 - (NSArray<NSValue *> *)chunksOfString:(NSString *)string {

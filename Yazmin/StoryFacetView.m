@@ -247,7 +247,6 @@
       [_storyInput characterInput:code];
       [keyEvents removeAllObjects];
     }
-    [super keyDown:event];
   }
 }
 

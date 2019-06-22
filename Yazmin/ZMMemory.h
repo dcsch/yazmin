@@ -76,7 +76,7 @@ private:
   std::map<int, ZMObject *> _objectMap;
   uint16_t _checksum;
 
-  void initHeader(uint8_t screenWidth, uint8_t screenHeight);
+  void initHeader();
 
   ZMMemory(const ZMMemory &);
   void operator=(const ZMMemory &);

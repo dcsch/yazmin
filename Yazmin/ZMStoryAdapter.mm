@@ -233,7 +233,8 @@ void ZMStoryAdapter::beginInput(uint8_t existingLen) {
 std::string ZMStoryAdapter::endInput() {
   NSString *string = [_story endInput].lowercaseString;
   std::string str;
-  str.assign(string.UTF8String);
+  if (string)
+    str.assign(string.UTF8String);
   return str;
 }
 
