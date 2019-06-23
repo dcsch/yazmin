@@ -140,8 +140,10 @@ void ZMStoryAdapter::getColor(int &foreground, int &background) const {
 }
 
 void ZMStoryAdapter::setColor(int foreground, int background) {
-  if (screenEnabled)
-    [_storyFacet setColorForeground:foreground background:background];
+  if (screenEnabled) {
+    [_story.facets[0] setColorForeground:foreground background:background];
+    [_story.facets[1] setColorForeground:foreground background:background];
+  }
 }
 
 uint16_t trueColorFromColor(NSColor *color) {
