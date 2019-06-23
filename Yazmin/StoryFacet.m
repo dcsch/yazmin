@@ -58,6 +58,7 @@
 - (void)erase {
   NSRange range = NSMakeRange(0, _textStorage.length);
   [_textStorage deleteCharactersInRange:range];
+  [_story updateWindowBackgroundColor];
 }
 
 - (int)closestColorCodeToColor:(NSColor *)color {
@@ -139,11 +140,9 @@
   if (_currentStyle & 1) {
     _currentAttributes[NSForegroundColorAttributeName] = _backgroundColor;
     _currentAttributes[NSBackgroundColorAttributeName] = _foregroundColor;
-    //    NSLog(@"Video reverse");
   } else {
     _currentAttributes[NSForegroundColorAttributeName] = _foregroundColor;
     _currentAttributes[NSBackgroundColorAttributeName] = _backgroundColor;
-    //    NSLog(@"Video normal");
   }
 }
 

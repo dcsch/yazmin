@@ -219,6 +219,10 @@
   [_storyController updateWindowLayout];
 }
 
+- (void)updateWindowBackgroundColor {
+  [_storyController updateWindowBackgroundColor];
+}
+
 - (void)handleBackgroundColorChange:(NSNotification *)note {
   //    Preferences *sender = [note object];
   //    NSColor *newColor = [sender backgroundColor];

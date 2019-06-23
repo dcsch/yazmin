@@ -62,7 +62,7 @@
 - (void)syncMetadata {
   for (LibraryEntry *entry in _entries) {
     NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
-    if ([Blorb isBlorbData:data]) {
+    if (data && [Blorb isBlorbData:data]) {
       Blorb *blorb = [[Blorb alloc] initWithData:data];
       NSData *mddata = blorb.metaData;
       if (mddata) {

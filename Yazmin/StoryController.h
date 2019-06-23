@@ -18,6 +18,7 @@
 - (void)saveSessionData:(NSData *)data;
 - (void)showError:(NSString *)errorMessage;
 - (void)updateWindowLayout;
+- (void)updateWindowBackgroundColor;
 - (void)updateTextAttributes;
 - (void)executeStory;
 - (BOOL)executeRoutine:(int)routine;

@@ -311,6 +311,13 @@
   layoutView.needsDisplay = YES;
 }
 
+- (void)updateWindowBackgroundColor {
+  Story *story = self.document;
+  layoutView.lowerWindow.backgroundColor = story.facets[0].backgroundColor;
+  layoutView.upperWindow.backgroundColor = story.facets[1].backgroundColor;
+  layoutView.lowerWindow.insertionPointColor = story.facets[0].foregroundColor;
+}
+
 // If the status height is too large because of last turn's quote box,
 // shrink it down now.
 // This must be called immediately before any input event. (That is,

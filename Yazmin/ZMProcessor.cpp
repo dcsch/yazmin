@@ -2038,8 +2038,8 @@ void ZMProcessor::set_colour() {
 void ZMProcessor::set_cursor() {
   log("set_cursor", false, false);
 
-  uint16_t line = getOperand(0);
-  uint16_t column = getOperand(1);
+  int16_t line = static_cast<int16_t>(getOperand(0));
+  int16_t column = static_cast<int16_t>(getOperand(1));
   _io.setCursor(line, column);
   advancePC();
 }
