@@ -27,7 +27,7 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _operandCount(0), _operandTypes(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
       _packedAddressFactor(0), _redirectAddr(), _hasQuit(false),
-      _hasHalted(false), _continuingAfterHalt(false) {
+      _hasHalted(false), _continuingAfterHalt(false), _lastChecksum(0) {
 
   // Take a copy of the initial PC, as the standard prohibits any changes to the
   // header having an effect when using `restart`
@@ -63,6 +63,21 @@ bool ZMProcessor::execute() {
       _packedAddressFactor = 8;
     else
       throw false; // We can't handle this
+  }
+
+  // Calculate checksum on the high memory
+  uint32_t checksum = 0;
+  for (uint32_t i = _memory.getHeader().getBaseHighMemory(); i < _memory.getHeader().getFileLength(); ++i)
+    checksum += _memory[i];
+
+  if (_lastChecksum && _lastChecksum != checksum) {
+    int foo = 0;
+  }
+  _lastChecksum = checksum;
+
+  printf("%05x\n", _pc);
+  if (_pc == 0xe495) {
+    int foo = 0;
   }
 
   // Determine the encoding of the instruction by looking at the top two bits
@@ -776,7 +791,7 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
 void ZMProcessor::printToTable(const std::string &str) {
   uint16_t addr = _redirectAddr.back();
   size_t len = str.length();
-  memcpy(_memory.getData() + addr + 2, str.c_str(), len);
+  memcpy(_memory.getData(addr + 2), str.c_str(), len);
   _memory.setWord(addr, len);
 }
 
@@ -1121,13 +1136,13 @@ void ZMProcessor::copy_table() {
 
   uint16_t first = getOperand(0);
   uint16_t second = getOperand(1);
-  uint16_t size = getOperand(2);
+  int16_t size = static_cast<int16_t>(getOperand(2));
   if (second == 0)
-    memset(_memory.getData() + first, 0, size);
+    memset(_memory.getData(first), 0, size);
   else if (size >= 0)
-    memmove(_memory.getData() + second, _memory.getData() + first, size);
+    memmove(_memory.getData(second), _memory.getData() + first, size);
   else
-    memcpy(_memory.getData() + second, _memory.getData() + first, -size);
+    memcpy(_memory.getData(second), _memory.getData() + first, -size);
   advancePC();
 }
 
@@ -1714,7 +1729,7 @@ void ZMProcessor::sread() {
   uint16_t text = getOperand(0);
   uint16_t parse = getOperand(1);
   size_t maxLen = _memory.getByte(text);
-  char *textBuf = reinterpret_cast<char *>(_memory.getData()) + text + 1;
+  char *textBuf = reinterpret_cast<char *>(_memory.getData(text + 1));
   ZMText zmtext(_memory.getData());
   size_t len = zmtext.UTF8ToZscii(textBuf, str, maxLen);
   textBuf[len] = 0;
@@ -1755,7 +1770,7 @@ void ZMProcessor::aread() {
   // std::transform(str.begin(), str.end(), str.begin(), std::tolower);
 
   size_t maxLen = _memory.getByte(text);
-  char *textBuf = reinterpret_cast<char *>(_memory.getData()) + text + 2;
+  char *textBuf = reinterpret_cast<char *>(_memory.getData(text + 2));
   ZMText zmtext(_memory.getData());
   size_t len = zmtext.UTF8ToZscii(textBuf, str, maxLen);
 

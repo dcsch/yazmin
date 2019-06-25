@@ -88,12 +88,12 @@ static const size_t kMaxStorySize = 0x8ffff;
 }
 
 - (NSString *)ifid {
-  unsigned char *begin = 0;
-  unsigned char *end = 0;
+  const unsigned char *begin = 0;
+  const unsigned char *end = 0;
 
   // Scan memory looking for a 'UUID://..//' section in memory
   for (unsigned int i = 0; i < parts->_memory->getSize() - 7; ++i) {
-    unsigned char *ptr = parts->_memory->getData() + i;
+    const unsigned char *ptr = parts->_memory->getData() + i;
     if (ptr[0] == 'U' && ptr[1] == 'U' && ptr[2] == 'I' && ptr[3] == 'D' &&
         ptr[4] == ':' && ptr[5] == '/' && ptr[6] == '/') {
       begin = ptr + 7;
@@ -103,7 +103,7 @@ static const size_t kMaxStorySize = 0x8ffff;
 
   if (begin) {
     // We've found the beginning, so find the end
-    unsigned char *ptr = begin + 1;
+    const unsigned char *ptr = begin + 1;
     for (int j = 0; j < 48; ++j) {
       if (ptr[j] == '/' && ptr[j + 1] == '/') {
         end = ptr + j;
@@ -140,7 +140,7 @@ static const size_t kMaxStorySize = 0x8ffff;
   return ifidString;
 }
 
-- (unsigned char *)memory {
+- (const unsigned char *)memory {
   return parts->_memory->getData();
 }
 

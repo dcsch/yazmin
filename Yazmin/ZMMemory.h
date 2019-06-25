@@ -40,7 +40,7 @@ public:
 
   const uint8_t *getData() const;
 
-  uint8_t *getData();
+  uint8_t *getData(uint32_t address);
 
   const uint8_t *getOriginalDynamicData() const;
 
@@ -90,7 +90,12 @@ inline const ZMDictionary &ZMMemory::getDictionary() const { return _dict; }
 
 inline const uint8_t *ZMMemory::getData() const { return _data; }
 
-inline uint8_t *ZMMemory::getData() { return _data; }
+inline uint8_t *ZMMemory::getData(uint32_t address) {
+  if (address > _header.getBaseHighMemory()) {
+    printf("warning: writing to high memory\n");
+  }
+  return _data + address;
+}
 
 inline const uint8_t *ZMMemory::getOriginalDynamicData() const {
   return _originalDynamicData;
@@ -103,6 +108,9 @@ inline uint8_t ZMMemory::getByte(uint32_t address) const {
 }
 
 inline void ZMMemory::setByte(uint32_t address, uint8_t value) {
+  if (address > _header.getBaseHighMemory()) {
+    printf("warning: writing to high memory\n");
+  }
   _data[address] = value;
 }
 
@@ -111,6 +119,9 @@ inline uint16_t ZMMemory::getWord(uint32_t address) const {
 }
 
 inline void ZMMemory::setWord(uint32_t address, uint16_t value) {
+  if (address > _header.getBaseHighMemory()) {
+    printf("warning: writing to high memory\n");
+  }
   writeWordToData(_data + address, value);
 }
 

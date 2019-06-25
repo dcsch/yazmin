@@ -64,6 +64,7 @@ private:
   bool _hasQuit;
   bool _hasHalted;
   bool _continuingAfterHalt;
+  uint32_t _lastChecksum;
 
   bool executeLongInstruction();
 
