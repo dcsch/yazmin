@@ -9,13 +9,13 @@
 #ifndef ZM_ERROR_H__
 #define ZM_ERROR_H__
 
-#include <stdlib.h>
+#include <string>
 
 class ZMError {
 public:
-  virtual ~ZMError() {}
+  virtual ~ZMError() = default;
 
-  virtual void error(char *message) = 0;
+  virtual void error(const std::string &message) = 0;
 };
 
 #endif // ZM_ERROR_H__

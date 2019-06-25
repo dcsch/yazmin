@@ -17,7 +17,7 @@
 @implementation GridStoryFacetTest
 
 - (void)setUp {
-  facet = [[GridStoryFacet alloc] initWithStory:nil columns:30];
+  facet = [[GridStoryFacet alloc] initWithStory:nil];
 }
 
 - (void)tearDown {
@@ -122,7 +122,7 @@
 }
 
 - (void)testMultipleLines {
-  facet = [[GridStoryFacet alloc] initWithStory:nil columns:80];
+  facet = [[GridStoryFacet alloc] initWithStory:nil];
   [facet setCursorLine:1 column:1];
   [facet print:@"Information is available on the following subjects:\n\n"
                @"Instructions    giving some basic information\n"

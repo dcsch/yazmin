@@ -8,7 +8,7 @@
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
     : _story(story), _storyFacet(nil), timer(nil), screenEnabled(true),
-      transcriptEnabled(false) {
+      transcriptOutputStream(nil) {
 
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
@@ -17,14 +17,19 @@ ZMStoryAdapter::ZMStoryAdapter(Story *story)
   highSound = [NSSound soundNamed:@"Hero"];
 }
 
-ZMStoryAdapter::~ZMStoryAdapter() {}
-
 int ZMStoryAdapter::getScreenWidth() const {
   return _story.facets[1].widthInCharacters;
 }
 
 int ZMStoryAdapter::getScreenHeight() const {
   return _story.facets[1].heightInLines;
+}
+
+int ZMStoryAdapter::getWindow() const {
+  if (_storyFacet == _story.facets[1])
+    return 1;
+  else
+    return 0;
 }
 
 void ZMStoryAdapter::setWindow(int window) {
@@ -124,10 +129,12 @@ void ZMStoryAdapter::outputStream(int stream) {
     screenEnabled = false;
     break;
   case 2:
-    transcriptEnabled = true;
+    transcriptOutputStream = [_story transcriptOutputStream];
+    [transcriptOutputStream open];
     break;
   case -2:
-    transcriptEnabled = false;
+    [transcriptOutputStream close];
+    transcriptOutputStream = nil;
     break;
   }
 }
@@ -206,6 +213,10 @@ void ZMStoryAdapter::print(const std::string &str) {
       _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
       [_storyFacet print:printable];
     }
+    if (transcriptOutputStream && getWindow() == 0) {
+      [transcriptOutputStream write:(const uint8_t *)printable.UTF8String
+                          maxLength:str.length()];
+    }
   } else {
     NSLog(@"Error: Unprintable string");
   }
@@ -216,11 +227,18 @@ void ZMStoryAdapter::printNumber(int number) {
     _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
     [_storyFacet printNumber:number];
   }
+  if (transcriptOutputStream && getWindow() == 0) {
+    std::string str = std::to_string(number);
+    [transcriptOutputStream write:(const uint8_t *)str.c_str()
+                        maxLength:str.length()];
+  }
 }
 
 void ZMStoryAdapter::newLine() {
   if (screenEnabled)
     [_storyFacet newLine];
+  if (transcriptOutputStream && getWindow() == 0)
+    [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
 }
 
 void ZMStoryAdapter::setWordWrap(bool wordWrap) {
@@ -237,6 +255,11 @@ std::string ZMStoryAdapter::endInput() {
   std::string str;
   if (string)
     str.assign(string.UTF8String);
+  if (transcriptOutputStream && getWindow() == 0) {
+    [transcriptOutputStream write:(const uint8_t *)str.c_str()
+                        maxLength:str.length()];
+    [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
+  }
   return str;
 }
 

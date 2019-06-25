@@ -12,6 +12,7 @@
 #include <cstdint>
 #include <cstdlib>
 #include <string>
+#include <vector>
 
 class ZMMemory;
 class ZMStack;
@@ -59,8 +60,7 @@ private:
   uint16_t _lastRandomNumber;
   int _version;
   int _packedAddressFactor;
-  uint16_t _redirectAddr[16];
-  int _redirectIndex;
+  std::vector<uint16_t> _redirectAddr;
   bool _hasQuit;
   bool _hasHalted;
   bool _continuingAfterHalt;

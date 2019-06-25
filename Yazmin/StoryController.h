@@ -16,6 +16,7 @@
 - (void)prepareInputChar;
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;
+- (NSOutputStream *)transcriptOutputStream;
 - (void)showError:(NSString *)errorMessage;
 - (void)updateWindowLayout;
 - (void)updateWindowBackgroundColor;

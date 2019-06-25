@@ -38,6 +38,10 @@ public:
 
   void setFlags2(uint16_t flags2);
 
+  bool getTranscriptingOn() const;
+
+  void setTranscriptingOn(bool transcript);
+
   bool getForceFixedPitchFont() const;
 
   bool getRequestScreenRedraw() const;
@@ -115,6 +119,15 @@ inline uint16_t ZMHeader::getFlags2() const {
 inline void ZMHeader::setFlags2(uint16_t flags2) {
   _headerData[0x10] = flags2 >> 8;
   _headerData[0x11] = flags2;
+}
+
+inline bool ZMHeader::getTranscriptingOn() const { return getFlags2() & 1; }
+
+inline void ZMHeader::setTranscriptingOn(bool transcript) {
+  if (transcript)
+    setFlags2(getFlags2() | 1);
+  else
+    setFlags2(getFlags2() & ~1);
 }
 
 inline bool ZMHeader::getForceFixedPitchFont() const {

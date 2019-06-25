@@ -15,7 +15,7 @@
 
 class ZMIO {
 public:
-  virtual ~ZMIO() {}
+  virtual ~ZMIO() = default;
 
   virtual int getScreenWidth() const = 0;
 

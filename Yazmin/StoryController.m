@@ -32,6 +32,8 @@
   int curheight;
   int maxheight;
   int seenheight;
+  NSURL *_transcriptURL;
+  NSOutputStream *_transcript;
 }
 
 - (int)calculateScreenWidthInColumns;
@@ -89,8 +91,6 @@
 }
 
 - (void)dealloc {
-  NSLog(@"StoryController dealloc");
-
   NSNotificationCenter *nc;
   nc = [NSNotificationCenter defaultCenter];
   [nc removeObserver:self];
@@ -115,6 +115,12 @@
 
 - (void)windowDidLoad {
   [super windowDidLoad];
+
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self
+         selector:@selector(handleWindowWillClose:)
+             name:NSWindowWillCloseNotification
+           object:self.window];
 
   Story *story = self.document;
 
@@ -178,6 +184,10 @@
   [story.zMachine updateScreenSize];
   NSLog(@"Set screen size as: %d x %d", screenWidthInChars,
         story.facets[1].heightInLines);
+}
+
+- (void)handleWindowWillClose:(NSNotification *)note {
+  [_transcript close];
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {
@@ -265,6 +275,51 @@
                     story.lastRestoreOrSaveResult = 0;
                   [self executeStory];
                 }];
+}
+
+- (NSOutputStream *)transcriptOutputStream {
+  if (!_transcriptURL) {
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    panel.allowedFileTypes = @[ @"txt" ];
+    Story *story = self.document;
+    panel.nameFieldStringValue = [NSString
+        stringWithFormat:@"%@ Transcript (%@)", story.displayName,
+                         [NSDate.date
+                             descriptionWithLocale:NSLocale.currentLocale]];
+    [panel beginSheetModalForWindow:self.window
+                  completionHandler:^(NSInteger result) {
+                    if (result == NSModalResponseOK) {
+                      NSFileManager *fm = NSFileManager.defaultManager;
+                      NSError *error;
+                      if ([fm fileExistsAtPath:panel.URL.path])
+                        [fm removeItemAtURL:panel.URL error:&error];
+                      [fm moveItemAtURL:self->_transcriptURL
+                                  toURL:panel.URL
+                                  error:&error];
+                      self->_transcriptURL = panel.URL;
+                    }
+                  }];
+  }
+  if (_transcriptURL) {
+    _transcript =
+        [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
+  } else {
+
+    NSFileManager *fm = NSFileManager.defaultManager;
+    NSURL *homeURL = [NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES];
+    NSError *error;
+    NSURL *tempDirURL = [fm URLForDirectory:NSItemReplacementDirectory
+                                   inDomain:NSUserDomainMask
+                          appropriateForURL:homeURL
+                                     create:YES
+                                      error:&error];
+    _transcriptURL =
+        [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
+                                                    .globallyUniqueString];
+
+    _transcript = [NSOutputStream outputStreamWithURL:_transcriptURL append:NO];
+  }
+  return _transcript;
 }
 
 - (void)showError:(NSString *)errorMessage {
@@ -420,6 +475,7 @@
                                  if (story.hasEnded) {
                                    [self->layoutView.lowerWindow
                                        setInputState:kNoInputState];
+                                   [self->_transcript close];
                                  }
                                  [self synchronizeWindowTitleWithDocumentName];
                                  [self updateViews];

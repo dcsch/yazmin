@@ -14,9 +14,7 @@ class ZMErrorAdapter : public ZMError {
 public:
   ZMErrorAdapter(Story *story);
 
-  virtual ~ZMErrorAdapter();
-
-  virtual void error(char *message);
+  void error(const std::string &message) override;
 
 private:
   Story *_story;

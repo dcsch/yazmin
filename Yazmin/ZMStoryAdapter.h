@@ -8,8 +8,6 @@ class ZMStoryAdapter : public ZMIO {
 public:
   ZMStoryAdapter(Story *story);
 
-  ~ZMStoryAdapter() override;
-
   int getScreenWidth() const override;
 
   int getScreenHeight() const override;
@@ -77,5 +75,7 @@ private:
   NSSound *highSound;
   NSTimer *timer;
   bool screenEnabled;
-  bool transcriptEnabled;
+  NSOutputStream *transcriptOutputStream;
+
+  int getWindow() const;
 };

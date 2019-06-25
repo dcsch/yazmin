@@ -286,4 +286,8 @@
   return _inputCharacter;
 }
 
+- (NSOutputStream *)transcriptOutputStream {
+  return [_storyController transcriptOutputStream];
+}
+
 @end

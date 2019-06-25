@@ -43,5 +43,6 @@
 - (NSString *)endInput;
 - (void)beginInputChar;
 - (unichar)endInputChar;
+- (NSOutputStream *)transcriptOutputStream;
 
 @end

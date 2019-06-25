@@ -26,8 +26,8 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _pc(0), _initialPC(0), _operandOffset(0), _instructionLength(0),
       _operandCount(0), _operandTypes(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
-      _packedAddressFactor(0), _redirectAddr(), _redirectIndex(-1),
-      _hasQuit(false), _hasHalted(false), _continuingAfterHalt(false) {
+      _packedAddressFactor(0), _redirectAddr(), _hasQuit(false),
+      _hasHalted(false), _continuingAfterHalt(false) {
 
   // Take a copy of the initial PC, as the standard prohibits any changes to the
   // header having an effect when using `restart`
@@ -774,7 +774,7 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
 }
 
 void ZMProcessor::printToTable(const std::string &str) {
-  uint16_t addr = _redirectAddr[_redirectIndex];
+  uint16_t addr = _redirectAddr.back();
   size_t len = str.length();
   memcpy(_memory.getData() + addr + 2, str.c_str(), len);
   _memory.setWord(addr, len);
@@ -785,19 +785,17 @@ void ZMProcessor::print(std::string str, bool caratNewLine) {
     std::transform(str.begin(), str.end(), str.begin(),
                    [](char c) -> char { return c == '^' ? '\n' : c; });
 
-  if (_redirectIndex == -1)
+  if (_redirectAddr.empty())
     _io.print(str);
   else
     printToTable(str);
 }
 
 void ZMProcessor::print(int16_t number) {
-  if (_redirectIndex == -1)
+  if (_redirectAddr.empty())
     _io.printNumber(number);
   else {
-    char buf[32];
-    snprintf(buf, 32, "%d", number);
-    printToTable(buf);
+    printToTable(std::to_string(number));
   }
 }
 
@@ -1451,6 +1449,7 @@ void ZMProcessor::mul() {
 void ZMProcessor::new_line() {
   log("new_line", false, false);
 
+  // TODO: Should we be redirecting this if printing to a buffer?
   _io.newLine();
   advancePC();
 }
@@ -1483,17 +1482,30 @@ void ZMProcessor::_or() {
 void ZMProcessor::output_stream() {
   log("output_stream", false, false);
 
+  // TODO: Support for v1 and v2 transcription through the
+  // setting of the header bit
+
   int16_t number = static_cast<int16_t>(getOperand(0));
   uint16_t table = getOperand(1);
   _io.outputStream(number);
   if (number > 0) {
-    if (number == 3) {
-      ++_redirectIndex;
-      _redirectAddr[_redirectIndex] = table;
+    if (number == 2) {
+      _memory.getHeader().setTranscriptingOn(true);
+    } else if (number == 3) {
+      if (_redirectAddr.size() < 16) {
+        _redirectAddr.push_back(table);
+      } else {
+        _hasHalted = true;
+        _hasQuit = true;
+        _error.error("stream 3 nesting exceeds 16 levels");
+        return;
+      }
     }
   } else if (number < 0) {
-    if (number == -3) {
-      --_redirectIndex;
+    if (number == -2) {
+      _memory.getHeader().setTranscriptingOn(false);
+    } else if (number == -3 && _redirectAddr.size() > 0) {
+      _redirectAddr.pop_back();
     }
   }
 
