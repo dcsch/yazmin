@@ -30,6 +30,8 @@ public:
 
   void setTrueColor(int foreground, int background) override;
 
+  void getCursor(int &line, int &column) const override;
+
   void setCursor(int line, int column) override;
 
   int setFont(int font) override;

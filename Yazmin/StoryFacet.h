@@ -20,6 +20,8 @@
 @property(readonly) NSMutableDictionary *currentAttributes;
 @property(readonly) int currentStyle;
 @property BOOL forceFixedPitchFont;
+@property(readonly) int line;
+@property(readonly) int column;
 @property int numberOfLines;
 @property int widthInCharacters;
 @property int heightInLines;

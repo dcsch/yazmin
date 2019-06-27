@@ -26,7 +26,7 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _pc(0), _initialPC(0), _operandOffset(0), _instructionLength(0),
       _operandCount(0), _operandTypes(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
-      _packedAddressFactor(0), _redirectAddr(), _hasQuit(false),
+      _packedAddressFactor(0), _redirect(), _hasQuit(false),
       _hasHalted(false), _continuingAfterHalt(false), _lastChecksum(0) {
 
   // Take a copy of the initial PC, as the standard prohibits any changes to the
@@ -65,20 +65,20 @@ bool ZMProcessor::execute() {
       throw false; // We can't handle this
   }
 
-  // Calculate checksum on the high memory
-  uint32_t checksum = 0;
-  for (uint32_t i = _memory.getHeader().getBaseHighMemory(); i < _memory.getHeader().getFileLength(); ++i)
-    checksum += _memory[i];
+//  // Calculate checksum on the high memory
+//  uint32_t checksum = 0;
+//  for (uint32_t i = _memory.getHeader().getBaseHighMemory(); i < _memory.getHeader().getFileLength(); ++i)
+//    checksum += _memory[i];
 
-  if (_lastChecksum && _lastChecksum != checksum) {
-    int foo = 0;
-  }
-  _lastChecksum = checksum;
+//  if (_lastChecksum && _lastChecksum != checksum) {
+//    int foo = 0;
+//  }
+//  _lastChecksum = checksum;
 
-  printf("%05x\n", _pc);
-  if (_pc == 0xe495) {
-    int foo = 0;
-  }
+//  printf("%05x\n", _pc);
+//  if (_pc == 0x101fe) {
+//    int foo = 0;
+//  }
 
   // Determine the encoding of the instruction by looking at the top two bits
   uint8_t inst = _memory[_pc];
@@ -616,9 +616,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x1d:
     copy_table(); // v5
     break;
-  //  case 0x1e:
-  //    print_table(); // v5
-  //    break;
+  case 0x1e:
+    print_table(); // v5
+    break;
   case 0x1f:
     check_arg_count(); // v5
     break;
@@ -788,29 +788,22 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
     advancePC();
 }
 
-void ZMProcessor::printToTable(const std::string &str) {
-  uint16_t addr = _redirectAddr.back();
-  size_t len = str.length();
-  memcpy(_memory.getData(addr + 2), str.c_str(), len);
-  _memory.setWord(addr, len);
-}
-
 void ZMProcessor::print(std::string str, bool caratNewLine) {
   if (caratNewLine)
     std::transform(str.begin(), str.end(), str.begin(),
                    [](char c) -> char { return c == '^' ? '\n' : c; });
 
-  if (_redirectAddr.empty())
+  if (_redirect.empty())
     _io.print(str);
   else
-    printToTable(str);
+    _redirect.back().second.append(str);
 }
 
 void ZMProcessor::print(int16_t number) {
-  if (_redirectAddr.empty())
+  if (_redirect.empty())
     _io.printNumber(number);
   else {
-    printToTable(std::to_string(number));
+    _redirect.back().second.append(std::to_string(number));
   }
 }
 
@@ -891,7 +884,11 @@ void ZMProcessor::call_1s() {
 
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, 0, localCount, _store);
-  _pc = address + 1;
+
+  if (_version <= 4)
+    _pc = address + 2 * localCount + 1;
+  else
+    _pc = address + 1;
 }
 
 void ZMProcessor::call_2n() {
@@ -950,7 +947,10 @@ void ZMProcessor::call_2s() {
     if (i < argCount)
       _stack.setLocal(i, args[i]);
 
-  _pc = address + 1;
+  if (_version <= 4)
+    _pc = address + 2 * localCount + 1;
+  else
+    _pc = address + 1;
 }
 
 void ZMProcessor::call_vn() {
@@ -980,7 +980,10 @@ void ZMProcessor::call_vn() {
 
   // Change the program counter to the address of the routine's
   // first instruction
-  _pc = address + 1;
+  if (_version <= 4)
+    _pc = address + 2 * localCount + 1;
+  else
+    _pc = address + 1;
 }
 
 void ZMProcessor::call_vs() {
@@ -1021,9 +1024,7 @@ void ZMProcessor::call_vs() {
 
   // Change the program counter to the address of the routine's
   // first instruction
-  // TODO: Spec says this is for v4 as well, which means other call variants
-  // will need this check
-  if (_version <= 3)
+  if (_version <= 4)
     _pc = address + 2 * localCount + 1;
   else
     _pc = address + 1;
@@ -1089,7 +1090,10 @@ void ZMProcessor::call_vs2() {
 
   // Change the program counter to the address of the routine's
   // first instruction
-  _pc = address + 1;
+  if (_version <= 4)
+    _pc = address + 2 * localCount + 1;
+  else
+    _pc = address + 1;
 }
 
 void ZMProcessor::_catch() {
@@ -1142,7 +1146,21 @@ void ZMProcessor::copy_table() {
   else if (size >= 0)
     memmove(_memory.getData(second), _memory.getData() + first, size);
   else
-    memcpy(_memory.getData(second), _memory.getData() + first, -size);
+    for (int16_t i = 0; i < -size; i++)
+      _memory.setByte(second + i, _memory.getByte(first + i));
+
+//  printf("%x copy_table from: %x to: %x\n", _pc, first, second);
+//  if (second > 0) {
+//    for (int i = 0; i < size; ++i) {
+//      char c = _memory.getByte(second + i);
+//      if (c >= 32)
+//        printf("%c", c);
+//      else
+//        printf("[%d]", c);
+//    }
+//  }
+//  printf("\n");
+
   advancePC();
 }
 
@@ -1507,8 +1525,8 @@ void ZMProcessor::output_stream() {
     if (number == 2) {
       _memory.getHeader().setTranscriptingOn(true);
     } else if (number == 3) {
-      if (_redirectAddr.size() < 16) {
-        _redirectAddr.push_back(table);
+      if (_redirect.size() < 16) {
+        _redirect.push_back({table, ""});
       } else {
         _hasHalted = true;
         _hasQuit = true;
@@ -1519,8 +1537,15 @@ void ZMProcessor::output_stream() {
   } else if (number < 0) {
     if (number == -2) {
       _memory.getHeader().setTranscriptingOn(false);
-    } else if (number == -3 && _redirectAddr.size() > 0) {
-      _redirectAddr.pop_back();
+    } else if (number == -3 && _redirect.size() > 0) {
+
+      // Copy redirected stream to table
+      uint16_t addr = _redirect.back().first;
+      auto str = _redirect.back().second;
+      _redirect.pop_back();
+      size_t len = str.length();
+      memcpy(_memory.getData(addr + 2), str.c_str(), len);
+      _memory.setWord(addr, len);
     }
   }
 
@@ -1613,6 +1638,36 @@ void ZMProcessor::print_ret() {
   // Return and set true
   _pc = _stack.popFrame(&_store);
   setVariable(_store, 1);
+}
+
+void ZMProcessor::print_table() {
+  log("print_table", false, false);
+
+  uint16_t zscii_text = getOperand(0);
+  uint16_t width = getOperand(1);
+  uint16_t height = 1;
+  if (_operandCount > 2)
+    height = getOperand(2);
+  uint16_t skip = 0;
+  if (_operandCount > 3)
+    skip = getOperand(3);
+
+  int line;
+  int column;
+  _io.getCursor(line, column);
+
+  ZMText text(_memory.getData());
+  for (int y = 0; y < height; ++y) {
+    std::string str;
+    uint16_t offset = zscii_text + y * (width + skip);
+    for (int i = 0; i < width; ++i) {
+      text.zsciiToUTF8(str, _memory.getByte(offset + i));
+    }
+    _io.setCursor(line, column);
+    print(str);
+    ++line;
+  }
+  advancePC();
 }
 
 void ZMProcessor::print_unicode() {
@@ -1734,7 +1789,8 @@ void ZMProcessor::sread() {
   size_t len = zmtext.UTF8ToZscii(textBuf, str, maxLen);
   textBuf[len] = 0;
 
-  _memory.getDictionary().lex(text, parse);
+  ZMDictionary dictionary(_memory.getData());
+  dictionary.lex(text, _memory.getData(parse));
   advancePC();
 }
 
@@ -1776,8 +1832,10 @@ void ZMProcessor::aread() {
 
   // Put the character count into byte 1
   _memory.setByte(text + 1, len);
-  if (parse != 0)
-    _memory.getDictionary().lex(text, parse);
+  if (parse != 0) {
+    ZMDictionary dictionary(_memory.getData());
+    dictionary.lex(text, _memory.getData(parse));
+  }
   setVariable(_store, 13);
   advancePC();
 }
@@ -2215,12 +2273,15 @@ void ZMProcessor::tokenise() {
 
   uint16_t text = getOperand(0);
   uint16_t parse = getOperand(1);
-
+  uint16_t userDictionary = 0;
   if (_operandCount > 2)
-    printf(
-        "WARNING: tokenise with more that two operands NOT YET IMPLEMENTED\n");
+    userDictionary = getOperand(2);
+  uint16_t flag = 0;
+  if (_operandCount > 3)
+    flag = getOperand(3);
 
-  _memory.getDictionary().lex(text, parse);
+  ZMDictionary dictionary(_memory.getData(), userDictionary);
+  dictionary.lex(text, _memory.getData(parse), flag == 1);
   advancePC();
 }
 

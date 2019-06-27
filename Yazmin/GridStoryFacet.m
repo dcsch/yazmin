@@ -34,6 +34,14 @@
   return self;
 }
 
+- (int)line {
+  return y + 1;
+}
+
+- (int)column {
+  return x + 1;
+}
+
 - (int)numberOfLines {
   return _numberOfLines;
 }

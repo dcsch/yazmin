@@ -37,7 +37,7 @@ ZMText::ZMText(const uint8_t *memoryBase)
       _uTable(&defaultULength, defaultU, true), _charset(_a0), _abbreviation(0),
       _10bit(0), _highBits(0) {
   // Are we to use an alphabet table from memory?
-  const ZMHeader header(const_cast<uint8_t *>(_memoryBase));
+  const ZMHeader header(_memoryBase);
   uint16_t addr = header.getAlphabetTableAddress();
   if (addr) {
     _a0 = reinterpret_cast<const char *>(_memoryBase + addr);
@@ -108,7 +108,7 @@ void ZMText::encode(uint8_t *data, const char *zscii, size_t zsciiLen,
 }
 
 std::string ZMText::abbreviation(int index) {
-  const ZMHeader header(const_cast<uint8_t *>(_memoryBase));
+  const ZMHeader header(_memoryBase);
   uint16_t addr = header.getAbbreviationsTableLocation() + 2 * index;
 
   // The abbreviations table uses word addresses, so we must multiply the
@@ -298,6 +298,13 @@ std::string ZMText::zsciiToUTF8(uint16_t zsciiChar) {
   else if (155 <= zsciiChar && zsciiChar < 155 + _uTable.getLength())
     appendAsUTF8(str, _uTable.getWord(zsciiChar - 155));
   return str;
+}
+
+void ZMText::zsciiToUTF8(std::string &str, uint16_t zsciiChar) {
+  if (32 <= zsciiChar && zsciiChar <= 126)
+    appendAsUTF8(str, zsciiChar);
+  else if (155 <= zsciiChar && zsciiChar < 155 + _uTable.getLength())
+    appendAsUTF8(str, _uTable.getWord(zsciiChar - 155));
 }
 
 void ZMText::appendAsUTF8(std::string &str, wchar_t c) {

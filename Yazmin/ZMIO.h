@@ -39,6 +39,8 @@ public:
 
   virtual void setTrueColor(int foreground, int background) = 0;
 
+  virtual void getCursor(int &line, int &column) const = 0;
+
   virtual void setCursor(int line, int column) = 0;
 
   virtual int setFont(int font) = 0;

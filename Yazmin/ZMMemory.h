@@ -28,8 +28,6 @@ public:
 
   ZMHeader &getHeader();
 
-  const ZMDictionary &getDictionary() const;
-
   uint16_t getGlobal(int index) const;
 
   void setGlobal(int index, uint16_t value);
@@ -85,8 +83,6 @@ private:
 inline const ZMHeader &ZMMemory::getHeader() const { return _header; }
 
 inline ZMHeader &ZMMemory::getHeader() { return _header; }
-
-inline const ZMDictionary &ZMMemory::getDictionary() const { return _dict; }
 
 inline const uint8_t *ZMMemory::getData() const { return _data; }
 

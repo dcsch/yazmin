@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 
-ZMDictionary::ZMDictionary(uint8_t *data) : _data(data) {}
+ZMDictionary::ZMDictionary(const uint8_t *data, uint16_t userDict) : _data(data), _userDict(userDict) {}
 
 int ZMDictionary::getWordSeparatorCount() const {
   return getDictionaryData()[0];
@@ -37,13 +37,19 @@ int ZMDictionary::getEntryCount() const {
 }
 
 uint16_t ZMDictionary::getEntryAddress(int index) const {
-  ZMHeader header(_data);
-  return header.getDictionaryLocation() + getWordSeparatorCount() +
+  uint16_t addr;
+  if (_userDict)
+    addr = _userDict;
+  else {
+    ZMHeader header(_data);
+    addr = header.getDictionaryLocation();
+  }
+  return addr + getWordSeparatorCount() +
          index * getEntryLength() + 4;
 }
 
 void ZMDictionary::lex(uint16_t textBufferAddress,
-                       uint16_t parseBufferAddress) const {
+                       uint8_t *parseBuffer, bool flag) const {
   // Break into individual words
   const int kMaxWordCount = 256;
   int wordIndex[kMaxWordCount];
@@ -53,17 +59,15 @@ void ZMDictionary::lex(uint16_t textBufferAddress,
                kMaxWordCount, wordIndex, wordLen);
 
   char buf[kMaxWordCount];
-  //  printf("Word count: %d\n", wordCount);
   for (int i = 0; i < wordCount; ++i) {
     memcpy(buf, reinterpret_cast<const char *>(_data) + textBufferAddress +
                     wordIndex[i],
            wordLen[i]);
     buf[wordLen[i]] = 0;
-    //    printf("%s\n", buf);
   }
 
   // Put the number of words into the parse buffer
-  uint8_t *parseBufferPtr = _data + parseBufferAddress + 1;
+  uint8_t *parseBufferPtr = parseBuffer + 1;
   *parseBufferPtr = static_cast<uint8_t>(wordCount);
 
   // For each word...
@@ -83,23 +87,29 @@ void ZMDictionary::lex(uint16_t textBufferAddress,
       addr = getEntryAddress(j);
       const uint8_t *wordPtr = _data + addr;
       if (memcmp(packedWord, wordPtr, kPackedWordLen) == 0) {
-        //        printf("%04x\n", addr);
         break;
       }
       addr = 0;
     }
 
-    // Put the word address into the parse buffer (or zero if not found)
-    parseBufferPtr = (_data + parseBufferAddress + 2) + 4 * i;
-    ZMMemory::writeWordToData(parseBufferPtr, addr);
-    parseBufferPtr[2] = wordLen[i];
-    parseBufferPtr[3] = wordIndex[i];
+    if (!flag || (flag && addr)) {
+
+      // Put the word address into the parse buffer (or zero if not found)
+      parseBufferPtr = (parseBuffer + 2) + 4 * i;
+      ZMMemory::writeWordToData(parseBufferPtr, addr);
+      parseBufferPtr[2] = wordLen[i];
+      parseBufferPtr[3] = wordIndex[i];
+    }
   }
 }
 
 const uint8_t *ZMDictionary::getDictionaryData() const {
-  ZMHeader header(_data);
-  return _data + header.getDictionaryLocation();
+  if (_userDict) {
+    return _data + _userDict;
+  } else {
+    ZMHeader header(_data);
+    return _data + header.getDictionaryLocation();
+  }
 }
 
 int ZMDictionary::tokenise(const char *str, int maxWordCount, int *wordIndex,

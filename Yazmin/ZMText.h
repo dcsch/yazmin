@@ -100,6 +100,8 @@ public:
 
   std::string zsciiToUTF8(uint16_t zsciiChar);
 
+  void zsciiToUTF8(std::string &str, uint16_t zsciiChar);
+
   static void appendAsUTF8(std::string &str, wchar_t c);
 };
 
