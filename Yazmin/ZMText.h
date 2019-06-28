@@ -44,7 +44,7 @@ private:
 
 class ZMText {
 public:
-  ZMText(uint8_t *memoryBase);
+  ZMText(const uint8_t *memoryBase);
 
   // Decode Z-characters into UTF-8
   std::string decode(const uint8_t *data, size_t &encodedLen);
@@ -60,7 +60,7 @@ public:
   std::string getString(uint32_t addr);
 
 private:
-  uint8_t *_memoryBase;
+  const uint8_t *_memoryBase;
 
   const char *_a0;
 
@@ -99,6 +99,8 @@ public:
   size_t UTF8ToZscii(char *zscii, const std::string &str, size_t maxLen);
 
   std::string zsciiToUTF8(uint16_t zsciiChar);
+
+  void zsciiToUTF8(std::string &str, uint16_t zsciiChar);
 
   static void appendAsUTF8(std::string &str, wchar_t c);
 };

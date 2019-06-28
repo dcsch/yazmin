@@ -13,7 +13,7 @@
 
 class ZMDictionary {
 public:
-  ZMDictionary(uint8_t *data);
+  ZMDictionary(const uint8_t *data, uint16_t userDict = 0);
 
   int getWordSeparatorCount() const;
 
@@ -25,10 +25,11 @@ public:
 
   uint16_t getEntryAddress(int index) const;
 
-  void lex(uint16_t textBufferAddress, uint16_t parseBufferAddress) const;
+  void lex(uint16_t textBufferAddress, uint8_t *parseBuffer, bool flag = false) const;
 
 private:
-  uint8_t *_data;
+  const uint8_t *_data;
+  uint16_t _userDict;
 
   const uint8_t *getDictionaryData() const;
 

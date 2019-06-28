@@ -14,7 +14,9 @@
 
 class ZMHeader {
 public:
-  ZMHeader(uint8_t *headerData);
+  ZMHeader(const uint8_t *headerData);
+
+  ZMHeader(uint8_t *mutableHeaderData);
 
   uint8_t getVersion() const;
 
@@ -75,7 +77,8 @@ public:
   void dump() const;
 
 private:
-  uint8_t *_headerData;
+  const uint8_t *_headerData;
+  uint8_t *_mutableHeaderData;
   uint8_t _preV4ScreenHeight;
   uint8_t _preV4ScreenWidth;
 };
@@ -117,8 +120,8 @@ inline uint16_t ZMHeader::getFlags2() const {
 }
 
 inline void ZMHeader::setFlags2(uint16_t flags2) {
-  _headerData[0x10] = flags2 >> 8;
-  _headerData[0x11] = flags2;
+  _mutableHeaderData[0x10] = flags2 >> 8;
+  _mutableHeaderData[0x11] = flags2;
 }
 
 inline bool ZMHeader::getTranscriptingOn() const { return getFlags2() & 1; }
@@ -174,9 +177,9 @@ inline void ZMHeader::setScreenHeight(uint8_t height) {
   if (getVersion() < 4)
     _preV4ScreenHeight = height;
   else {
-    _headerData[0x20] = height;
-    _headerData[0x24] = 0;
-    _headerData[0x25] = height;
+    _mutableHeaderData[0x20] = height;
+    _mutableHeaderData[0x24] = 0;
+    _mutableHeaderData[0x25] = height;
   }
 }
 
@@ -191,9 +194,9 @@ inline void ZMHeader::setScreenWidth(uint8_t width) {
   if (getVersion() < 4)
     _preV4ScreenWidth = width;
   else {
-    _headerData[0x21] = width;
-    _headerData[0x22] = 0;
-    _headerData[0x23] = width;
+    _mutableHeaderData[0x21] = width;
+    _mutableHeaderData[0x22] = 0;
+    _mutableHeaderData[0x23] = width;
   }
 }
 

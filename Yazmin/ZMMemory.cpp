@@ -57,7 +57,7 @@ void ZMMemory::initHeader() {
     _data[1] |= 0x10; // Fixed-space font available
     _data[1] |= 0x80; // Timed keyboard input available
 
-    _data[0x1e] = 3;            // Interpreter number
+    _data[0x1e] = 2;            // Interpreter number
     _data[0x1f] = 'Z';          // Interpreter version
     _data[0x20] = screenWidth;  // Screen height
     _data[0x21] = screenHeight; // Screen width

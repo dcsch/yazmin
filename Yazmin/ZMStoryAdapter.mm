@@ -178,6 +178,13 @@ void ZMStoryAdapter::setTrueColor(int foreground, int background) {
     [_storyFacet setTrueColorForeground:foreground background:background];
 }
 
+void ZMStoryAdapter::getCursor(int &line, int &column) const {
+  if (screenEnabled) {
+    line = _storyFacet.line;
+    column = _storyFacet.column;
+  }
+}
+
 void ZMStoryAdapter::setCursor(int line, int column) {
   if (screenEnabled)
     [_storyFacet setCursorLine:line column:column];

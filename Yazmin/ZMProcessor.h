@@ -60,10 +60,11 @@ private:
   uint16_t _lastRandomNumber;
   int _version;
   int _packedAddressFactor;
-  std::vector<uint16_t> _redirectAddr;
+  std::vector<std::pair<uint16_t, std::string>> _redirect;
   bool _hasQuit;
   bool _hasHalted;
   bool _continuingAfterHalt;
+  uint32_t _lastChecksum;
 
   bool executeLongInstruction();
 
@@ -98,8 +99,6 @@ private:
   void advancePC();
 
   void branchOrAdvancePC(bool testResult);
-
-  void printToTable(const std::string &str);
 
   void print(std::string str, bool caratNewLine = true);
 
@@ -281,6 +280,9 @@ private:
 
   // -- -- 0OP:179 3 print_ret
   void print_ret();
+
+  // -- -- VAR:254 1E 5 print_table zscii-text width height skip
+  void print_table();
 
   // -- -- EXT:11 B 5/* print_unicode char-number
   void print_unicode();

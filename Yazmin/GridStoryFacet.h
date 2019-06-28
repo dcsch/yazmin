@@ -12,6 +12,8 @@
 
 - (instancetype)initWithStory:(Story *)aStory;
 
+@property(readonly) int line;
+@property(readonly) int column;
 @property int numberOfLines;
 
 - (void)setCursorLine:(int)line column:(int)column;
