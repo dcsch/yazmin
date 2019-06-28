@@ -11,11 +11,12 @@
 #include <stdio.h>
 
 ZMHeader::ZMHeader(const uint8_t *headerData)
-    : _headerData(headerData), _mutableHeaderData(nullptr), _preV4ScreenHeight(0), _preV4ScreenWidth(0) {}
+    : _headerData(headerData), _mutableHeaderData(nullptr),
+      _preV4ScreenHeight(0), _preV4ScreenWidth(0) {}
 
 ZMHeader::ZMHeader(uint8_t *mutableHeaderData)
-    : _headerData(mutableHeaderData), _mutableHeaderData(mutableHeaderData), _preV4ScreenHeight(0),
-      _preV4ScreenWidth(0) {}
+    : _headerData(mutableHeaderData), _mutableHeaderData(mutableHeaderData),
+      _preV4ScreenHeight(0), _preV4ScreenWidth(0) {}
 
 std::string ZMHeader::getSerialCode() const {
   char revision[7];

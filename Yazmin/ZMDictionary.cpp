@@ -14,7 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 
-ZMDictionary::ZMDictionary(const uint8_t *data, uint16_t userDict) : _data(data), _userDict(userDict) {}
+ZMDictionary::ZMDictionary(const uint8_t *data, uint16_t userDict)
+    : _data(data), _userDict(userDict) {}
 
 int ZMDictionary::getWordSeparatorCount() const {
   return getDictionaryData()[0];
@@ -44,12 +45,11 @@ uint16_t ZMDictionary::getEntryAddress(int index) const {
     ZMHeader header(_data);
     addr = header.getDictionaryLocation();
   }
-  return addr + getWordSeparatorCount() +
-         index * getEntryLength() + 4;
+  return addr + getWordSeparatorCount() + index * getEntryLength() + 4;
 }
 
-void ZMDictionary::lex(uint16_t textBufferAddress,
-                       uint8_t *parseBuffer, bool flag) const {
+void ZMDictionary::lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
+                       bool flag) const {
   // Break into individual words
   const int kMaxWordCount = 256;
   int wordIndex[kMaxWordCount];
@@ -118,8 +118,8 @@ int ZMDictionary::tokenise(const char *str, int maxWordCount, int *wordIndex,
   int wordCount = 0;
   bool inWord = false;
   ZMHeader header(_data);
-  int start = header.getVersion() <= 3 ? 1 : 2;
-  int len = header.getVersion() <= 3 ? str[0] : str[1];
+  int start = header.getVersion() <= 4 ? 1 : 2;
+  int len = header.getVersion() <= 4 ? str[0] : str[1];
   int i;
   for (i = start; i < start + len; ++i) {
     if (str[i] == 0) {

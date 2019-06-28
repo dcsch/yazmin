@@ -26,8 +26,8 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _pc(0), _initialPC(0), _operandOffset(0), _instructionLength(0),
       _operandCount(0), _operandTypes(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
-      _packedAddressFactor(0), _redirect(), _hasQuit(false),
-      _hasHalted(false), _continuingAfterHalt(false), _lastChecksum(0) {
+      _packedAddressFactor(0), _redirect(), _hasQuit(false), _hasHalted(false),
+      _continuingAfterHalt(false), _lastChecksum(0) {
 
   // Take a copy of the initial PC, as the standard prohibits any changes to the
   // header having an effect when using `restart`
@@ -65,20 +65,21 @@ bool ZMProcessor::execute() {
       throw false; // We can't handle this
   }
 
-//  // Calculate checksum on the high memory
-//  uint32_t checksum = 0;
-//  for (uint32_t i = _memory.getHeader().getBaseHighMemory(); i < _memory.getHeader().getFileLength(); ++i)
-//    checksum += _memory[i];
+  //  // Calculate checksum on the high memory
+  //  uint32_t checksum = 0;
+  //  for (uint32_t i = _memory.getHeader().getBaseHighMemory(); i <
+  //  _memory.getHeader().getFileLength(); ++i)
+  //    checksum += _memory[i];
+  //
+  //  if (_lastChecksum && _lastChecksum != checksum) {
+  //    int foo = 0;
+  //  }
+  //  _lastChecksum = checksum;
 
-//  if (_lastChecksum && _lastChecksum != checksum) {
-//    int foo = 0;
-//  }
-//  _lastChecksum = checksum;
-
-//  printf("%05x\n", _pc);
-//  if (_pc == 0x101fe) {
-//    int foo = 0;
-//  }
+  //  printf("%05x\n", _pc);
+  //  if (_pc == 0xfe7d) {
+  //    int foo = 0;
+  //  }
 
   // Determine the encoding of the instruction by looking at the top two bits
   uint8_t inst = _memory[_pc];
@@ -789,6 +790,7 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
 }
 
 void ZMProcessor::print(std::string str, bool caratNewLine) {
+  //  printf(">%s<\n", str.c_str());
   if (caratNewLine)
     std::transform(str.begin(), str.end(), str.begin(),
                    [](char c) -> char { return c == '^' ? '\n' : c; });
@@ -885,6 +887,13 @@ void ZMProcessor::call_1s() {
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, 0, localCount, _store);
 
+  // Load initial values into locals
+  // (the initial values are only present up to version 4, and the stack
+  // initialises the values to zero during the 'pushFrame' above)
+  if (_version <= 4)
+    for (int i = 0; i < localCount; ++i)
+      _stack.setLocal(i, _memory.getWord(address + 2 * i + 1));
+
   if (_version <= 4)
     _pc = address + 2 * localCount + 1;
   else
@@ -942,10 +951,14 @@ void ZMProcessor::call_2s() {
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, 1, localCount, _store);
 
-  // Load arguments into locals
+  // Load arguments/initial values into locals
+  // (the initial values are only present up to version 4, and the stack
+  // initialises the values to zero during the 'pushFrame' above)
   for (int i = 0; i < localCount; ++i)
     if (i < argCount)
       _stack.setLocal(i, args[i]);
+    else if (_version <= 4)
+      _stack.setLocal(i, _memory.getWord(address + 2 * i + 1));
 
   if (_version <= 4)
     _pc = address + 2 * localCount + 1;
@@ -973,10 +986,14 @@ void ZMProcessor::call_vn() {
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, argCount, localCount, 0xffff);
 
-  // Load argument into locals
+  // Load arguments/initial values into locals
+  // (the initial values are only present up to version 4, and the stack
+  // initialises the values to zero during the 'pushFrame' above)
   for (int i = 0; i < localCount; ++i)
     if (i < argCount)
       _stack.setLocal(i, args[i]);
+    else if (_version <= 4)
+      _stack.setLocal(i, _memory.getWord(address + 2 * i + 1));
 
   // Change the program counter to the address of the routine's
   // first instruction
@@ -1013,14 +1030,13 @@ void ZMProcessor::call_vs() {
   _stack.pushFrame(_pc + _instructionLength, argCount, localCount, _store);
 
   // Load arguments/initial values into locals
-  // (the initial values are only present up to version 3, and the stack
+  // (the initial values are only present up to version 4, and the stack
   // initialises the values to zero during the 'pushFrame' above)
   for (int i = 0; i < localCount; ++i)
     if (i < argCount)
       _stack.setLocal(i, args[i]);
-    else if (_version <= 3)
-      _stack.setLocal(i, (_memory[address + 2 * i + 1] << 8) |
-                             _memory[address + 2 * i + 2]);
+    else if (_version <= 4)
+      _stack.setLocal(i, _memory.getWord(address + 2 * i + 1));
 
   // Change the program counter to the address of the routine's
   // first instruction
@@ -1083,10 +1099,14 @@ void ZMProcessor::call_vs2() {
   uint16_t localCount = _memory[address];
   _stack.pushFrame(_pc + _instructionLength, argCount, localCount, _store);
 
-  // Load arguments into locals
+  // Load arguments/initial values into locals
+  // (the initial values are only present up to version 4, and the stack
+  // initialises the values to zero during the 'pushFrame' above)
   for (int i = 0; i < localCount; ++i)
     if (i < argCount)
       _stack.setLocal(i, args[i]);
+    else if (_version <= 4)
+      _stack.setLocal(i, _memory.getWord(address + 2 * i + 1));
 
   // Change the program counter to the address of the routine's
   // first instruction
@@ -1149,17 +1169,17 @@ void ZMProcessor::copy_table() {
     for (int16_t i = 0; i < -size; i++)
       _memory.setByte(second + i, _memory.getByte(first + i));
 
-//  printf("%x copy_table from: %x to: %x\n", _pc, first, second);
-//  if (second > 0) {
-//    for (int i = 0; i < size; ++i) {
-//      char c = _memory.getByte(second + i);
-//      if (c >= 32)
-//        printf("%c", c);
-//      else
-//        printf("[%d]", c);
-//    }
-//  }
-//  printf("\n");
+  //  printf("%x copy_table from: %x to: %x\n", _pc, first, second);
+  //  if (second > 0) {
+  //    for (int i = 0; i < size; ++i) {
+  //      char c = _memory.getByte(second + i);
+  //      if (c >= 32)
+  //        printf("%c", c);
+  //      else
+  //        printf("[%d]", c);
+  //    }
+  //  }
+  //  printf("\n");
 
   advancePC();
 }
