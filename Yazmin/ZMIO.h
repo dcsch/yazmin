@@ -29,6 +29,8 @@ public:
 
   virtual void showStatus() = 0;
 
+  virtual void inputStream(int stream) = 0;
+
   virtual void outputStream(int stream) = 0;
 
   virtual void getColor(int &foreground, int &background) const = 0;

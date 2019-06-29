@@ -208,8 +208,8 @@
   NSArray<NSValue *> *ranges = [self rangesOfLines];
   if (ranges.count > line) {
     NSRange range = ranges[line - 1].rangeValue;
-    NSRange rangeToEnd = NSMakeRange(range.location,
-                                     self.textStorage.length - range.location);
+    NSRange rangeToEnd =
+        NSMakeRange(range.location, self.textStorage.length - range.location);
     [self.textStorage deleteCharactersInRange:rangeToEnd];
   }
 }

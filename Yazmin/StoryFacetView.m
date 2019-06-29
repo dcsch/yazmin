@@ -261,4 +261,12 @@
   historyIndex = 0;
 }
 
+- (void)enterString:(NSString *)input {
+  NSRange range =
+      NSMakeRange(inputLocation, self.textStorage.length - inputLocation);
+  [self.textStorage replaceCharactersInRange:range withString:input];
+  [self.textStorage.mutableString appendString:@"\n"];
+  [_storyInput stringInput:input];
+}
+
 @end

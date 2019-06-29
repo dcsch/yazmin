@@ -5,7 +5,6 @@
 #import "StoryController.h"
 #import "StoryFacet.h"
 #import "ZMachine.h"
-//#import <cstdio>
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
     : _story(story), _storyFacet(nil), timer(nil), screenEnabled(true),
@@ -119,6 +118,10 @@ void ZMStoryAdapter::showStatus() {
 
   [_storyFacet setTextStyle:0];
   setWindow(0);
+}
+
+void ZMStoryAdapter::inputStream(int stream) {
+  [_story commandInputStream:stream];
 }
 
 void ZMStoryAdapter::outputStream(int stream) {

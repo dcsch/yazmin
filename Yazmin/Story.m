@@ -294,4 +294,8 @@
   return [_storyController commandOutputStream];
 }
 
+- (void)commandInputStream:(int)number {
+  [_storyController commandInputStream:number];
+}
+
 @end

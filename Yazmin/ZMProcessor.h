@@ -64,7 +64,7 @@ private:
   bool _hasQuit;
   bool _hasHalted;
   bool _continuingAfterHalt;
-  uint32_t _lastChecksum;
+  //  uint32_t _lastChecksum;
 
   bool executeLongInstruction();
 
@@ -196,6 +196,9 @@ private:
 
   // -- Br 2OP:5 5 inc_chk (variable) value ?(label)
   void inc_chk();
+
+  // -- -- VAR:244 14 3 input_stream number
+  void input_stream();
 
   // -- -- 2OP:14 E insert_obj object destination
   void insert_obj();

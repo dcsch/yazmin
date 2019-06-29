@@ -18,6 +18,7 @@
 - (void)saveSessionData:(NSData *)data;
 - (NSOutputStream *)transcriptOutputStream;
 - (NSOutputStream *)commandOutputStream;
+- (void)commandInputStream:(int)number;
 - (void)showError:(NSString *)errorMessage;
 - (void)updateWindowLayout;
 - (void)updateWindowBackgroundColor;

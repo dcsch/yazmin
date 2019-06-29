@@ -20,6 +20,8 @@ public:
 
   void showStatus() override;
 
+  void inputStream(int stream) override;
+
   void outputStream(int stream) override;
 
   void getColor(int &foreground, int &background) const override;

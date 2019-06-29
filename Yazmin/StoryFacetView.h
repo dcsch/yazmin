@@ -23,4 +23,6 @@ typedef NS_ENUM(NSUInteger, InputState) {
 @property(getter=isInputView) BOOL inputView;
 @property InputState inputState;
 
+- (void)enterString:(NSString *)input;
+
 @end

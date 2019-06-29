@@ -25,7 +25,8 @@ public:
 
   uint16_t getEntryAddress(int index) const;
 
-  void lex(uint16_t textBufferAddress, uint8_t *parseBuffer, bool flag = false) const;
+  void lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
+           bool flag = false) const;
 
 private:
   const uint8_t *_data;

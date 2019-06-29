@@ -36,6 +36,7 @@
   NSURL *_commandURL;
   NSOutputStream *_transcript;
   NSOutputStream *_commandOutputStream;
+  NSInputStream *_commandInputStream;
 }
 
 - (int)calculateScreenWidthInColumns;
@@ -47,6 +48,7 @@
 - (void)layoutManager:(NSLayoutManager *)aLayoutManager
     didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                 atEnd:(BOOL)flag;
+- (NSString *)playbackInputString;
 - (void)characterInput:(unichar)c;
 - (void)stringInput:(NSString *)string;
 - (void)update;
@@ -229,11 +231,33 @@
   [self scrollLowerWindowToEnd];
 }
 
+- (NSString *)playbackInputString {
+  NSMutableString *str = [NSMutableString string];
+  uint8_t c;
+  while ([_commandInputStream read:&c maxLength:1] > 0) {
+    if (c == '\n')
+      break;
+    [str appendFormat:@"%c", c];
+  }
+  return str;
+}
+
 - (void)prepareInputWithOffset:(NSInteger)offset {
   [self resolveStatusHeight];
   Story *story = self.document;
   NSUInteger len = story.facets[0].textStorage.length;
   [layoutView.lowerWindow setInputLocation:len + offset];
+  if (_commandInputStream) {
+    NSString *inputString = [self playbackInputString];
+    [layoutView.lowerWindow enterString:inputString];
+    if (inputString.length > 0) {
+      [self executeStory];
+      return;
+    } else {
+      [_commandInputStream close];
+      _commandInputStream = nil;
+    }
+  }
   [layoutView.lowerWindow setInputState:kStringInputState];
   [self scrollLowerWindowToEnd];
 }
@@ -331,9 +355,9 @@
     panel.allowedFileTypes = @[ @"txt" ];
     Story *story = self.document;
     panel.nameFieldStringValue = [NSString
-                                  stringWithFormat:@"%@ Commands (%@)", story.displayName,
-                                  [NSDate.date
-                                   descriptionWithLocale:NSLocale.currentLocale]];
+        stringWithFormat:@"%@ Commands (%@)", story.displayName,
+                         [NSDate.date
+                             descriptionWithLocale:NSLocale.currentLocale]];
     [panel beginSheetModalForWindow:self.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
@@ -350,7 +374,7 @@
   }
   if (_commandURL) {
     _commandOutputStream =
-    [NSOutputStream outputStreamWithURL:_commandURL append:YES];
+        [NSOutputStream outputStreamWithURL:_commandURL append:YES];
   } else {
 
     NSFileManager *fm = NSFileManager.defaultManager;
@@ -362,12 +386,34 @@
                                      create:YES
                                       error:&error];
     _commandURL =
-    [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
-     .globallyUniqueString];
+        [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
+                                                    .globallyUniqueString];
 
-    _commandOutputStream = [NSOutputStream outputStreamWithURL:_commandURL append:NO];
+    _commandOutputStream =
+        [NSOutputStream outputStreamWithURL:_commandURL append:NO];
   }
   return _commandOutputStream;
+}
+
+- (void)commandInputStream:(int)number {
+  if (number == 0) {
+    [_commandInputStream close];
+    _commandInputStream = nil;
+  } else if (number == 1) {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    panel.allowedFileTypes = @[ @"txt" ];
+    [panel beginSheetModalForWindow:self.window
+                  completionHandler:^(NSInteger result) {
+                    if (result == NSModalResponseOK) {
+                      self->_commandInputStream =
+                          [NSInputStream inputStreamWithURL:panel.URL];
+                      [self->_commandInputStream open];
+                    } else {
+                      self->_commandInputStream = nil;
+                    }
+                    [self executeStory];
+                  }];
+  }
 }
 
 - (void)showError:(NSString *)errorMessage {

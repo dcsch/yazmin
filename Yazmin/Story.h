@@ -45,5 +45,6 @@
 - (unichar)endInputChar;
 - (NSOutputStream *)transcriptOutputStream;
 - (NSOutputStream *)commandOutputStream;
+- (void)commandInputStream:(int)number;
 
 @end

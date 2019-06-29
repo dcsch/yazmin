@@ -27,7 +27,7 @@ ZMProcessor::ZMProcessor(ZMMemory &memory, ZMStack &stack, ZMIO &io,
       _operandCount(0), _operandTypes(), _store(0), _branch(0),
       _branchOnTrue(false), _seed(0), _lastRandomNumber(0), _version(0),
       _packedAddressFactor(0), _redirect(), _hasQuit(false), _hasHalted(false),
-      _continuingAfterHalt(false), _lastChecksum(0) {
+      _continuingAfterHalt(false) {
 
   // Take a copy of the initial PC, as the standard prohibits any changes to the
   // header having an effect when using `restart`
@@ -587,9 +587,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x13:
     output_stream(); // v3
     break;
-  //  case 0x14:
-  //    input_stream(); // v3
-  //    break;
+  case 0x14:
+    input_stream(); // v3
+    break;
   case 0x15:
     sound_effect(); // v5/3
     break;
@@ -1348,6 +1348,24 @@ void ZMProcessor::inc_chk() {
   setVariable(variable, getVariable(variable) + 1);
   branchOrAdvancePC(static_cast<int16_t>(getVariable(variable, true)) >
                     static_cast<int16_t>(value));
+}
+
+void ZMProcessor::input_stream() {
+  log("input_stream", false, false);
+
+  uint16_t number = getOperand(0, true);
+
+  if (number == 1 && !_continuingAfterHalt) {
+    _hasHalted = true;
+    _io.inputStream(number);
+    return;
+  }
+
+  // We've already dealt with the number, but we do this here
+  // to pop any potential arguments from the stack
+  number = getOperand(0);
+
+  advancePC();
 }
 
 void ZMProcessor::insert_obj() {
