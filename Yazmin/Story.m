@@ -290,4 +290,8 @@
   return [_storyController transcriptOutputStream];
 }
 
+- (NSOutputStream *)commandOutputStream {
+  return [_storyController commandOutputStream];
+}
+
 @end

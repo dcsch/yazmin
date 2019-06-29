@@ -202,4 +202,16 @@
   x = (x + string.length) % self.widthInCharacters;
 }
 
+- (void)eraseFromLine:(int)line {
+
+  // How many lines are already in the window?
+  NSArray<NSValue *> *ranges = [self rangesOfLines];
+  if (ranges.count > line) {
+    NSRange range = ranges[line - 1].rangeValue;
+    NSRange rangeToEnd = NSMakeRange(range.location,
+                                     self.textStorage.length - range.location);
+    [self.textStorage deleteCharactersInRange:rangeToEnd];
+  }
+}
+
 @end

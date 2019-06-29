@@ -21,5 +21,6 @@
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
+- (void)eraseFromLine:(int)line;
 
 @end

@@ -78,6 +78,7 @@ private:
   NSTimer *timer;
   bool screenEnabled;
   NSOutputStream *transcriptOutputStream;
+  NSOutputStream *commandOutputStream;
 
   int getWindow() const;
 };

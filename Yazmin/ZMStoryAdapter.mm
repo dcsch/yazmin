@@ -5,10 +5,11 @@
 #import "StoryController.h"
 #import "StoryFacet.h"
 #import "ZMachine.h"
+//#import <cstdio>
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
     : _story(story), _storyFacet(nil), timer(nil), screenEnabled(true),
-      transcriptOutputStream(nil) {
+      transcriptOutputStream(nil), commandOutputStream(nil) {
 
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
@@ -135,6 +136,14 @@ void ZMStoryAdapter::outputStream(int stream) {
   case -2:
     [transcriptOutputStream close];
     transcriptOutputStream = nil;
+    break;
+  case 4:
+    commandOutputStream = [_story commandOutputStream];
+    [commandOutputStream open];
+    break;
+  case -4:
+    [commandOutputStream close];
+    commandOutputStream = nil;
     break;
   }
 }
@@ -267,12 +276,31 @@ std::string ZMStoryAdapter::endInput() {
                         maxLength:str.length()];
     [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
   }
+  if (commandOutputStream) {
+    [commandOutputStream write:(const uint8_t *)str.c_str()
+                     maxLength:str.length()];
+    [commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
+  }
   return str;
 }
 
 void ZMStoryAdapter::beginInputChar() { [_story beginInputChar]; }
 
-wchar_t ZMStoryAdapter::endInputChar() { return [_story endInputChar]; }
+wchar_t ZMStoryAdapter::endInputChar() {
+  unichar c = [_story endInputChar];
+  if (commandOutputStream) {
+    if (32 <= c && c <= 126) {
+      uint8_t c8 = (uint8_t)c;
+      [commandOutputStream write:&c8 maxLength:1];
+    } else {
+      char buf[32];
+      int len = snprintf(buf, 32, "[%d]", c);
+      [commandOutputStream write:(const uint8_t *)buf maxLength:len];
+    }
+    [commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
+  }
+  return c;
+}
 
 void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
                                  int volume) {

@@ -44,5 +44,6 @@
 - (void)beginInputChar;
 - (unichar)endInputChar;
 - (NSOutputStream *)transcriptOutputStream;
+- (NSOutputStream *)commandOutputStream;
 
 @end

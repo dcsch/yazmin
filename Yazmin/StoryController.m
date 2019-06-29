@@ -33,7 +33,9 @@
   int maxheight;
   int seenheight;
   NSURL *_transcriptURL;
+  NSURL *_commandURL;
   NSOutputStream *_transcript;
+  NSOutputStream *_commandOutputStream;
 }
 
 - (int)calculateScreenWidthInColumns;
@@ -188,6 +190,7 @@
 
 - (void)handleWindowWillClose:(NSNotification *)note {
   [_transcript close];
+  [_commandOutputStream close];
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {
@@ -322,6 +325,51 @@
   return _transcript;
 }
 
+- (NSOutputStream *)commandOutputStream {
+  if (!_commandURL) {
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    panel.allowedFileTypes = @[ @"txt" ];
+    Story *story = self.document;
+    panel.nameFieldStringValue = [NSString
+                                  stringWithFormat:@"%@ Commands (%@)", story.displayName,
+                                  [NSDate.date
+                                   descriptionWithLocale:NSLocale.currentLocale]];
+    [panel beginSheetModalForWindow:self.window
+                  completionHandler:^(NSInteger result) {
+                    if (result == NSModalResponseOK) {
+                      NSFileManager *fm = NSFileManager.defaultManager;
+                      NSError *error;
+                      if ([fm fileExistsAtPath:panel.URL.path])
+                        [fm removeItemAtURL:panel.URL error:&error];
+                      [fm moveItemAtURL:self->_commandURL
+                                  toURL:panel.URL
+                                  error:&error];
+                      self->_commandURL = panel.URL;
+                    }
+                  }];
+  }
+  if (_commandURL) {
+    _commandOutputStream =
+    [NSOutputStream outputStreamWithURL:_commandURL append:YES];
+  } else {
+
+    NSFileManager *fm = NSFileManager.defaultManager;
+    NSURL *homeURL = [NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES];
+    NSError *error;
+    NSURL *tempDirURL = [fm URLForDirectory:NSItemReplacementDirectory
+                                   inDomain:NSUserDomainMask
+                          appropriateForURL:homeURL
+                                     create:YES
+                                      error:&error];
+    _commandURL =
+    [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
+     .globallyUniqueString];
+
+    _commandOutputStream = [NSOutputStream outputStreamWithURL:_commandURL append:NO];
+  }
+  return _commandOutputStream;
+}
+
 - (void)showError:(NSString *)errorMessage {
   NSAlert *alert = [[NSAlert alloc] init];
   alert.messageText = @"Error";
@@ -344,7 +392,7 @@
 
   // Retrieve the height of the upper window
   Story *story = self.document;
-  StoryFacet *facet = story.facets[1];
+  GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
 
   // Implement zarf's fix to the quote box problem
   // (https://eblong.com/zarf/glk/quote-box.html)
@@ -360,6 +408,7 @@
   // careful to clear the "newly created" space.
   if (curheight > oldheight) {
     // blank out all lines from oldheight to the bottom of the window
+    [facet eraseFromLine:oldheight + 1];
   }
 
   [layoutView resizeUpperWindow:maxheight];
@@ -476,6 +525,7 @@
                                    [self->layoutView.lowerWindow
                                        setInputState:kNoInputState];
                                    [self->_transcript close];
+                                   [self->_commandOutputStream close];
                                  }
                                  [self synchronizeWindowTitleWithDocumentName];
                                  [self updateViews];
