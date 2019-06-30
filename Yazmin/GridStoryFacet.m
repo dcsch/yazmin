@@ -51,6 +51,12 @@
   [self.story updateWindowLayout];
 }
 
+- (void)erase {
+  [super erase];
+  x = 0;
+  y = 0;
+}
+
 - (void)setCursorLine:(int)line column:(int)column {
   if (0 < line && line <= self.heightInLines)
     y = line - 1;
