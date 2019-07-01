@@ -56,6 +56,12 @@ void ZMStoryAdapter::eraseWindow(int window) {
 }
 
 void ZMStoryAdapter::showStatus() {
+
+  // Check that there is a current object
+  unsigned int objectNumber = [_story.zMachine globalAtIndex:0];
+  if (objectNumber == 0)
+    return;
+
   // Generate a version 1-3 status line
   StoryFacet *storyFacet = (_story.facets)[1];
   if (storyFacet.numberOfLines == 0)
@@ -86,7 +92,6 @@ void ZMStoryAdapter::showStatus() {
     shortDisplay = true;
   }
   unsigned int maxNameLen = screenWidth - scoreAndMovesLen;
-  unsigned int objectNumber = [_story.zMachine globalAtIndex:0];
   NSString *name = [_story.zMachine nameOfObject:objectNumber];
   if (name.length <= maxNameLen)
     [_storyFacet print:name];
@@ -210,8 +215,10 @@ int ZMStoryAdapter::setFont(int font) {
 }
 
 void ZMStoryAdapter::setTextStyle(int style) {
-  if (screenEnabled)
-    [_storyFacet setTextStyle:style];
+  if (screenEnabled) {
+    [_story.facets[0] setTextStyle:style];
+    [_story.facets[1] setTextStyle:style];
+  }
 }
 
 bool ZMStoryAdapter::checkUnicode(uint16_t uc) {
