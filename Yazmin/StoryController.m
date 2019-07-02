@@ -463,9 +463,9 @@
 
 - (void)updateWindowBackgroundColor {
   Story *story = self.document;
-  layoutView.lowerWindow.backgroundColor = story.facets[0].backgroundColor;
-  layoutView.upperWindow.backgroundColor = story.facets[1].backgroundColor;
-  layoutView.lowerWindow.insertionPointColor = story.facets[0].foregroundColor;
+  layoutView.lowerWindow.backgroundColor = story.backgroundColor;
+  layoutView.upperWindow.backgroundColor = story.backgroundColor;
+  layoutView.lowerWindow.insertionPointColor = story.foregroundColor;
 }
 
 // If the status height is too large because of last turn's quote box,
@@ -491,7 +491,12 @@
   // Set the typing attributes of the lower window so they reflect the change
   Story *story = self.document;
   StoryFacet *facet = story.facets[0];
-  layoutView.lowerWindow.typingAttributes = facet.currentAttributes;
+
+  NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+  [facet applyColorsOfStyle:story.currentStyle toAttributes:attributes];
+  [facet applyFontOfStyle:story.currentStyle toAttributes:attributes];
+  [facet applyLowerWindowAttributes:attributes];
+  layoutView.lowerWindow.typingAttributes = attributes;
 }
 
 - (void)characterInput:(unichar)c {

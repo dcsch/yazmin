@@ -17,28 +17,23 @@
 
 @property Story *story;
 @property NSTextStorage *textStorage;
-@property(readonly) NSMutableDictionary *currentAttributes;
-@property(readonly) int currentStyle;
-@property BOOL forceFixedPitchFont;
 @property(readonly) int line;
 @property(readonly) int column;
 @property int numberOfLines;
 @property int widthInCharacters;
 @property int heightInLines;
-@property(readonly) NSColor *foregroundColor;
-@property(readonly) NSColor *backgroundColor;
-@property(readonly) int foregroundColorCode;
-@property(readonly) int backgroundColorCode;
 
 - (void)erase;
-- (void)setColorForeground:(int)fg background:(int)bg;
-- (void)setTrueColorForeground:(int)fg background:(int)bg;
 - (void)setCursorLine:(int)line column:(int)column;
-- (int)setFont:(int)fontId;
-- (void)setTextStyle:(int)style;
+- (int)setFontId:(int)fontId;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
 - (void)updateStyleState;
+- (void)applyColorsOfStyle:(int)style
+              toAttributes:(NSMutableDictionary *)attributes;
+- (void)applyFontOfStyle:(int)style
+            toAttributes:(NSMutableDictionary *)attributes;
+- (void)applyLowerWindowAttributes:(NSMutableDictionary *)attributes;
 
 @end

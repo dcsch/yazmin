@@ -31,6 +31,13 @@
 @property unsigned int lastRestoreOrSaveResult;
 @property NSData *restoreData;
 
+@property(readonly) NSColor *foregroundColor;
+@property(readonly) NSColor *backgroundColor;
+@property(readonly) int foregroundColorCode;
+@property(readonly) int backgroundColorCode;
+@property(readonly) int currentStyle;
+@property BOOL forceFixedPitchFont;
+
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;
 - (void)error:(NSString *)errorMessage;
@@ -46,5 +53,9 @@
 - (NSOutputStream *)transcriptOutputStream;
 - (NSOutputStream *)commandOutputStream;
 - (void)commandInputStream:(int)number;
+- (void)setColorForeground:(int)fg background:(int)bg;
+- (void)setTrueColorForeground:(int)fg background:(int)bg;
+- (void)setTextStyle:(int)style;
+- (void)hackyDidntSetTextStyle;
 
 @end

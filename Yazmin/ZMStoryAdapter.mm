@@ -71,7 +71,7 @@ void ZMStoryAdapter::showStatus() {
   // Display an inverse video bar
   int screenWidth = getScreenWidth();
   [_storyFacet setCursorLine:1 column:1];
-  [_storyFacet setTextStyle:1];
+  [_story setTextStyle:1];
   for (unsigned int i = 0; i < screenWidth; ++i)
     [_storyFacet print:@" "];
 
@@ -121,7 +121,7 @@ void ZMStoryAdapter::showStatus() {
     [_storyFacet printNumber:[_story.zMachine globalAtIndex:2]];
   }
 
-  [_storyFacet setTextStyle:0];
+  [_story setTextStyle:0];
   setWindow(0);
 }
 
@@ -158,19 +158,18 @@ void ZMStoryAdapter::outputStream(int stream) {
 
 void ZMStoryAdapter::getColor(int &foreground, int &background) const {
   if (screenEnabled) {
-    foreground = _storyFacet.foregroundColorCode;
-    background = _storyFacet.backgroundColorCode;
+    foreground = _story.foregroundColorCode;
+    background = _story.backgroundColorCode;
   }
 }
 
 void ZMStoryAdapter::setColor(int foreground, int background) {
   if (screenEnabled) {
-    [_story.facets[0] setColorForeground:foreground background:background];
-    [_story.facets[1] setColorForeground:foreground background:background];
+    [_story setColorForeground:foreground background:background];
   }
 }
 
-uint16_t trueColorFromColor(NSColor *color) {
+static uint16_t trueColorFromColor(NSColor *color) {
   CGFloat r, g, b, a;
   [color getRed:&r green:&g blue:&b alpha:&a];
   uint16_t rc = static_cast<uint16_t>(31.0 * r);
@@ -181,10 +180,10 @@ uint16_t trueColorFromColor(NSColor *color) {
 
 void ZMStoryAdapter::getTrueColor(int &foreground, int &background) const {
   if (screenEnabled) {
-    NSColor *color = [_storyFacet.foregroundColor
+    NSColor *color = [_story.foregroundColor
         colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
     foreground = trueColorFromColor(color);
-    color = [_storyFacet.backgroundColor
+    color = [_story.backgroundColor
         colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
     background = trueColorFromColor(color);
   }
@@ -192,7 +191,7 @@ void ZMStoryAdapter::getTrueColor(int &foreground, int &background) const {
 
 void ZMStoryAdapter::setTrueColor(int foreground, int background) {
   if (screenEnabled)
-    [_storyFacet setTrueColorForeground:foreground background:background];
+    [_story setTrueColorForeground:foreground background:background];
 }
 
 void ZMStoryAdapter::getCursor(int &line, int &column) const {
@@ -203,26 +202,28 @@ void ZMStoryAdapter::getCursor(int &line, int &column) const {
 }
 
 void ZMStoryAdapter::setCursor(int line, int column) {
+  [_story hackyDidntSetTextStyle];
   if (screenEnabled)
     [_storyFacet setCursorLine:line column:column];
 }
 
 int ZMStoryAdapter::setFont(int font) {
+  [_story hackyDidntSetTextStyle];
   if (screenEnabled)
-    return [_storyFacet setFont:font];
+    return [_storyFacet setFontId:font];
   else
     return 0;
 }
 
 void ZMStoryAdapter::setTextStyle(int style) {
   if (screenEnabled) {
-    [_story.facets[0] setTextStyle:style];
-    [_story.facets[1] setTextStyle:style];
+    [_story setTextStyle:style];
   }
 }
 
 bool ZMStoryAdapter::checkUnicode(uint16_t uc) {
-  NSFont *font = _storyFacet.currentAttributes[NSFontAttributeName];
+  NSFont *font =
+      [[Preferences sharedPreferences] fontForStyle:_story.currentStyle];
   NSCharacterSet *charSet = font.coveredCharacterSet;
   return [charSet characterIsMember:uc];
 }
@@ -236,7 +237,7 @@ void ZMStoryAdapter::print(const std::string &str) {
                                   options:0
                                     range:NSMakeRange(0, printable.length)];
     if (screenEnabled) {
-      _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
+      _story.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
       [_storyFacet print:printable];
     }
     if (transcriptOutputStream && getWindow() == 0) {
@@ -246,11 +247,12 @@ void ZMStoryAdapter::print(const std::string &str) {
   } else {
     NSLog(@"Error: Unprintable string");
   }
+  [_story hackyDidntSetTextStyle];
 }
 
 void ZMStoryAdapter::printNumber(int number) {
   if (screenEnabled) {
-    _storyFacet.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
+    _story.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
     [_storyFacet printNumber:number];
   }
   if (transcriptOutputStream && getWindow() == 0) {
@@ -258,6 +260,7 @@ void ZMStoryAdapter::printNumber(int number) {
     [transcriptOutputStream write:(const uint8_t *)str.c_str()
                         maxLength:str.length()];
   }
+  [_story hackyDidntSetTextStyle];
 }
 
 void ZMStoryAdapter::newLine() {
@@ -265,6 +268,7 @@ void ZMStoryAdapter::newLine() {
     [_storyFacet newLine];
   if (transcriptOutputStream && getWindow() == 0)
     [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
+  [_story hackyDidntSetTextStyle];
 }
 
 void ZMStoryAdapter::setWordWrap(bool wordWrap) {
@@ -273,6 +277,7 @@ void ZMStoryAdapter::setWordWrap(bool wordWrap) {
 }
 
 void ZMStoryAdapter::beginInput(uint8_t existingLen) {
+  [_story hackyDidntSetTextStyle];
   [_story beginInputWithOffset:-existingLen];
 }
 
@@ -294,7 +299,10 @@ std::string ZMStoryAdapter::endInput() {
   return str;
 }
 
-void ZMStoryAdapter::beginInputChar() { [_story beginInputChar]; }
+void ZMStoryAdapter::beginInputChar() {
+  [_story hackyDidntSetTextStyle];
+  [_story beginInputChar];
+}
 
 wchar_t ZMStoryAdapter::endInputChar() {
   unichar c = [_story endInputChar];

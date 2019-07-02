@@ -13,7 +13,6 @@
   int _numberOfLines;
   int x;
   int y;
-  NSDictionary *fixedFontAttributes;
 }
 
 - (NSArray<NSValue *> *)chunksOfString:(NSString *)string;
@@ -28,8 +27,6 @@
   self = [super initWithStory:aStory];
   if (self) {
     _numberOfLines = 0;
-    [self setTextStyle:0];
-    fixedFontAttributes = [self.currentAttributes copy];
   }
   return self;
 }
@@ -72,11 +69,6 @@
     }
     self.numberOfLines = line;
   }
-}
-
-- (void)setTextStyle:(int)style {
-  // Make sure we always use a fixed-width font
-  [super setTextStyle:style | 8];
 }
 
 - (void)print:(NSString *)text {
@@ -147,14 +139,32 @@
   return array;
 }
 
+- (void)applyUpperWindowAttributes:(NSMutableDictionary *)attributes {
+  NSMutableParagraphStyle *paragraphStyle =
+      [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+  paragraphStyle.lineBreakMode = NSLineBreakByClipping;
+  attributes[NSParagraphStyleAttributeName] = paragraphStyle;
+}
+
 - (void)emplaceString:(NSString *)string {
+
+  NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+  [self applyFontOfStyle:self.story.currentStyle | 8 toAttributes:attributes];
+  [self applyUpperWindowAttributes:attributes];
+
+  // We need attributes for padding without reverse video
+  NSMutableDictionary *paddingAttributes = [attributes mutableCopy];
+  [self applyColorsOfStyle:self.story.currentStyle & ~1
+              toAttributes:paddingAttributes];
+
+  [self applyColorsOfStyle:self.story.currentStyle toAttributes:attributes];
 
   // Get the line ranges, extending if we need more lines
   NSArray<NSValue *> *ranges = [self rangesOfLines];
   if (ranges.count <= y) {
     NSAttributedString *attrText =
         [[NSAttributedString alloc] initWithString:@"\n"
-                                        attributes:fixedFontAttributes];
+                                        attributes:paddingAttributes];
     for (int i = 0; i <= y - ranges.count; i++)
       [self.textStorage appendAttributedString:attrText];
     ranges = [self rangesOfLines];
@@ -172,14 +182,13 @@
 
     NSAttributedString *attrText =
         [[NSAttributedString alloc] initWithString:padding
-                                        attributes:fixedFontAttributes];
+                                        attributes:paddingAttributes];
     [self.textStorage insertAttributedString:attrText
                                      atIndex:NSMaxRange(range)];
 
     // Append string (with full attributes)
-    attrText =
-        [[NSAttributedString alloc] initWithString:string
-                                        attributes:self.currentAttributes];
+    attrText = [[NSAttributedString alloc] initWithString:string
+                                               attributes:attributes];
     [self.textStorage
         insertAttributedString:attrText
                        atIndex:NSMaxRange(range) + padding.length];
@@ -199,7 +208,7 @@
 
     NSAttributedString *attrText =
         [[NSAttributedString alloc] initWithString:string
-                                        attributes:self.currentAttributes];
+                                        attributes:attributes];
     [self.textStorage replaceCharactersInRange:replaceRange
                           withAttributedString:attrText];
   }

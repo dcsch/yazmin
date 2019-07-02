@@ -22,9 +22,18 @@
 
 @interface Story () {
   NSMutableArray *_facets;
+  NSColor *_foregroundColor;
+  NSColor *_backgroundColor;
+  BOOL _justSetTextStyle;
 }
 
 - (void)createZMachine;
+- (NSColor *)colorFromCode:(int)colorCode
+              currentColor:(NSColor *)currentColor
+              defaultColor:(NSColor *)defaultColor;
+- (NSColor *)colorFromTrueColor:(int)trueColor
+                   currentColor:(NSColor *)currentColor
+                   defaultColor:(NSColor *)defaultColor;
 
 @end
 
@@ -41,6 +50,12 @@
 
     facet = [[GridStoryFacet alloc] initWithStory:self];
     [_facets addObject:facet];
+
+    // Default colors
+    [self setColorForeground:1 background:1];
+
+    // Text style attributes
+    [self setTextStyle:0];
 
     [self setHasUndoManager:NO];
 
@@ -238,31 +253,31 @@
 - (void)handleFontChange:(NSNotification *)note {
   NSLog(@"Font change");
 
-  Preferences *prefs = [Preferences sharedPreferences];
-  StoryFacet *facet;
-  for (facet in _facets) {
-    // Adjust the current font attribute
-    NSFont *font = [prefs fontForStyle:[facet currentStyle]];
-    [facet currentAttributes][NSFontAttributeName] = font;
-
-    // Scan all the text and convert the fonts found within
-    unsigned int index = 0;
-    while (index < [facet textStorage].length) {
-      NSRange range;
-      NSFont *oldFont = [[facet textStorage] attribute:NSFontAttributeName
-                                               atIndex:index
-                                        effectiveRange:&range];
-      if (oldFont) {
-        NSLog(@"Old font: %@ (%f)", oldFont.fontName, oldFont.pointSize);
-        NSFont *newFont = [prefs convertFont:oldFont forceFixedPitch:NO];
-        NSLog(@"New font: %@ (%f)", newFont.fontName, newFont.pointSize);
-        [[facet textStorage] addAttribute:NSFontAttributeName
-                                    value:newFont
-                                    range:range];
-      }
-      index += range.length;
-    }
-  }
+  //  Preferences *prefs = [Preferences sharedPreferences];
+  //  StoryFacet *facet;
+  //  for (facet in _facets) {
+  //    // Adjust the current font attribute
+  //    NSFont *font = [prefs fontForStyle:[facet currentStyle]];
+  //    [facet currentAttributes][NSFontAttributeName] = font;
+  //
+  //    // Scan all the text and convert the fonts found within
+  //    unsigned int index = 0;
+  //    while (index < [facet textStorage].length) {
+  //      NSRange range;
+  //      NSFont *oldFont = [[facet textStorage] attribute:NSFontAttributeName
+  //                                               atIndex:index
+  //                                        effectiveRange:&range];
+  //      if (oldFont) {
+  //        NSLog(@"Old font: %@ (%f)", oldFont.fontName, oldFont.pointSize);
+  //        NSFont *newFont = [prefs convertFont:oldFont forceFixedPitch:NO];
+  //        NSLog(@"New font: %@ (%f)", newFont.fontName, newFont.pointSize);
+  //        [[facet textStorage] addAttribute:NSFontAttributeName
+  //                                    value:newFont
+  //                                    range:range];
+  //      }
+  //      index += range.length;
+  //    }
+  //  }
   [_storyController updateTextAttributes];
   [_storyController updateWindowLayout];
 }
@@ -296,6 +311,128 @@
 
 - (void)commandInputStream:(int)number {
   [_storyController commandInputStream:number];
+}
+
+- (int)closestColorCodeToColor:(NSColor *)color {
+  color = [color colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+  CGFloat r1, g1, b1, a1;
+  [color getRed:&r1 green:&g1 blue:&b1 alpha:&a1];
+  int closestCode = 0;
+  CGFloat closestDistance = 2.0;
+  for (int i = 2; i <= 9; ++i) {
+    NSColor *paletteColor =
+        [[self colorFromCode:i currentColor:nil defaultColor:nil]
+            colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+    CGFloat r2, g2, b2, a2;
+    [paletteColor getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
+
+    CGFloat dr = fabs(r2 - r1);
+    CGFloat dg = fabs(g2 - g1);
+    CGFloat db = fabs(b2 - b1);
+    CGFloat distance = sqrt(dr * dr + dg * dg + db * db);
+
+    if (closestDistance > distance) {
+      closestDistance = distance;
+      closestCode = i;
+    }
+  }
+  return closestCode;
+}
+
+- (int)foregroundColorCode {
+  return [self closestColorCodeToColor:_foregroundColor];
+}
+
+- (int)backgroundColorCode {
+  return [self closestColorCodeToColor:_backgroundColor];
+}
+
+// From the Z-machine standard 1.1 (8.3.1):
+// 0 = current     (true -2)
+// 1 = default     (true -1)
+// 2 = black       (true $0000, $$0000000000000000)
+// 3 = red         (true $001D, $$0000000000011101)
+// 4 = green       (true $0340, $$0000001101000000)
+// 5 = yellow      (true $03BD, $$0000001110111101)
+// 6 = blue        (true $59A0, $$0101100110100000)
+// 7 = magenta     (true $7C1F, $$0111110000011111)
+// 8 = cyan        (true $77A0, $$0111011110100000)
+// 9 = white       (true $7FFF, $$0111111111111111)
+- (NSColor *)colorFromCode:(int)colorCode
+              currentColor:(NSColor *)currentColor
+              defaultColor:(NSColor *)defaultColor {
+  switch (colorCode) {
+  case 0:
+    return currentColor;
+  case 1:
+    return defaultColor;
+  case 2:
+    return [NSColor blackColor];
+  case 3:
+    return [NSColor redColor];
+  case 4:
+    return [NSColor greenColor];
+  case 5:
+    return [NSColor yellowColor];
+  case 6:
+    return [NSColor blueColor];
+  case 7:
+    return [NSColor magentaColor];
+  case 8:
+    return [NSColor cyanColor];
+  case 9:
+    return [NSColor whiteColor];
+  }
+  return currentColor;
+}
+
+- (void)setColorForeground:(int)fg background:(int)bg {
+  _foregroundColor = [self colorFromCode:fg
+                            currentColor:_foregroundColor
+                            defaultColor:[NSColor textColor]];
+  _backgroundColor = [self colorFromCode:bg
+                            currentColor:_backgroundColor
+                            defaultColor:[NSColor textBackgroundColor]];
+}
+
+- (NSColor *)colorFromTrueColor:(int)trueColor
+                   currentColor:(NSColor *)currentColor
+                   defaultColor:(NSColor *)defaultColor {
+  if (trueColor == -2)
+    return currentColor;
+  else if (trueColor == -1)
+    return defaultColor;
+  uint8 r = trueColor & 0x1f;
+  uint8 g = (trueColor >> 5) & 0x1f;
+  uint8 b = (trueColor >> 10) & 0x1f;
+  return [NSColor colorWithRed:r / 31.0 green:g / 31.0 blue:b / 31.0 alpha:1.0];
+}
+
+- (void)setTrueColorForeground:(int)fg background:(int)bg {
+  _foregroundColor = [self colorFromTrueColor:fg
+                                 currentColor:_foregroundColor
+                                 defaultColor:[NSColor textColor]];
+  _backgroundColor = [self colorFromTrueColor:bg
+                                 currentColor:_backgroundColor
+                                 defaultColor:[NSColor textBackgroundColor]];
+}
+
+- (void)setTextStyle:(int)style {
+
+  // If multiple style commands are sent in a sequence, we'll
+  // OR together the values, otherwise we'll just use the value
+  // directly.
+  if (style == 0)
+    _currentStyle = style;
+  else if (_justSetTextStyle)
+    _currentStyle |= style;
+  else
+    _currentStyle = style;
+  _justSetTextStyle = YES;
+}
+
+- (void)hackyDidntSetTextStyle {
+  _justSetTextStyle = NO;
 }
 
 @end

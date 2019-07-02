@@ -18,7 +18,6 @@
 
 - (void)erase;
 - (void)setCursorLine:(int)line column:(int)column;
-- (void)setTextStyle:(int)style;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
