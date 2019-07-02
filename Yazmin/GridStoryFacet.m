@@ -93,7 +93,6 @@
       x = 0;
     }
   }
-  [self updateStyleState];
 }
 
 - (void)printNumber:(int)number {
@@ -104,7 +103,6 @@
 - (void)newLine {
   y++;
   x = 0;
-  [self updateStyleState];
 }
 
 - (NSArray<NSValue *> *)chunksOfString:(NSString *)string {

@@ -21,10 +21,11 @@
 #import "ZMachine.h"
 
 @interface Story () {
-  NSMutableArray *_facets;
+  NSMutableArray<StoryFacet *> *_facets;
   NSColor *_foregroundColor;
   NSColor *_backgroundColor;
   BOOL _justSetTextStyle;
+  StoryFacet *_storyFacet;
 }
 
 - (void)createZMachine;
@@ -433,6 +434,134 @@
 
 - (void)hackyDidntSetTextStyle {
   _justSetTextStyle = NO;
+}
+
+- (int)screenWidth {
+  return _facets[1].widthInCharacters;
+}
+
+- (int)screenHeight {
+  return _facets[1].heightInLines;
+}
+
+- (int)window {
+  if (_storyFacet == _facets[1])
+    return 1;
+  else
+    return 0;
+}
+
+- (void)setWindow:(int)window {
+  _storyFacet = _facets[window];
+}
+
+- (void)splitWindow:(int)lines {
+  StoryFacet *storyFacet = _facets[1];
+  storyFacet.numberOfLines = lines;
+}
+
+- (int)line {
+  return _storyFacet.line;
+}
+
+- (int)column {
+  return _storyFacet.column;
+}
+
+- (void)setCursorLine:(int)line column:(int)column {
+  [_storyFacet setCursorLine:line column:column];
+}
+
+- (int)fontId {
+  return _storyFacet.fontId;
+}
+
+- (void)setFontId:(int)fontId {
+  _storyFacet.fontId = fontId;
+}
+
+- (void)print:(NSString *)text {
+  _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
+  [_storyFacet print:text];
+}
+
+- (void)printNumber:(int)number {
+  _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
+  [_storyFacet printNumber:number];
+}
+
+- (void)newLine {
+  [_storyFacet newLine];
+}
+
+- (void)showStatus {
+
+  // Check that there is a current object
+  unsigned int objectNumber = [_zMachine globalAtIndex:0];
+  if (objectNumber == 0)
+    return;
+
+  // Generate a version 1-3 status line
+  StoryFacet *storyFacet = _facets[1];
+  if (storyFacet.numberOfLines == 0)
+    [self splitWindow:1];
+  self.window = 1;
+
+  // Display an inverse video bar
+  int screenWidth = self.screenWidth;
+  [storyFacet setCursorLine:1 column:1];
+  [self setTextStyle:1];
+  for (unsigned int i = 0; i < screenWidth; ++i)
+    [storyFacet print:@" "];
+
+  // Overlay with text
+  [storyFacet setCursorLine:1 column:2];
+
+  // From the spec:
+  // Section 8.2.2
+  // The short name of the object whose number is in the first global variable
+  // should be printed on the left hand side of the line.
+  unsigned int scoreAndMovesLen;
+  bool shortDisplay;
+  if (screenWidth >= 72) {
+    scoreAndMovesLen = 23;
+    shortDisplay = false;
+  } else {
+    scoreAndMovesLen = 8;
+    shortDisplay = true;
+  }
+  unsigned int maxNameLen = screenWidth - scoreAndMovesLen;
+  NSString *name = [_zMachine nameOfObject:objectNumber];
+  if (name.length <= maxNameLen)
+    [storyFacet print:name];
+  else {
+    // TODO: Put an ellipsis at the last space that fits in the available line
+    [storyFacet print:name];
+  }
+  [storyFacet setCursorLine:1 column:screenWidth - scoreAndMovesLen];
+
+  if (_zMachine.isTimeGame) {
+    if (!shortDisplay)
+      [storyFacet print:@"Time:  "];
+    [storyFacet printNumber:[_zMachine globalAtIndex:1]];
+    [storyFacet print:@":"];
+    unsigned int min = [_zMachine globalAtIndex:2];
+    if (min < 10)
+      [storyFacet printNumber:0];
+    [storyFacet printNumber:min];
+  } else {
+    if (!shortDisplay)
+      [storyFacet print:@"Score: "];
+    [storyFacet printNumber:(int)[_zMachine globalAtIndex:1]];
+    if (!shortDisplay)
+      [storyFacet print:@"  Moves: "];
+    else
+      [storyFacet print:@"/"];
+    [storyFacet printNumber:[_zMachine globalAtIndex:2]];
+  }
+
+  [self setTextStyle:0];
+  self.window = 0;
 }
 
 @end

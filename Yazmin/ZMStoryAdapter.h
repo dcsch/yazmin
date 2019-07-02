@@ -2,7 +2,6 @@
 #include "ZMIO.h"
 
 @class Story;
-@class StoryFacet;
 
 class ZMStoryAdapter : public ZMIO {
 public:
@@ -74,7 +73,6 @@ public:
 
 private:
   Story *_story;
-  StoryFacet *_storyFacet;
   NSSound *lowSound;
   NSSound *highSound;
   NSTimer *timer;

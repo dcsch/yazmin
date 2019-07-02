@@ -19,17 +19,16 @@
 @property NSTextStorage *textStorage;
 @property(readonly) int line;
 @property(readonly) int column;
+@property int fontId;
 @property int numberOfLines;
 @property int widthInCharacters;
 @property int heightInLines;
 
 - (void)erase;
 - (void)setCursorLine:(int)line column:(int)column;
-- (int)setFontId:(int)fontId;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
-- (void)updateStyleState;
 - (void)applyColorsOfStyle:(int)style
               toAttributes:(NSMutableDictionary *)attributes;
 - (void)applyFontOfStyle:(int)style

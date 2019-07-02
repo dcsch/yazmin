@@ -11,7 +11,6 @@
 #import "Story.h"
 
 @interface StoryFacet () {
-  int _fontId;
 }
 
 @end
@@ -27,9 +26,9 @@
     // Initialize with the user-defined font
     BOOL upperWindow = self.numberOfLines == -1;
     if (upperWindow)
-      [self setFontId:4];
+      self.fontId = 4;
     else
-      [self setFontId:1];
+      self.fontId = 1;
   }
   return self;
 }
@@ -58,15 +57,6 @@
 
 - (void)setCursorLine:(int)line column:(int)column {
   NSLog(@"setCursorLine:%d column:%d", line, column);
-}
-
-- (int)setFontId:(int)fontId {
-  if (fontId == 0)
-    return _fontId;
-
-  int prevFontId = _fontId;
-  _fontId = fontId;
-  return prevFontId;
 }
 
 - (void)applyColorsOfStyle:(int)style
@@ -106,7 +96,6 @@
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:text attributes:attributes];
   [_textStorage appendAttributedString:attrText];
-  [self updateStyleState];
 }
 
 - (void)printNumber:(int)number {
@@ -115,10 +104,6 @@
 
 - (void)newLine {
   [self print:@"\n"];
-}
-
-- (void)updateStyleState {
-  //  _justSetTextStyle = NO;
 }
 
 @end

@@ -58,4 +58,18 @@
 - (void)setTextStyle:(int)style;
 - (void)hackyDidntSetTextStyle;
 
+@property(readonly) int screenWidth;
+@property(readonly) int screenHeight;
+@property int window;
+@property(readonly) int line;
+@property(readonly) int column;
+@property int fontId;
+
+- (void)splitWindow:(int)lines;
+- (void)setCursorLine:(int)line column:(int)column;
+- (void)print:(NSString *)text;
+- (void)printNumber:(int)number;
+- (void)newLine;
+- (void)showStatus;
+
 @end

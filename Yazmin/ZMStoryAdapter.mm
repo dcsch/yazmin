@@ -7,7 +7,7 @@
 #import "ZMachine.h"
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
-    : _story(story), _storyFacet(nil), timer(nil), screenEnabled(true),
+    : _story(story), timer(nil), screenEnabled(true),
       transcriptOutputStream(nil), commandOutputStream(nil) {
 
   // Default to the first facet (Z-machine window 0)
@@ -17,29 +17,15 @@ ZMStoryAdapter::ZMStoryAdapter(Story *story)
   highSound = [NSSound soundNamed:@"Hero"];
 }
 
-int ZMStoryAdapter::getScreenWidth() const {
-  return _story.facets[1].widthInCharacters;
-}
+int ZMStoryAdapter::getScreenWidth() const { return _story.screenWidth; }
 
-int ZMStoryAdapter::getScreenHeight() const {
-  return _story.facets[1].heightInLines;
-}
+int ZMStoryAdapter::getScreenHeight() const { return _story.screenHeight; }
 
-int ZMStoryAdapter::getWindow() const {
-  if (_storyFacet == _story.facets[1])
-    return 1;
-  else
-    return 0;
-}
+int ZMStoryAdapter::getWindow() const { return _story.window; }
 
-void ZMStoryAdapter::setWindow(int window) {
-  _storyFacet = (_story.facets)[window];
-}
+void ZMStoryAdapter::setWindow(int window) { _story.window = window; }
 
-void ZMStoryAdapter::splitWindow(int lines) {
-  StoryFacet *storyFacet = (_story.facets)[1];
-  storyFacet.numberOfLines = lines;
-}
+void ZMStoryAdapter::splitWindow(int lines) { [_story splitWindow:lines]; }
 
 void ZMStoryAdapter::eraseWindow(int window) {
   // -1 unsplits the screen and clears
@@ -55,75 +41,7 @@ void ZMStoryAdapter::eraseWindow(int window) {
   }
 }
 
-void ZMStoryAdapter::showStatus() {
-
-  // Check that there is a current object
-  unsigned int objectNumber = [_story.zMachine globalAtIndex:0];
-  if (objectNumber == 0)
-    return;
-
-  // Generate a version 1-3 status line
-  StoryFacet *storyFacet = (_story.facets)[1];
-  if (storyFacet.numberOfLines == 0)
-    splitWindow(1);
-  setWindow(1);
-
-  // Display an inverse video bar
-  int screenWidth = getScreenWidth();
-  [_storyFacet setCursorLine:1 column:1];
-  [_story setTextStyle:1];
-  for (unsigned int i = 0; i < screenWidth; ++i)
-    [_storyFacet print:@" "];
-
-  // Overlay with text
-  [_storyFacet setCursorLine:1 column:2];
-
-  // From the spec:
-  // Section 8.2.2
-  // The short name of the object whose number is in the first global variable
-  // should be printed on the left hand side of the line.
-  unsigned int scoreAndMovesLen;
-  bool shortDisplay;
-  if (screenWidth >= 72) {
-    scoreAndMovesLen = 23;
-    shortDisplay = false;
-  } else {
-    scoreAndMovesLen = 8;
-    shortDisplay = true;
-  }
-  unsigned int maxNameLen = screenWidth - scoreAndMovesLen;
-  NSString *name = [_story.zMachine nameOfObject:objectNumber];
-  if (name.length <= maxNameLen)
-    [_storyFacet print:name];
-  else {
-    // TODO: Put an ellipsis at the last space that fits in the available line
-    [_storyFacet print:name];
-  }
-  [_storyFacet setCursorLine:1 column:screenWidth - scoreAndMovesLen];
-
-  if (_story.zMachine.isTimeGame) {
-    if (!shortDisplay)
-      [_storyFacet print:@"Time:  "];
-    [_storyFacet printNumber:[[_story zMachine] globalAtIndex:1]];
-    [_storyFacet print:@":"];
-    unsigned int min = [_story.zMachine globalAtIndex:2];
-    if (min < 10)
-      [_storyFacet printNumber:0];
-    [_storyFacet printNumber:min];
-  } else {
-    if (!shortDisplay)
-      [_storyFacet print:@"Score: "];
-    [_storyFacet printNumber:(int)[_story.zMachine globalAtIndex:1]];
-    if (!shortDisplay)
-      [_storyFacet print:@"  Moves: "];
-    else
-      [_storyFacet print:@"/"];
-    [_storyFacet printNumber:[_story.zMachine globalAtIndex:2]];
-  }
-
-  [_story setTextStyle:0];
-  setWindow(0);
-}
+void ZMStoryAdapter::showStatus() { [_story showStatus]; }
 
 void ZMStoryAdapter::inputStream(int stream) {
   [_story commandInputStream:stream];
@@ -196,22 +114,24 @@ void ZMStoryAdapter::setTrueColor(int foreground, int background) {
 
 void ZMStoryAdapter::getCursor(int &line, int &column) const {
   if (screenEnabled) {
-    line = _storyFacet.line;
-    column = _storyFacet.column;
+    line = _story.line;
+    column = _story.column;
   }
 }
 
 void ZMStoryAdapter::setCursor(int line, int column) {
   [_story hackyDidntSetTextStyle];
   if (screenEnabled)
-    [_storyFacet setCursorLine:line column:column];
+    [_story setCursorLine:line column:column];
 }
 
 int ZMStoryAdapter::setFont(int font) {
   [_story hackyDidntSetTextStyle];
-  if (screenEnabled)
-    return [_storyFacet setFontId:font];
-  else
+  if (screenEnabled) {
+    int prevFontId = _story.fontId;
+    _story.fontId = font;
+    return prevFontId;
+  } else
     return 0;
 }
 
@@ -237,8 +157,7 @@ void ZMStoryAdapter::print(const std::string &str) {
                                   options:0
                                     range:NSMakeRange(0, printable.length)];
     if (screenEnabled) {
-      _story.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
-      [_storyFacet print:printable];
+      [_story print:printable];
     }
     if (transcriptOutputStream && getWindow() == 0) {
       [transcriptOutputStream write:(const uint8_t *)printable.UTF8String
@@ -252,8 +171,7 @@ void ZMStoryAdapter::print(const std::string &str) {
 
 void ZMStoryAdapter::printNumber(int number) {
   if (screenEnabled) {
-    _story.forceFixedPitchFont = _story.zMachine.forcedFixedPitchFont;
-    [_storyFacet printNumber:number];
+    [_story printNumber:number];
   }
   if (transcriptOutputStream && getWindow() == 0) {
     std::string str = std::to_string(number);
@@ -265,7 +183,7 @@ void ZMStoryAdapter::printNumber(int number) {
 
 void ZMStoryAdapter::newLine() {
   if (screenEnabled)
-    [_storyFacet newLine];
+    [_story newLine];
   if (transcriptOutputStream && getWindow() == 0)
     [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
   [_story hackyDidntSetTextStyle];
