@@ -54,6 +54,9 @@
     facet = [[GridStoryFacet alloc] initWithStory:self];
     [_facets addObject:facet];
 
+    // Default to the first facet (Z-machine window 0)
+    self.window = 0;
+
     // Default colors
     [self setColorForeground:1 background:1];
 
@@ -463,6 +466,19 @@
 - (void)splitWindow:(int)lines {
   StoryFacet *storyFacet = _facets[1];
   storyFacet.numberOfLines = lines;
+}
+
+- (void)eraseWindow:(int)window {
+
+  // -1 unsplits the screen and clears
+  // -2 clears all windows without unsplitting
+  if (window < 0) {
+    if (window == -1)
+      [self splitWindow:0];
+    [self eraseWindow:0];
+    [self eraseWindow:1];
+  } else
+    [_facets[window] erase];
 }
 
 - (int)line {

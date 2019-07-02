@@ -8,11 +8,7 @@
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
     : _story(story), timer(nil), screenEnabled(true),
-      transcriptOutputStream(nil), commandOutputStream(nil) {
-
-  // Default to the first facet (Z-machine window 0)
-  setWindow(0);
-}
+      transcriptOutputStream(nil), commandOutputStream(nil) {}
 
 int ZMStoryAdapter::getScreenWidth() const { return _story.screenWidth; }
 
@@ -25,17 +21,7 @@ void ZMStoryAdapter::setWindow(int window) { _story.window = window; }
 void ZMStoryAdapter::splitWindow(int lines) { [_story splitWindow:lines]; }
 
 void ZMStoryAdapter::eraseWindow(int window) {
-  // -1 unsplits the screen and clears
-  // -2 clears all windows without unsplitting
-  if (window < 0) {
-    if (window == -1)
-      splitWindow(0);
-    eraseWindow(0);
-    eraseWindow(1);
-  } else {
-    StoryFacet *storyFacet = (_story.facets)[window];
-    [storyFacet erase];
-  }
+  [_story eraseWindow:window];
 }
 
 void ZMStoryAdapter::showStatus() { [_story showStatus]; }
