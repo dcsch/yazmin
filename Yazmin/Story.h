@@ -50,9 +50,8 @@
 - (NSString *)endInput;
 - (void)beginInputChar;
 - (unichar)endInputChar;
-- (NSOutputStream *)transcriptOutputStream;
-- (NSOutputStream *)commandOutputStream;
-- (void)commandInputStream:(int)number;
+- (void)outputStream:(int)number;
+- (void)inputStream:(int)number;
 - (void)setColorForeground:(int)fg background:(int)bg;
 - (void)setTrueColorForeground:(int)fg background:(int)bg;
 - (void)setTextStyle:(int)style;

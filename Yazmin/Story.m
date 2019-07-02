@@ -310,16 +310,12 @@
   return _inputCharacter;
 }
 
-- (NSOutputStream *)transcriptOutputStream {
-  return [_storyController transcriptOutputStream];
+- (void)outputStream:(int)number {
+  [_storyController outputStream:number];
 }
 
-- (NSOutputStream *)commandOutputStream {
-  return [_storyController commandOutputStream];
-}
-
-- (void)commandInputStream:(int)number {
-  [_storyController commandInputStream:number];
+- (void)inputStream:(int)number {
+  [_storyController inputStream:number];
 }
 
 - (int)closestColorCodeToColor:(NSColor *)color {

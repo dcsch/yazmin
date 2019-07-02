@@ -34,7 +34,7 @@
   int seenheight;
   NSURL *_transcriptURL;
   NSURL *_commandURL;
-  NSOutputStream *_transcript;
+  NSOutputStream *_transcriptOutputStream;
   NSOutputStream *_commandOutputStream;
   NSInputStream *_commandInputStream;
 }
@@ -191,8 +191,9 @@
 }
 
 - (void)handleWindowWillClose:(NSNotification *)note {
-  [_transcript close];
+  [_transcriptOutputStream close];
   [_commandOutputStream close];
+  [_commandInputStream close];
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {
@@ -304,7 +305,7 @@
                 }];
 }
 
-- (NSOutputStream *)transcriptOutputStream {
+- (void)createTranscriptOutputStream {
   if (!_transcriptURL) {
     NSSavePanel *panel = [NSSavePanel savePanel];
     panel.allowedFileTypes = @[ @"txt" ];
@@ -316,40 +317,20 @@
     [panel beginSheetModalForWindow:self.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
-                      NSFileManager *fm = NSFileManager.defaultManager;
-                      NSError *error;
-                      if ([fm fileExistsAtPath:panel.URL.path])
-                        [fm removeItemAtURL:panel.URL error:&error];
-                      [fm moveItemAtURL:self->_transcriptURL
-                                  toURL:panel.URL
-                                  error:&error];
                       self->_transcriptURL = panel.URL;
+                      self->_transcriptOutputStream =
+                      [NSOutputStream outputStreamWithURL:self->_transcriptURL append:NO];
+                      [self executeStory];
                     }
                   }];
-  }
-  if (_transcriptURL) {
-    _transcript =
-        [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
   } else {
-
-    NSFileManager *fm = NSFileManager.defaultManager;
-    NSURL *homeURL = [NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES];
-    NSError *error;
-    NSURL *tempDirURL = [fm URLForDirectory:NSItemReplacementDirectory
-                                   inDomain:NSUserDomainMask
-                          appropriateForURL:homeURL
-                                     create:YES
-                                      error:&error];
-    _transcriptURL =
-        [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
-                                                    .globallyUniqueString];
-
-    _transcript = [NSOutputStream outputStreamWithURL:_transcriptURL append:NO];
+    _transcriptOutputStream =
+        [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
+    [self executeStory];
   }
-  return _transcript;
 }
 
-- (NSOutputStream *)commandOutputStream {
+- (void)createCommandOutputStream {
   if (!_commandURL) {
     NSSavePanel *panel = [NSSavePanel savePanel];
     panel.allowedFileTypes = @[ @"txt" ];
@@ -361,41 +342,33 @@
     [panel beginSheetModalForWindow:self.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
-                      NSFileManager *fm = NSFileManager.defaultManager;
-                      NSError *error;
-                      if ([fm fileExistsAtPath:panel.URL.path])
-                        [fm removeItemAtURL:panel.URL error:&error];
-                      [fm moveItemAtURL:self->_commandURL
-                                  toURL:panel.URL
-                                  error:&error];
                       self->_commandURL = panel.URL;
+                      self->_commandOutputStream =
+                      [NSOutputStream outputStreamWithURL:self->_commandURL append:NO];
+                      [self executeStory];
                     }
                   }];
-  }
-  if (_commandURL) {
+  } else  {
     _commandOutputStream =
         [NSOutputStream outputStreamWithURL:_commandURL append:YES];
-  } else {
-
-    NSFileManager *fm = NSFileManager.defaultManager;
-    NSURL *homeURL = [NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES];
-    NSError *error;
-    NSURL *tempDirURL = [fm URLForDirectory:NSItemReplacementDirectory
-                                   inDomain:NSUserDomainMask
-                          appropriateForURL:homeURL
-                                     create:YES
-                                      error:&error];
-    _commandURL =
-        [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
-                                                    .globallyUniqueString];
-
-    _commandOutputStream =
-        [NSOutputStream outputStreamWithURL:_commandURL append:NO];
   }
-  return _commandOutputStream;
 }
 
-- (void)commandInputStream:(int)number {
+- (void)outputStream:(int)number {
+  if (number == -2) {
+    [_transcriptOutputStream close];
+    _transcriptOutputStream = nil;
+  } else if (number == -4) {
+    [_commandOutputStream close];
+    _commandOutputStream = nil;
+  } else if (number == 2) {
+    [self createTranscriptOutputStream];
+  } else if (number == 4) {
+    [self createCommandOutputStream];
+  }
+}
+
+- (void)inputStream:(int)number {
   if (number == 0) {
     [_commandInputStream close];
     _commandInputStream = nil;
@@ -575,8 +548,9 @@
                                  if (story.hasEnded) {
                                    [self->layoutView.lowerWindow
                                        setInputState:kNoInputState];
-                                   [self->_transcript close];
+                                   [self->_transcriptOutputStream close];
                                    [self->_commandOutputStream close];
+                                   [self->_commandInputStream close];
                                  }
                                  [self synchronizeWindowTitleWithDocumentName];
                                  [self updateViews];

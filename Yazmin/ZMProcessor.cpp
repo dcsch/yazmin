@@ -1556,9 +1556,20 @@ void ZMProcessor::output_stream() {
   // TODO: Support for v1 and v2 transcription through the
   // setting of the header bit
 
-  int16_t number = static_cast<int16_t>(getOperand(0));
+  int16_t number = static_cast<int16_t>(getOperand(0, true));
   uint16_t table = getOperand(1);
-  _io.outputStream(number);
+
+  int streamNumber = number > 0 ? number : -number;
+  if ((streamNumber == 2 || streamNumber == 4) && !_continuingAfterHalt) {
+    _hasHalted = true;
+    _io.outputStream(number);
+    return;
+  } else
+    _io.outputStream(number);
+
+  getOperand(0);
+  getOperand(1);
+
   if (number > 0) {
     if (number == 2) {
       _memory.getHeader().setTranscriptingOn(true);
