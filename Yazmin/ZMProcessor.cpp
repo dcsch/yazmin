@@ -1963,7 +1963,7 @@ void ZMProcessor::restore() {
       _pc = pc + 1;
   } else {
     // TODO: see note below
-    _pc = pc - 3;
+    _pc = pc - 1;
     _instructionLength--;
     decodeStore();
     _pc = pc + 1;

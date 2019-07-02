@@ -26,6 +26,8 @@
   NSColor *_backgroundColor;
   BOOL _justSetTextStyle;
   StoryFacet *_storyFacet;
+  NSSound *_lowSound;
+  NSSound *_highSound;
 }
 
 - (void)createZMachine;
@@ -57,6 +59,9 @@
 
     // Text style attributes
     [self setTextStyle:0];
+
+    _lowSound = [NSSound soundNamed:@"Bottle"];
+    _highSound = [NSSound soundNamed:@"Hero"];
 
     [self setHasUndoManager:NO];
 
@@ -562,6 +567,17 @@
 
   [self setTextStyle:0];
   self.window = 0;
+}
+
+- (void)soundEffectNumber:(int)number
+                   effect:(int)effect
+                   repeat:(int)repeat
+                   volume:(int)volume {
+  // Minimal implementation
+  if (number == 1 || number == 0)
+    [_highSound play];
+  else if (number == 2)
+    [_lowSound play];
 }
 
 @end

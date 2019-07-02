@@ -71,5 +71,9 @@
 - (void)printNumber:(int)number;
 - (void)newLine;
 - (void)showStatus;
+- (void)soundEffectNumber:(int)number
+                   effect:(int)effect
+                   repeat:(int)repeat
+                   volume:(int)volume;
 
 @end

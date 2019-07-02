@@ -73,8 +73,6 @@ public:
 
 private:
   Story *_story;
-  NSSound *lowSound;
-  NSSound *highSound;
   NSTimer *timer;
   bool screenEnabled;
   NSOutputStream *transcriptOutputStream;

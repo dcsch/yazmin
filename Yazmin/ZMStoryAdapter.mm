@@ -12,9 +12,6 @@ ZMStoryAdapter::ZMStoryAdapter(Story *story)
 
   // Default to the first facet (Z-machine window 0)
   setWindow(0);
-
-  lowSound = [NSSound soundNamed:@"Bottle"];
-  highSound = [NSSound soundNamed:@"Hero"];
 }
 
 int ZMStoryAdapter::getScreenWidth() const { return _story.screenWidth; }
@@ -240,12 +237,7 @@ wchar_t ZMStoryAdapter::endInputChar() {
 
 void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
                                  int volume) {
-
-  // Minimal implementation
-  if (number == 1 || number == 0)
-    [highSound play];
-  else if (number == 2)
-    [lowSound play];
+  [_story soundEffectNumber:number effect:effect repeat:repeat volume:volume];
 }
 
 void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
