@@ -25,4 +25,8 @@
 - (void)executeStory;
 - (BOOL)executeRoutine:(int)routine;
 
+- (void)print:(NSString *)text;
+- (void)printNumber:(int)number;
+- (void)newLine;
+
 @end

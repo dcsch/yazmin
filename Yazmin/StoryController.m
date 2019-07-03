@@ -49,6 +49,8 @@
     didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                 atEnd:(BOOL)flag;
 - (NSString *)playbackInputString;
+- (void)printCharToOutputStreams:(unichar)c;
+- (void)printToOutputStreams:(NSString *)text;
 - (void)characterInput:(unichar)c;
 - (void)stringInput:(NSString *)string;
 - (void)update;
@@ -318,14 +320,17 @@
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
                       self->_transcriptURL = panel.URL;
-                      self->_transcriptOutputStream =
-                      [NSOutputStream outputStreamWithURL:self->_transcriptURL append:NO];
+                      self->_transcriptOutputStream = [NSOutputStream
+                          outputStreamWithURL:self->_transcriptURL
+                                       append:NO];
+                      [self->_transcriptOutputStream open];
                       [self executeStory];
                     }
                   }];
   } else {
     _transcriptOutputStream =
         [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
+    [_transcriptOutputStream open];
     [self executeStory];
   }
 }
@@ -344,13 +349,17 @@
                     if (result == NSModalResponseOK) {
                       self->_commandURL = panel.URL;
                       self->_commandOutputStream =
-                      [NSOutputStream outputStreamWithURL:self->_commandURL append:NO];
+                          [NSOutputStream outputStreamWithURL:self->_commandURL
+                                                       append:NO];
+                      [self->_commandOutputStream open];
                       [self executeStory];
                     }
                   }];
-  } else  {
+  } else {
     _commandOutputStream =
         [NSOutputStream outputStreamWithURL:_commandURL append:YES];
+    [self->_commandOutputStream open];
+    [self executeStory];
   }
 }
 
@@ -472,10 +481,40 @@
   layoutView.lowerWindow.typingAttributes = attributes;
 }
 
+- (void)printCharToOutputStreams:(unichar)c {
+  if (32 <= c && c <= 126) {
+    uint8_t c8 = (uint8_t)c;
+    [_commandOutputStream write:&c8 maxLength:1];
+  } else {
+    char buf[32];
+    int len = snprintf(buf, 32, "[%d]", c);
+    [_commandOutputStream write:(const uint8_t *)buf maxLength:len];
+  }
+  [_commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
+}
+
+- (void)printToOutputStreams:(NSString *)text {
+  if (_transcriptOutputStream || _commandOutputStream) {
+    Story *story = self.document;
+    const char *utf8String = text.UTF8String;
+    size_t len = strlen(utf8String);
+    if (_transcriptOutputStream && story.window == 0) {
+      [_transcriptOutputStream write:(const uint8_t *)utf8String maxLength:len];
+      [_transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
+    }
+    if (_commandOutputStream) {
+      const char *utf8String = text.UTF8String;
+      [_commandOutputStream write:(const uint8_t *)utf8String maxLength:len];
+      [_commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
+    }
+  }
+}
+
 - (void)characterInput:(unichar)c {
   layoutView.lowerWindow.inputState = kNoInputState;
   Story *story = self.document;
   story.inputCharacter = c;
+  [self printCharToOutputStreams:c];
   [self executeStory];
 }
 
@@ -483,6 +522,7 @@
   layoutView.lowerWindow.inputState = kNoInputState;
   Story *story = self.document;
   story.inputString = string;
+  [self printToOutputStreams:string];
   [self executeStory];
 }
 
@@ -585,6 +625,23 @@
       [story.facets[0].textStorage appendAttributedString:inputSoFar];
   }
   return retVal;
+}
+
+- (void)print:(NSString *)text {
+  Story *story = self.document;
+  if (_transcriptOutputStream && story.window == 0) {
+    const char *utf8String = text.UTF8String;
+    [_transcriptOutputStream write:(const uint8_t *)utf8String
+                         maxLength:strlen(utf8String)];
+  }
+}
+
+- (void)printNumber:(int)number {
+  [self print:(@(number)).stringValue];
+}
+
+- (void)newLine {
+  [self print:@"\n"];
 }
 
 @end

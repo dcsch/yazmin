@@ -1560,10 +1560,12 @@ void ZMProcessor::output_stream() {
   uint16_t table = getOperand(1);
 
   int streamNumber = number > 0 ? number : -number;
-  if ((streamNumber == 2 || streamNumber == 4) && !_continuingAfterHalt) {
-    _hasHalted = true;
-    _io.outputStream(number);
-    return;
+  if (streamNumber == 2 || streamNumber == 4) {
+    if (!_continuingAfterHalt) {
+      _hasHalted = true;
+      _io.outputStream(number);
+      return;
+    }
   } else
     _io.outputStream(number);
 
