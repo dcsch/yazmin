@@ -2,16 +2,12 @@
 #import "ZMStoryAdapter.h"
 #import "Preferences.h"
 #import "Story.h"
-#import "StoryController.h"
 
-ZMStoryAdapter::ZMStoryAdapter(Story *story)
-    : _story(story), timer(nil), screenEnabled(true) {}
+ZMStoryAdapter::ZMStoryAdapter(Story *story) : _story(story) {}
 
 int ZMStoryAdapter::getScreenWidth() const { return _story.screenWidth; }
 
 int ZMStoryAdapter::getScreenHeight() const { return _story.screenHeight; }
-
-int ZMStoryAdapter::getWindow() const { return _story.window; }
 
 void ZMStoryAdapter::setWindow(int window) { _story.window = window; }
 
@@ -23,29 +19,15 @@ void ZMStoryAdapter::showStatus() { [_story showStatus]; }
 
 void ZMStoryAdapter::inputStream(int stream) { [_story inputStream:stream]; }
 
-void ZMStoryAdapter::outputStream(int stream) {
-  [_story outputStream:stream];
-  switch (stream) {
-  case 1:
-    screenEnabled = true;
-    break;
-  case -1:
-    screenEnabled = false;
-    break;
-  }
-}
+void ZMStoryAdapter::outputStream(int stream) { [_story outputStream:stream]; }
 
 void ZMStoryAdapter::getColor(int &foreground, int &background) const {
-  if (screenEnabled) {
-    foreground = _story.foregroundColorCode;
-    background = _story.backgroundColorCode;
-  }
+  foreground = _story.foregroundColorCode;
+  background = _story.backgroundColorCode;
 }
 
 void ZMStoryAdapter::setColor(int foreground, int background) {
-  if (screenEnabled) {
-    [_story setColorForeground:foreground background:background];
-  }
+  [_story setColorForeground:foreground background:background];
 }
 
 static uint16_t trueColorFromColor(NSColor *color) {
@@ -58,49 +40,36 @@ static uint16_t trueColorFromColor(NSColor *color) {
 }
 
 void ZMStoryAdapter::getTrueColor(int &foreground, int &background) const {
-  if (screenEnabled) {
-    NSColor *color = [_story.foregroundColor
-        colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
-    foreground = trueColorFromColor(color);
-    color = [_story.backgroundColor
-        colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
-    background = trueColorFromColor(color);
-  }
+  NSColor *color = [_story.foregroundColor
+      colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+  foreground = trueColorFromColor(color);
+  color = [_story.backgroundColor
+      colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+  background = trueColorFromColor(color);
 }
 
 void ZMStoryAdapter::setTrueColor(int foreground, int background) {
-  if (screenEnabled)
-    [_story setTrueColorForeground:foreground background:background];
+  [_story setTrueColorForeground:foreground background:background];
 }
 
 void ZMStoryAdapter::getCursor(int &line, int &column) const {
-  if (screenEnabled) {
-    line = _story.line;
-    column = _story.column;
-  }
+  line = _story.line;
+  column = _story.column;
 }
 
 void ZMStoryAdapter::setCursor(int line, int column) {
   [_story hackyDidntSetTextStyle];
-  if (screenEnabled)
-    [_story setCursorLine:line column:column];
+  [_story setCursorLine:line column:column];
 }
 
 int ZMStoryAdapter::setFont(int font) {
   [_story hackyDidntSetTextStyle];
-  if (screenEnabled) {
-    int prevFontId = _story.fontId;
-    _story.fontId = font;
-    return prevFontId;
-  } else
-    return 0;
+  int prevFontId = _story.fontId;
+  _story.fontId = font;
+  return prevFontId;
 }
 
-void ZMStoryAdapter::setTextStyle(int style) {
-  if (screenEnabled) {
-    [_story setTextStyle:style];
-  }
-}
+void ZMStoryAdapter::setTextStyle(int style) { [_story setTextStyle:style]; }
 
 bool ZMStoryAdapter::checkUnicode(uint16_t uc) {
   NSFont *font =
@@ -117,9 +86,7 @@ void ZMStoryAdapter::print(const std::string &str) {
                                withString:@"\n"
                                   options:0
                                     range:NSMakeRange(0, printable.length)];
-    if (screenEnabled) {
-      [_story print:printable];
-    }
+    [_story print:printable];
   } else {
     NSLog(@"Error: Unprintable string");
   }
@@ -127,15 +94,12 @@ void ZMStoryAdapter::print(const std::string &str) {
 }
 
 void ZMStoryAdapter::printNumber(int number) {
-  if (screenEnabled) {
-    [_story printNumber:number];
-  }
+  [_story printNumber:number];
   [_story hackyDidntSetTextStyle];
 }
 
 void ZMStoryAdapter::newLine() {
-  if (screenEnabled)
-    [_story newLine];
+  [_story newLine];
   [_story hackyDidntSetTextStyle];
 }
 
@@ -170,25 +134,10 @@ void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
 }
 
 void ZMStoryAdapter::startTimedRoutine(int time, int routine) {
-  NSTimeInterval interval = time / 10.0;
-  timer = [NSTimer scheduledTimerWithTimeInterval:interval
-                                          repeats:YES
-                                            block:^(NSTimer *_Nonnull timer) {
-                                              BOOL retVal =
-                                                  [this->_story.storyController
-                                                      executeRoutine:routine];
-                                              if (retVal) {
-                                                [timer invalidate];
-                                                [this->_story.storyController
-                                                    stringInput:nil];
-                                              }
-                                            }];
+  [_story startTime:time routine:routine];
 }
 
-void ZMStoryAdapter::stopTimedRoutine() {
-  [timer invalidate];
-  timer = nil;
-}
+void ZMStoryAdapter::stopTimedRoutine() { [_story stopTimedRoutine]; }
 
 void ZMStoryAdapter::beginRestore() const { [_story restoreSession]; }
 

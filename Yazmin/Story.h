@@ -75,5 +75,7 @@
                    effect:(int)effect
                    repeat:(int)repeat
                    volume:(int)volume;
+- (void)startTime:(int)time routine:(int)routine;
+- (void)stopTimedRoutine;
 
 @end

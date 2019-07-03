@@ -28,7 +28,10 @@
   StoryFacet *_storyFacet;
   NSSound *_lowSound;
   NSSound *_highSound;
+  NSTimer *_timer;
 }
+
+@property BOOL screenEnabled;
 
 - (void)createZMachine;
 - (NSColor *)colorFromCode:(int)colorCode
@@ -53,6 +56,8 @@
 
     facet = [[GridStoryFacet alloc] initWithStory:self];
     [_facets addObject:facet];
+
+    self.screenEnabled = YES;
 
     // Default to the first facet (Z-machine window 0)
     self.window = 0;
@@ -312,6 +317,14 @@
 
 - (void)outputStream:(int)number {
   [_storyController outputStream:number];
+  switch (number) {
+  case 1:
+    _screenEnabled = true;
+    break;
+  case -1:
+    _screenEnabled = false;
+    break;
+  }
 }
 
 - (void)inputStream:(int)number {
@@ -499,18 +512,21 @@
 
 - (void)print:(NSString *)text {
   _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
-  [_storyFacet print:text];
+  if (_screenEnabled)
+    [_storyFacet print:text];
   [_storyController print:text];
 }
 
 - (void)printNumber:(int)number {
   _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
-  [_storyFacet printNumber:number];
+  if (_screenEnabled)
+    [_storyFacet printNumber:number];
   [_storyController printNumber:number];
 }
 
 - (void)newLine {
-  [_storyFacet newLine];
+  if (_screenEnabled)
+    [_storyFacet newLine];
   [_storyController newLine];
 }
 
@@ -593,6 +609,26 @@
     [_highSound play];
   else if (number == 2)
     [_lowSound play];
+}
+
+- (void)startTime:(int)time routine:(int)routine {
+  NSTimeInterval interval = time / 10.0;
+  _timer = [NSTimer
+      scheduledTimerWithTimeInterval:interval
+                             repeats:YES
+                               block:^(NSTimer *_Nonnull timer) {
+                                 BOOL retVal = [self->_storyController
+                                     executeRoutine:routine];
+                                 if (retVal) {
+                                   [timer invalidate];
+                                   [self->_storyController stringInput:nil];
+                                 }
+                               }];
+}
+
+- (void)stopTimedRoutine {
+  [_timer invalidate];
+  _timer = nil;
 }
 
 @end

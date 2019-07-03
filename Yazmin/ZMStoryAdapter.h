@@ -73,8 +73,4 @@ public:
 
 private:
   Story *_story;
-  NSTimer *timer;
-  bool screenEnabled;
-
-  int getWindow() const;
 };
