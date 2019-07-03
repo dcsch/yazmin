@@ -310,16 +310,12 @@
   return _inputCharacter;
 }
 
-- (NSOutputStream *)transcriptOutputStream {
-  return [_storyController transcriptOutputStream];
+- (void)outputStream:(int)number {
+  [_storyController outputStream:number];
 }
 
-- (NSOutputStream *)commandOutputStream {
-  return [_storyController commandOutputStream];
-}
-
-- (void)commandInputStream:(int)number {
-  [_storyController commandInputStream:number];
+- (void)inputStream:(int)number {
+  [_storyController inputStream:number];
 }
 
 - (int)closestColorCodeToColor:(NSColor *)color {
@@ -504,15 +500,18 @@
 - (void)print:(NSString *)text {
   _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
   [_storyFacet print:text];
+  [_storyController print:text];
 }
 
 - (void)printNumber:(int)number {
   _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
   [_storyFacet printNumber:number];
+  [_storyController printNumber:number];
 }
 
 - (void)newLine {
   [_storyFacet newLine];
+  [_storyController newLine];
 }
 
 - (void)showStatus {

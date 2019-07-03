@@ -3,12 +3,9 @@
 #import "Preferences.h"
 #import "Story.h"
 #import "StoryController.h"
-#import "StoryFacet.h"
-#import "ZMachine.h"
 
 ZMStoryAdapter::ZMStoryAdapter(Story *story)
-    : _story(story), timer(nil), screenEnabled(true),
-      transcriptOutputStream(nil), commandOutputStream(nil) {}
+    : _story(story), timer(nil), screenEnabled(true) {}
 
 int ZMStoryAdapter::getScreenWidth() const { return _story.screenWidth; }
 
@@ -20,39 +17,20 @@ void ZMStoryAdapter::setWindow(int window) { _story.window = window; }
 
 void ZMStoryAdapter::splitWindow(int lines) { [_story splitWindow:lines]; }
 
-void ZMStoryAdapter::eraseWindow(int window) {
-  [_story eraseWindow:window];
-}
+void ZMStoryAdapter::eraseWindow(int window) { [_story eraseWindow:window]; }
 
 void ZMStoryAdapter::showStatus() { [_story showStatus]; }
 
-void ZMStoryAdapter::inputStream(int stream) {
-  [_story commandInputStream:stream];
-}
+void ZMStoryAdapter::inputStream(int stream) { [_story inputStream:stream]; }
 
 void ZMStoryAdapter::outputStream(int stream) {
+  [_story outputStream:stream];
   switch (stream) {
   case 1:
     screenEnabled = true;
     break;
   case -1:
     screenEnabled = false;
-    break;
-  case 2:
-    transcriptOutputStream = [_story transcriptOutputStream];
-    [transcriptOutputStream open];
-    break;
-  case -2:
-    [transcriptOutputStream close];
-    transcriptOutputStream = nil;
-    break;
-  case 4:
-    commandOutputStream = [_story commandOutputStream];
-    [commandOutputStream open];
-    break;
-  case -4:
-    [commandOutputStream close];
-    commandOutputStream = nil;
     break;
   }
 }
@@ -142,10 +120,6 @@ void ZMStoryAdapter::print(const std::string &str) {
     if (screenEnabled) {
       [_story print:printable];
     }
-    if (transcriptOutputStream && getWindow() == 0) {
-      [transcriptOutputStream write:(const uint8_t *)printable.UTF8String
-                          maxLength:str.length()];
-    }
   } else {
     NSLog(@"Error: Unprintable string");
   }
@@ -156,19 +130,12 @@ void ZMStoryAdapter::printNumber(int number) {
   if (screenEnabled) {
     [_story printNumber:number];
   }
-  if (transcriptOutputStream && getWindow() == 0) {
-    std::string str = std::to_string(number);
-    [transcriptOutputStream write:(const uint8_t *)str.c_str()
-                        maxLength:str.length()];
-  }
   [_story hackyDidntSetTextStyle];
 }
 
 void ZMStoryAdapter::newLine() {
   if (screenEnabled)
     [_story newLine];
-  if (transcriptOutputStream && getWindow() == 0)
-    [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
   [_story hackyDidntSetTextStyle];
 }
 
@@ -187,16 +154,6 @@ std::string ZMStoryAdapter::endInput() {
   std::string str;
   if (string)
     str.assign(string.UTF8String);
-  if (transcriptOutputStream && getWindow() == 0) {
-    [transcriptOutputStream write:(const uint8_t *)str.c_str()
-                        maxLength:str.length()];
-    [transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
-  }
-  if (commandOutputStream) {
-    [commandOutputStream write:(const uint8_t *)str.c_str()
-                     maxLength:str.length()];
-    [commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
-  }
   return str;
 }
 
@@ -205,21 +162,7 @@ void ZMStoryAdapter::beginInputChar() {
   [_story beginInputChar];
 }
 
-wchar_t ZMStoryAdapter::endInputChar() {
-  unichar c = [_story endInputChar];
-  if (commandOutputStream) {
-    if (32 <= c && c <= 126) {
-      uint8_t c8 = (uint8_t)c;
-      [commandOutputStream write:&c8 maxLength:1];
-    } else {
-      char buf[32];
-      int len = snprintf(buf, 32, "[%d]", c);
-      [commandOutputStream write:(const uint8_t *)buf maxLength:len];
-    }
-    [commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
-  }
-  return c;
-}
+wchar_t ZMStoryAdapter::endInputChar() { return [_story endInputChar]; }
 
 void ZMStoryAdapter::soundEffect(int number, int effect, int repeat,
                                  int volume) {

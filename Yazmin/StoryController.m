@@ -34,7 +34,7 @@
   int seenheight;
   NSURL *_transcriptURL;
   NSURL *_commandURL;
-  NSOutputStream *_transcript;
+  NSOutputStream *_transcriptOutputStream;
   NSOutputStream *_commandOutputStream;
   NSInputStream *_commandInputStream;
 }
@@ -49,6 +49,8 @@
     didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
                                 atEnd:(BOOL)flag;
 - (NSString *)playbackInputString;
+- (void)printCharToOutputStreams:(unichar)c;
+- (void)printToOutputStreams:(NSString *)text;
 - (void)characterInput:(unichar)c;
 - (void)stringInput:(NSString *)string;
 - (void)update;
@@ -191,8 +193,9 @@
 }
 
 - (void)handleWindowWillClose:(NSNotification *)note {
-  [_transcript close];
+  [_transcriptOutputStream close];
   [_commandOutputStream close];
+  [_commandInputStream close];
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {
@@ -304,7 +307,7 @@
                 }];
 }
 
-- (NSOutputStream *)transcriptOutputStream {
+- (void)createTranscriptOutputStream {
   if (!_transcriptURL) {
     NSSavePanel *panel = [NSSavePanel savePanel];
     panel.allowedFileTypes = @[ @"txt" ];
@@ -316,40 +319,23 @@
     [panel beginSheetModalForWindow:self.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
-                      NSFileManager *fm = NSFileManager.defaultManager;
-                      NSError *error;
-                      if ([fm fileExistsAtPath:panel.URL.path])
-                        [fm removeItemAtURL:panel.URL error:&error];
-                      [fm moveItemAtURL:self->_transcriptURL
-                                  toURL:panel.URL
-                                  error:&error];
                       self->_transcriptURL = panel.URL;
+                      self->_transcriptOutputStream = [NSOutputStream
+                          outputStreamWithURL:self->_transcriptURL
+                                       append:NO];
+                      [self->_transcriptOutputStream open];
+                      [self executeStory];
                     }
                   }];
-  }
-  if (_transcriptURL) {
-    _transcript =
-        [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
   } else {
-
-    NSFileManager *fm = NSFileManager.defaultManager;
-    NSURL *homeURL = [NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES];
-    NSError *error;
-    NSURL *tempDirURL = [fm URLForDirectory:NSItemReplacementDirectory
-                                   inDomain:NSUserDomainMask
-                          appropriateForURL:homeURL
-                                     create:YES
-                                      error:&error];
-    _transcriptURL =
-        [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
-                                                    .globallyUniqueString];
-
-    _transcript = [NSOutputStream outputStreamWithURL:_transcriptURL append:NO];
+    _transcriptOutputStream =
+        [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
+    [_transcriptOutputStream open];
+    [self executeStory];
   }
-  return _transcript;
 }
 
-- (NSOutputStream *)commandOutputStream {
+- (void)createCommandOutputStream {
   if (!_commandURL) {
     NSSavePanel *panel = [NSSavePanel savePanel];
     panel.allowedFileTypes = @[ @"txt" ];
@@ -361,41 +347,37 @@
     [panel beginSheetModalForWindow:self.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
-                      NSFileManager *fm = NSFileManager.defaultManager;
-                      NSError *error;
-                      if ([fm fileExistsAtPath:panel.URL.path])
-                        [fm removeItemAtURL:panel.URL error:&error];
-                      [fm moveItemAtURL:self->_commandURL
-                                  toURL:panel.URL
-                                  error:&error];
                       self->_commandURL = panel.URL;
+                      self->_commandOutputStream =
+                          [NSOutputStream outputStreamWithURL:self->_commandURL
+                                                       append:NO];
+                      [self->_commandOutputStream open];
+                      [self executeStory];
                     }
                   }];
-  }
-  if (_commandURL) {
+  } else {
     _commandOutputStream =
         [NSOutputStream outputStreamWithURL:_commandURL append:YES];
-  } else {
-
-    NSFileManager *fm = NSFileManager.defaultManager;
-    NSURL *homeURL = [NSURL fileURLWithPath:NSHomeDirectory() isDirectory:YES];
-    NSError *error;
-    NSURL *tempDirURL = [fm URLForDirectory:NSItemReplacementDirectory
-                                   inDomain:NSUserDomainMask
-                          appropriateForURL:homeURL
-                                     create:YES
-                                      error:&error];
-    _commandURL =
-        [tempDirURL URLByAppendingPathComponent:NSProcessInfo.processInfo
-                                                    .globallyUniqueString];
-
-    _commandOutputStream =
-        [NSOutputStream outputStreamWithURL:_commandURL append:NO];
+    [self->_commandOutputStream open];
+    [self executeStory];
   }
-  return _commandOutputStream;
 }
 
-- (void)commandInputStream:(int)number {
+- (void)outputStream:(int)number {
+  if (number == -2) {
+    [_transcriptOutputStream close];
+    _transcriptOutputStream = nil;
+  } else if (number == -4) {
+    [_commandOutputStream close];
+    _commandOutputStream = nil;
+  } else if (number == 2) {
+    [self createTranscriptOutputStream];
+  } else if (number == 4) {
+    [self createCommandOutputStream];
+  }
+}
+
+- (void)inputStream:(int)number {
   if (number == 0) {
     [_commandInputStream close];
     _commandInputStream = nil;
@@ -499,10 +481,40 @@
   layoutView.lowerWindow.typingAttributes = attributes;
 }
 
+- (void)printCharToOutputStreams:(unichar)c {
+  if (32 <= c && c <= 126) {
+    uint8_t c8 = (uint8_t)c;
+    [_commandOutputStream write:&c8 maxLength:1];
+  } else {
+    char buf[32];
+    int len = snprintf(buf, 32, "[%d]", c);
+    [_commandOutputStream write:(const uint8_t *)buf maxLength:len];
+  }
+  [_commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
+}
+
+- (void)printToOutputStreams:(NSString *)text {
+  if (_transcriptOutputStream || _commandOutputStream) {
+    Story *story = self.document;
+    const char *utf8String = text.UTF8String;
+    size_t len = strlen(utf8String);
+    if (_transcriptOutputStream && story.window == 0) {
+      [_transcriptOutputStream write:(const uint8_t *)utf8String maxLength:len];
+      [_transcriptOutputStream write:(const uint8_t *)"\n" maxLength:1];
+    }
+    if (_commandOutputStream) {
+      const char *utf8String = text.UTF8String;
+      [_commandOutputStream write:(const uint8_t *)utf8String maxLength:len];
+      [_commandOutputStream write:(const uint8_t *)"\n" maxLength:1];
+    }
+  }
+}
+
 - (void)characterInput:(unichar)c {
   layoutView.lowerWindow.inputState = kNoInputState;
   Story *story = self.document;
   story.inputCharacter = c;
+  [self printCharToOutputStreams:c];
   [self executeStory];
 }
 
@@ -510,6 +522,7 @@
   layoutView.lowerWindow.inputState = kNoInputState;
   Story *story = self.document;
   story.inputString = string;
+  [self printToOutputStreams:string];
   [self executeStory];
 }
 
@@ -575,8 +588,9 @@
                                  if (story.hasEnded) {
                                    [self->layoutView.lowerWindow
                                        setInputState:kNoInputState];
-                                   [self->_transcript close];
+                                   [self->_transcriptOutputStream close];
                                    [self->_commandOutputStream close];
+                                   [self->_commandInputStream close];
                                  }
                                  [self synchronizeWindowTitleWithDocumentName];
                                  [self updateViews];
@@ -611,6 +625,23 @@
       [story.facets[0].textStorage appendAttributedString:inputSoFar];
   }
   return retVal;
+}
+
+- (void)print:(NSString *)text {
+  Story *story = self.document;
+  if (_transcriptOutputStream && story.window == 0) {
+    const char *utf8String = text.UTF8String;
+    [_transcriptOutputStream write:(const uint8_t *)utf8String
+                         maxLength:strlen(utf8String)];
+  }
+}
+
+- (void)printNumber:(int)number {
+  [self print:(@(number)).stringValue];
+}
+
+- (void)newLine {
+  [self print:@"\n"];
 }
 
 @end

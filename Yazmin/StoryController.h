@@ -16,14 +16,17 @@
 - (void)prepareInputChar;
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;
-- (NSOutputStream *)transcriptOutputStream;
-- (NSOutputStream *)commandOutputStream;
-- (void)commandInputStream:(int)number;
+- (void)outputStream:(int)number;
+- (void)inputStream:(int)number;
 - (void)showError:(NSString *)errorMessage;
 - (void)updateWindowLayout;
 - (void)updateWindowBackgroundColor;
 - (void)updateTextAttributes;
 - (void)executeStory;
 - (BOOL)executeRoutine:(int)routine;
+
+- (void)print:(NSString *)text;
+- (void)printNumber:(int)number;
+- (void)newLine;
 
 @end
