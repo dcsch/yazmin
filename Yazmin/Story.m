@@ -21,7 +21,7 @@
 #import "ZMachine.h"
 
 @interface Story () {
-  NSMutableArray<StoryFacet *> *_facets;
+  NSArray<StoryFacet *> *_facets;
   NSColor *_foregroundColor;
   NSColor *_backgroundColor;
   BOOL _justSetTextStyle;
@@ -48,14 +48,12 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
+
     // Create two facets (lower and upper), with the upper one being
     // a text grid
-    _facets = [[NSMutableArray alloc] init];
-    StoryFacet *facet = [[StoryFacet alloc] initWithStory:self];
-    [_facets addObject:facet];
-
-    facet = [[GridStoryFacet alloc] initWithStory:self];
-    [_facets addObject:facet];
+    StoryFacet *lowerFacet = [[StoryFacet alloc] initWithStory:self];
+    GridStoryFacet *upperFacet = [[GridStoryFacet alloc] initWithStory:self];
+    _facets = @[ lowerFacet, upperFacet ];
 
     self.screenEnabled = YES;
 
@@ -99,18 +97,15 @@
   return self;
 }
 
-- (void)dealloc {
+- (void)close {
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
   [nc removeObserver:self];
+  [super close];
 }
 
 - (void)makeWindowControllers {
-  _storyController = [[StoryController alloc] init];
+  _storyController = [[StoryController alloc] initWithWindowNibName:@"Story"];
   [self addWindowController:_storyController];
-
-  // Make sure the controller knows the score with text attributes
-  // TODO: This is pointless, as the views don't exist yet
-  [_storyController updateTextAttributes];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -486,8 +481,10 @@
       [self splitWindow:0];
     [self eraseWindow:0];
     [self eraseWindow:1];
-  } else
+  } else {
     [_facets[window] erase];
+    [_storyController eraseWindow:window];
+  }
 }
 
 - (int)line {

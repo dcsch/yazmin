@@ -1465,10 +1465,10 @@ void ZMProcessor::loadb() {
   log("loadb", true, false);
 
   uint16_t array = getOperand(0);
-  int16_t byte_index = static_cast<int16_t>(getOperand(1));
+  uint16_t byte_index = getOperand(1);
 
   // Load variable with word from array at operand0 indexed by operand1
-  setVariable(_store, _memory.getByte(array + byte_index));
+  setVariable(_store, _memory.getByte((array + byte_index) & 0xffff));
   advancePC();
 }
 
@@ -1477,10 +1477,10 @@ void ZMProcessor::loadw() {
   log("loadw", true, false);
 
   uint16_t array = getOperand(0);
-  int16_t word_index = static_cast<int16_t>(getOperand(1));
+  uint16_t word_index = getOperand(1);
 
   // Load variable with word from array at operand0 indexed by operand1
-  setVariable(_store, _memory.getWord(array + 2 * word_index));
+  setVariable(_store, _memory.getWord((array + 2 * word_index) & 0xffff));
   advancePC();
 }
 

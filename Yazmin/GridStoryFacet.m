@@ -72,6 +72,7 @@
 }
 
 - (void)print:(NSString *)text {
+  [self.textStorage beginEditing];
 
   // Break into individual lines
   NSArray<NSString *> *components =
@@ -93,6 +94,9 @@
       x = 0;
     }
   }
+  [self.textStorage
+      fixAttributesInRange:NSMakeRange(0, self.textStorage.length)];
+  [self.textStorage endEditing];
 }
 
 - (void)printNumber:(int)number {

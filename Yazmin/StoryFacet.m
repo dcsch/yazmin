@@ -95,7 +95,9 @@
   [self applyLowerWindowAttributes:attributes];
   NSAttributedString *attrText =
       [[NSAttributedString alloc] initWithString:text attributes:attributes];
+  [_textStorage beginEditing];
   [_textStorage appendAttributedString:attrText];
+  [_textStorage endEditing];
 }
 
 - (void)printNumber:(int)number {

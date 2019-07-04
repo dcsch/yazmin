@@ -37,6 +37,7 @@
   NSOutputStream *_transcriptOutputStream;
   NSOutputStream *_commandOutputStream;
   NSInputStream *_commandInputStream;
+  CGFloat _viewedHeight;
 }
 
 - (int)calculateScreenWidthInColumns;
@@ -45,9 +46,6 @@
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
-- (void)layoutManager:(NSLayoutManager *)aLayoutManager
-    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
-                                atEnd:(BOOL)flag;
 - (NSString *)playbackInputString;
 - (void)printCharToOutputStreams:(unichar)c;
 - (void)printToOutputStreams:(NSString *)text;
@@ -65,42 +63,6 @@
 @end
 
 @implementation StoryController
-
-- (instancetype)init {
-  self = [super initWithWindowNibName:@"Story"];
-  if (self) {
-    curheight = 0;
-    maxheight = 0;
-    seenheight = 0;
-
-    // Listen to some notifications
-    NSNotificationCenter *nc;
-    nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self
-           selector:@selector(handleViewFrameChange:)
-               name:NSViewFrameDidChangeNotification
-             object:nil];
-    [nc addObserver:self
-           selector:@selector(handleBackgroundColorChange:)
-               name:@"SMBackgroundColorChanged"
-             object:nil];
-    [nc addObserver:self
-           selector:@selector(handleForegroundColorChange:)
-               name:@"SMForegroundColorChanged"
-             object:nil];
-
-    // When the user closes the story window, we want all other windows
-    // attached to the story (debuggers, etc) to close also
-    self.shouldCloseDocument = YES;
-  }
-  return self;
-}
-
-- (void)dealloc {
-  NSNotificationCenter *nc;
-  nc = [NSNotificationCenter defaultCenter];
-  [nc removeObserver:self];
-}
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
 
@@ -122,7 +84,28 @@
 - (void)windowDidLoad {
   [super windowDidLoad];
 
+  curheight = 0;
+  maxheight = 0;
+  seenheight = 0;
+
+  // When the user closes the story window, we want all other windows
+  // attached to the story (debuggers, etc) to close also
+  self.shouldCloseDocument = YES;
+
+  // Listen to some notifications
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc addObserver:self
+         selector:@selector(handleViewFrameChange:)
+             name:NSViewFrameDidChangeNotification
+           object:nil];
+  [nc addObserver:self
+         selector:@selector(handleBackgroundColorChange:)
+             name:@"SMBackgroundColorChanged"
+           object:nil];
+  [nc addObserver:self
+         selector:@selector(handleForegroundColorChange:)
+             name:@"SMForegroundColorChanged"
+           object:nil];
   [nc addObserver:self
          selector:@selector(handleWindowWillClose:)
              name:NSWindowWillCloseNotification
@@ -135,7 +118,6 @@
   StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
   textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
   textView.textContainerInset = NSMakeSize(20.0, 20.0);
-  textView.layoutManager.delegate = self;
   textView.storyInput = self;
   textView.inputView = YES;
 
@@ -196,6 +178,9 @@
   [_transcriptOutputStream close];
   [_commandOutputStream close];
   [_commandInputStream close];
+
+  NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+  [nc removeObserver:self];
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {
@@ -219,19 +204,34 @@
 }
 
 - (void)scrollLowerWindowToEnd {
-  NSScrollView *scrollView = layoutView.lowerScrollView;
-  NSPoint p = NSMakePoint(0, NSMaxY(scrollView.documentView.frame) -
-                                 NSHeight(scrollView.contentView.bounds));
-  [layoutView.lowerWindow scrollPoint:p];
-}
+  NSTextView *textView = layoutView.lowerWindow;
+  [textView.layoutManager ensureLayoutForTextContainer:textView.textContainer];
 
-- (void)layoutManager:(NSLayoutManager *)aLayoutManager
-    didCompleteLayoutForTextContainer:(NSTextContainer *)aTextContainer
-                                atEnd:(BOOL)flag {
-  // Ensure the scroll position is at the bottom of the transcript
-  // (Note: all this scrolling to the end seems a little
-  // excessive just at the moment)
-  [self scrollLowerWindowToEnd];
+  NSRect rect =
+      [textView.layoutManager usedRectForTextContainer:textView.textContainer];
+  CGFloat heightOfContent = rect.size.height;
+  CGFloat heightOfWindow = layoutView.lowerScrollView.frame.size.height;
+
+  CGFloat blockHeight = heightOfContent - _viewedHeight;
+
+  NSLog(@"block height: %f", blockHeight);
+
+  if (blockHeight > heightOfWindow) {
+
+    // TODO: There is more text than can be shown in the window, so we must
+    // present a "more" prompt
+    NSLog(@"[MORE]");
+
+    _viewedHeight += heightOfWindow;
+    [layoutView.lowerWindow
+        scrollPoint:NSMakePoint(0, _viewedHeight - heightOfWindow)];
+  } else {
+
+    // This block will fit within the window, so just scroll to the
+    // end of it
+    [layoutView.lowerWindow scrollPoint:NSMakePoint(0, heightOfContent)];
+    _viewedHeight = heightOfContent;
+  }
 }
 
 - (NSString *)playbackInputString {
@@ -642,6 +642,11 @@
 
 - (void)newLine {
   [self print:@"\n"];
+}
+
+- (void)eraseWindow:(int)window {
+  if (window == 0)
+    _viewedHeight = 0.0;
 }
 
 @end

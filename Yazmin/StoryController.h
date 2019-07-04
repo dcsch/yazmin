@@ -9,8 +9,7 @@
 #import "StoryInput.h"
 #import <Cocoa/Cocoa.h>
 
-@interface StoryController
-    : NSWindowController <StoryInput, NSLayoutManagerDelegate>
+@interface StoryController : NSWindowController <StoryInput>
 
 - (void)prepareInputWithOffset:(NSInteger)offset;
 - (void)prepareInputChar;
@@ -28,5 +27,6 @@
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
+- (void)eraseWindow:(int)window;
 
 @end
