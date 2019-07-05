@@ -575,9 +575,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x0f:
     set_cursor(); // v4
     break;
-  //  case 0x10:
-  //    get_cursor(); // v4
-  //    break;
+  case 0x10:
+    get_cursor(); // v4
+    break;
   case 0x11:
     set_text_style(); // v4
     break;
@@ -1248,6 +1248,18 @@ void ZMProcessor::get_child() {
     setVariable(_store, child);
     branchOrAdvancePC(child != 0);
   }
+}
+
+void ZMProcessor::get_cursor() {
+  log("get_cursor", false, false);
+
+  uint16_t array = getOperand(0);
+  int line;
+  int column;
+  _io.getCursor(line, column);
+  _memory.setWord(array, line);
+  _memory.setWord(array + 2, column);
+  advancePC();
 }
 
 void ZMProcessor::get_next_prop() {

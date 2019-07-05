@@ -176,6 +176,9 @@ private:
   // St Br 1OP:130 2 get_child object -> (result) ?(label)
   void get_child();
 
+  // -- -- VAR:240 10 4/6 get_cursor array
+  void get_cursor();
+
   // St -- 2OP:19 13 get_next_prop object property -> (result)
   void get_next_prop();
 
