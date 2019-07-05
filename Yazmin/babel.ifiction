@@ -1,0 +1,3356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Metadata aggregated by babel-aggregate -->
+<ifindex version="1.0" xmlns="http://babel.ifarchive.org/protocol/iFiction/">
+<story>
+		<identification>
+			<ifid>ZCODE-3-880113</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Zork I (German)</title>
+			<author>Jeff O'Neill</author>
+			<language>de</language>
+			<headline>Das Große Unterweltreich</headline>
+			<firstpublished>1988</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			An experimental project in the final days of Infocom,
+			"Zork I: Das Große Unterweltreich" was never completed or
+			released: this story file is a beta-testing copy much prized
+			by collectors.
+			<br/>
+			As a literary work of translation, it is not
+			altogether successful, but it led to technical work on
+			Infocom's interpreter and virtual machine to accommodate
+			German diacritics and quotation marks: and this work remains
+			the foundation of the Z-machine's support for non-English
+			prose today.
+			</description>
+		</bibliographic>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>3</version>
+					<releasedate>1988-01-13</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-17-840727</ifid>
+			<ifid>ZCODE-15-840518</ifid>
+			<ifid>ZCODE-16-830410</ifid>
+			<ifid>ZCODE-15-830331</ifid>
+			<ifid>ZCODE-10-820818</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Zork III</title>
+			<author>Dave Lebling and Marc Blank</author>
+			<language>en-US</language>
+			<headline>The Dungeon Master</headline>
+			<firstpublished>1982</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Zork</series>
+			<seriesnumber>3</seriesnumber>
+			<description>
+			An old, oddly youthful man turns toward you slowly. His long,
+			silver hair dances about him as a fresh breeze blows. "You have
+			reached the final test, my friend! You are proved clever and
+			powerful, but this is not yet enough! Seek me when you feel
+			yourself worthy!"
+			<br/>
+			Zork III: The Dungeon Master draws you into the deepest and
+			most mysterious reaches of the Great Underground Empire. Nothing
+			is as it seems. And the one responsible for the shadow and
+			darkness - the Dungeon Master - embodies the greatest mystery
+			of all.
+			<br/>
+			In this test of wisdom and courage, you will face countless
+			dangers. But what awaits you at the culmination of your odyssey
+			is well worth risking all.
+			<br/>
+			Difficulty: Advanced
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>17</version>
+					<releasedate>1984-07-27</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1984-05-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>16</version>
+					<releasedate>1983-04-10</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1983-03-31</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>10</version>
+					<releasedate>1982-08-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-48-840904</ifid>
+			<ifid>ZCODE-23-830411</ifid>
+			<ifid>ZCODE-22-830331</ifid>
+			<ifid>ZCODE-19-820721</ifid>
+			<ifid>ZCODE-18-820517</ifid>
+			<ifid>ZCODE-18-820512</ifid>
+			<ifid>ZCODE-17-820427</ifid>
+			<ifid>ZCODE-7-UG3AU5</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Zork II</title>
+			<author>Dave Lebling and Marc Blank</author>
+			<language>en-US</language>
+			<headline>The Wizard of Frobozz</headline>
+			<firstpublished>1981</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Zork</series>
+			<seriesnumber>2</seriesnumber>
+			<description>
+			The Wizard appears, floating nonchalantly in the air beside
+			you. He grins sideways at you.
+			<br/>
+			The Wizard incants "Fantasize," but nothing happens. He shakes
+			his wand. Nothing happens. With a slightly embarrassed glance in
+			your direction, he vanishes.
+			<br/>
+			Expect the unexpected when you take on Zork II: The Wizard of
+			Frobozz.
+			<br/>
+			As you explore the subterranean realm of Zork, you'll continually
+			be confronted with new surprises. Chief among these is the Wizard
+			himself, who'll constantly endeavor to confound you with his
+			capricious powers. But more than that, you'll face a challenge
+			the likes of which you've never experienced before.
+			<br/>
+			Difficulty: Advanced
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>48</version>
+					<releasedate>1984-09-04</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>23</version>
+					<releasedate>1982-04-11</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>22</version>
+					<releasedate>1982-03-31</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>19</version>
+					<releasedate>1982-07-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>18</version>
+					<releasedate>1982-05-17</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>18</version>
+					<releasedate>1982-05-12</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>17</version>
+					<releasedate>1982-04-27</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>7</version>
+					<releasedate>1981</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>2</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-52-871125</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Zork I (SG)</title>
+			<author>Dave Lebling and Marc Blank</author>
+			<language>en-US</language>
+			<headline>The Great Underground Empire</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Zork</series>
+			<seriesnumber>1</seriesnumber>
+			<description>
+			&gt;Throw the sack at the troll.
+			<br/>
+			The troll, who is remarkably coordinated, catches the brown sack
+			and, not having the most discriminating taste, gleefully eats it.
+			The flat of the troll's axe hits you on the head...
+			<br/>
+			Welcome to Zork I: The Great Underground Empire. It beckons you
+			into a world fraught with danger and discovery. Using all the
+			cunning you can muster, you'll plunge far below the surface of
+			the earth in search of the incomparable Treasures of Zork. But
+			this is no mere treasure hunt. During your amazing journey,
+			you'll come face to face with creatures so outlandish, they'll
+			defy description. And you'll wander through an underground
+			domain so vast, with so many twists and turns, it can offer you
+			new surprises no matter how many times you explore it.
+			<br/>
+			Difficulty: Standard
+			<br/>
+			(In 1987-88, Infocom published second editions of five of its
+			bestselling titles under a "Solid Gold" (SG) brand. The second
+			editions made no changes to the design, but took advantage of
+			the increased capacity of contemporary home computers to
+			incorporated the InvisiClues hints pamphlet within the story
+			file itself. A more modern parser is also supplied.)
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>52</version>
+					<releasedate>1987-11-25</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-88-840726</ifid>
+			<ifid>ZCODE-76-840509</ifid>
+			<ifid>ZCODE-75-830929</ifid>
+			<ifid>ZCODE-30-830330</ifid>
+			<ifid>ZCODE-28-821013</ifid>
+			<ifid>ZCODE-26-820803</ifid>
+			<ifid>ZCODE-25-820515</ifid>
+			<ifid>ZCODE-23-820428</ifid>
+			<ifid>ZCODE-15-UG3AU5</ifid>
+			<ifid>ZCODE-5-------</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Zork I</title>
+			<author>Dave Lebling and Marc Blank</author>
+			<language>en-US</language>
+			<headline>The Great Underground Empire</headline>
+			<firstpublished>1980</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Zork</series>
+			<seriesnumber>1</seriesnumber>
+			<description>
+			&gt;Throw the sack at the troll.
+			<br/>
+			The troll, who is remarkably coordinated, catches the brown sack
+			and, not having the most discriminating taste, gleefully eats it.
+			The flat of the troll's axe hits you on the head...
+			<br/>
+			Welcome to Zork I: The Great Underground Empire. It beckons you
+			into a world fraught with danger and discovery. Using all the
+			cunning you can muster, you'll plunge far below the surface of
+			the earth in search of the incomparable Treasures of Zork. But
+			this is no mere treasure hunt. During your amazing journey,
+			you'll come face to face with creatures so outlandish, they'll
+			defy description. And you'll wander through an underground
+			domain so vast, with so many twists and turns, it can offer you
+			new surprises no matter how many times you explore it.
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>88</version>
+					<releasedate>1984-07-26</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>76</version>
+					<releasedate>1984-05-09</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>75</version>
+					<releasedate>1983-09-29</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>30</version>
+					<releasedate>1983-03-30</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>28</version>
+					<releasedate>1982-10-13</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>26</version>
+					<releasedate>1982-08-03</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>25</version>
+					<releasedate>1982-05-15</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>23</version>
+					<releasedate>1982-04-28</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1981</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>2</compilerversion>
+				</release>
+				<release>
+					<version>5</version>
+					<releasedate>1980</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>1</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-393-890714</ifid>
+			<ifid>ZCODE-383-890602</ifid>
+			<ifid>ZCODE-366-890323</ifid>
+			<ifid>ZCODE-296-881019</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Zork Zero</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>The Revenge of Megaboz</headline>
+			<firstpublished>1988</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Zork</series>
+			<seriesnumber>5</seriesnumber>
+			<description>
+			The Great Underground Empire is in its heyday. Upscale condos
+			crowd the massive caverns. Subterranean highways stretch from
+			Aragain to the Fublio Valley. And no adventurer has yet set foot
+			in the open field west of the white house.
+			<br/>
+			But now both town and countryside are being abandoned, their
+			inhabitants fleeing in the wake of a dread wizard's curse. The
+			curse has already disposed of the royal Flathead family. It
+			threatens to destroy the whole kingdom - unless you can stop it.
+			<br/>
+			Your quest will take you to every corner of the empire, as you
+			seek out objects ranging from the absurd to the sublime. The
+			quixotic jester will test you with games, riddles, and tricks.
+			And the immense Flathead palace and its environs offer a
+			multitude of surprises.
+			<br/>
+			Zork Zero combines the best of the legendary Zorkian universe
+			with the latest technology in interactive storytelling. It has
+			all the richness and depth you expect from Infocom interactive
+			fiction. Author Stever Meretzky, whose award-winning stories
+			include Planetfall, The Hitchhiker's Guide to the Galaxy, and
+			Leather Goddesses of Phobos, lends his characteristic whimsy
+			to the tale.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>393</version>
+					<releasedate>1989-07-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>383</version>
+					<releasedate>1989-06-02</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>366</version>
+					<releasedate>1989-03-23</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>296</version>
+					<releasedate>1988-10-19</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-22-840924</ifid>
+			<ifid>ZCODE-21-831208</ifid>
+			<ifid>ZCODE-20-831119</ifid>
+			<ifid>ZCODE-18-830910</ifid>
+			<ifid>ZCODE-13-830524</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>The Witness</title>
+			<author>Stu Galley</author>
+			<language>en-US</language>
+			<headline>An INTERLOGIC Mystery</headline>
+			<firstpublished>1984</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			February 1938, Los Angeles. FDR's New Deal is finally rolling.
+			Hitler's rolling, too; this time through Austria. But as
+			Chief Detective for a quiet burgh on the outskirts of L.A.,
+			you've got other fish to fry.
+			<br/>
+			One gilt-edged society dame is dead. And now it looks like some
+			two-bit grifter is putting the screws to her multi-millionaire
+			old man. Then you step in, and the shakedown turns ugly. You're
+			left with a stiff and race against the clock to nail your
+			suspect... unless you get nailed first!
+			<br/>
+			Nobody said a sordid family affair like this was going to be a
+			cinch. Everyone from the knock-out heiress to the poker-faced
+			butler may end up in the slammer before it's over. Ahead of you
+			is a Gordian knot of motives and alibis. And the only testimony
+			you can trust is that of your own eyes - because you are The
+			Witness.
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>22</version>
+					<releasedate>1984-09-24</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>21</version>
+					<releasedate>1983-12-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>20</version>
+					<releasedate>1983-11-19</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>18</version>
+					<releasedate>1983-09-10</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>13</version>
+					<releasedate>1983-05-24</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-23-880706</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Wishbringer (SG)</title>
+			<author>Brian Moriarty</author>
+			<language>en-US</language>
+			<headline>The Magick Stone of Dreams</headline>
+			<firstpublished>1988</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			It's an ordinary day in your ordinary little town, and you've
+			been performing your ordinary mail clerk's duties in an altogether
+			ordinary way. But there's something quite extraordinary in today's
+			mail. It's a ransom note for a kidnapped cat, and it will lead
+			you through unbelievably harrowing adventures to Wishbringer,
+			a stone possessing undreamt-of powers. For though the note in
+			question is addressed to someone in your ordinary little town,
+			it's postmarked for Special Delivery to Parts Unknown. And its
+			true destination is somewhere beyond your wildest dreams, c/o
+			the magic of Infocom's interactive fiction.
+			<br/>
+			Difficulty: Introductory
+			<br/>
+			(In 1987-88, Infocom published second editions of five of its
+			bestselling titles under a "Solid Gold" (SG) brand. The second
+			editions made no changes to the design, but took advantage of
+			the increased capacity of contemporary home computers to
+			incorporated the InvisiClues hints pamphlet within the story
+			file itself. A more modern parser is also supplied.)
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>23</version>
+					<releasedate>1988-07-06</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-69-850920</ifid>
+			<ifid>ZCODE-68-850501</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Wishbringer</title>
+			<author>Brian Moriarty</author>
+			<language>en-US</language>
+			<headline>The Magick Stone of Dreams</headline>
+			<firstpublished>1985</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			It's an ordinary day in your ordinary little town, and you've
+			been performing your ordinary mail clerk's duties in an altogether
+			ordinary way. But there's something quite extraordinary in today's
+			mail. It's a ransom note for a kidnapped cat, and it will lead
+			you through unbelievably harrowing adventures to Wishbringer,
+			a stone possessing undreamt-of powers. For though the note in
+			question is addressed to someone in your ordinary little town,
+			it's postmarked for Special Delivery to Parts Unknown. And its
+			true destination is somewhere beyond your wildest dreams, c/o
+			the magic of Infocom's interactive fiction.
+			<br/>
+			Difficulty: Introductory
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>69</version>
+					<releasedate>1985-09-20</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>68</version>
+					<releasedate>1985-05-01</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-12-860926</ifid>
+			<ifid>ZCODE-11-860509</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Trinity</title>
+			<author>Brian Moriarty</author>
+			<language>en-US</language>
+			<headline>An Interactive Fantasy</headline>
+			<firstpublished>1986</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			"The time is out of joint; O curse spite,
+			That ever I was born to set it right!" - Hamlet I.v.
+			<br/>
+			It's the last day of your $599 London vacation. Unfortunately,
+			it's also the first day of World War III. Only seconds remain
+			before an H-bomb vaporizes the city... and you with it.
+			<br/>
+			Unless you escape to another time, another dimension.
+			<br/>
+			For every atomic explosion unlocks the door to a secret
+			universe; a plane between fantasy and reality, filled with
+			curious artifacts and governed by its own mischievous logic.
+			You'll crisscross time and space as you explore this
+			fascinating universe, learning to control its inexorable power.
+			<br/>
+			Trinity leads you on a journey back to the dawn of the atomic
+			age... and puts the course of history in your hands.
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>12</version>
+					<releasedate>1986-09-26</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+				<release>
+					<version>11</version>
+					<releasedate>1986-05-09</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-18</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-8-840521</ifid>
+			<ifid>ZCODE-8-830521</ifid>
+			<ifid>ZCODE-7-830419</ifid>
+			<ifid>ZCODE-5-830222</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Suspended</title>
+			<author>Michael Berlyn</author>
+			<language>en-US</language>
+			<headline>INTERLOGIC Science Fiction</headline>
+			<firstpublished>1983</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			They said you would sleep for half a millennium - not an
+			unreasonable length of time, considering you'd be in limited
+			cryogenic suspension. Your body would rest at the planet's
+			nerve center, an underground complex 20 miles beneath the
+			surface. Your brain, they told you, would be wired to a network
+			of computers; your mind would continue to operate at a minimal
+			level, overseeing maintenance of surface-side equilibrium. And
+			you would not awake, so they promised, until your 500 years
+			had elapsed - barring, of course, the most dire emergency.
+			<br/>
+			Then, and only them, you would be awakened to save your planet
+			by strategically manipulating six robots, each of whom perceives
+			the world differently. But such a catastrophe, you have been
+			assured, could not possibly occur.
+			<br/>
+			Good morning.
+			<br/>
+			Difficulty: Expert
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>8</version>
+					<releasedate>1984-05-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>8</version>
+					<releasedate>1983-05-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>7</version>
+					<releasedate>1983-04-19</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>5</version>
+					<releasedate>1983-02-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-14-841005</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Suspect</title>
+			<author>Dave Lebling</author>
+			<language>en-US</language>
+			<headline>An Interactive Mystery</headline>
+			<firstpublished>1984</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			You're guilty until proven innocent.
+			<br/>
+			You have walked into a hotbed of deceit and trickery. And now
+			they're accusing you of something you couldn't have done. But
+			they have proof that you did it. "You're a killer," they say.
+			And until you can prove them wrong, you're guilty as charged -
+			murder.
+			<br/>
+			Among society's upper crust, murder is the kind of nastiness
+			that must be cleared up quickly. So isn't it convenient that
+			you, a struggling journalist looking for a good time and a
+			good story, end up the scapegoat? The evidence is stacked
+			against you, and you're being forced to prove your own
+			innocence. And someone else's guilt. But no one wants to help
+			you. You're an outsider. And only an outsider could be so rude
+			as to accept an invitation to the social event of the season.
+			Then spoil it all.
+			<br/>
+			Difficulty: Advanced
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>450</height>
+			<width>450</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>14</version>
+					<releasedate>1984-10-05</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-107-870430</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Stationfall</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a science fiction story</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<series>Planetfall Series</series>
+			<seriesnumber>2</seriesnumber>
+			<description>
+			What a trotting krip! Since your incredible heroics in Planetfall,
+			where you risked life and limb to save the planet Resida, things
+			have hardly changed at all. Sure, you were promoted to Lieutenant
+			First Class, but this only meant that your dull life of cleaning
+			grotch cages was replaced by an equally dull life of paperwork.
+			Now you've got another assignment tailor-made for a grotchbrain:
+			pilot a spacetruck to a nearby station to pick up a load of
+			trivial forms. Trot and doublt trot!
+			<br/>
+			But all is not lost. By a happy twist of fate, your companion
+			for the journey is your old pal Floyd! That's right, it's the
+			same mischievous little robot, crayons and paddleball at the
+			ready, who was your helpful buddy in Planetfall.
+			<br/>
+			Getting to the space station is easy. But once there, you find
+			it strangely deserted. Even the seedy space village surrounding
+			the station is missing its ragtag tenants. A spooky alien ship
+			carrying only an empty pedestal rests in a docking bay. An
+			ostrich and an Arcturian balloon creature are found, abandoned
+			but in perfect health. The commander's log describes the
+			mysterious breakdown of machiner, demonstrated by a roving
+			hull-welder who seems bent on your destruction. And finally even
+			Floyd begins acting oddly...
+			<br/>
+			Steve Meretzky, whose interactive fiction successes include
+			The Hitchhiker's Guide to the Galaxy and Leather Goddesses of
+			Phobos, won a Best Computer Software Designer award for Planetfall.
+			Infocom fans, consistently rating Planetfall among their favorite
+			computer games, have been begging for a sequel. Even if you've
+			never played Planetfall, you will enjoy Stationfall: the
+			puzzles will challenge your intellect, the humor will keep you
+			laughing, and Floyd will win your heart.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>107</version>
+					<releasedate>1987-04-30</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-17-821021</ifid>
+			<ifid>ZCODE-15-820901</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Starcross</title>
+			<author>Dave Lebling</author>
+			<language>en-US</language>
+			<headline>INTERLOGIC Science Fiction</headline>
+			<firstpublished>1982</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			Starcross, Infocom's science fiction mind-bender, launches you
+			headlong into the year 2186 and the depths of space. And not
+			without good reason, for you are destined to rendezvous with a
+			gargantuan starship from the outer fringes of the galaxy,
+			peopled with both harmful and helpful beings. But the great
+			starship serves a far larger purpose than mere cultural exchange.
+			It bears a challenge that was issued eons ago, from light years
+			away - and only you can meet it.
+			<br/>
+			Difficulty: Expert
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>17</version>
+					<releasedate>1982-10-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1982-09-01</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-87-860904</ifid>
+			<ifid>ZCODE-63-850916</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Spellbreaker</title>
+			<author>Dave Lebling</author>
+			<language>en-US</language>
+			<headline>An Interactive Fantasy</headline>
+			<firstpublished>1985</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Enchanter Trilogy</series>
+			<seriesnumber>3</seriesnumber>
+			<description>
+			Spellbreaker, the riveting conclusion to the Enchanter trilogy,
+			explores the mysterious underpinnings of the Zorkian universe.
+			A world founded on sorcery suddenly finds its magic failing,
+			and only you, leader of the Circle of Enchanters, can uncover
+			and destroy the cause of this paralyzing chaos.
+			<br/>
+			The very core of your civilization is under siege, and only a
+			perilous journey through the black foundation of magic itself
+			will yield a chance for survival.
+			<br/>
+			And although your triumph over this unknown Evil is uncertain,
+			you must embark without hesitation and prove yourself the
+			worthiest mage in the land.
+			<br/>
+			Difficulty: Expert
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>87</version>
+					<releasedate>1986-09-04</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>63</version>
+					<releasedate>1985-09-16</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-18-860904</ifid>
+			<ifid>ZCODE-15-851108</ifid>
+			<ifid>ZCODE-13-851021</ifid>
+			<ifid>ZCODE-6-840508</ifid>
+			<ifid>ZCODE-4-840131</ifid>
+			<ifid>ZCODE-67-000000</ifid>                             
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Sorcerer</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a fantasy story</headline>
+			<firstpublished>1984</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Enchanter Trilogy</series>
+			<seriesnumber>2</seriesnumber>
+			<description>
+			Sorcerer, the second of a spellbinding fantasy series in the
+			tradition of Zork, takes you on a magical tour through the darker
+			side of Zorkian enchantment. Your journey begins with a cryptic
+			diary - the last trace of the now-vanished Belboz the Necromancer,
+			grand and powerful leader of the Guild of Enchanters. It is feared
+			that Belboz is in thrall to evil sorcery. If so, the very existence
+			of the Circle of Enchanters could be forfeit. To rescue the kingdom
+			and locate your mentor in the treacherous mists of time, you must
+			gain the power and cunning of a true Sorcerer.
+			<br/>
+			Difficulty: Advanced
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>18</version>
+					<releasedate>1986-09-04</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1985-11-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>13</version>
+					<releasedate>1985-10-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>6</version>
+					<releasedate>1984-05-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>4</version>
+					<releasedate>1984-01-31</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-322-890706</ifid>
+			<ifid>ZCODE-311-890510</ifid>
+			<ifid>ZCODE-295-890321</ifid>
+			<ifid>ZCODE-292-890314</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Shogun</title>
+			<author>James Clavell and Dave Lebling</author>
+			<language>en-US</language>
+			<headline>A Story of Japan</headline>
+			<firstpublished>1989</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			Experience the sweeping drama and power of James Clavell's
+			Shogun.
+			<br/>
+			The year is 1600. You are John Blackthorne, Pilot-Major of a
+			privateering merchant ship and the first Englishman to set foot
+			on Japanese soil. Thrust into the exotic culture of feudal Japan,
+			you must rely on your wits and sheer physical strength to survive.
+			As you are drawn into the political intrigue and teeming violence,
+			your most basic beliefs and assumptions will be tested. Act with
+			care: in a land where honor is valued above life itself, you make
+			a wrong decision at your peril.
+			<br/>
+			In this interactive adaptation, Dave Lebling - co-author of the
+			enormously popular Zork series - captures all the drama and
+			spell-binding style of James Clavell's matchless novel. Color
+			graphics crafted in the exquisite style of 16th century Japanese
+			court painters illustrate the unfolding saga. Infocom's new,
+			friendlier parser understands more commands than ever. And if you
+			ever need help, on-screen hints will lead you back to the action.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>322</version>
+					<releasedate>1989-07-06</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>311</version>
+					<releasedate>1989-05-10</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>295</version>
+					<releasedate>1989-03-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>292</version>
+					<releasedate>1989-03-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-26-880127</ifid>
+			<ifid>ZCODE-21-871214</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Sherlock</title>
+			<author>Bob Bates</author>
+			<language>en-US</language>
+			<headline>The Riddle of the Crown Jewels</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			Moriarty has set a deadly trap for Sherlock Holmes. And only
+			you can stop him...
+			<br/>
+			Travel back in time to Victorian London, where the city is
+			bustling with preparations for Her Majesty's Golden Jubilee.
+			Crowds of sightseers and souvenir vendors fill the streets
+			in eager anticipation of the Jubilee Week events. Newspapers
+			detail the gala array of festivities. Sumptuous receptions
+			for foreign dignitaries. Special services at Westminster Abbey.
+			A Royal Procession through the streets of London. And the
+			Queen reigning over all, resplendent in the Crown Jewels.
+			<br/>
+			At least, that's the official plan. Unbeknownst to the celebrants
+			thronging the cit, a crisis has arisen: the Crown Jewels have been
+			stolen from the Tower of London. If they're not recovered before
+			the festivities begin, the theft will be exposed and the
+			government will fall into international disgrace.
+			<br/>
+			Only 48 hours remain to solve the crime. With Scotland Yard
+			failing to make headway, the Prime Minister calls on Sherlock
+			Holmes, the famous consulting detective. But riddles left at
+			the scene of the crime include a direct challenge to Holmes,
+			who suspects a deadly trap. To throw the scoundrel off his
+			guard, Holmes turns the investigation over to you, his
+			trusted cohort, Dr. Watson.
+			<br/>
+			With Holmes by your side, you use your wits, intuition, and
+			a myriad of clues to solve the riddles and piece together the
+			mystery. Your search for the jewels and the villain leads you
+			all over London, from the most popular tourist attractions to
+			the seediest back alleys. As Big Ben strikes each successive
+			hour and dangerous complications impede your progress, you
+			realize you're facing that most dastardly of foes, Holmes's
+			archnemesis... the vile Professor Moriarty.
+			<br/>
+			Sherlock: The Riddle of the Crown Jewels is the first story
+			in Inform's new Immortal Legends series, developed by Challenge,
+			Inc. Using Infocom's sophisticated development tools, Challenge
+			lends its own brand of puzzles and plotting to interactive
+			fiction. In The Riddle of the Crown Jewels, author Bob Bates
+			brings Holmes's London to life, filling it with familiar
+			characters and locations. On-screen hints provide clues when
+			your magnifying glass falls short of the task.
+			<br/>
+			And now, come, Watson! The game is afoot...
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>26</version>
+					<releasedate>1988-01-27</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+				<release>
+					<version>21</version>
+					<releasedate>1987-12-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-16-850603</ifid>
+			<ifid>ZCODE-16-850515</ifid>
+			<ifid>ZCODE-15-840522</ifid>
+			<ifid>ZCODE-15-840501</ifid>
+			<ifid>ZCODE-86-840320</ifid>
+            <format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Seastalker</title>
+			<author>Stu Galley and Jim Lawrence</author>
+			<language>en-US</language>
+			<headline>Junior-level interactive fiction from Infocom</headline>
+			<firstpublished>1984</firstpublished>
+			<genre>Thriller</genre>
+			<group>Infocom</group>
+			<description>
+			There's something down there in the ocean, something terrifying.
+			And you have to face it - because only you can save the Aquadome,
+			the world's first undersea research station.
+			<br/>
+			The alarm sounds and your submarine, the Scimitar, is docked
+			nearby. But not so fast - you haven't even tested the Scimitar
+			in deep water, and the crew at the Aquadome may have a traitor
+			in its ranks. So be careful! You have many possibilities to
+			consider, mysteries to unravel and life-and-death decisions to
+			make!
+			<br/>
+			Success won't come easily. It may not come at all - because,
+			if you challenge the deep without using all your wits, you
+			just might wind up as shark bait!
+			<br/>
+			Difficulty: Junior
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>16</version>
+					<releasedate>1984-06-03</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>16</version>
+					<releasedate>1984-05-15</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1984-05-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1984-05-01</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>86</version>
+					<releasedate>1984-03-20</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-97-870601</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Four-In-One Sampler II</title>
+			<author>Various Authors</author>
+			<language>en-US</language>
+			<firstpublished>1987</firstpublished>
+			<genre>Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			This second Four-In-One sampler updated the first, reflecting
+			the dramatic expansion in Infocom's output between 1984 and
+			1987. It contains introductory portions of Zork I, Leather
+			Goddesses of Phobos, and Trinity, together with a tutorial
+			from Wishbringer.
+			<br/>
+			<br/>
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>400</height>
+			<width>400</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>97</version>
+					<releasedate>1987-06-01</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-55-850823</ifid>
+			<ifid>ZCODE-53-850407</ifid>
+			<ifid>ZCODE-26-840731</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Four-In-One Sampler I</title>
+			<author>Various Authors</author>
+			<language>en-US</language>
+			<firstpublished>1984</firstpublished>
+			<genre>Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			The Four-In-One sampler contains introductory portions of
+			Infidel, Planetfall, and Zork I, together with a session
+            transcript from The Witness, and a scene found in no other
+            Infocom game: Marc Blank's Catch-A-Butterfly tutorial.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>400</height>
+			<width>400</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>55</version>
+					<releasedate>1985-08-23</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>53</version>
+					<releasedate>1985-04-07</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>26</version>
+					<releasedate>1984-07-31</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-26-870730</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Plundered Hearts</title>
+			<author>Amy Briggs</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Romance</genre>
+			<group>Infocom</group>
+			<description>
+			In the 17th century, the seas are as wild as the untamed heart
+			of a young woman. But when you set out on the schooner Lafond
+			Deux, bound for the West Indies, your thoughts are only of your
+			ailing father who awaits your care. Little do you know that your
+			innocent journey will soon turn to dangerous adventure.
+			<br/>
+			You barely survive an encounter with pirates, whose plans for
+			you include a fate worse than death. The explosives, the rocky
+			reefs, the vicious crocodile - all these are obstacles which you
+			must overcome with cunning and agility. True, it's not easy; but
+			at least you can control your fate. What you cannot control is
+			much more dangerous: your passion for Nicholas Jamison, the
+			handsome pirate captain.
+			<br/>
+			Tall and lean, with azure eyes that penetrate deep into your
+			soul, he makes your blood quicken despite his unsavory past.
+			When you're in his arms, swirling around the dance floor or
+			secluded in the flowered depths of the gazebo, you are apt to
+			forget your mission.
+			<br/>
+			But don't dally too long with Nick. For your father is waiting,
+			and on his rescue lies the fate of more than one man. Prepare
+			for adventure on the high seas, lass. You'll need every bit of
+			pluck you can muster.
+			<br/>
+			In Plundered Hearts, Infocom brings your wildest fantasies to life.
+			You'll throll to spine-tingling peril, heart-pounding romance,
+			and challenging predicaments. To create this exotic adventure,
+			author Amy Briggs read hundreds of romance novels, researched
+			17th century costumes and ships, and was wooed by a dashing pirate.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>26</version>
+					<releasedate>1987-07-30</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-10-880531</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Planetfall (SG)</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a science fiction story</headline>
+			<firstpublished>1988</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<series>Planetfall Series</series>
+			<seriesnumber>1</seriesnumber>
+			<description>
+			"Join the Patrol, and see the Galaxy!" You took the poster's advice,
+			bait and all, and marched right over to the recruitment station
+			near your home on the backwater planet of Gallium. Images of
+			exotic worlds, strange and colorful aliens, and Deep Space heroism
+			had danced in your head as you signed the dotted line. And since
+			that day the closest you've come to Deep Space heroism was
+			scrubbing down the radioactive leper colony on Ishmael-3.
+			<br/>
+			But suppose that jumbo fortune cookie you got at Qwang's Take-Out
+			Asteroid last shore leave was right. Maybe you will indeed narrowly
+			escape disaster. It's even possible that you'll actually travel to
+			an unknown corner of the Universe, where you'll save a doomed
+			planet - or die in the attempt. In fact, we'll guarantee it - every
+			crumb of it - because that's just the way the cosmic cookie
+			crumbles.
+			<br/>
+			Difficulty: Standard
+			<br/>
+			(In 1987-88, Infocom published second editions of five of its
+			bestselling titles under a "Solid Gold" (SG) brand. The second
+			editions made no changes to the design, but took advantage of
+			the increased capacity of contemporary home computers to
+			incorporate the InvisiClues hints pamphlet within the story
+			file itself. A more modern parser is also supplied.)
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>10</version>
+					<releasedate>1988-05-31</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-37-851003</ifid>
+			<ifid>ZCODE-29-840118</ifid>
+			<ifid>ZCODE-20-830708</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Planetfall</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a science fiction story</headline>
+			<firstpublished>1983</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<series>Planetfall Series</series>
+			<seriesnumber>1</seriesnumber>
+			<description>
+			"Join the Patrol, and see the Galaxy!" You took the poster's advice,
+			bait and all, and marched right over to the recruitment station
+			near your home on the backwater planet of Gallium. Images of
+			exotic worlds, strange and colorful aliens, and Deep Space heroism
+			had danced in your head as you signed the dotted line. And since
+			that day the closest you've come to Deep Space heroism was
+			scrubbing down the radioactive leper colony on Ishmael-3.
+			<br/>
+			But suppose that jumbo fortune cookie you got at Qwang's Take-Out
+			Asteroid last shore leave was right. Maybe you will indeed narrowly
+			escape disaster. It's even possible that you'll actually travel to
+			an unknown corner of the Universe, where you'll save a doomed
+			planet - or die in the attempt. In fact, we'll guarantee it - every
+			crumb of it - because that's just the way the cosmic cookie
+			crumbles.
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>37</version>
+					<releasedate>1985-10-03</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>29</version>
+					<releasedate>1984-01-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>20</version>
+					<releasedate>1983-07-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-19-870722</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Nord and Bert Couldn't Make Head Nor Tail Of It</title>
+			<author>Jeff O'Neill</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Comedy</genre>
+			<group>Infocom</group>
+			<description>
+			You are standing at the edge of a barren field. A steady wind,
+			having secreted away the topsoil, is now drifting sandy dirt
+			across the plain. A scant sign of life here is a freshly-burrowed
+			molehill on the ground.
+			<br/>
+			&gt;MAKE A MOUNTAIN OUT OF THE MOLEHILL
+			<br/>
+			There is a tremendous rumbling in the distance, getting louder
+			and louder, until it is deafening. The dirt around the molehill
+			crumbles away as mighty, jagged granite peaks emerge from deep
+			underground. The surrounding landscape transforms into a fertile
+			valley before your very eyes.
+			<br/>
+			Infocom's first collection of short stories takes you to a place
+			where nothing is quite as it seems. It's a place where you really
+			can make a mountain out of a molehill, where "the fur is flying"
+			is taken literally, and where a bow can be turned into a beau.
+			<br/>
+			Each of the eight stories in Nord and Bert Couldn't Make Head
+			or Tail of It involves a different type of wordplay. You'll find
+			yourself challenging your wits and your memory to come up with
+			the clichés, spoonerisms, and other verbal trickeries needed to
+			complete the puzzles. But don't view this as a hard row to hoe.
+			Nord and Bert contains built-in hints, which you can call upon
+			when the going gets rough.
+			<br/>
+			All eight stories take place in the mixed-up town of Punster.
+			However, no two contain the same people, locations, or objects.
+			Each is played independently of the others, although you'll use
+			passwords obtained in seven of the stories to get into the
+			eighth. As for mapping, it's out of the window. You simply type
+			where you want to go.
+			<br/>
+			The tall tales in Nord and Bert are every bit as fun and clever
+			as Infocom's other interactive fiction stories. They can each
+			be completed in one sitting, making them a highly entertaining
+			way to spend an evening, alone or with friends. Nord and Bert
+			was authored by Jeff O'Neill, whose mind is constantly working
+			on artful new turns of phrase.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>19</version>
+					<releasedate>1987-07-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-9-861022</ifid>
+			<ifid>ZCODE-4-860918</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Moonmist</title>
+			<author>Stu Galley and Jim Lawrence</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a mystery story</headline>
+			<firstpublished>1986</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			More ghosts haunt the misty sea-coast and stone ramparts of
+			Cornwall than anyplace else on earth. One such soul roams
+			Tresyllian Castle: a pale phantom with flaxen hair and a
+			luminous, flowing gown. It seems like a fanciful legend...
+			until the spectral "White Lady" threatens the life of your
+			friend Tamara!
+			<br/>
+			Arriving at the fog-shrouded castle, you meet a cast of
+			eccentric characters ranging from a blue-blood debutante to
+			an overly helpful butler. Has one of them donned the ghostly
+			guise of the White Lady? Or has the drowned lover of Lord
+			Jack, Tamara's fiancé, returned to haunt her successor?
+			Perhaps the spectre is seeking the valuable treasure hidden
+			somewhere in the lavish rooms and secret passageways of the
+			castle. The solution to the mystery, as well as the location
+			of the treasure, changes in each of the four variations of
+			Moonmist.
+			<br/>
+			Get ready to spend the night in a haunted castle. But don't
+			sleep too soundly. The next victim might be you.
+			<br/>
+			Difficulty: Introductory
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>9</version>
+					<releasedate>1986-10-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>4</version>
+					<releasedate>1986-09-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-34-871124</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Mini-Zork I</title>
+			<author>Marc Blank and Dave Lebling</author>
+			<language>en-US</language>
+			<headline>The Great Underground Empire</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			This story file is a condensed version of Zork I, Infocom's most
+			popular title, reduced to make it viable for the cassette-based
+			Commodore 64. The only Infocom story file ever to be intended to
+			run from cassette rather than disk, the Mini-Zork has been compared
+			to a Reader's Digest edition of a classic. The Mini-Zork is one of
+			several remakings of Zork from the final years of Infocom: there
+			were also the Solid Gold edition, the never-completed German
+			translation and the sequels Beyond Zork and Zork Zero.
+			<br/>
+			Mini-Zork I had a brief shelf-life in computer shops, in Activision
+			packaging, but it is now best known for its magazine release.
+			In November 1990, a year after Infocom had effectively become
+			defunct, the Mini-Zork was given away with the British Commodore
+			users' magazine "Zzap! 64" no. 67, which is now a collector's item.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>650</height>
+			<width>650</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>34</version>
+					<releasedate>1987-11-24</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-221-870918</ifid>
+			<ifid>ZCODE-219-870912</ifid>
+			<ifid>ZCODE-203-870506</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>The Lurking Horror</title>
+			<author>Dave Lebling</author>
+			<language>en-US</language>
+			<headline>An Interactive Horror</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Horror</genre>
+			<group>Infocom</group>
+			<description>
+			Ever since you arrived at G.U.E. Tech, you've heard stories
+			about the creepy old campus basements and storage rooms, some
+			so ancient that they contain only rotting piles of unidentifiable
+			junk. Until now, you've never ventured lower than the ground
+			floors of the monolithic classroom and dorm buildings, avoiding
+			the warren of tunnels that connect them.
+			<br/>
+			But tonight, something draws you down into the mysterious depths
+			of the institute. Perhaps it's the blizzard raging outside,
+			making the outdoors as threatening as anything you could imagine
+			within. Perhaps it's the nightmare you had, hinting at horrific
+			mysteries below and leaving you with a strange object that seems
+			to lead you inexorably downward. Or perhaps it's just another
+			way for you to avoid writing that twenty page term paper you have
+			due tomorrow.
+			<br/>
+			In any event, you soon find yourself wandering away from your
+			computer and into the dark nether regions of G.U.E. Tech. Suddenly,
+			you're in a world that rivals your most hideous visions, a realm
+			of horror lurking beneath the calm corridors and study halls.
+			<br/>
+			Shapes emerge from dark corridors. Eerie sounds draw closer.
+			Slimy passageways lead to sights so horrifying that they will
+			feed your nightmares for weeks.
+			<br/>
+			The Lurking Horror recalls the ghastly visions of H. P. Lovecraft
+			and Stephen King, as author Dave Lebling turns an everyday world
+			into a frightening web of uncertainty. The numerous puzzles will
+			challenge both first-time and experienced players, and Lebling's
+			chilling descriptions will leave you with images you'll never
+			forget.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>667</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>221</version>
+					<releasedate>1987-09-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>219</version>
+					<releasedate>1987-09-12</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>203</version>
+					<releasedate>1987-05-06</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-4-880405</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Leather Goddesses of Phobos (SG)</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a racy space-age spoof</headline>
+			<firstpublished>1988</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			And now... the next exciting episode of humanoids in space!
+			<br/>
+			How did you, a regular at Joe's Bar in Upper Sandusky, Ohio, end
+			up on a Martian moon? Can you prevent the hideous space creature
+			from abducting the naked heiress? Why does scratch 'n' sniff no. 2
+			smell so familiar? How many uses can you find for a rubber hose?
+			Is it easy to remove a brass bikini? Is it hard to outsmart a
+			robotoid sumo wrestler? Can you stop the Leather Goddesses' fiendish
+			plan to turn all Earthlings into sex slaves?
+			<br/>
+			Learn the answers to these burning questions in Leather Goddesses
+			of Phonos, Infocom's racy spoof of 1930s pulp fiction. But first,
+			a word from our sponsor:
+			<br/>
+			Why put up with only one playing mode, when you can have three?
+			That's right, three! So whether your tastes run to Tame, Suggestive,
+			or Lewd, Leather Goddesses of Phobos can satisfy you!
+			<br/>
+			Difficulty: Standard
+			<br/>
+			(In 1987-88, Infocom published second editions of five of its
+			bestselling titles under a "Solid Gold" (SG) brand. The second
+			editions made no changes to the design, but took advantage of
+			the increased capacity of contemporary home computers to
+			incorporate the InvisiClues hints pamphlet within the story
+			file itself. A more modern parser is also supplied.)
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>4</version>
+					<releasedate>1988-04-05</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-59-861114</ifid>
+			<ifid>ZCODE-59-860730</ifid>
+			<ifid>ZCODE-50-860711</ifid>
+			<ifid>ZCODE-118-860325</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Leather Goddesses of Phobos</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a racy space-age spoof</headline>
+			<firstpublished>1986</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			And now... the next exciting episode of humanoids in space!
+			<br/>
+			How did you, a regular at Joe's Bar in Upper Sandusky, Ohio, end
+			up on a Martian moon? Can you prevent the hideous space creature
+			from abducting the naked heiress? Why does scratch 'n' sniff no. 2
+			smell so familiar? How many uses can you find for a rubber hose?
+			Is it easy to remove a brass bikini? Is it hard to outsmart a
+			robotoid sumo wrestler? Can you stop the Leather Goddesses' fiendish
+			plan to turn all Earthlings into sex slaves?
+			<br/>
+			Learn the answers to these burning questions in Leather Goddesses
+			of Phonos, Infocom's racy spoof of 1930s pulp fiction. But first,
+			a word from our sponsor:
+			<br/>
+			Why put up with only one playing mode, when you can have three?
+			That's right, three! So whether your tastes run to Tame, Suggestive,
+			or Lewd, Leather Goddesses of Phobos can satisfy you!
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>59</version>
+					<releasedate>1986-11-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>59</version>
+					<releasedate>1986-07-30</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>50</version>
+					<releasedate>1986-07-11</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>118</version>
+					<releasedate>1986-03-25</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-83-890706</ifid>
+			<ifid>ZCODE-77-890616</ifid>
+			<ifid>ZCODE-30-890322</ifid>
+			<ifid>ZCODE-26-890316</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Journey</title>
+			<author>Marc Blank</author>
+			<language>en-US</language>
+			<headline>Part One of the Golden Age Trilogy</headline>
+			<firstpublished>1989</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			Have you mettle enough to make siege on the Dread Lord himself?
+			...We shall see.
+			<br/>
+			If you've ever been spellbound by a fantasy story, captivated
+			by a role playing game, or enthralled by interactive fiction,
+			Journey will rouse your imagination to new heights.
+			<br/>
+			Join us in our Journey. Travel beyond the known boundaries of
+			interactive software into a new world of computer storytelling.
+			Marc Blank - the pioneering co-author of the enormously popular
+			Zork and Enchanter trilogies - weaves a fabulous tale of great
+			adventure, drawing from the highest art of storytelling and the
+			excitement of role playing games to create a fascinating
+			new kind of computer entertainment.
+			<br/>
+			In Journey, you become part of a mesmerizing epic created in the
+			tradition of J. R. R. Tolkien's The Lord of the Rings. For five
+			long years, failed crops, tainted water, and sickness have
+			blighted a peaceful land. Brave villagers have set forth to find
+			relief for their suffering region, but none have returned. Now,
+			yet another small band is preparing the begin the odyssey.
+			You'll share the adventures of Tag, Praxix, Bergon, Esher, and
+			Minar as they solve puzzles, overcome obstacles, explore unknown
+			lands.
+			<br/>
+			Pass into the world of Journey with ease. The game is simple to
+			learn: your challenge lies in choosing the right path, casting
+			the best spell, and knowing whether to lie or tell the truth.
+			Your imagination will be taxed more and more with each passing
+			day as the difficulties become increasingly complex.
+			<br/>
+			As the tale unfolds, you become acquainted with the characters
+			and their personalities. Each character acts on his own, sometimes
+			advancing the quest, sometimes hindering it. You help them decide
+			where to explore and what actions to take, taking part in their
+			strategies and problem-solving.
+			<br/>
+			The intrigue of a masterfully told story. The thrill of being a
+			part of a great adventure. The challenge of leading the tale to
+			its climactic conclusion. This is what makes Journey a uniquely
+			compelling entertainment.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>83</version>
+					<releasedate>1989-07-06</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>77</version>
+					<releasedate>1989-06-16</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>30</version>
+					<releasedate>1989-03-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>26</version>
+					<releasedate>1989-03-16</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-22-830916</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Infidel</title>
+			<author>Michael Berlyn</author>
+			<language>en-US</language>
+			<firstpublished>1983</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			Infidel finds you marooned by your followers in the heart of the
+			deadly Egyptian Desert. A soldier of fortune by trade, you've
+			come hither in search of a great lost pyramid and its untold
+			riches. Now, alone, you must locate and gain entry to the tomb,
+			decipher its hieroglyphics and unravel its mysteries one by one.
+			<br/>
+			Through the Antechamber, the Barge Room, the Chamber of Ra, death
+			will lick at your heels as you race to the shattering climax
+			of this match of wits between you and the most ingenious architects,
+			builders and murderers of all time - the ancient Egyptians.
+			<br/>
+			Difficulty: Advanced
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>22</version>
+					<releasedate>1983-09-16</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-37-861215</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Hollywood Hijinx</title>
+			<author>Dave Anderson and Liz Cyr-Jones</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a zany treasure hunt</headline>
+			<firstpublished>1986</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			Vampire Penguins. A Corpse Line. Meltdown on Elm Street. Who could
+			forget these classic Hollywood movies produced by your uncle,
+			Buddy Burbank? But his greatest masterpiece has yet to be
+			experienced... Hollywood Hijinx, starring you!
+			<br/>
+			Your Uncle Buddy and Aunt Hildegarde have passed away, but their
+			memory lives on in their Malibu mansion, filled with a lifetime
+			of Hollywood memorabilia. And you've inherited it all, with one
+			stipulation - you can only claim your booty if you find the
+			treasures hidden throughout the sprawling beachfront estate.
+			If you can't find the treasures in one night, you lose the whole
+			caboodle.
+			<br/>
+			It's just the sort of thing you'd expect from Aunt Hildegarde
+			and Uncle Buddy. And their home is familiar territory: you spent
+			your childhood summers there with your Cousin Herman. Although
+			some say the house is haunted, you're not fooled. You know that
+			Uncle Buddy, who wore a different polyester leisure suit each
+			day of the week, was always rigging the place with goofy gags
+			and booby traps.
+			<br/>
+			Inside the house, everything is just as glitzy and full of fun
+			as you remember it to be. There's the luxurious private screening
+			room, the gold-plated bathroom faucets in the shape of Oscars,
+			and the wacky props from old Buddy Burbank movies.
+			<br/>
+			The Malibu estate seems like a funhouse at first. But the puzzles
+			you must solve prove that Aunt Hildegarde and Uncle Buddy weren't
+			just kidding around. Claiming the Burbank bundle turns out to be
+			quite a challenge - and it's all in your honor.
+			<br/>
+			Hollywood Hijinx is as zany as its author, "Hollywood" Dave
+			Anderson. It's cram-packed with puzzles that will test the wits
+			and tickle the ribs of both first time and experienced players.
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>37</version>
+					<releasedate>1986-12-15</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-31-871119</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>The Hitchhiker's Guide To The Galaxy (SG)</title>
+			<author>Douglas Adams and Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a science fiction story</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			Beyond question the most mind-bogglingly hilarious story Infocom
+			has ever produced is The Hitch-Hiker's Guide to the Galaxy,
+			written and designed by Douglas Adams, author of the phenomenally
+			best-selling novel, and Steve Meretzky, the award-winning designer
+			of Infocom's Planetfall and Sorcerer. As the story begins, you
+			are Arthur Dent, and a bulldozer is preparing to level your
+			house even as an alien space fleet is preparing to level your
+			planet. The incorrigible Mr. Adams has written new material and
+			designed problems especially for this interactive story. So grab
+			a pint of bitter and a couple for the road and join Ford Prefect,
+			Trillian, Zaphod Beeblebrox and Marvin on a cosmic jaunt into
+			the outer reaches where anything can - and does - happen. And
+			don't forget your towel!
+			<br/>
+			Difficulty: Standard
+			<br/>
+			(In 1987-88, Infocom published second editions of five of its
+			bestselling titles under a "Solid Gold" (SG) brand. The second
+			editions made no changes to the design, but took advantage of
+			the increased capacity of contemporary home computers to
+			incorporate the InvisiClues hints pamphlet within the story
+			file itself. A more modern parser is also supplied.)
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>474</height>
+			<width>474</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>31</version>
+					<releasedate>1987-11-19</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-59-851108</ifid>
+			<ifid>ZCODE-58-851002</ifid>
+			<ifid>ZCODE-56-841221</ifid>
+			<ifid>ZCODE-47-840914</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>The Hitchhiker's Guide To The Galaxy</title>
+			<author>Douglas Adams and Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a science fiction story</headline>
+			<firstpublished>1984</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>
+			Beyond question the most mind-bogglingly hilarious story Infocom
+			has ever produced is The Hitch-Hiker's Guide to the Galaxy,
+			written and designed by Douglas Adams, author of the phenomenally
+			best-selling novel, and Steve Meretzky, the award-winning designer
+			of Infocom's Planetfall and Sorcerer. As the story begins, you
+			are Arthur Dent, and a bulldozer is preparing to level your
+			house even as an alien space fleet is preparing to level your
+			planet. The incorrigible Mr. Adams has written new material and
+			designed problems especially for this interactive story. So grab
+			a pint of bitter and a couple for the road and join Ford Prefect,
+			Trillian, Zaphod Beeblebrox and Marvin on a cosmic jaunt into
+			the outer reaches where anything can - and does - happen. And
+			don't forget your towel!
+			<br/>
+			Difficulty: Standard
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>474</height>
+			<width>474</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>59</version>
+					<releasedate>1985-11-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>58</version>
+					<releasedate>1985-10-02</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>56</version>
+					<releasedate>1984-12-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>47</version>
+					<releasedate>1984-09-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-29-860820</ifid>
+			<ifid>ZCODE-24-851118</ifid>
+			<ifid>ZCODE-16-831118</ifid>
+			<ifid>ZCODE-15-831107</ifid>
+			<ifid>ZCODE-10-830810</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Enchanter</title>
+			<author>Marc Blank and Dave Lebling</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a fantasy story</headline>
+			<firstpublished>1983</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Enchanter Trilogy</series>
+			<seriesnumber>1</seriesnumber>
+			<description>
+			In Enchanter, the first of a spellbinding series in the tradition
+			of Zork, you are a novice magician whom Fate has chosen to do
+			singlehanded combat with a dark and fierce power. But worldly
+			weapons will avail you naught, for your foe is the Evil Warlock
+			who holds sway over the land.
+			<br/>
+			To defeat him, you will have to match your skills as a necromancer
+			against his, casting spells you have learned from your masters
+			in the Circle of Enchanters and other incantations you will
+			acquire as you proceed on your quest.
+			<br/>
+			If you succeed, you will be elevated to a seat in the illustrious
+			Circle; if you fail, your land will be doomed to an eternity of
+			darkness.
+			<br/>
+			Difficulty: Standard.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>29</version>
+					<releasedate>1986-08-20</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>24</version>
+					<releasedate>1985-11-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>16</version>
+					<releasedate>1983-11-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>15</version>
+					<releasedate>1983-11-07</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>10</version>
+					<releasedate>1983-08-10</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-27-831005</ifid>
+			<ifid>ZCODE-26-821108</ifid>
+			<ifid>ZCODE-21-820512</ifid>
+			<ifid>ZCODE-19-820427</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Deadline</title>
+			<author>Marc Blank</author>
+			<language>en-US</language>
+			<headline>An INTERLOGIC Mystery</headline>
+			<firstpublished>1982</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			Twelve hours to solve the mystery. One false move, and the killer
+			strikes again.
+			<br/>
+			It's been called "part of the latest craze in home computing (TIME
+			magazine), an "amazing feat of programming" (THE NEW YORK TIMES)
+			and the "Best Adventure of 1983" (ELECTRONIC GAMES).
+			<br/>
+			It's Deadline, and it puts you, the keen-eyed sleuth, against a
+			12-hour time limit to solve a classic locked-door mystery. Armed
+			only with the clues inside this package and your own wits, you
+			must sift through myriads of evidence and motives to track down
+			the killer. No easy feat, for all six of your suspects exercise
+			free will - coming and going, scheming and maneuvering
+			independently of your actions. And some of these personalities
+			are so treacherous that, should you make the wrong move, one
+			of them may do you in.
+			<br/>
+			Difficulty: Expert.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>27</version>
+					<releasedate>1983-10-05</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>26</version>
+					<releasedate>1982-11-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>21</version>
+					<releasedate>1982-05-12</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+				<release>
+					<version>19</version>
+					<releasedate>1982-04-27</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-23-840809</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Cutthroats</title>
+			<author>Michael Berlyn and Jerry Wolper</author>
+			<language>en-US</language>
+			<firstpublished>1984</firstpublished>
+			<genre>Thriller</genre>
+			<group>Infocom</group>
+			<description>
+			You're about to get yourself into very deep trouble.
+			<br/>
+			You're a backwater island's top diver and foremost expert on
+			local shipwrecks. Which makes you perfect for the job a band of
+			the island's shadiest characters has in mind for you. It's a
+			simple business proposition: all you have to do is locate and
+			salvage a fortune in sunken treasure. You stand to gain
+			millions. The only drawback is, it could cost you your neck.
+			Because to successfully recover the treasure, you'll have to
+			survive the perils of diving in unknown waters - and the even
+			greater danger of an untrustworthy crew. But none of that will
+			stop you from taking the plunge. You're the type who believes
+			that when stakes are this high, even when your odds are this low,
+			it's worth running the risks of dealing with Cutthroats.
+			<br/>
+			Difficulty: Standard.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>23</version>
+					<releasedate>1984-08-09</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-116-870602</ifid>
+			<ifid>ZCODE-86-870212</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Bureaucracy</title>
+			<author>Douglas Adams and Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>A Paranoid Fantasy</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Comedy</genre>
+			<group>Infocom</group>
+			<description>
+			IMPORTANT! Our records show that you do not have a license to
+			operate this software. Normally, you would be required to
+			complete a License Application Form and mail it (with proof of
+			purchase) to our Licensing Department, and then wait the
+			customary four to six months for processing.
+			<br/>
+			Luckily, for your convenience, we have, at the last minute
+			and at great expense, installed a remarkable new on-line
+			electronic application form on this very disk, which will be
+			processed by our modern 24-hour computer service moments
+			after you fill it in.
+			<br/>
+			Bureaucracy! Everyone, at one time or another, feels bound up
+			in an endless swathe of red tape. In Bureaucracy, best-selling
+			humorist Douglas Adams draws on his own battles with beadledom
+			to create a hilarious misadventure. You'll find yourself in the
+			midst of a bureaucratic muddle so convoluted that you can't
+			help but laugh.
+			<br/>
+			You've just landed a great new job and moved to a spiffy house
+			in a nice little town. You're even being sent to Paris this
+			very afternoon for a combination training seminar and vacation.
+			What could possibly go wrong? The answer, of course, is everything.
+			When the bank refuses to acknowledge your change-of-address form,
+			you'll find yourself entangled in a series of bureaucratic mishaps
+			that take you from the feeding trough of a greedy llama to the
+			lofty branches of a tree deep in the Zalagasan jungle.
+			<br/>
+			The distinctive humor that made The Hitchhiker's Guide to the
+			Galaxy a runaway success will keep you in stitches as you confront
+			a series of bureaucratic puzzles and experience the thrill of
+			outsmarting the powers that be.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>116</version>
+					<releasedate>1987-06-02</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+				<release>
+					<version>86</version>
+					<releasedate>1987-02-12</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-9-871008</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Border Zone</title>
+			<author>Marc Blank</author>
+			<language>en-US</language>
+			<headline>A Game of Intrigue</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Espionage</genre>
+			<group>Infocom</group>
+			<description>
+			Where the Iron Curtain divides East and West, the frontier is a
+			no man's land between freedom and captivity, a place where moments
+			lost or precautions not taken exact a toll in men's lives. In
+			Border Zone, you cross this barrier not once, but three times, as
+			three different characters in a fast-paced story of international
+			intrigue.
+			<br/>
+			The pulse-pounding tension of espionage is heightened by the
+			addition of real time, which ticks on regardless of your actions.
+			As you race against the clock to complete your missions, you'll
+			find yourself caught up in a spine-tingling adventure that's far
+			more suspenseful than any spy thriller you've ever read.
+			<br/>
+			The story begins on the train to Litzenburg, a peaceful country
+			just outside the Iron Curtain. In the border town of Ostnitz,
+			Constitution Day festivities include a speech by the American
+			ambassador. But plans are afoot to destabilize this key neutral
+			territory by assassinating the diplomat. Speeding towards the
+			border through the Eastern bloc country of Frobnia are an
+			easy-going American businessman, an ambitious young American
+			spy, and a ruthless KGB agent. All three are soon to be entangled
+			in the assassination plot, their lives intertwining as each
+			carries out his perilous assignment.
+			<br/>
+			You'll see the story from three viewpoints, as you step into the
+			soes of a different major character in each of the three chapters
+			of Border Zone. Set in separate locations on or near the border,
+			the chapters are complete stories in themselves, each with its
+			pwn riveting conclusion.
+			<br/>
+			The on-line hints in Border Zone will help you out when you need
+			it. But hints take you only so far. Even when you know exactly
+			what to do, discretion and timing are crucial as you outwit the
+			KGB, evade a snarling pack of search dogs, make a desperate
+			assault on the border, and count down the moments to the
+			assassination.
+			<br/>
+			Border Zone was written by Marc Blank, a pioneer in interactive
+			fiction and the author of such ground-breaking works as Zork and
+			Deadline. In Border Zone, Marc takes the clever plotting and
+			masterly prose of a top-notch thriller, brings it to life through
+			interactive fiction, and intensifies the experience with the
+			addition of real time.
+			<br/>
+			So steel your nerves, and don't blow your cover, friend. You've
+			a long way to go before you come in from the cold.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>9</version>
+					<releasedate>1987-10-08</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-57-871221</ifid>
+			<ifid>ZCODE-51-870923</ifid>
+			<ifid>ZCODE-49-870917</ifid>
+			<ifid>ZCODE-47-870915</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Beyond Zork</title>
+			<author>Brian Moriarty</author>
+			<language>en-US</language>
+			<headline>The Coconut of Quendor</headline>
+			<firstpublished>1987</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<series>Zork</series>
+			<seriesnumber>4</seriesnumber>
+			<description>
+			Dread times have befallen the Kingdom of Quendor. The wizards
+			have mysteriously disappeared. The Enchanter's Guild Hall lies
+			in ruins. Villages are abandoned, drunken men mutter strange
+			tales, and vicious monsters haunt the streets and wastelands.
+			Now it falls to you, a lowly peasant, to unravel the meaning
+			behind these ominous events. Will you accept the challenge?
+			<br/>
+			Of course you will. For you're a hardy adventurer, ready to
+			confront the most fearsome foe. And in Beyond Zork, you have
+			an arsenal of new weapons and abilities at your disposal.
+			<br/>
+			You start by designing your own character. Choose from such
+			diverse attributes as strength, endurance, compassion, and
+			luck, or let the computer select for you. As you venture
+			onward, your character will evolve, reflecting your success
+			in your quest.
+			<br/>
+			Beyond Zork's sophisticated new interface makes interaction
+			more natural than ever. In the heat of battle, the special
+			function keys let you strike the decisive blow with a single
+			keystroke. There's even an on-screen map to chart your progress!
+			<br/>
+			As you grow in experience and abilities, you realize that you're
+			being prepared for a great task, a task of which you know
+			nothing... as yet. Your search for the answer will lead you
+			deep underground, where unspeakable monsters guard the world's
+			most fabulous treasure - the fabled Coconut of Quendor.
+			<br/>
+			Beyond Zork was written by Brian Moriarty, award-winning author
+			of Wishbringer and Trinity. Fans of Infocom's fantasy series will
+			recognise characters and locations from previous stories, while
+			old and new players alike will enjoy exploring the Zorkian
+			landscape as their challenge increases and their character
+			grows in strength and power.
+			<br/>
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>500</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>57</version>
+					<releasedate>1987-12-21</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+				<release>
+					<version>51</version>
+					<releasedate>1987-09-23</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+				<release>
+					<version>49</version>
+					<releasedate>1987-09-17</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+				<release>
+					<version>47</version>
+					<releasedate>1987-09-15</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>5</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-23-851218</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Ballyhoo</title>
+			<author>Jeff O'Neill</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction</headline>
+			<firstpublished>1985</firstpublished>
+			<genre>Mystery</genre>
+			<group>Infocom</group>
+			<description>
+			Spangleland! Sawdust and glitter, buffoons and cotton candy!
+			It's a place where your wildest dreams come true! At least,
+			that's what you think... until you get behind the scenes at
+			the big top. Then you learn how easily sweet dreams can turn
+			into nightmares.
+			<br/>
+			Beyond the spangles lies a seedy world of deception and crime.
+			Exploting the tattered corners of the circus lot, you overhear
+			a conversation about the owner's daughter. It seems she's been
+			kidnapped, and the hired gumshoe couldn't find the nose on
+			his face. Good samaritan that you are, you start poking around
+			on your own.
+			<br/>
+			But watch your step. As the night progresses, you realize
+			you're in as much danger as the little girl. For the kidnapper
+			is lurking right there on the lot, trying to set you up for a
+			permanent slot in the freak show.
+			<br/>
+			Difficulty: Standard.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>23</version>
+					<releasedate>1985-12-18</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>3</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-74-890714</ifid>
+			<ifid>ZCODE-63-890622</ifid>
+			<ifid>ZCODE-54-890606</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>Arthur</title>
+			<author>Bob Bates</author>
+			<language>en-US</language>
+			<headline>The Quest for Excalibur</headline>
+			<firstpublished>1989</firstpublished>
+			<genre>Fantasy</genre>
+			<group>Infocom</group>
+			<description>
+			"Whoso pulleth out this sword of this stone, is rightwise king
+			of England."
+			<br/>
+			In the days before Camelot, when magic and evil rule England, a
+			sword sheathed in stone appears in a quiet churchyard. Engraved
+			upon it are words which form your destiny. For you are Arthur,
+			the son and true heir of the High King, Uther Pendragon.
+			<br/>
+			But there is more to asserting your claim than wresting free the
+			sword. The sword in the stone disappears - stolen by the evil
+			King Lot. To win it back, you must develop the kingly qualities
+			of wisdom, chivalry, and experience, qualities that will also
+			prove you worthy of the throne. And you must do it all within
+			three days, or Lot will usurp your legacy.
+			<br/>
+			You are assisted by Merlin the Enchanter, who grants you the
+			power to transform yourself into a variety of animals. Now you
+			can explore the kingdom as no one has before: from the sky, from
+			rivers and lakes, from on - and under - the earth. How you
+			use this power, and how you solve the myriad puzzles that
+			confront you, will determine your success in your quest.
+			<br/>
+			Merlin's crystal ball reveals helpful hints. The undo command lets
+			you rescind even the most foolhardy of decisions. Optional on-screen
+			mapping gives your quest direction. A medieval Book of Hours has
+			been magically cast into each and every Arthur package, along
+			with the game disk and complete instructions.
+			<br/>
+			Now prepare to claim your birthright as king born of all England.
+			It's your chance to live the legend.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>550</height>
+			<width>550</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>74</version>
+					<releasedate>1989-07-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>63</version>
+					<releasedate>1989-06-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+				<release>
+					<version>54</version>
+					<releasedate>1989-06-06</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>6</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+<story>
+		<identification>
+			<ifid>ZCODE-79-851122</ifid>
+			<ifid>ZCODE-77-850814</ifid>
+			<format>zcode</format>
+		</identification>	
+		<bibliographic>
+			<title>A Mind Forever Voyaging</title>
+			<author>Steve Meretzky</author>
+			<language>en-US</language>
+			<headline>Infocom interactive fiction - a science fiction story</headline>
+			<firstpublished>1985</firstpublished>
+			<genre>Science Fiction</genre>
+			<group>Infocom</group>
+			<description>"If you can look into the seeds of time, and say
+			which grain will grow and which will not..." - Shakespeare
+			<br/>
+			It's 2031. The world is on the brink of chaos. In the United
+			States of North America, spiraling crime and unemployment rates,
+			decayed school systems and massive government regulations have
+			led to a lazy, contentious society.
+			<br/>
+			To reverse this critical situation, government and industry
+			leaders have developed a Plan combining the economic freedom
+			and strong moral values of the 1950s with the technological
+			advancements of the 21st century. Will the Plan ensure peace
+			and prosperity? Or will it set the earth on a suicide course
+			to destruction?
+			<br/>
+			As the world's first conscious, intelligent computer, only you
+			can visit places that have never been seen before. Only you
+			can view the future. And only you know what must be done to
+			save humanity.
+			<br/>
+			A major departure for Infocom, "A Mind Forever Voyaging" is
+			reminiscent of such classic works of science fiction as
+			Brave New World and 1984. You'll spend less time solving
+			puzzles, as you explore realistic worlds of the future.
+			<br/>
+			Difficulty: Advanced.
+			</description>
+		</bibliographic>
+		<cover>
+			<format>jpg</format>
+			<height>600</height>
+			<width>600</width>
+		</cover>
+		<contacts>
+			<url>http://en.wikipedia.org/wiki/Infocom</url>
+		</contacts>
+		<releases>
+			<history>
+				<release>
+					<version>79</version>
+					<releasedate>1985-11-22</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+				<release>
+					<version>77</version>
+					<releasedate>1985-08-14</releasedate>
+					<compiler>ZILCH</compiler>
+					<compilerversion>4</compilerversion>
+				</release>
+			</history>
+		</releases>
+		<zcode>
+			<coverpicture>1</coverpicture>
+		</zcode>
+        <colophon>
+            <generator>Graham Nelson</generator>
+            <originated>2006-04-25</originated>
+        </colophon>
+	</story>
+</ifindex>

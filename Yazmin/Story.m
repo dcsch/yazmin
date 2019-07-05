@@ -15,6 +15,8 @@
 #import "IFIdentification.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
+#import "Library.h"
+#import "LibraryEntry.h"
 #import "Preferences.h"
 #import "StoryController.h"
 #import "StoryFacet.h"
@@ -200,6 +202,15 @@
 
   if (_zcodeData) {
     [self createZMachine];
+
+    // Retrieve any missing metadata from the library, now that
+    // we should have an IFID
+    if (!_metadata) {
+      AppController *appController = NSApp.delegate;
+      LibraryEntry *entry = [appController.library entryForIFID:_ifid];
+      if (entry)
+        _metadata = entry.storyMetadata;
+    }
 
     // Is there any debug information to load?
     NSString *path = self.fileURL.path;
@@ -470,6 +481,7 @@
 - (void)splitWindow:(int)lines {
   StoryFacet *storyFacet = _facets[1];
   storyFacet.numberOfLines = lines;
+  [_storyController splitWindow:lines];
 }
 
 - (void)eraseWindow:(int)window {

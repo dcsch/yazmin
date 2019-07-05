@@ -16,6 +16,7 @@
 
 @interface Library ()
 @property(readonly, copy) NSDictionary *ifidURLDictionary;
+@property IFictionMetadata *defaultMetadata;
 @end
 
 @implementation Library
@@ -30,10 +31,15 @@
     NSDictionary *stories = [defaults objectForKey:@"Stories"];
     for (NSString *url in stories) {
       LibraryEntry *entry =
-          [[LibraryEntry alloc] initWithIfid:[stories valueForKey:url]
+          [[LibraryEntry alloc] initWithIFID:[stories valueForKey:url]
                                          url:[NSURL URLWithString:url]];
       [_entries addObject:entry];
     }
+
+    NSBundle *mainBundle = NSBundle.mainBundle;
+    NSURL *url = [mainBundle URLForResource:@"babel" withExtension:@"ifiction"];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    _defaultMetadata = [[IFictionMetadata alloc] initWithData:data];
   }
   return self;
 }
@@ -43,6 +49,18 @@
   for (LibraryEntry *entry in _entries)
     dictionary[entry.fileURL.absoluteString] = entry.ifid;
   return dictionary;
+}
+
+- (LibraryEntry *)entryForIFID:(NSString *)ifid {
+  NSUInteger index = [self.entries
+      indexOfObjectPassingTest:^BOOL(LibraryEntry *_Nonnull entry,
+                                     NSUInteger idx, BOOL *_Nonnull stop) {
+        return [entry.ifid isEqualToString:ifid];
+      }];
+  if (index != NSNotFound)
+    return _entries[index];
+  else
+    return nil;
 }
 
 - (BOOL)containsStory:(Story *)story {
@@ -63,20 +81,18 @@
   for (LibraryEntry *entry in _entries) {
     NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
     if (data && [Blorb isBlorbData:data]) {
+
+      // Use metadata as found in blorb
       Blorb *blorb = [[Blorb alloc] initWithData:data];
       NSData *mddata = blorb.metaData;
       if (mddata) {
         IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
-        IFStory *metadata;
-        if (ifmd.stories.count > 0) {
-          metadata = ifmd.stories[0];
-          IFBibliographic *bib = metadata.bibliographic;
-          if (bib) {
-            entry.title = bib.title;
-            entry.author = bib.author;
-          }
-        }
+        if (ifmd.stories.count > 0)
+          entry.storyMetadata = ifmd.stories[0];
       }
+    } else {
+      // Search for metadata that we have stored
+      entry.storyMetadata = [_defaultMetadata storyWithIFID:entry.ifid];
     }
   }
 }

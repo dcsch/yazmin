@@ -8,17 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface IFIdentification : NSObject {
-  NSMutableArray *ifids;
-  NSString *format;
-  int bafn;
-}
+@interface IFIdentification : NSObject
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element
+- (nonnull instancetype)initWithXMLElement:(nonnull NSXMLElement *)element
     NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
-@property(readonly, copy) NSArray *ifids;
-@property(readonly, copy) NSString *format;
+- (nonnull instancetype)init __attribute__((unavailable));
+@property(readonly, nonnull) NSArray<NSString *> *ifids;
+@property(readonly, nonnull) NSString *format;
 @property(readonly) int bafn;
 
 @end

@@ -8,15 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class IFStory;
+
 @interface LibraryEntry : NSObject
 
-@property(copy, readonly) NSString *ifid;
-@property(copy, readonly) NSURL *fileURL;
-@property(copy) NSString *title;
-@property(copy) NSString *author;
+@property(readonly, nonnull) NSString *ifid;
+@property(readonly, nonnull) NSURL *fileURL;
+@property(nullable) IFStory *storyMetadata;
+@property(readonly, nonnull) NSString *title;
+@property(readonly, nullable) NSString *author;
+@property(readonly, nullable) NSString *genre;
+@property(readonly, nullable) NSString *group;
+@property(readonly, nullable) NSString *firstPublished;
 
-- (instancetype)initWithIfid:(NSString *)anIfid
-                         url:(NSURL *)aUrl NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
+- (nonnull instancetype)initWithIFID:(nonnull NSString *)ifid
+                                 url:(nonnull NSURL *)url
+    NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init __attribute__((unavailable));
 
 @end

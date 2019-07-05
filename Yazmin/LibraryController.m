@@ -12,6 +12,7 @@
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"
+#import "StoryInformationController.h"
 
 @interface LibraryController () <NSMenuItemValidation> {
   IBOutlet NSTableView *tableView;
@@ -41,12 +42,8 @@
 - (void)addStory:(Story *)story {
   if (![library containsStory:story]) {
     LibraryEntry *entry =
-        [[LibraryEntry alloc] initWithIfid:story.ifid url:story.fileURL];
-    IFBibliographic *bib = story.metadata.bibliographic;
-    if (bib) {
-      entry.title = bib.title;
-      entry.author = bib.author;
-    }
+        [[LibraryEntry alloc] initWithIFID:story.ifid url:story.fileURL];
+    entry.storyMetadata = story.metadata;
     [arrayController addObject:entry];
   }
 }
@@ -66,6 +63,16 @@
 }
 
 - (IBAction)showStoryInfo:(id)sender {
+  NSInteger row = tableView.clickedRow;
+  if (row > -1) {
+    LibraryEntry *entry = arrayController.arrangedObjects[row];
+    StoryInformationController *infoController =
+        [[StoryInformationController alloc]
+            initWithStoryMetadata:entry.storyMetadata
+                      pictureData:nil];
+    [self.document addWindowController:infoController];
+    [infoController showWindow:self];
+  }
 }
 
 - (IBAction)removeStory:(id)sender {

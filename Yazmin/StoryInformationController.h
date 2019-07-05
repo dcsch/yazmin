@@ -8,18 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class Blorb;
-@class IFictionMetadata;
+@class IFStory;
 
-@interface StoryInformationController : NSWindowController {
-  IBOutlet NSImageView *imageView;
-  IBOutlet NSTextField *title;
-  IBOutlet NSTextField *author;
-  IBOutlet NSTextView *description;
-  Blorb *blorb;
-  IFictionMetadata *metadata;
-}
+@interface StoryInformationController : NSWindowController
 
-- (instancetype)initWithBlorb:(Blorb *)aBlorb;
+- (nonnull instancetype)initWithStoryMetadata:(nonnull IFStory *)storyMetadata
+                                  pictureData:(nullable NSData *)pictureData;
 
 @end

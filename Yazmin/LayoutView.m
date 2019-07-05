@@ -59,11 +59,15 @@
   _lowerScrollView.frame = lowerFrameRect;
 
   // Move the upper window
-  //  _upperWindow.backgroundColor = NSColor.redColor;
+  //_upperWindow.backgroundColor = NSColor.redColor;
   _upperWindow.textContainer.maximumNumberOfLines = lines;
 
   NSRect frameRect = NSMakeRect(0, 0, lowerFrameRect.size.width, upperHeight);
   _upperWindow.frame = frameRect;
+
+  // Scroll the lower window to compensate for the shift in position
+  // (we're keeping this simple for now: just scroll to the bottom)
+  [_lowerWindow scrollPoint:NSMakePoint(0, _lowerWindow.frame.size.height)];
 }
 
 - (BOOL)isFlipped {

@@ -53,7 +53,7 @@
 - (void)stringInput:(NSString *)string;
 - (void)update;
 - (IBAction)reload:(id)sender;
-- (IBAction)showInformationPanel:(id)sender;
+- (IBAction)showStoryInfo:(id)sender;
 - (IBAction)showDebuggerWindow:(id)sender;
 - (IBAction)showObjectBrowserWindow:(id)sender;
 - (IBAction)showAbbreviationsWindow:(id)sender;
@@ -88,6 +88,9 @@
   maxheight = 0;
   seenheight = 0;
 
+  Story *story = self.document;
+  [self setWindowFrameAutosaveName:story.ifid];
+
   // When the user closes the story window, we want all other windows
   // attached to the story (debuggers, etc) to close also
   self.shouldCloseDocument = YES;
@@ -110,8 +113,6 @@
          selector:@selector(handleWindowWillClose:)
              name:NSWindowWillCloseNotification
            object:self.window];
-
-  Story *story = self.document;
 
   // Lower Window (initially full frame)
   NSRect frame = layoutView.lowerScrollView.contentView.frame;
@@ -540,12 +541,20 @@
   [self executeStory];
 }
 
-- (IBAction)showInformationPanel:(id)sender {
+- (IBAction)showStoryInfo:(id)sender {
   if (!informationController) {
     Story *story = self.document;
-    informationController =
-        [[StoryInformationController alloc] initWithBlorb:story.blorb];
-    [self.document addWindowController:informationController];
+    NSData *metaData = story.blorb.metaData;
+    if (metaData) {
+      NSData *pictureData = story.blorb.pictureData;
+      IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:metaData];
+      if (ifmd.stories.count > 0) {
+        informationController = [[StoryInformationController alloc]
+            initWithStoryMetadata:ifmd.stories[0]
+                      pictureData:pictureData];
+        [self.document addWindowController:informationController];
+      }
+    }
   }
   [informationController showWindow:self];
 }
@@ -627,6 +636,21 @@
   return retVal;
 }
 
+- (void)splitWindow:(int)lines {
+
+  // Keep track of what the player has viewed after a split window
+  NSTextView *textView = layoutView.lowerWindow;
+  NSRect rect =
+      [textView.layoutManager usedRectForTextContainer:textView.textContainer];
+  CGFloat heightOfContent = rect.size.height;
+  _viewedHeight = heightOfContent;
+}
+
+- (void)eraseWindow:(int)window {
+  if (window == 0)
+    _viewedHeight = 0.0;
+}
+
 - (void)print:(NSString *)text {
   Story *story = self.document;
   if (_transcriptOutputStream && story.window == 0) {
@@ -642,11 +666,6 @@
 
 - (void)newLine {
   [self print:@"\n"];
-}
-
-- (void)eraseWindow:(int)window {
-  if (window == 0)
-    _viewedHeight = 0.0;
 }
 
 @end

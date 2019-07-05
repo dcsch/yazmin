@@ -7,14 +7,15 @@
 //
 
 #import "IFictionMetadata.h"
+#import "IFIdentification.h"
 #import "IFStory.h"
 
 @implementation IFictionMetadata
 
-- (instancetype)initWithData:(NSData *)data {
+- (instancetype)initWithData:(nonnull NSData *)data {
   self = [super init];
   if (self) {
-    stories = [[NSMutableArray alloc] init];
+    NSMutableArray<IFStory *> *stories = [[NSMutableArray alloc] init];
 
     NSError *error;
     NSXMLDocument *xml =
@@ -28,12 +29,18 @@
       IFStory *story = [[IFStory alloc] initWithXMLElement:child];
       [stories addObject:story];
     }
+    _stories = stories;
   }
   return self;
 }
 
-- (NSArray *)stories {
-  return stories;
+- (nullable IFStory *)storyWithIFID:(nonnull NSString *)ifid {
+  for (IFStory *story in _stories) {
+    if ([story.identification.ifids containsObject:ifid]) {
+      return story;
+    }
+  }
+  return nil;
 }
 
 @end

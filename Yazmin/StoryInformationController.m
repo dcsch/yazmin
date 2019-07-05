@@ -10,17 +10,27 @@
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
-#import "IFictionMetadata.h"
+//#import "IFictionMetadata.h"
+
+@interface StoryInformationController () {
+  IBOutlet NSImageView *imageView;
+  IBOutlet NSTextField *title;
+  IBOutlet NSTextField *author;
+  IBOutlet NSTextView *storyDescription;
+  IFStory *_storyMetadata;
+  NSData *_pictureData;
+}
+
+@end
 
 @implementation StoryInformationController
 
-- (instancetype)initWithBlorb:(Blorb *)aBlorb {
+- (nonnull instancetype)initWithStoryMetadata:(nonnull IFStory *)storyMetadata
+                                  pictureData:(nullable NSData *)pictureData {
   self = [super initWithWindowNibName:@"StoryInformation"];
   if (self) {
-    blorb = aBlorb;
-    metadata = nil;
-    if ([blorb metaData])
-      metadata = [[IFictionMetadata alloc] initWithData:[blorb metaData]];
+    _storyMetadata = storyMetadata;
+    _pictureData = pictureData;
   }
   return self;
 }
@@ -29,9 +39,8 @@
   imageView.imageFrameStyle = NSImageFramePhoto;
 
   // Set the artwork
-  NSData *pictureData = [blorb pictureData];
-  if (pictureData) {
-    NSImage *image = [[NSImage alloc] initWithData:pictureData];
+  if (_pictureData) {
+    NSImage *image = [[NSImage alloc] initWithData:_pictureData];
 
     // Resize the image to a high quality thumbnail
     float resizeWidth = 128.0;
@@ -53,11 +62,12 @@
     imageView.image = resizedImage;
   }
 
-  if (metadata) {
-    IFStory *storyMD = [metadata stories][0];
-    title.stringValue = [[storyMD bibliographic] title];
-    author.stringValue = [[storyMD bibliographic] author];
-    description.string = [[storyMD bibliographic] description];
+  if (_storyMetadata) {
+    title.stringValue = _storyMetadata.bibliographic.title;
+    author.stringValue = _storyMetadata.bibliographic.author;
+    NSString *desc = _storyMetadata.bibliographic.storyDescription;
+    if (desc)
+      storyDescription.string = desc;
   }
 }
 

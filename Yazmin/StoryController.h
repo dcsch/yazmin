@@ -24,9 +24,10 @@
 - (void)executeStory;
 - (BOOL)executeRoutine:(int)routine;
 
+- (void)splitWindow:(int)lines;
+- (void)eraseWindow:(int)window;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
-- (void)eraseWindow:(int)window;
 
 @end

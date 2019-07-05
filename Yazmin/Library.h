@@ -15,6 +15,7 @@
 
 @property(strong, readonly) NSMutableArray<LibraryEntry *> *entries;
 
+- (LibraryEntry *)entryForIFID:(NSString *)ifid;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
 - (void)syncMetadata;
