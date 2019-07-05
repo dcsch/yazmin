@@ -167,6 +167,9 @@ private:
   // St -- 2OP:23 17 div a b -> (result)
   void div();
 
+  // -- -- VAR:252 1C 5 encode_text zscii-text length from coded-text
+  void encode_text();
+
   // -- -- VAR:238 E 4/6 erase_line value
   void erase_line();
 

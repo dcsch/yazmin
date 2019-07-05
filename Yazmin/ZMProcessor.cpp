@@ -611,9 +611,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x1b:
     tokenise(); // v5
     break;
-  //  case 0x1c:
-  //    encode_text(); // v5
-  //    break;
+  case 0x1c:
+    encode_text(); // v5
+    break;
   case 0x1d:
     copy_table(); // v5
     break;
@@ -1215,6 +1215,21 @@ void ZMProcessor::div() {
     throw false;
 
   setVariable(_store, a / b);
+  advancePC();
+}
+
+void ZMProcessor::encode_text() {
+  log("encode_text", false, false);
+
+  uint16_t zsciiText = getOperand(0);
+  uint16_t length = getOperand(1);
+  uint16_t from = getOperand(2);
+  uint16_t codedText = getOperand(3);
+  uint8_t *codedTextBuffer = _memory.getData(codedText);
+  ZMText text(_memory.getData());
+  text.encode(codedTextBuffer, reinterpret_cast<const char *>(
+                                   _memory.getData() + zsciiText + from),
+              length, 6);
   advancePC();
 }
 
