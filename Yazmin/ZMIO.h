@@ -27,6 +27,8 @@ public:
 
   virtual void eraseWindow(int window) = 0;
 
+  virtual void eraseLine() = 0;
+
   virtual void showStatus() = 0;
 
   virtual void inputStream(int stream) = 0;

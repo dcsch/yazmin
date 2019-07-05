@@ -17,6 +17,7 @@
 @property int numberOfLines;
 
 - (void)erase;
+- (void)eraseLine;
 - (void)setCursorLine:(int)line column:(int)column;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;

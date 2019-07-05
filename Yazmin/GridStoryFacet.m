@@ -54,6 +54,18 @@
   y = 0;
 }
 
+- (void)eraseLine {
+  NSArray<NSValue *> *ranges = [self rangesOfLines];
+  if (y < ranges.count) {
+    NSRange rangeOfLine = ranges[y].rangeValue;
+    NSRange rangeToErase =
+        NSMakeRange(rangeOfLine.location + x, rangeOfLine.length - x);
+    [self.textStorage beginEditing];
+    [self.textStorage deleteCharactersInRange:rangeToErase];
+    [self.textStorage endEditing];
+  }
+}
+
 - (void)setCursorLine:(int)line column:(int)column {
   if (0 < line && line <= self.heightInLines)
     y = line - 1;

@@ -499,6 +499,10 @@
   }
 }
 
+- (void)eraseLine {
+  [_storyFacet eraseLine];
+}
+
 - (int)line {
   return _storyFacet.line;
 }

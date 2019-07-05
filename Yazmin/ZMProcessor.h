@@ -167,6 +167,9 @@ private:
   // St -- 2OP:23 17 div a b -> (result)
   void div();
 
+  // -- -- VAR:238 E 4/6 erase_line value
+  void erase_line();
+
   // -- -- VAR:237 D 4 erase_window window
   void erase_window();
 

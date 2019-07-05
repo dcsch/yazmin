@@ -17,6 +17,8 @@ public:
 
   void eraseWindow(int window) override;
 
+  void eraseLine() override;
+
   void showStatus() override;
 
   void inputStream(int stream) override;

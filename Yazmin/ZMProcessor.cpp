@@ -569,9 +569,9 @@ bool ZMProcessor::dispatchVAR(uint8_t opCode) {
   case 0x0d:
     erase_window(); // v4
     break;
-  //  case 0x0e:
-  //    erase_line(); // v4
-  //    break;
+  case 0x0e:
+    erase_line(); // v4
+    break;
   case 0x0f:
     set_cursor(); // v4
     break;
@@ -1215,6 +1215,15 @@ void ZMProcessor::div() {
     throw false;
 
   setVariable(_store, a / b);
+  advancePC();
+}
+
+void ZMProcessor::erase_line() {
+  log("erase_window", false, false);
+
+  uint16_t value = getOperand(0);
+  if (value == 1)
+    _io.eraseLine();
   advancePC();
 }
 

@@ -55,6 +55,10 @@
   [_story updateWindowBackgroundColor];
 }
 
+- (void)eraseLine {
+  // nop
+}
+
 - (void)setCursorLine:(int)line column:(int)column {
   NSLog(@"setCursorLine:%d column:%d", line, column);
 }

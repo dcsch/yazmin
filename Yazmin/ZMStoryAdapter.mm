@@ -15,6 +15,8 @@ void ZMStoryAdapter::splitWindow(int lines) { [_story splitWindow:lines]; }
 
 void ZMStoryAdapter::eraseWindow(int window) { [_story eraseWindow:window]; }
 
+void ZMStoryAdapter::eraseLine() { [_story eraseLine]; }
+
 void ZMStoryAdapter::showStatus() { [_story showStatus]; }
 
 void ZMStoryAdapter::inputStream(int stream) { [_story inputStream:stream]; }
