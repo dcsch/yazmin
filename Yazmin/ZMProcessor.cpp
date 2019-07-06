@@ -1225,11 +1225,11 @@ void ZMProcessor::encode_text() {
   uint16_t length = getOperand(1);
   uint16_t from = getOperand(2);
   uint16_t codedText = getOperand(3);
+  const char *zsciiTextBuffer =
+      reinterpret_cast<const char *>(_memory.getData() + zsciiText);
   uint8_t *codedTextBuffer = _memory.getData(codedText);
   ZMText text(_memory.getData());
-  text.encode(codedTextBuffer, reinterpret_cast<const char *>(
-                                   _memory.getData() + zsciiText + from),
-              length, 6);
+  text.encode(codedTextBuffer, zsciiTextBuffer + from, length, 6);
   advancePC();
 }
 

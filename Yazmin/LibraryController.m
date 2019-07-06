@@ -7,6 +7,7 @@
 //
 
 #import "LibraryController.h"
+#import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "Library.h"
@@ -14,15 +15,18 @@
 #import "Story.h"
 #import "StoryInformationController.h"
 
-@interface LibraryController () <NSMenuItemValidation> {
+@interface LibraryController () <NSMenuItemValidation, NSSearchFieldDelegate> {
   IBOutlet NSTableView *tableView;
   IBOutlet NSArrayController *arrayController;
+  IBOutlet NSSearchField *searchField;
   Library *library;
 }
 
-- (IBAction)openStory:(id)sender;
+- (void)openStory:(LibraryEntry *)libraryEntry;
+- (IBAction)selectStory:(id)sender;
 - (IBAction)showStoryInfo:(id)sender;
 - (IBAction)removeStory:(id)sender;
+- (IBAction)searchStory:(id)sender;
 
 @end
 
@@ -48,28 +52,41 @@
   }
 }
 
-- (IBAction)openStory:(id)sender {
+- (void)openStory:(LibraryEntry *)libraryEntry {
+  [NSDocumentController.sharedDocumentController
+      openDocumentWithContentsOfURL:libraryEntry.fileURL
+                            display:YES
+                  completionHandler:^(NSDocument *_Nullable document,
+                                      BOOL documentWasAlreadyOpen,
+                                      NSError *_Nullable error){
+                  }];
+}
+
+- (IBAction)selectStory:(id)sender {
   NSInteger row = tableView.clickedRow;
-  if (row > -1) {
-    LibraryEntry *entry = arrayController.arrangedObjects[row];
-    [NSDocumentController.sharedDocumentController
-        openDocumentWithContentsOfURL:entry.fileURL
-                              display:YES
-                    completionHandler:^(NSDocument *_Nullable document,
-                                        BOOL documentWasAlreadyOpen,
-                                        NSError *_Nullable error){
-                    }];
-  }
+  if (row > -1)
+    [self openStory:arrayController.arrangedObjects[row]];
 }
 
 - (IBAction)showStoryInfo:(id)sender {
   NSInteger row = tableView.clickedRow;
   if (row > -1) {
     LibraryEntry *entry = arrayController.arrangedObjects[row];
+    NSData *pictureData = nil;
+
+    // Is this a blorb we can pull data from?
+    if ([Blorb isBlorbURL:entry.fileURL]) {
+      NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
+      if (data && [Blorb isBlorbData:data]) {
+        Blorb *blorb = [[Blorb alloc] initWithData:data];
+        pictureData = blorb.pictureData;
+      }
+    }
+
     StoryInformationController *infoController =
         [[StoryInformationController alloc]
             initWithStoryMetadata:entry.storyMetadata
-                      pictureData:nil];
+                      pictureData:pictureData];
     [self.document addWindowController:infoController];
     [infoController showWindow:self];
   }
@@ -81,6 +98,30 @@
     LibraryEntry *entry = arrayController.arrangedObjects[row];
     [arrayController removeObject:entry];
   }
+}
+
+- (IBAction)searchStory:(id)sender {
+  NSString *searchTerm = searchField.stringValue;
+  if (searchTerm.length > 0) {
+    searchTerm = [NSString stringWithFormat:@"*%@*", searchTerm];
+    NSPredicate *predicate =
+        [NSPredicate predicateWithFormat:@"title like[cd] %@", searchTerm];
+    arrayController.filterPredicate = predicate;
+  } else
+    arrayController.filterPredicate = nil;
+}
+
+- (BOOL)control:(NSControl *)control
+               textView:(NSTextView *)textView
+    doCommandBySelector:(SEL)commandSelector {
+  if (arrayController.filterPredicate &&
+      commandSelector == @selector(insertNewline:)) {
+    NSArray *objects = arrayController.arrangedObjects;
+    if (objects.count > 0)
+      [self openStory:objects[0]];
+    return YES;
+  }
+  return NO;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {

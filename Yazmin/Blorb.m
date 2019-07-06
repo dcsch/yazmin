@@ -10,9 +10,30 @@
 #import "BlorbResource.h"
 #include "iff.h"
 
+@interface Blorb () {
+  NSData *data;
+  NSMutableArray *resources;
+  NSData *metaData;
+}
+
+- (nullable BlorbResource *)findResourceOfUsage:(unsigned int)usage;
+
+@end
+
 @implementation Blorb
 
-+ (BOOL)isBlorbData:(NSData *)data {
++ (BOOL)isBlorbURL:(nonnull NSURL *)url {
+  NSString *pathExtension = url.pathExtension.lowercaseString;
+  if ([pathExtension isEqualToString:@"zblorb"] ||
+      [pathExtension isEqualToString:@"blorb"] ||
+      [pathExtension isEqualToString:@"blb"] ||
+      [pathExtension isEqualToString:@"zlb"])
+    return YES;
+  else
+    return NO;
+}
+
++ (BOOL)isBlorbData:(nonnull NSData *)data {
   const void *ptr = data.bytes;
   if (isForm(ptr, 'I', 'F', 'R', 'S'))
     return YES;
@@ -20,7 +41,7 @@
     return NO;
 }
 
-- (instancetype)initWithData:(NSData *)aData {
+- (nonnull instancetype)initWithData:(nonnull NSData *)aData {
   self = [super init];
   if (self) {
     data = aData;
@@ -62,9 +83,8 @@
   return self;
 }
 
-- (BlorbResource *)findResourceOfUsage:(unsigned int)usage {
-  int i;
-  for (i = 0; i < resources.count; ++i) {
+- (nullable BlorbResource *)findResourceOfUsage:(unsigned int)usage {
+  for (int i = 0; i < resources.count; ++i) {
     BlorbResource *resource = resources[i];
     if ([resource usage] == usage)
       return resource;
@@ -72,7 +92,7 @@
   return nil;
 }
 
-- (NSData *)zcodeData {
+- (nullable NSData *)zcodeData {
   // Look up the executable chunk
   BlorbResource *resource = [self findResourceOfUsage:ExecutableResource];
   if (resource) {
@@ -88,7 +108,7 @@
   return nil;
 }
 
-- (NSData *)pictureData {
+- (nullable NSData *)pictureData {
   // Look up the picture chunk
   BlorbResource *resource = [self findResourceOfUsage:PictureResource];
   if (resource) {
@@ -96,16 +116,13 @@
     ptr += [resource start];
     unsigned int chunkID;
     unsigned int len = chunkIDAndLength(ptr, &chunkID);
-    // if (chunkID == IFFID('Z', 'C', 'O', 'D'))
-    {
-      NSRange range = NSMakeRange([resource start] + 8, len);
-      return [data subdataWithRange:range];
-    }
+    NSRange range = NSMakeRange([resource start] + 8, len);
+    return [data subdataWithRange:range];
   }
   return nil;
 }
 
-- (NSData *)metaData {
+- (nullable NSData *)metaData {
   return metaData;
 }
 

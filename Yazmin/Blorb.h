@@ -10,18 +10,16 @@
 
 @class BlorbResource;
 
-@interface Blorb : NSObject {
-  NSData *data;
-  NSMutableArray *resources;
-  NSData *metaData;
-}
+@interface Blorb : NSObject
 
-+ (BOOL)isBlorbData:(NSData *)data;
-- (instancetype)initWithData:(NSData *)aData NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
-- (BlorbResource *)findResourceOfUsage:(unsigned int)usage;
-@property(readonly, copy) NSData *zcodeData;
-@property(readonly, copy) NSData *pictureData;
-@property(readonly, copy) NSData *metaData;
+@property(readonly, nullable) NSData *zcodeData;
+@property(readonly, nullable) NSData *pictureData;
+@property(readonly, nullable) NSData *metaData;
+
++ (BOOL)isBlorbURL:(nonnull NSURL *)url;
++ (BOOL)isBlorbData:(nonnull NSData *)data;
+- (nonnull instancetype)initWithData:(nonnull NSData *)data
+    NS_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init __attribute__((unavailable));
 
 @end

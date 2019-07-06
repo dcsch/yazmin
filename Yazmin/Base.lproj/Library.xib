@@ -8,6 +8,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="LibraryController">
             <connections>
                 <outlet property="arrayController" destination="19" id="Zm2-yZ-93A"/>
+                <outlet property="searchField" destination="aWh-TH-SuR" id="5md-7e-9Px"/>
                 <outlet property="tableView" destination="9" id="KTJ-Ow-uXU"/>
                 <outlet property="window" destination="5" id="7"/>
             </connections>
@@ -245,7 +246,7 @@
                                         </tableColumn>
                                     </tableColumns>
                                     <connections>
-                                        <action trigger="doubleAction" selector="openStory:" target="-2" id="vus-cg-Wad"/>
+                                        <action trigger="doubleAction" selector="selectStory:" target="-2" id="vus-cg-Wad"/>
                                         <binding destination="19" name="content" keyPath="arrangedObjects" id="73w-ae-B16"/>
                                         <binding destination="19" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="73w-ae-B16" id="QFA-rq-vDn"/>
                                         <outlet property="menu" destination="qfJ-oJ-Z9j" id="xS6-1N-h0Z"/>
@@ -274,6 +275,32 @@
                     <constraint firstItem="8" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="gxM-Of-Dww"/>
                 </constraints>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="BE1DA54E-032E-4C3C-B740-CD536C3F7C9A" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="small" id="2yS-Kk-oEy">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="D6859C5E-9D8E-4409-ABC3-C73242976BFD" label="Search" paletteLabel="Search" sizingBehavior="auto" id="jWt-v1-uS9" userLabel="Search">
+                        <nil key="toolTip"/>
+                        <searchField key="view" wantsLayer="YES" verticalHuggingPriority="750" textCompletion="NO" id="aWh-TH-SuR">
+                            <rect key="frame" x="0.0" y="14" width="220" height="22"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" borderStyle="bezel" placeholderString="Search Title" usesSingleLineMode="YES" bezelStyle="round" sendsSearchStringImmediately="YES" id="Uwx-bu-LPh">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </searchFieldCell>
+                            <connections>
+                                <action selector="searchStory:" target="-2" id="WKg-RG-UrL"/>
+                                <outlet property="delegate" destination="-2" id="atz-vH-zvs"/>
+                            </connections>
+                        </searchField>
+                    </toolbarItem>
+                    <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="6TM-HE-jyN"/>
+                    <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="KJn-A9-Umv"/>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="jWt-v1-uS9"/>
+                    <toolbarItem reference="KJn-A9-Umv"/>
+                </defaultToolbarItems>
+            </toolbar>
             <point key="canvasLocation" x="243" y="301"/>
         </window>
         <arrayController objectClassName="LibraryController" avoidsEmptySelection="NO" id="19" userLabel="Array Controller">
@@ -291,7 +318,7 @@
                 <menuItem title="Open" id="Fhk-09-m5I">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="openStory:" target="-2" id="ia4-ds-HpE"/>
+                        <action selector="selectStory:" target="-2" id="ia4-ds-HpE"/>
                     </connections>
                 </menuItem>
                 <menuItem title="Get Info" id="jHK-fB-8tp">

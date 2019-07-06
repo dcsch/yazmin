@@ -166,11 +166,8 @@
   [self applyFontOfStyle:self.story.currentStyle | 8 toAttributes:attributes];
   [self applyUpperWindowAttributes:attributes];
 
-  // We need attributes for padding without reverse video
-  NSMutableDictionary *paddingAttributes = [attributes mutableCopy];
-  [self applyColorsOfStyle:self.story.currentStyle & ~1
-              toAttributes:paddingAttributes];
-
+  // We need attributes for padding without color styling
+  NSDictionary *paddingAttributes = [attributes copy];
   [self applyColorsOfStyle:self.story.currentStyle toAttributes:attributes];
 
   // Get the line ranges, extending if we need more lines
