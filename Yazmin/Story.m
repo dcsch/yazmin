@@ -481,6 +481,8 @@
 - (void)splitWindow:(int)lines {
   StoryFacet *storyFacet = _facets[1];
   storyFacet.numberOfLines = lines;
+  if (lines == 0)
+    _storyFacet = _facets[0];
   [_storyController splitWindow:lines];
 }
 
