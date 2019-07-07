@@ -518,11 +518,11 @@
 }
 
 - (int)fontId {
-  return _storyFacet.fontId;
+  return _storyFacet.fontID;
 }
 
 - (void)setFontId:(int)fontId {
-  _storyFacet.fontId = fontId;
+  _storyFacet.fontID = fontId;
 }
 
 - (void)print:(NSString *)text {

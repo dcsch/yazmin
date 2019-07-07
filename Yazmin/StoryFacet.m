@@ -11,7 +11,11 @@
 #import "Story.h"
 
 @interface StoryFacet () {
+  int _fontID;
+  NSFontDescriptor *_fontDescriptor;
 }
+
+- (NSFont *)fontForStyle:(int)style;
 
 @end
 
@@ -26,9 +30,9 @@
     // Initialize with the user-defined font
     BOOL upperWindow = self.numberOfLines == -1;
     if (upperWindow)
-      self.fontId = 4;
+      self.fontID = 4;
     else
-      self.fontId = 1;
+      self.fontID = 1;
   }
   return self;
 }
@@ -39,6 +43,64 @@
 
 - (int)column {
   return 1;
+}
+
+- (int)fontID {
+  return _fontID;
+}
+
+- (void)setFontID:(int)fontID {
+  _fontID = fontID;
+
+  BOOL upperWindow = self.numberOfLines == -1;
+  NSString *name = nil;
+  switch (fontID) {
+    case 1:
+      if (upperWindow)
+        name = Preferences.sharedPreferences.monospacedFontFamily;
+      else
+        name = Preferences.sharedPreferences.proportionalFontFamily;
+      break;
+    case 3:
+      name = Preferences.sharedPreferences.characterGraphicsFontFamily;
+      break;
+    case 4:
+      name = Preferences.sharedPreferences.monospacedFontFamily;
+      break;
+  }
+  if (name) {
+    float size = Preferences.sharedPreferences.fontSize;
+    _fontDescriptor = [NSFontDescriptor fontDescriptorWithName:name size:size];
+  }
+}
+
+- (NSFont *)fontForStyle:(int)style {
+  // Mask-off the reverse flag bit, as the font will be the same anyhow
+  style &= 0xfe;
+
+  // Check our font cache for this style
+//  NSFont *font = fonts[@(style)];
+//  if (font == nil) {
+
+  // Bold and italic traits?
+  NSFontDescriptorSymbolicTraits traits = 0;
+//  NSFontTraitMask traits = 0;
+  if (style & 6) {
+    if (style & 2)
+      //traits |= NSBoldFontMask;
+      traits |= NSFontDescriptorTraitBold;
+    if (style & 4)
+      //traits |= NSItalicFontMask;
+      traits |= NSFontDescriptorTraitItalic;
+  }
+
+  NSFontDescriptor *desc = [_fontDescriptor fontDescriptorWithSymbolicTraits:traits];
+  float size = Preferences.sharedPreferences.fontSize;
+
+  NSFont *font = [NSFont fontWithDescriptor:desc size:size];
+//    fonts[@(style)] = font;
+//  }
+  return font;
 }
 
 - (int)numberOfLines {
@@ -80,7 +142,7 @@
             toAttributes:(NSMutableDictionary *)attributes {
   if (_story.forceFixedPitchFont)
     style |= 8;
-  NSFont *font = [[Preferences sharedPreferences] fontForStyle:style];
+  NSFont *font = [self fontForStyle:style];
   attributes[NSFontAttributeName] = font;
 }
 

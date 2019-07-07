@@ -12,6 +12,7 @@ NSString *SMBackgroundColorKey = @"BackgroundColor";
 NSString *SMForegroundColorKey = @"ForegroundColor";
 NSString *SMMonospacedFontKey = @"MonospacedFont";
 NSString *SMProportionalFontKey = @"ProportionalFont";
+NSString *SMCharacterGraphicsFontKey = @"CharacterGraphicsFont";
 NSString *SMFontSizeKey = @"FontSize";
 NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 
@@ -93,6 +94,16 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
   [nc postNotificationName:@"SMMonospacedFontFamilyChanged" object:self];
 }
 
+- (NSString *)characterGraphicsFontFamily {
+  return [defaults objectForKey:SMCharacterGraphicsFontKey];
+}
+
+- (void)setCharacterGraphicsFontFamily:(NSString *)family {
+  [defaults setObject:family forKey:SMCharacterGraphicsFontKey];
+  [fonts removeAllObjects];
+  [nc postNotificationName:@"SMCharacterGraphicsFontKeyChanged" object:self];
+}
+
 - (float)fontSize {
   return [[defaults objectForKey:SMFontSizeKey] floatValue];
 }
@@ -134,8 +145,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
   return font;
 }
 
-- (NSFont *)convertFont:(NSFont *)font forceFixedPitch:(BOOL)fixedPitch;
-{
+- (NSFont *)convertFont:(NSFont *)font forceFixedPitch:(BOOL)fixedPitch {
   // Determine the style of this font
   NSFontTraitMask traits =
       [[NSFontManager sharedFontManager] traitsOfFont:font];

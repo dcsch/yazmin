@@ -17,6 +17,7 @@ extern NSString *SMBackgroundColorKey;
 extern NSString *SMForegroundColorKey;
 extern NSString *SMMonospacedFontKey;
 extern NSString *SMProportionalFontKey;
+extern NSString *SMCharacterGraphicsFontKey;
 extern NSString *SMFontSizeKey;
 extern NSString *SMShowLibraryOnStartupKey;
 
@@ -78,11 +79,7 @@ extern NSString *SMShowLibraryOnStartupKey;
 */
 @property(copy) NSString *monospacedFontFamily;
 
-/*!
- @method setMonospacedFontFamily
- @abstract Sets the preferred font family name for monospaced fonts.
- @param family The new font family name.
-*/
+@property NSString *characterGraphicsFontFamily;
 
 /*!
  @method fontSize

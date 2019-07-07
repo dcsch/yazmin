@@ -48,7 +48,6 @@
 		6338E0C1180AB53B005A3263 /* StoryFacet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E087180AB53B005A3263 /* StoryFacet.m */; };
 		6338E0C2180AB53B005A3263 /* StoryFacetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E089180AB53B005A3263 /* StoryFacetView.m */; };
 		6338E0C3180AB53B005A3263 /* StoryInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E08B180AB53B005A3263 /* StoryInformationController.m */; };
-		6338E0C4180AB53B005A3263 /* StyledFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E08E180AB53B005A3263 /* StyledFont.m */; };
 		6338E0C5180AB53B005A3263 /* ZMachine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6338E090180AB53B005A3263 /* ZMachine.mm */; };
 		6338E0C6180AB53B005A3263 /* ZMDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6338E091180AB53B005A3263 /* ZMDictionary.cpp */; };
 		6338E0C7180AB53B005A3263 /* ZMErrorAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6338E095180AB53B005A3263 /* ZMErrorAdapter.mm */; };
@@ -154,8 +153,6 @@
 		6338E08A180AB53B005A3263 /* StoryInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryInformationController.h; sourceTree = "<group>"; };
 		6338E08B180AB53B005A3263 /* StoryInformationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryInformationController.m; sourceTree = "<group>"; };
 		6338E08C180AB53B005A3263 /* StoryInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryInput.h; sourceTree = "<group>"; };
-		6338E08D180AB53B005A3263 /* StyledFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StyledFont.h; sourceTree = "<group>"; };
-		6338E08E180AB53B005A3263 /* StyledFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyledFont.m; sourceTree = "<group>"; };
 		6338E08F180AB53B005A3263 /* ZMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMachine.h; sourceTree = "<group>"; };
 		6338E090180AB53B005A3263 /* ZMachine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMachine.mm; sourceTree = "<group>"; };
 		6338E091180AB53B005A3263 /* ZMDictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZMDictionary.cpp; sourceTree = "<group>"; };
@@ -348,8 +345,6 @@
 				6338E08A180AB53B005A3263 /* StoryInformationController.h */,
 				6338E08B180AB53B005A3263 /* StoryInformationController.m */,
 				6338E08C180AB53B005A3263 /* StoryInput.h */,
-				6338E08D180AB53B005A3263 /* StyledFont.h */,
-				6338E08E180AB53B005A3263 /* StyledFont.m */,
 				6338E04D180AB4B4005A3263 /* Z-Machine */,
 				639A099013322F08000E27F4 /* Story.h */,
 				639A099113322F08000E27F4 /* Story.m */,
@@ -529,7 +524,6 @@
 				6338E0C0180AB53B005A3263 /* StoryController.m in Sources */,
 				6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */,
 				6338E0B6180AB53B005A3263 /* IFIdentification.m in Sources */,
-				6338E0C4180AB53B005A3263 /* StyledFont.m in Sources */,
 				6338E0CB180AB53B005A3263 /* ZMProcessor.cpp in Sources */,
 				6338E0A9180AB53B005A3263 /* DebugController.m in Sources */,
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
