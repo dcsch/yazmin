@@ -24,6 +24,8 @@
 @property int widthInCharacters;
 @property int heightInLines;
 
+- (NSFont *)fontForStyle:(int)style;
+
 - (void)erase;
 - (void)eraseLine;
 - (void)setCursorLine:(int)line column:(int)column;

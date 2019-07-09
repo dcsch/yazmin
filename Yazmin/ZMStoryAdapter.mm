@@ -75,12 +75,7 @@ int ZMStoryAdapter::setFont(int font) {
 void ZMStoryAdapter::setTextStyle(int style) { [_story setTextStyle:style]; }
 
 bool ZMStoryAdapter::checkUnicode(uint16_t uc) {
-  int style = _story.window == 1 ? 8 : 0;
-  NSFont *font =
-      [[Preferences sharedPreferences] fontForStyle:_story.currentStyle | style];
-  NSCharacterSet *charSet = font.coveredCharacterSet;
-//  NSLog(@"checkUnicode: font name: %@", font.displayName);
-  return [charSet characterIsMember:uc];
+  return [_story supportedCharacter:uc];
 }
 
 void ZMStoryAdapter::print(const std::string &str) {

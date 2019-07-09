@@ -45,13 +45,10 @@
 - (void)resizeUpperWindow:(int)lines {
   NSRect lowerFrameRect = _lowerScrollView.frame;
   float layoutHeight = self.frame.size.height;
-
-  NSFont *font = [[Preferences sharedPreferences] fontForStyle:8];
-  float lineHeight = [_upperWindow.layoutManager defaultLineHeightForFont:font];
-  float upperHeight =
-      lines > 0
-          ? lineHeight * lines + 2.0 * _upperWindow.textContainerInset.height
-          : 0;
+  float upperHeight = lines > 0
+                          ? _upperWindow.lineHeight * lines +
+                                2.0 * _upperWindow.textContainerInset.height
+                          : 0;
 
   // Move the lower window
   lowerFrameRect.origin.y = upperHeight;

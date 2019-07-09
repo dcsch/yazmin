@@ -94,32 +94,6 @@ extern NSString *SMShowLibraryOnStartupKey;
 */
 
 /*!
- @method fontForStyle
- @abstract Retrieves a font based on the specified style.
- @param style The specified style mask.
- @result A font that conforms to the specified style.
-*/
-- (NSFont *)fontForStyle:(int)style;
-
-/*!
- @method convertFont:forceFixedPitch:
- @abstract Converts the specified font into the current font family and size
- based on the specified font's traits.
- @param font The font to convert from.
- @param fixedPitch Is the font conversion to be forced to monospacing?  With
-        any luck this parameter won't be needed.
- @result The converted font.
-*/
-- (NSFont *)convertFont:(NSFont *)font forceFixedPitch:(BOOL)fixedPitch;
-
-/*!
- @method monospacedCharacterWidth
- @abstract Returns the width of a monospaced character, based on the preferred
-           font selection.
- */
-@property(readonly) float monospacedCharacterWidth;
-
-/*!
  @method showsLibraryOnStartup
  @abstract Returns YES if the IF library is to be shown when starting the app.
  */

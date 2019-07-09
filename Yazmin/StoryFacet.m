@@ -12,9 +12,8 @@
 
 @interface StoryFacet () {
   int _fontID;
+  NSMutableDictionary<NSNumber *, NSFont *> *_fonts;
 }
-
-- (NSFont *)fontForStyle:(int)style;
 
 @end
 
@@ -32,6 +31,7 @@
       self.fontID = 4;
     else
       self.fontID = 1;
+    _fonts = [NSMutableDictionary dictionary];
   }
   return self;
 }
@@ -57,15 +57,15 @@
   style &= 0xfe;
 
   // Check our font cache for this style
-//  NSFont *font = fonts[@(style)];
-//  if (font == nil) {
-
-  NSFontDescriptor *fontDescriptor = nil;
-  BOOL upperWindow = self.numberOfLines > -1;
-  NSString *name = nil;
-  switch (_fontID) {
+  NSUInteger fontIDAndStyle = _fontID << 8 | style;
+  NSFont *font = _fonts[@(fontIDAndStyle)];
+  if (font == nil) {
+    NSFontDescriptor *fontDescriptor = nil;
+    BOOL upperWindow = self.numberOfLines > -1;
+    NSString *name = nil;
+    switch (_fontID) {
     case 1:
-      if (upperWindow)
+      if (upperWindow || (style & 8))
         name = Preferences.sharedPreferences.monospacedFontFamily;
       else
         name = Preferences.sharedPreferences.proportionalFontFamily;
@@ -76,34 +76,32 @@
     case 4:
       name = Preferences.sharedPreferences.monospacedFontFamily;
       break;
-  }
+    }
 
-  // Bold and italic traits?
-  NSFontDescriptorSymbolicTraits traits = 0;
-  if (style & 6) {
-    if (style & 2)
-      traits |= NSFontDescriptorTraitBold;
-    if (style & 4)
-      traits |= NSFontDescriptorTraitItalic;
-  }
+    // Bold and italic traits?
+    NSFontDescriptorSymbolicTraits traits = 0;
+    if (style & 6) {
+      if (style & 2)
+        traits |= NSFontDescriptorTraitBold;
+      if (style & 4)
+        traits |= NSFontDescriptorTraitItalic;
+    }
 
-  if (name) {
+    if (name) {
+      float size = Preferences.sharedPreferences.fontSize;
+      NSDictionary<NSFontDescriptorAttributeName, id> *attrs = @{
+        NSFontFamilyAttribute : name,
+        NSFontSizeAttribute : @(size),
+        NSFontTraitsAttribute : @{NSFontSymbolicTrait : @(traits)}
+      };
+      fontDescriptor =
+          [NSFontDescriptor fontDescriptorWithFontAttributes:attrs];
+    }
+
     float size = Preferences.sharedPreferences.fontSize;
-    NSDictionary<NSFontDescriptorAttributeName, id> *attrs =
-    @{NSFontFamilyAttribute: name,
-      NSFontSizeAttribute: @(size),
-      NSFontTraitsAttribute: @{NSFontSymbolicTrait: @(traits)}
-    };
-    fontDescriptor = [NSFontDescriptor fontDescriptorWithFontAttributes:attrs];
+    font = [NSFont fontWithDescriptor:fontDescriptor size:size];
+    _fonts[@(fontIDAndStyle)] = font;
   }
-
-  float size = Preferences.sharedPreferences.fontSize;
-  NSFont *font = [NSFont fontWithDescriptor:fontDescriptor size:size];
-//    fonts[@(style)] = font;
-//  }
-
-//  NSLog(@"Font name: %@", font.fontName);
-
   return font;
 }
 

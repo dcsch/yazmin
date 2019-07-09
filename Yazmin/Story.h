@@ -78,5 +78,6 @@
                    volume:(int)volume;
 - (void)startTime:(int)time routine:(int)routine;
 - (void)stopTimedRoutine;
+- (BOOL)supportedCharacter:(unichar)c;
 
 @end

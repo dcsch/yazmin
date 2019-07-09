@@ -147,8 +147,10 @@
 }
 
 - (int)calculateScreenWidthInColumns {
+  Story *story = self.document;
+  NSFont *font = [story.facets[0] fontForStyle:8];
   float lineWidth = layoutView.upperWindow.textContainer.size.width;
-  float charWidth = [[Preferences sharedPreferences] monospacedCharacterWidth];
+  float charWidth = [font advancementForGlyph:0].width;
   return lineWidth / charWidth;
 }
 
@@ -158,7 +160,8 @@
   // checked as frame height won't account for the text container inset
   // (does NSTextContainer size do that?)
   CGFloat frameHeight = layoutView.lowerWindow.frame.size.height;
-  NSFont *font = [[Preferences sharedPreferences] fontForStyle:0];
+  Story *story = self.document;
+  NSFont *font = [story.facets[0] fontForStyle:0];
   CGFloat lineHeight =
       [layoutView.lowerWindow.layoutManager defaultLineHeightForFont:font];
   return MIN((int)(frameHeight / lineHeight), 255);
@@ -422,6 +425,10 @@
   // Retrieve the height of the upper window
   Story *story = self.document;
   GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
+  NSFont *font = [facet fontForStyle:8];
+  float lineHeight =
+      [layoutView.upperWindow.layoutManager defaultLineHeightForFont:font];
+  layoutView.upperWindow.lineHeight = lineHeight;
 
   // Implement zarf's fix to the quote box problem
   // (https://eblong.com/zarf/glk/quote-box.html)

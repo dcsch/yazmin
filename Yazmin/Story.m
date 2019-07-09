@@ -646,4 +646,11 @@
   _timer = nil;
 }
 
+- (BOOL)supportedCharacter:(unichar)c {
+  NSFont *font = [_storyFacet fontForStyle:0];
+  NSCharacterSet *charSet = font.coveredCharacterSet;
+  //  NSLog(@"checkUnicode: font name: %@", font.displayName);
+  return [charSet characterIsMember:c];
+}
+
 @end

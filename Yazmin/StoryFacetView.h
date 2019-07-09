@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, InputState) {
 @property(strong) id<StoryInput> storyInput;
 @property(getter=isInputView) BOOL inputView;
 @property InputState inputState;
+@property CGFloat lineHeight;
 
 - (void)enterString:(NSString *)input;
 
