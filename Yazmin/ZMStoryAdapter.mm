@@ -65,6 +65,7 @@ void ZMStoryAdapter::setCursor(int line, int column) {
 }
 
 int ZMStoryAdapter::setFont(int font) {
+  NSLog(@"setFont: %d", font);
   [_story hackyDidntSetTextStyle];
   int prevFontId = _story.fontId;
   _story.fontId = font;
@@ -74,10 +75,7 @@ int ZMStoryAdapter::setFont(int font) {
 void ZMStoryAdapter::setTextStyle(int style) { [_story setTextStyle:style]; }
 
 bool ZMStoryAdapter::checkUnicode(uint16_t uc) {
-  NSFont *font =
-      [[Preferences sharedPreferences] fontForStyle:_story.currentStyle];
-  NSCharacterSet *charSet = font.coveredCharacterSet;
-  return [charSet characterIsMember:uc];
+  return [_story supportedCharacter:uc];
 }
 
 void ZMStoryAdapter::print(const std::string &str) {

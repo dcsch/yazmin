@@ -518,11 +518,11 @@
 }
 
 - (int)fontId {
-  return _storyFacet.fontId;
+  return _storyFacet.fontID;
 }
 
 - (void)setFontId:(int)fontId {
-  _storyFacet.fontId = fontId;
+  _storyFacet.fontID = fontId;
 }
 
 - (void)print:(NSString *)text {
@@ -644,6 +644,13 @@
 - (void)stopTimedRoutine {
   [_timer invalidate];
   _timer = nil;
+}
+
+- (BOOL)supportedCharacter:(unichar)c {
+  NSFont *font = [_storyFacet fontForStyle:0];
+  NSCharacterSet *charSet = font.coveredCharacterSet;
+  //  NSLog(@"checkUnicode: font name: %@", font.displayName);
+  return [charSet characterIsMember:c];
 }
 
 @end

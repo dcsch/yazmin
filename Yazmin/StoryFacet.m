@@ -11,6 +11,8 @@
 #import "Story.h"
 
 @interface StoryFacet () {
+  int _fontID;
+  NSMutableDictionary<NSNumber *, NSFont *> *_fonts;
 }
 
 @end
@@ -24,11 +26,12 @@
     _textStorage = [[NSTextStorage alloc] init];
 
     // Initialize with the user-defined font
-    BOOL upperWindow = self.numberOfLines == -1;
+    BOOL upperWindow = self.numberOfLines > -1;
     if (upperWindow)
-      self.fontId = 4;
+      self.fontID = 4;
     else
-      self.fontId = 1;
+      self.fontID = 1;
+    _fonts = [NSMutableDictionary dictionary];
   }
   return self;
 }
@@ -39,6 +42,67 @@
 
 - (int)column {
   return 1;
+}
+
+- (int)fontID {
+  return _fontID;
+}
+
+- (void)setFontID:(int)fontID {
+  _fontID = fontID;
+}
+
+- (NSFont *)fontForStyle:(int)style {
+  // Mask-off the reverse flag bit, as the font will be the same anyhow
+  style &= 0xfe;
+
+  // Check our font cache for this style
+  NSUInteger fontIDAndStyle = _fontID << 8 | style;
+  NSFont *font = _fonts[@(fontIDAndStyle)];
+  if (font == nil) {
+    NSFontDescriptor *fontDescriptor = nil;
+    BOOL upperWindow = self.numberOfLines > -1;
+    NSString *name = nil;
+    switch (_fontID) {
+    case 1:
+      if (upperWindow || (style & 8))
+        name = Preferences.sharedPreferences.monospacedFontFamily;
+      else
+        name = Preferences.sharedPreferences.proportionalFontFamily;
+      break;
+    case 3:
+      name = Preferences.sharedPreferences.characterGraphicsFontFamily;
+      break;
+    case 4:
+      name = Preferences.sharedPreferences.monospacedFontFamily;
+      break;
+    }
+
+    // Bold and italic traits?
+    NSFontDescriptorSymbolicTraits traits = 0;
+    if (style & 6) {
+      if (style & 2)
+        traits |= NSFontDescriptorTraitBold;
+      if (style & 4)
+        traits |= NSFontDescriptorTraitItalic;
+    }
+
+    if (name) {
+      float size = Preferences.sharedPreferences.fontSize;
+      NSDictionary<NSFontDescriptorAttributeName, id> *attrs = @{
+        NSFontFamilyAttribute : name,
+        NSFontSizeAttribute : @(size),
+        NSFontTraitsAttribute : @{NSFontSymbolicTrait : @(traits)}
+      };
+      fontDescriptor =
+          [NSFontDescriptor fontDescriptorWithFontAttributes:attrs];
+    }
+
+    float size = Preferences.sharedPreferences.fontSize;
+    font = [NSFont fontWithDescriptor:fontDescriptor size:size];
+    _fonts[@(fontIDAndStyle)] = font;
+  }
+  return font;
 }
 
 - (int)numberOfLines {
@@ -80,7 +144,7 @@
             toAttributes:(NSMutableDictionary *)attributes {
   if (_story.forceFixedPitchFont)
     style |= 8;
-  NSFont *font = [[Preferences sharedPreferences] fontForStyle:style];
+  NSFont *font = [self fontForStyle:style];
   attributes[NSFontAttributeName] = font;
 }
 

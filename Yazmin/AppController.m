@@ -45,6 +45,7 @@
   defaultValues[SMForegroundColorKey] = foregroundColorAsData;
   defaultValues[SMMonospacedFontKey] = @"Menlo";
   defaultValues[SMProportionalFontKey] = @"Helvetica Neue";
+  defaultValues[SMCharacterGraphicsFontKey] = @"Zork";
   defaultValues[SMFontSizeKey] = @14.0f;
   defaultValues[SMShowLibraryOnStartupKey] = @1;
 

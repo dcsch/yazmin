@@ -17,6 +17,7 @@ extern NSString *SMBackgroundColorKey;
 extern NSString *SMForegroundColorKey;
 extern NSString *SMMonospacedFontKey;
 extern NSString *SMProportionalFontKey;
+extern NSString *SMCharacterGraphicsFontKey;
 extern NSString *SMFontSizeKey;
 extern NSString *SMShowLibraryOnStartupKey;
 
@@ -78,11 +79,7 @@ extern NSString *SMShowLibraryOnStartupKey;
 */
 @property(copy) NSString *monospacedFontFamily;
 
-/*!
- @method setMonospacedFontFamily
- @abstract Sets the preferred font family name for monospaced fonts.
- @param family The new font family name.
-*/
+@property NSString *characterGraphicsFontFamily;
 
 /*!
  @method fontSize
@@ -95,32 +92,6 @@ extern NSString *SMShowLibraryOnStartupKey;
  @abstract Sets the preferred font size.
  @param size The new font size.
 */
-
-/*!
- @method fontForStyle
- @abstract Retrieves a font based on the specified style.
- @param style The specified style mask.
- @result A font that conforms to the specified style.
-*/
-- (NSFont *)fontForStyle:(int)style;
-
-/*!
- @method convertFont:forceFixedPitch:
- @abstract Converts the specified font into the current font family and size
- based on the specified font's traits.
- @param font The font to convert from.
- @param fixedPitch Is the font conversion to be forced to monospacing?  With
-        any luck this parameter won't be needed.
- @result The converted font.
-*/
-- (NSFont *)convertFont:(NSFont *)font forceFixedPitch:(BOOL)fixedPitch;
-
-/*!
- @method monospacedCharacterWidth
- @abstract Returns the width of a monospaced character, based on the preferred
-           font selection.
- */
-@property(readonly) float monospacedCharacterWidth;
 
 /*!
  @method showsLibraryOnStartup

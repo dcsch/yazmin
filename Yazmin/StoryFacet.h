@@ -19,10 +19,12 @@
 @property NSTextStorage *textStorage;
 @property(readonly) int line;
 @property(readonly) int column;
-@property int fontId;
+@property int fontID;
 @property int numberOfLines;
 @property int widthInCharacters;
 @property int heightInLines;
+
+- (NSFont *)fontForStyle:(int)style;
 
 - (void)erase;
 - (void)eraseLine;
