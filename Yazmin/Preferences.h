@@ -20,6 +20,8 @@ extern NSString *SMProportionalFontKey;
 extern NSString *SMCharacterGraphicsFontKey;
 extern NSString *SMFontSizeKey;
 extern NSString *SMShowLibraryOnStartupKey;
+extern NSString *SMInterpreterNumberKey;
+extern NSString *SMInterpreterVersionKey;
 
 /*!
  @class Preferences
@@ -99,10 +101,7 @@ extern NSString *SMShowLibraryOnStartupKey;
  */
 @property BOOL showsLibraryOnStartup;
 
-/*!
- @method setShowsLibraryOnStartup
- @abstract Sets whether the IF library is to be shown when starting the app.
- @param show YES if the library is to be shown.
- */
+@property int interpreterNumber;
+@property char interpreterVersion;
 
 @end

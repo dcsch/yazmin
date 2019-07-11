@@ -14,8 +14,10 @@
 		0316CFCD22B07A4A00C882C5 /* ZMTextTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		037F044822CE94A0008AD5A5 /* babel.ifiction in Resources */ = {isa = PBXBuildFile; fileRef = 037F044722CE949F008AD5A5 /* babel.ifiction */; };
+		037F045922D6B47C008AD5A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 037F045822D6B47C008AD5A5 /* Main.storyboard */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
 		03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03898113229CAB5F004EDC55 /* StoryDocumentController.m */; };
+		0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */; };
 		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
@@ -98,9 +100,12 @@
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		037F044722CE949F008AD5A5 /* babel.ifiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = babel.ifiction; sourceTree = "<group>"; };
+		037F045822D6B47C008AD5A5 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		038980FD22960792004EDC55 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		03898112229CAB5F004EDC55 /* StoryDocumentController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryDocumentController.h; sourceTree = "<group>"; };
 		03898113229CAB5F004EDC55 /* StoryDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryDocumentController.m; sourceTree = "<group>"; };
+		0393ED6F22D6C2F00071A23B /* InterpreterPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterpreterPreferencesViewController.h; sourceTree = "<group>"; };
+		0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterpreterPreferencesViewController.m; sourceTree = "<group>"; };
 		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
@@ -228,7 +233,33 @@
 			name = "Treaty of Babel";
 			sourceTree = "<group>";
 		};
-		6338E04D180AB4B4005A3263 /* Z-Machine */ = {
+		037F045722D6B3C5008AD5A5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6338E05C180AB53B005A3263 /* Abbreviations.xib */,
+				6338E05E180AB53B005A3263 /* Debug.xib */,
+				6338E060180AB53B005A3263 /* Library.xib */,
+				6338E062180AB53B005A3263 /* ObjectBrowser.xib */,
+				6338E064180AB53B005A3263 /* Preferences.xib */,
+				6338E066180AB53B005A3263 /* StoryInformation.xib */,
+				639A099313322F08000E27F4 /* Story.xib */,
+				639A099613322F08000E27F4 /* MainMenu.xib */,
+				0366C80B210016BB003EEEB6 /* Images.xcassets */,
+				037F045822D6B47C008AD5A5 /* Main.storyboard */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		0393ED6E22D6C2650071A23B /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				0393ED6F22D6C2F00071A23B /* InterpreterPreferencesViewController.h */,
+				0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		6338E04D180AB4B4005A3263 /* Z-machine */ = {
 			isa = PBXGroup;
 			children = (
 				6338E08F180AB53B005A3263 /* ZMachine.h */,
@@ -256,7 +287,7 @@
 				03102FAB22A79B85004B280B /* ZMQuetzal.cpp */,
 				03102FAC22A79B85004B280B /* ZMQuetzal.h */,
 			);
-			name = "Z-Machine";
+			name = "Z-machine";
 			sourceTree = "<group>";
 		};
 		639A096F13322F07000E27F4 = {
@@ -308,12 +339,6 @@
 				6338E059180AB53B005A3263 /* DebugInfo.m */,
 				6338E05A180AB53B005A3263 /* DebugInfoReader.h */,
 				6338E05B180AB53B005A3263 /* DebugInfoReader.m */,
-				6338E05C180AB53B005A3263 /* Abbreviations.xib */,
-				6338E05E180AB53B005A3263 /* Debug.xib */,
-				6338E060180AB53B005A3263 /* Library.xib */,
-				6338E062180AB53B005A3263 /* ObjectBrowser.xib */,
-				6338E064180AB53B005A3263 /* Preferences.xib */,
-				6338E066180AB53B005A3263 /* StoryInformation.xib */,
 				6338E06C180AB53B005A3263 /* iff.c */,
 				6338E06D180AB53B005A3263 /* iff.h */,
 				6338E074180AB53B005A3263 /* LayoutView.h */,
@@ -345,12 +370,11 @@
 				6338E08A180AB53B005A3263 /* StoryInformationController.h */,
 				6338E08B180AB53B005A3263 /* StoryInformationController.m */,
 				6338E08C180AB53B005A3263 /* StoryInput.h */,
-				6338E04D180AB4B4005A3263 /* Z-Machine */,
+				6338E04D180AB4B4005A3263 /* Z-machine */,
 				639A099013322F08000E27F4 /* Story.h */,
 				639A099113322F08000E27F4 /* Story.m */,
-				639A099313322F08000E27F4 /* Story.xib */,
-				639A099613322F08000E27F4 /* MainMenu.xib */,
-				0366C80B210016BB003EEEB6 /* Images.xcassets */,
+				0393ED6E22D6C2650071A23B /* Preferences */,
+				037F045722D6B3C5008AD5A5 /* Resources */,
 				639A098513322F08000E27F4 /* Supporting Files */,
 			);
 			path = Yazmin;
@@ -466,6 +490,7 @@
 				639A098913322F08000E27F4 /* InfoPlist.strings in Resources */,
 				0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */,
 				6338E0AC180AB53B005A3263 /* Abbreviations.xib in Resources */,
+				037F045922D6B47C008AD5A5 /* Main.storyboard in Resources */,
 				6338E0AE180AB53B005A3263 /* Library.xib in Resources */,
 				6338E0B1180AB53B005A3263 /* StoryInformation.xib in Resources */,
 				639A099513322F08000E27F4 /* Story.xib in Resources */,
@@ -531,6 +556,7 @@
 				6338E0A6180AB53B005A3263 /* AppController.m in Sources */,
 				6338E0A7180AB53B005A3263 /* Blorb.m in Sources */,
 				6338E0C6180AB53B005A3263 /* ZMDictionary.cpp in Sources */,
+				0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */,
 				6338E0B9180AB53B005A3263 /* Library.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

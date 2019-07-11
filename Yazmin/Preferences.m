@@ -15,6 +15,8 @@ NSString *SMProportionalFontKey = @"ProportionalFont";
 NSString *SMCharacterGraphicsFontKey = @"CharacterGraphicsFont";
 NSString *SMFontSizeKey = @"FontSize";
 NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
+NSString *SMInterpreterNumberKey = @"InterpreterNumber";
+NSString *SMInterpreterVersionKey = @"InterpreterVersion";
 
 @interface Preferences () {
   NSUserDefaults *defaults;
@@ -114,6 +116,22 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 
 - (void)setShowsLibraryOnStartup:(BOOL)show {
   [defaults setObject:@(show) forKey:SMShowLibraryOnStartupKey];
+}
+
+- (int)interpreterNumber {
+  return [[defaults objectForKey:SMInterpreterNumberKey] intValue];
+}
+
+- (void)setInterpreterNumber:(int)number {
+  [defaults setObject:@(number) forKey:SMInterpreterNumberKey];
+}
+
+- (char)interpreterVersion {
+  return [[defaults objectForKey:SMInterpreterVersionKey] charValue];
+}
+
+- (void)setInterpreterVersion:(char)version {
+  [defaults setObject:@(version) forKey:SMInterpreterVersionKey];
 }
 
 @end

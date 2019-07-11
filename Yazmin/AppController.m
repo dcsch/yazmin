@@ -48,6 +48,8 @@
   defaultValues[SMCharacterGraphicsFontKey] = @"Zork";
   defaultValues[SMFontSizeKey] = @14.0f;
   defaultValues[SMShowLibraryOnStartupKey] = @1;
+  defaultValues[SMInterpreterNumberKey] = @3;
+  defaultValues[SMInterpreterVersionKey] = @'Z';
 
   // Register the dictionary of defaults
   [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
