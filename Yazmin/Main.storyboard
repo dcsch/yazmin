@@ -499,14 +499,23 @@
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W39-UK-gMJ">
                                 <rect key="frame" x="143" y="258" width="153" height="25"/>
-                                <popUpButtonCell key="cell" type="push" title="1: DECSystem-20" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="RR7-mG-cNh" id="Mj1-d6-W3W">
+                                <popUpButtonCell key="cell" type="push" title="0: Empty" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="GOG-Z3-FjB" id="Mj1-d6-W3W">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="qgn-fL-fuS">
                                         <items>
-                                            <menuItem title="1: DECSystem-20" state="on" id="RR7-mG-cNh"/>
-                                            <menuItem title="2: Apple IIe" id="Vxu-6a-aHA"/>
-                                            <menuItem title="3: Macintosh" id="OkU-em-5Xx"/>
+                                            <menuItem title="0: Empty" state="on" hidden="YES" id="GOG-Z3-FjB">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="1: DECSystem-20" id="RR7-mG-cNh">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="2: Apple IIe" id="Vxu-6a-aHA">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
+                                            <menuItem title="3: Macintosh" id="OkU-em-5Xx">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                            </menuItem>
                                             <menuItem title="4: Amiga" id="jqh-vP-4gt">
                                                 <modifierMask key="keyEquivalentModifierMask"/>
                                             </menuItem>
@@ -538,18 +547,20 @@
                                     </connections>
                                 </popUpButtonCell>
                             </popUpButton>
-                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kne-nt-gcX">
+                            <textField verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kne-nt-gcX">
                                 <rect key="frame" x="145" y="231" width="70" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="70" id="3M9-f0-5y5"/>
                                 </constraints>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="VrO-lR-kyi">
+                                    <customFormatter key="formatter" id="bfe-NI-haT" customClass="VersionFormatter"/>
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
                                     <binding destination="Awg-00-0bS" name="value" keyPath="values.InterpreterVersion" id="w4C-MV-GLa"/>
+                                    <outlet property="delegate" destination="G3I-DZ-lH1" id="cwR-iz-1rJ"/>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Skx-7x-Wdt">

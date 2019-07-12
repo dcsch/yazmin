@@ -8,7 +8,7 @@
 
 #import "InterpreterPreferencesViewController.h"
 
-@interface InterpreterPreferencesViewController ()
+@interface InterpreterPreferencesViewController () <NSControlTextEditingDelegate>
 
 @end
 
@@ -17,5 +17,24 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
 }
+
+#pragma mark - NSControlTextEditingDelegate Methods
+
+//- (BOOL)control:(NSControl *)control isValidObject:(id)obj {
+//  if (control) {
+//    NSString *text = control.stringValue;
+//    if (text.length != 1 ||
+//        [text characterAtIndex:0] <= 'A' ||
+//        [text characterAtIndex:0] >= 'Z') {
+////      NSRunAlertPanel(@"Version not valid", @"Must be between A and Z", NULL, NULL, NULL);
+//      return NO;
+//    }
+//  }
+//  return YES;
+//}
+
+//- (void)controlTextDidEndEditing:(NSNotification *)obj {
+//  NSTextField *textField = obj.object;
+//}
 
 @end
