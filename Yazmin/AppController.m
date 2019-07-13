@@ -8,13 +8,11 @@
 
 #import "AppController.h"
 #import "Library.h"
-#import "LibraryController.h"
 #import "Preferences.h"
 #import "StoryDocumentController.h"
 
 @interface AppController ()
 
-- (IBAction)showLibraryWindow:(id)sender;
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 
@@ -63,13 +61,8 @@
   if (self) {
     _library = [[Library alloc] init];
     [_library syncMetadata]; // This might be a little heavy handed
-    _libraryController = [[LibraryController alloc] initWithLibrary:_library];
   }
   return self;
-}
-
-- (IBAction)showLibraryWindow:(id)sender {
-  [_libraryController showWindow:self];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
@@ -78,8 +71,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
   // We've finished launching, so should we show the library window?
-  if ([[Preferences sharedPreferences] showsLibraryOnStartup])
-    [self showLibraryWindow:self];
+  //  if ([[Preferences sharedPreferences] showsLibraryOnStartup])
+  //    [self showLibraryWindow:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

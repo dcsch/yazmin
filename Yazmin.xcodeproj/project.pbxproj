@@ -21,6 +21,7 @@
 		03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03898113229CAB5F004EDC55 /* StoryDocumentController.m */; };
 		0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */; };
 		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
+		03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC648B22D9B28C006EE03C /* LibraryViewController.m */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
 		6338E0A7180AB53B005A3263 /* Blorb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E053180AB53B005A3263 /* Blorb.m */; };
@@ -30,7 +31,6 @@
 		6338E0AB180AB53B005A3263 /* DebugInfoReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E05B180AB53B005A3263 /* DebugInfoReader.m */; };
 		6338E0AC180AB53B005A3263 /* Abbreviations.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E05C180AB53B005A3263 /* Abbreviations.xib */; };
 		6338E0AD180AB53B005A3263 /* Debug.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E05E180AB53B005A3263 /* Debug.xib */; };
-		6338E0AE180AB53B005A3263 /* Library.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E060180AB53B005A3263 /* Library.xib */; };
 		6338E0AF180AB53B005A3263 /* ObjectBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E062180AB53B005A3263 /* ObjectBrowser.xib */; };
 		6338E0B1180AB53B005A3263 /* StoryInformation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E066180AB53B005A3263 /* StoryInformation.xib */; };
 		6338E0B2180AB53B005A3263 /* GridStoryFacet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E069180AB53B005A3263 /* GridStoryFacet.m */; };
@@ -41,7 +41,6 @@
 		6338E0B7180AB53B005A3263 /* IFStory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E073180AB53B005A3263 /* IFStory.m */; };
 		6338E0B8180AB53B005A3263 /* LayoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E075180AB53B005A3263 /* LayoutView.m */; };
 		6338E0B9180AB53B005A3263 /* Library.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E077180AB53B005A3263 /* Library.m */; };
-		6338E0BA180AB53B005A3263 /* LibraryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E079180AB53B005A3263 /* LibraryController.m */; };
 		6338E0BB180AB53B005A3263 /* LibraryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E07B180AB53B005A3263 /* LibraryEntry.m */; };
 		6338E0BC180AB53B005A3263 /* ObjectBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E07D180AB53B005A3263 /* ObjectBrowserController.m */; };
 		6338E0BE180AB53B005A3263 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E081180AB53B005A3263 /* Preferences.m */; };
@@ -91,7 +90,6 @@
 		0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMTextTests.mm; sourceTree = "<group>"; };
 		03217B07228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Abbreviations.xib; sourceTree = "<group>"; };
 		03217B08228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Debug.xib; sourceTree = "<group>"; };
-		03217B09228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Library.xib; sourceTree = "<group>"; };
 		03217B0A228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ObjectBrowser.xib; sourceTree = "<group>"; };
 		03217B0C228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StoryInformation.xib; sourceTree = "<group>"; };
 		03217B0D228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Story.xib; sourceTree = "<group>"; };
@@ -110,6 +108,8 @@
 		0393ED6F22D6C2F00071A23B /* InterpreterPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterpreterPreferencesViewController.h; sourceTree = "<group>"; };
 		0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterpreterPreferencesViewController.m; sourceTree = "<group>"; };
 		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
+		03DC648A22D9B28C006EE03C /* LibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
+		03DC648B22D9B28C006EE03C /* LibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -140,8 +140,6 @@
 		6338E075180AB53B005A3263 /* LayoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayoutView.m; sourceTree = "<group>"; };
 		6338E076180AB53B005A3263 /* Library.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Library.h; sourceTree = "<group>"; };
 		6338E077180AB53B005A3263 /* Library.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Library.m; sourceTree = "<group>"; };
-		6338E078180AB53B005A3263 /* LibraryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryController.h; sourceTree = "<group>"; };
-		6338E079180AB53B005A3263 /* LibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryController.m; sourceTree = "<group>"; };
 		6338E07A180AB53B005A3263 /* LibraryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryEntry.h; sourceTree = "<group>"; };
 		6338E07B180AB53B005A3263 /* LibraryEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryEntry.m; sourceTree = "<group>"; };
 		6338E07C180AB53B005A3263 /* ObjectBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectBrowserController.h; sourceTree = "<group>"; };
@@ -239,7 +237,6 @@
 			children = (
 				6338E05C180AB53B005A3263 /* Abbreviations.xib */,
 				6338E05E180AB53B005A3263 /* Debug.xib */,
-				6338E060180AB53B005A3263 /* Library.xib */,
 				6338E062180AB53B005A3263 /* ObjectBrowser.xib */,
 				6338E066180AB53B005A3263 /* StoryInformation.xib */,
 				639A099313322F08000E27F4 /* Story.xib */,
@@ -253,6 +250,8 @@
 		0393ED6E22D6C2650071A23B /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				6338E080180AB53B005A3263 /* Preferences.h */,
+				6338E081180AB53B005A3263 /* Preferences.m */,
 				0332A81422D92C4800B3996D /* GeneralPreferencesViewController.h */,
 				0332A81522D92C4800B3996D /* GeneralPreferencesViewController.m */,
 				0393ED6F22D6C2F00071A23B /* InterpreterPreferencesViewController.h */,
@@ -261,6 +260,19 @@
 				0332A81222D7AFA300B3996D /* VersionFormatter.m */,
 			);
 			name = Preferences;
+			sourceTree = "<group>";
+		};
+		03DC648922D9B1F1006EE03C /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				6338E076180AB53B005A3263 /* Library.h */,
+				6338E077180AB53B005A3263 /* Library.m */,
+				6338E07A180AB53B005A3263 /* LibraryEntry.h */,
+				6338E07B180AB53B005A3263 /* LibraryEntry.m */,
+				03DC648A22D9B28C006EE03C /* LibraryViewController.h */,
+				03DC648B22D9B28C006EE03C /* LibraryViewController.m */,
+			);
+			name = Library;
 			sourceTree = "<group>";
 		};
 		6338E04D180AB4B4005A3263 /* Z-machine */ = {
@@ -347,18 +359,11 @@
 				6338E06D180AB53B005A3263 /* iff.h */,
 				6338E074180AB53B005A3263 /* LayoutView.h */,
 				6338E075180AB53B005A3263 /* LayoutView.m */,
-				6338E076180AB53B005A3263 /* Library.h */,
-				6338E077180AB53B005A3263 /* Library.m */,
-				6338E07A180AB53B005A3263 /* LibraryEntry.h */,
-				6338E07B180AB53B005A3263 /* LibraryEntry.m */,
-				6338E078180AB53B005A3263 /* LibraryController.h */,
-				6338E079180AB53B005A3263 /* LibraryController.m */,
+				03DC648922D9B1F1006EE03C /* Library */,
 				03898112229CAB5F004EDC55 /* StoryDocumentController.h */,
 				03898113229CAB5F004EDC55 /* StoryDocumentController.m */,
 				6338E07C180AB53B005A3263 /* ObjectBrowserController.h */,
 				6338E07D180AB53B005A3263 /* ObjectBrowserController.m */,
-				6338E080180AB53B005A3263 /* Preferences.h */,
-				6338E081180AB53B005A3263 /* Preferences.m */,
 				6338E082180AB53B005A3263 /* RoutineDebugRecord.h */,
 				6338E083180AB53B005A3263 /* RoutineDebugRecord.m */,
 				6338E084180AB53B005A3263 /* StoryController.h */,
@@ -493,7 +498,6 @@
 				0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */,
 				6338E0AC180AB53B005A3263 /* Abbreviations.xib in Resources */,
 				037F045922D6B47C008AD5A5 /* Main.storyboard in Resources */,
-				6338E0AE180AB53B005A3263 /* Library.xib in Resources */,
 				6338E0B1180AB53B005A3263 /* StoryInformation.xib in Resources */,
 				639A099513322F08000E27F4 /* Story.xib in Resources */,
 				6338E0AF180AB53B005A3263 /* ObjectBrowser.xib in Resources */,
@@ -545,7 +549,6 @@
 				639A099213322F08000E27F4 /* Story.m in Sources */,
 				6338E0BC180AB53B005A3263 /* ObjectBrowserController.m in Sources */,
 				6338E0AB180AB53B005A3263 /* DebugInfoReader.m in Sources */,
-				6338E0BA180AB53B005A3263 /* LibraryController.m in Sources */,
 				6338E0C3180AB53B005A3263 /* StoryInformationController.m in Sources */,
 				6338E0C0180AB53B005A3263 /* StoryController.m in Sources */,
 				6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */,
@@ -555,6 +558,7 @@
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
 				6338E0CA180AB53B005A3263 /* ZMObject.cpp in Sources */,
 				6338E0A6180AB53B005A3263 /* AppController.m in Sources */,
+				03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */,
 				6338E0A7180AB53B005A3263 /* Blorb.m in Sources */,
 				6338E0C6180AB53B005A3263 /* ZMDictionary.cpp in Sources */,
 				0332A81322D7AFA300B3996D /* VersionFormatter.m in Sources */,
@@ -601,14 +605,6 @@
 				03217B08228E2ADE006DC380 /* Base */,
 			);
 			name = Debug.xib;
-			sourceTree = "<group>";
-		};
-		6338E060180AB53B005A3263 /* Library.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				03217B09228E2ADE006DC380 /* Base */,
-			);
-			name = Library.xib;
 			sourceTree = "<group>";
 		};
 		6338E062180AB53B005A3263 /* ObjectBrowser.xib */ = {

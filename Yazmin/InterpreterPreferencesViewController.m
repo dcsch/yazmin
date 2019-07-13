@@ -28,7 +28,7 @@
 //        [text characterAtIndex:0] <= 'A' ||
 //        [text characterAtIndex:0] >= 'Z') {
 ////      NSRunAlertPanel(@"Version not valid", @"Must be between A and Z",
-///NULL, NULL, NULL);
+/// NULL, NULL, NULL);
 //      return NO;
 //    }
 //  }

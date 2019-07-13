@@ -9,11 +9,9 @@
 #import <Cocoa/Cocoa.h>
 
 @class Library;
-@class LibraryController;
 
 @interface AppController : NSObject <NSApplicationDelegate>
 
 @property(readonly) Library *library;
-@property(readonly) LibraryController *libraryController;
 
 @end

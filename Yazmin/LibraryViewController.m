@@ -1,12 +1,13 @@
 //
-//  LibraryController.m
+//  LibraryViewController.m
 //  Yazmin
 //
-//  Created by David Schweinsberg on 23/11/07.
-//  Copyright 2007 David Schweinsberg. All rights reserved.
+//  Created by David Schweinsberg on 7/12/19.
+//  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import "LibraryController.h"
+#import "LibraryViewController.h"
+#import "AppController.h"
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
@@ -15,36 +16,33 @@
 #import "Story.h"
 #import "StoryInformationController.h"
 
-@interface LibraryController () <NSMenuItemValidation, NSSearchFieldDelegate> {
+@interface LibraryViewController () <NSMenuItemValidation,
+                                     NSSearchFieldDelegate> {
   IBOutlet NSTableView *tableView;
   IBOutlet NSArrayController *arrayController;
-  IBOutlet NSSearchField *searchField;
-  Library *library;
 }
 
 - (void)openStory:(LibraryEntry *)libraryEntry;
 - (IBAction)selectStory:(id)sender;
 - (IBAction)showStoryInfo:(id)sender;
 - (IBAction)removeStory:(id)sender;
-- (IBAction)searchStory:(id)sender;
+- (IBAction)searchStory:(NSSearchField *)sender;
 
 @end
 
-@implementation LibraryController
+@implementation LibraryViewController
 
-- (instancetype)initWithLibrary:(Library *)aLibrary {
-  self = [super initWithWindowNibName:@"Library"];
-  if (self) {
-    library = aLibrary;
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  AppController *appController = NSApp.delegate;
+  self.library = appController.library;
 
-    // We don't want this window to appear in the Windows menu
-    self.window.excludedFromWindowsMenu = YES;
-  }
-  return self;
+  // We don't want this window to appear in the Windows menu
+  self.view.window.excludedFromWindowsMenu = YES;
 }
 
 - (void)addStory:(Story *)story {
-  if (![library containsStory:story]) {
+  if (![_library containsStory:story]) {
     LibraryEntry *entry =
         [[LibraryEntry alloc] initWithIFID:story.ifid url:story.fileURL];
     entry.storyMetadata = story.metadata;
@@ -83,12 +81,14 @@
       }
     }
 
-    StoryInformationController *infoController =
-        [[StoryInformationController alloc]
-            initWithStoryMetadata:entry.storyMetadata
-                      pictureData:pictureData];
-    [self.document addWindowController:infoController];
-    [infoController showWindow:self];
+    // TODO: Replace with a segue to story info
+
+    //    StoryInformationController *infoController =
+    //    [[StoryInformationController alloc]
+    //     initWithStoryMetadata:entry.storyMetadata
+    //     pictureData:pictureData];
+    //    [self.document addWindowController:infoController];
+    //    [infoController showWindow:self];
   }
 }
 
@@ -100,8 +100,8 @@
   }
 }
 
-- (IBAction)searchStory:(id)sender {
-  NSString *searchTerm = searchField.stringValue;
+- (IBAction)searchStory:(NSSearchField *)sender {
+  NSString *searchTerm = sender.stringValue;
   if (searchTerm.length > 0) {
     searchTerm = [NSString stringWithFormat:@"*%@*", searchTerm];
     NSPredicate *predicate =
@@ -114,6 +114,9 @@
 - (BOOL)control:(NSControl *)control
                textView:(NSTextView *)textView
     doCommandBySelector:(SEL)commandSelector {
+
+  // TODO: Replace with a segue
+
   if (arrayController.filterPredicate &&
       commandSelector == @selector(insertNewline:)) {
     NSArray *objects = arrayController.arrangedObjects;
