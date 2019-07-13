@@ -9,16 +9,12 @@
 #import "AppController.h"
 #import "Library.h"
 #import "LibraryController.h"
-#import "PreferenceController.h"
 #import "Preferences.h"
 #import "StoryDocumentController.h"
 
-@interface AppController () {
-  PreferenceController *preferenceController;
-}
+@interface AppController ()
 
 - (IBAction)showLibraryWindow:(id)sender;
-- (IBAction)showPreferencePanel:(id)sender;
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 
@@ -68,19 +64,12 @@
     _library = [[Library alloc] init];
     [_library syncMetadata]; // This might be a little heavy handed
     _libraryController = [[LibraryController alloc] initWithLibrary:_library];
-    preferenceController = nil;
   }
   return self;
 }
 
 - (IBAction)showLibraryWindow:(id)sender {
   [_libraryController showWindow:self];
-}
-
-- (IBAction)showPreferencePanel:(id)sender {
-  if (!preferenceController)
-    preferenceController = [[PreferenceController alloc] init];
-  [preferenceController showWindow:self];
 }
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {

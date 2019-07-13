@@ -158,3 +158,11 @@ void ZMStoryAdapter::save(const uint8_t *data, size_t length) const {
 uint16_t ZMStoryAdapter::getRestoreOrSaveResult() {
   return [_story lastRestoreOrSaveResult];
 }
+
+int ZMStoryAdapter::getInterpreterNumber() const {
+  return Preferences.sharedPreferences.interpreterNumber;
+}
+
+char ZMStoryAdapter::getInterpreterVersion() const {
+  return Preferences.sharedPreferences.interpreterVersion;
+}

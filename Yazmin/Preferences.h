@@ -101,7 +101,7 @@ extern NSString *SMInterpreterVersionKey;
  */
 @property BOOL showsLibraryOnStartup;
 
-@property int interpreterNumber;
-@property char interpreterVersion;
+@property(readonly) int interpreterNumber;
+@property(readonly) char interpreterVersion;
 
 @end

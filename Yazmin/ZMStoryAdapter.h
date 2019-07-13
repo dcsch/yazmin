@@ -73,6 +73,10 @@ public:
 
   uint16_t getRestoreOrSaveResult() override;
 
+  int getInterpreterNumber() const override;
+
+  char getInterpreterVersion() const override;
+
 private:
   Story *_story;
 };

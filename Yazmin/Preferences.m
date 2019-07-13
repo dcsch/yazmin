@@ -122,16 +122,8 @@ NSString *SMInterpreterVersionKey = @"InterpreterVersion";
   return [[defaults objectForKey:SMInterpreterNumberKey] intValue];
 }
 
-- (void)setInterpreterNumber:(int)number {
-  [defaults setObject:@(number) forKey:SMInterpreterNumberKey];
-}
-
 - (char)interpreterVersion {
   return [[defaults objectForKey:SMInterpreterVersionKey] charValue];
-}
-
-- (void)setInterpreterVersion:(char)version {
-  [defaults setObject:@(version) forKey:SMInterpreterVersionKey];
 }
 
 @end

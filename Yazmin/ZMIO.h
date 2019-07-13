@@ -82,6 +82,10 @@ public:
   virtual void save(const uint8_t *data, size_t length) const = 0;
 
   virtual uint16_t getRestoreOrSaveResult() = 0;
+
+  virtual int getInterpreterNumber() const = 0;
+
+  virtual char getInterpreterVersion() const = 0;
 };
 
 #endif // ZM_IO_H__

@@ -18,7 +18,7 @@
 
 - (BOOL)getObjectValue:(out id _Nullable *)obj
              forString:(NSString *)string
-      errorDescription:(out NSString * _Nullable *)error {
+      errorDescription:(out NSString *_Nullable *)error {
   if (string.length == 1) {
     NSNumber *number = [NSNumber numberWithChar:[string characterAtIndex:0]];
     if ('A' <= number.charValue && number.charValue <= 'Z') {
