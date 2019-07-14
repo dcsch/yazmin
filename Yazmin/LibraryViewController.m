@@ -11,10 +11,10 @@
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
+#import "InformationViewController.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"
-#import "StoryInformationController.h"
 
 @interface LibraryViewController () <NSMenuItemValidation,
                                      NSSearchFieldDelegate> {
@@ -24,7 +24,6 @@
 
 - (void)openStory:(LibraryEntry *)libraryEntry;
 - (IBAction)selectStory:(id)sender;
-- (IBAction)showStoryInfo:(id)sender;
 - (IBAction)removeStory:(id)sender;
 - (IBAction)searchStory:(NSSearchField *)sender;
 
@@ -50,6 +49,33 @@
   }
 }
 
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender {
+  if ([segue.identifier isEqualToString:@"Information"]) {
+    NSInteger row = tableView.clickedRow;
+    LibraryEntry *entry = arrayController.arrangedObjects[row];
+    NSData *pictureData = nil;
+
+    // Is this a blorb we can pull data from?
+    if ([Blorb isBlorbURL:entry.fileURL]) {
+      NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
+      if (data && [Blorb isBlorbData:data]) {
+        Blorb *blorb = [[Blorb alloc] initWithData:data];
+        pictureData = blorb.pictureData;
+      }
+    }
+
+    // Fish through all the controllers
+    NSWindowController *windowController = segue.destinationController;
+    NSTabViewController *tabViewController =
+        (NSTabViewController *)windowController.contentViewController;
+    InformationViewController *infoViewController =
+        (InformationViewController *)tabViewController.tabViewItems[0]
+            .viewController;
+    infoViewController.storyMetadata = entry.storyMetadata;
+    infoViewController.pictureData = pictureData;
+  }
+}
+
 - (void)openStory:(LibraryEntry *)libraryEntry {
   [NSDocumentController.sharedDocumentController
       openDocumentWithContentsOfURL:libraryEntry.fileURL
@@ -64,32 +90,6 @@
   NSInteger row = tableView.clickedRow;
   if (row > -1)
     [self openStory:arrayController.arrangedObjects[row]];
-}
-
-- (IBAction)showStoryInfo:(id)sender {
-  NSInteger row = tableView.clickedRow;
-  if (row > -1) {
-    LibraryEntry *entry = arrayController.arrangedObjects[row];
-    NSData *pictureData = nil;
-
-    // Is this a blorb we can pull data from?
-    if ([Blorb isBlorbURL:entry.fileURL]) {
-      NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
-      if (data && [Blorb isBlorbData:data]) {
-        Blorb *blorb = [[Blorb alloc] initWithData:data];
-        pictureData = blorb.pictureData;
-      }
-    }
-
-    // TODO: Replace with a segue to story info
-
-    //    StoryInformationController *infoController =
-    //    [[StoryInformationController alloc]
-    //     initWithStoryMetadata:entry.storyMetadata
-    //     pictureData:pictureData];
-    //    [self.document addWindowController:infoController];
-    //    [infoController showWindow:self];
-  }
 }
 
 - (IBAction)removeStory:(id)sender {

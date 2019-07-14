@@ -726,7 +726,7 @@
                         <menuItem title="Get Info" id="qdJ-jb-gr5">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="showStoryInfo:" target="K2T-nf-LlE" id="H8k-87-EBH"/>
+                                <segue destination="wIJ-D0-52I" kind="show" identifier="Information" id="Y2S-gk-ihm"/>
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="lhM-Af-r7z"/>
@@ -750,6 +750,138 @@
                 <customObject id="pcv-95-N6D" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-548" y="219"/>
+        </scene>
+        <!--Window Controller-->
+        <scene sceneID="hwj-ht-Wc0">
+            <objects>
+                <windowController showSeguePresentationStyle="single" id="wIJ-D0-52I" sceneMemberID="viewController">
+                    <window key="window" title="Story Information" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="87C-gD-fkX">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="196" y="240" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+                        <connections>
+                            <outlet property="delegate" destination="wIJ-D0-52I" id="A1O-lQ-ScO"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="bGL-d7-VVO" kind="relationship" relationship="window.shadowedContentViewController" id="R9j-GD-kPe"/>
+                    </connections>
+                </windowController>
+                <customObject id="k6a-Xd-VgF" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="77" y="225"/>
+        </scene>
+        <!--Tab View Controller-->
+        <scene sceneID="22s-S4-nZC">
+            <objects>
+                <tabViewController selectedTabViewItemIndex="0" id="bGL-d7-VVO" sceneMemberID="viewController">
+                    <tabViewItems>
+                        <tabViewItem label="Information" identifier="" id="h25-b0-Roe"/>
+                        <tabViewItem label="Artwork" identifier="" id="WvZ-CO-cDL"/>
+                    </tabViewItems>
+                    <viewControllerTransitionOptions key="transitionOptions" allowUserInteraction="YES"/>
+                    <tabView key="tabView" type="noTabsNoBorder" id="joq-Px-hKA">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <font key="font" metaFont="message"/>
+                        <connections>
+                            <outlet property="delegate" destination="bGL-d7-VVO" id="mNf-mK-hxv"/>
+                        </connections>
+                    </tabView>
+                    <connections>
+                        <outlet property="tabView" destination="joq-Px-hKA" id="4kj-Sd-T3G"/>
+                        <segue destination="sVx-gd-SnN" kind="relationship" relationship="tabItems" id="yJD-wE-FNY"/>
+                        <segue destination="Rl5-8V-jhl" kind="relationship" relationship="tabItems" id="Bab-mQ-xNw"/>
+                    </connections>
+                </tabViewController>
+                <customObject id="veo-Kz-Ue8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="642" y="219"/>
+        </scene>
+        <!--Information View Controller-->
+        <scene sceneID="PSw-of-FgO">
+            <objects>
+                <viewController id="sVx-gd-SnN" customClass="InformationViewController" sceneMemberID="viewController">
+                    <view key="view" id="HtG-Ng-mHC">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ypr-9p-AYy">
+                                <rect key="frame" x="5" y="158" width="134" height="134"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="2Kv-qx-Hov"/>
+                            </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GGK-f9-etV">
+                                <rect key="frame" x="142" y="272" width="290" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Title" id="B9q-8f-vuc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aaK-Fd-zzo">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="144"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" id="V79-E3-awz">
+                                    <rect key="frame" x="1" y="1" width="448" height="142"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" usesRuler="YES" spellingCorrection="YES" smartInsertDelete="YES" id="XW7-nw-N9s">
+                                            <rect key="frame" x="0.0" y="0.0" width="448" height="142"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="448" height="142"/>
+                                            <size key="maxSize" width="509" height="10000000"/>
+                                            <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                        </textView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="VJ7-Wg-PiR">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="DtD-lZ-wd6">
+                                    <rect key="frame" x="-30" y="1" width="15" height="142"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gkx-Gg-0pq">
+                                <rect key="frame" x="142" y="247" width="290" height="17"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Author" id="Y5p-bh-BGH">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="authorTextField" destination="Gkx-Gg-0pq" id="qFi-wy-YAP"/>
+                        <outlet property="imageView" destination="Ypr-9p-AYy" id="N4z-rX-nnM"/>
+                        <outlet property="storyDescription" destination="XW7-nw-N9s" id="bYL-VP-LLq"/>
+                        <outlet property="titleTextField" destination="GGK-f9-etV" id="OUr-ib-Unv"/>
+                    </connections>
+                </viewController>
+                <customObject id="Ivj-Yh-nxC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1209" y="78"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="L5U-Ox-7fz">
+            <objects>
+                <viewController id="Rl5-8V-jhl" sceneMemberID="viewController">
+                    <view key="view" id="V7V-Oo-pQJ">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </view>
+                </viewController>
+                <customObject id="9yr-sz-HOq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1209" y="447"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="xHn-e4-VYu">

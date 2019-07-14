@@ -1,42 +1,33 @@
 //
-//  StoryInformationController.m
+//  InformationViewController.m
 //  Yazmin
 //
-//  Created by David Schweinsberg on 22/11/07.
-//  Copyright 2007 David Schweinsberg. All rights reserved.
+//  Created by David Schweinsberg on 7/13/19.
+//  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import "StoryInformationController.h"
+#import "InformationViewController.h"
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
-//#import "IFictionMetadata.h"
 
-@interface StoryInformationController () {
+@interface InformationViewController () {
   IBOutlet NSImageView *imageView;
-  IBOutlet NSTextField *title;
-  IBOutlet NSTextField *author;
+  IBOutlet NSTextField *titleTextField;
+  IBOutlet NSTextField *authorTextField;
   IBOutlet NSTextView *storyDescription;
-  IFStory *_storyMetadata;
-  NSData *_pictureData;
 }
 
 @end
 
-@implementation StoryInformationController
+@implementation InformationViewController
 
-- (nonnull instancetype)initWithStoryMetadata:(nonnull IFStory *)storyMetadata
-                                  pictureData:(nullable NSData *)pictureData {
-  self = [super initWithWindowNibName:@"StoryInformation"];
-  if (self) {
-    _storyMetadata = storyMetadata;
-    _pictureData = pictureData;
-  }
-  return self;
+- (void)viewDidLoad {
+  [super viewDidLoad];
 }
 
-- (void)windowDidLoad {
-  imageView.imageFrameStyle = NSImageFramePhoto;
+- (void)viewWillAppear {
+  [super viewWillAppear];
 
   // Set the artwork
   if (_pictureData) {
@@ -63,8 +54,8 @@
   }
 
   if (_storyMetadata) {
-    title.stringValue = _storyMetadata.bibliographic.title;
-    author.stringValue = _storyMetadata.bibliographic.author;
+    titleTextField.stringValue = _storyMetadata.bibliographic.title;
+    authorTextField.stringValue = _storyMetadata.bibliographic.author;
     NSString *desc = _storyMetadata.bibliographic.storyDescription;
     if (desc)
       storyDescription.string = desc;

@@ -20,12 +20,11 @@
 #import "Story.h"
 #import "StoryFacet.h"
 #import "StoryFacetView.h"
-#import "StoryInformationController.h"
 #import "ZMachine.h"
 
 @interface StoryController () {
   IBOutlet LayoutView *layoutView;
-  StoryInformationController *informationController;
+  //  StoryInformationController *informationController;
   DebugController *debugController;
   ObjectBrowserController *objectBrowserController;
   AbbreviationsController *abbreviationsController;
@@ -53,7 +52,7 @@
 - (void)stringInput:(NSString *)string;
 - (void)update;
 - (IBAction)reload:(id)sender;
-- (IBAction)showStoryInfo:(id)sender;
+//- (IBAction)showStoryInfo:(id)sender;
 - (IBAction)showDebuggerWindow:(id)sender;
 - (IBAction)showObjectBrowserWindow:(id)sender;
 - (IBAction)showAbbreviationsWindow:(id)sender;
@@ -548,23 +547,24 @@
   [self executeStory];
 }
 
-- (IBAction)showStoryInfo:(id)sender {
-  if (!informationController) {
-    Story *story = self.document;
-    NSData *metaData = story.blorb.metaData;
-    if (metaData) {
-      NSData *pictureData = story.blorb.pictureData;
-      IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:metaData];
-      if (ifmd.stories.count > 0) {
-        informationController = [[StoryInformationController alloc]
-            initWithStoryMetadata:ifmd.stories[0]
-                      pictureData:pictureData];
-        [self.document addWindowController:informationController];
-      }
-    }
-  }
-  [informationController showWindow:self];
-}
+//- (IBAction)showStoryInfo:(id)sender {
+//  if (!informationController) {
+//    Story *story = self.document;
+//    NSData *metaData = story.blorb.metaData;
+//    if (metaData) {
+//      NSData *pictureData = story.blorb.pictureData;
+//      IFictionMetadata *ifmd = [[IFictionMetadata alloc]
+//      initWithData:metaData];
+//      if (ifmd.stories.count > 0) {
+//        informationController = [[StoryInformationController alloc]
+//            initWithStoryMetadata:ifmd.stories[0]
+//                      pictureData:pictureData];
+//        [self.document addWindowController:informationController];
+//      }
+//    }
+//  }
+//  [informationController showWindow:self];
+//}
 
 - (IBAction)showDebuggerWindow:(id)sender {
   if (!debugController) {

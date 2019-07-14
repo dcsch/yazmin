@@ -22,6 +22,7 @@
 		0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */; };
 		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
 		03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC648B22D9B28C006EE03C /* LibraryViewController.m */; };
+		03DC649322DAF995006EE03C /* InformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC649222DAF995006EE03C /* InformationViewController.m */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
 		6338E0A7180AB53B005A3263 /* Blorb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E053180AB53B005A3263 /* Blorb.m */; };
@@ -32,7 +33,6 @@
 		6338E0AC180AB53B005A3263 /* Abbreviations.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E05C180AB53B005A3263 /* Abbreviations.xib */; };
 		6338E0AD180AB53B005A3263 /* Debug.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E05E180AB53B005A3263 /* Debug.xib */; };
 		6338E0AF180AB53B005A3263 /* ObjectBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E062180AB53B005A3263 /* ObjectBrowser.xib */; };
-		6338E0B1180AB53B005A3263 /* StoryInformation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6338E066180AB53B005A3263 /* StoryInformation.xib */; };
 		6338E0B2180AB53B005A3263 /* GridStoryFacet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E069180AB53B005A3263 /* GridStoryFacet.m */; };
 		6338E0B3180AB53B005A3263 /* IFBibliographic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E06B180AB53B005A3263 /* IFBibliographic.m */; };
 		6338E0B4180AB53B005A3263 /* iff.c in Sources */ = {isa = PBXBuildFile; fileRef = 6338E06C180AB53B005A3263 /* iff.c */; };
@@ -48,7 +48,6 @@
 		6338E0C0180AB53B005A3263 /* StoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E085180AB53B005A3263 /* StoryController.m */; };
 		6338E0C1180AB53B005A3263 /* StoryFacet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E087180AB53B005A3263 /* StoryFacet.m */; };
 		6338E0C2180AB53B005A3263 /* StoryFacetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E089180AB53B005A3263 /* StoryFacetView.m */; };
-		6338E0C3180AB53B005A3263 /* StoryInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E08B180AB53B005A3263 /* StoryInformationController.m */; };
 		6338E0C5180AB53B005A3263 /* ZMachine.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6338E090180AB53B005A3263 /* ZMachine.mm */; };
 		6338E0C6180AB53B005A3263 /* ZMDictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6338E091180AB53B005A3263 /* ZMDictionary.cpp */; };
 		6338E0C7180AB53B005A3263 /* ZMErrorAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6338E095180AB53B005A3263 /* ZMErrorAdapter.mm */; };
@@ -91,7 +90,6 @@
 		03217B07228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Abbreviations.xib; sourceTree = "<group>"; };
 		03217B08228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Debug.xib; sourceTree = "<group>"; };
 		03217B0A228E2ADE006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/ObjectBrowser.xib; sourceTree = "<group>"; };
-		03217B0C228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StoryInformation.xib; sourceTree = "<group>"; };
 		03217B0D228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Story.xib; sourceTree = "<group>"; };
 		03217B0E228E2ADF006DC380 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		0332A81122D7AFA300B3996D /* VersionFormatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VersionFormatter.h; sourceTree = "<group>"; };
@@ -110,6 +108,8 @@
 		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
 		03DC648A22D9B28C006EE03C /* LibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		03DC648B22D9B28C006EE03C /* LibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
+		03DC649122DAF995006EE03C /* InformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InformationViewController.h; sourceTree = "<group>"; };
+		03DC649222DAF995006EE03C /* InformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationViewController.m; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -154,8 +154,6 @@
 		6338E087180AB53B005A3263 /* StoryFacet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryFacet.m; sourceTree = "<group>"; };
 		6338E088180AB53B005A3263 /* StoryFacetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryFacetView.h; sourceTree = "<group>"; };
 		6338E089180AB53B005A3263 /* StoryFacetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryFacetView.m; sourceTree = "<group>"; };
-		6338E08A180AB53B005A3263 /* StoryInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryInformationController.h; sourceTree = "<group>"; };
-		6338E08B180AB53B005A3263 /* StoryInformationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoryInformationController.m; sourceTree = "<group>"; };
 		6338E08C180AB53B005A3263 /* StoryInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoryInput.h; sourceTree = "<group>"; };
 		6338E08F180AB53B005A3263 /* ZMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMachine.h; sourceTree = "<group>"; };
 		6338E090180AB53B005A3263 /* ZMachine.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMachine.mm; sourceTree = "<group>"; };
@@ -238,7 +236,6 @@
 				6338E05C180AB53B005A3263 /* Abbreviations.xib */,
 				6338E05E180AB53B005A3263 /* Debug.xib */,
 				6338E062180AB53B005A3263 /* ObjectBrowser.xib */,
-				6338E066180AB53B005A3263 /* StoryInformation.xib */,
 				639A099313322F08000E27F4 /* Story.xib */,
 				639A099613322F08000E27F4 /* MainMenu.xib */,
 				0366C80B210016BB003EEEB6 /* Images.xcassets */,
@@ -271,6 +268,8 @@
 				6338E07B180AB53B005A3263 /* LibraryEntry.m */,
 				03DC648A22D9B28C006EE03C /* LibraryViewController.h */,
 				03DC648B22D9B28C006EE03C /* LibraryViewController.m */,
+				03DC649122DAF995006EE03C /* InformationViewController.h */,
+				03DC649222DAF995006EE03C /* InformationViewController.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -374,8 +373,6 @@
 				6338E069180AB53B005A3263 /* GridStoryFacet.m */,
 				6338E088180AB53B005A3263 /* StoryFacetView.h */,
 				6338E089180AB53B005A3263 /* StoryFacetView.m */,
-				6338E08A180AB53B005A3263 /* StoryInformationController.h */,
-				6338E08B180AB53B005A3263 /* StoryInformationController.m */,
 				6338E08C180AB53B005A3263 /* StoryInput.h */,
 				6338E04D180AB4B4005A3263 /* Z-machine */,
 				639A099013322F08000E27F4 /* Story.h */,
@@ -498,7 +495,6 @@
 				0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */,
 				6338E0AC180AB53B005A3263 /* Abbreviations.xib in Resources */,
 				037F045922D6B47C008AD5A5 /* Main.storyboard in Resources */,
-				6338E0B1180AB53B005A3263 /* StoryInformation.xib in Resources */,
 				639A099513322F08000E27F4 /* Story.xib in Resources */,
 				6338E0AF180AB53B005A3263 /* ObjectBrowser.xib in Resources */,
 				639A099813322F08000E27F4 /* MainMenu.xib in Resources */,
@@ -549,13 +545,13 @@
 				639A099213322F08000E27F4 /* Story.m in Sources */,
 				6338E0BC180AB53B005A3263 /* ObjectBrowserController.m in Sources */,
 				6338E0AB180AB53B005A3263 /* DebugInfoReader.m in Sources */,
-				6338E0C3180AB53B005A3263 /* StoryInformationController.m in Sources */,
 				6338E0C0180AB53B005A3263 /* StoryController.m in Sources */,
 				6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */,
 				6338E0B6180AB53B005A3263 /* IFIdentification.m in Sources */,
 				6338E0CB180AB53B005A3263 /* ZMProcessor.cpp in Sources */,
 				6338E0A9180AB53B005A3263 /* DebugController.m in Sources */,
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
+				03DC649322DAF995006EE03C /* InformationViewController.m in Sources */,
 				6338E0CA180AB53B005A3263 /* ZMObject.cpp in Sources */,
 				6338E0A6180AB53B005A3263 /* AppController.m in Sources */,
 				03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */,
@@ -613,14 +609,6 @@
 				03217B0A228E2ADE006DC380 /* Base */,
 			);
 			name = ObjectBrowser.xib;
-			sourceTree = "<group>";
-		};
-		6338E066180AB53B005A3263 /* StoryInformation.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				03217B0C228E2ADF006DC380 /* Base */,
-			);
-			name = StoryInformation.xib;
 			sourceTree = "<group>";
 		};
 		639A098713322F08000E27F4 /* InfoPlist.strings */ = {
