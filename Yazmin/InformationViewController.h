@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface InformationViewController : NSViewController
 
 @property IFStory *storyMetadata;
-@property NSData *pictureData;
+@property NSImage *picture;
 
 @end
 

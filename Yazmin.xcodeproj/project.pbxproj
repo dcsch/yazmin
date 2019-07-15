@@ -274,6 +274,17 @@
 			name = Library;
 			sourceTree = "<group>";
 		};
+		03DC649422DB0B61006EE03C /* Blorb */ = {
+			isa = PBXGroup;
+			children = (
+				6338E052180AB53B005A3263 /* Blorb.h */,
+				6338E053180AB53B005A3263 /* Blorb.m */,
+				6338E054180AB53B005A3263 /* BlorbResource.h */,
+				6338E055180AB53B005A3263 /* BlorbResource.m */,
+			);
+			name = Blorb;
+			sourceTree = "<group>";
+		};
 		6338E04D180AB4B4005A3263 /* Z-machine */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,6 +312,8 @@
 				6338E0A4180AB53B005A3263 /* ZMText.h */,
 				03102FAB22A79B85004B280B /* ZMQuetzal.cpp */,
 				03102FAC22A79B85004B280B /* ZMQuetzal.h */,
+				6338E06C180AB53B005A3263 /* iff.c */,
+				6338E06D180AB53B005A3263 /* iff.h */,
 			);
 			name = "Z-machine";
 			sourceTree = "<group>";
@@ -340,22 +353,17 @@
 			isa = PBXGroup;
 			children = (
 				037F044622CE920B008AD5A5 /* Treaty of Babel */,
+				03DC649422DB0B61006EE03C /* Blorb */,
 				6338E04E180AB53B005A3263 /* AbbreviationsController.h */,
 				6338E04F180AB53B005A3263 /* AbbreviationsController.m */,
 				6338E050180AB53B005A3263 /* AppController.h */,
 				6338E051180AB53B005A3263 /* AppController.m */,
-				6338E052180AB53B005A3263 /* Blorb.h */,
-				6338E053180AB53B005A3263 /* Blorb.m */,
-				6338E054180AB53B005A3263 /* BlorbResource.h */,
-				6338E055180AB53B005A3263 /* BlorbResource.m */,
 				6338E056180AB53B005A3263 /* DebugController.h */,
 				6338E057180AB53B005A3263 /* DebugController.m */,
 				6338E058180AB53B005A3263 /* DebugInfo.h */,
 				6338E059180AB53B005A3263 /* DebugInfo.m */,
 				6338E05A180AB53B005A3263 /* DebugInfoReader.h */,
 				6338E05B180AB53B005A3263 /* DebugInfoReader.m */,
-				6338E06C180AB53B005A3263 /* iff.c */,
-				6338E06D180AB53B005A3263 /* iff.h */,
 				6338E074180AB53B005A3263 /* LayoutView.h */,
 				6338E075180AB53B005A3263 /* LayoutView.m */,
 				03DC648922D9B1F1006EE03C /* Library */,

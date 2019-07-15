@@ -30,8 +30,7 @@
   [super viewWillAppear];
 
   // Set the artwork
-  if (_pictureData) {
-    NSImage *image = [[NSImage alloc] initWithData:_pictureData];
+  if (_picture) {
 
     // Resize the image to a high quality thumbnail
     float resizeWidth = 128.0;
@@ -39,15 +38,15 @@
     NSImage *resizedImage =
         [[NSImage alloc] initWithSize:NSMakeSize(resizeWidth, resizeHeight)];
 
-    NSSize originalSize = image.size;
+    NSSize originalSize = _picture.size;
 
     [resizedImage lockFocus];
     [NSGraphicsContext currentContext].imageInterpolation =
         NSImageInterpolationHigh;
-    [image drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
-             fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
-            operation:NSCompositingOperationSourceOver
-             fraction:1.0];
+    [_picture drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
+                fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
+               operation:NSCompositingOperationSourceOver
+                fraction:1.0];
     [resizedImage unlockFocus];
 
     imageView.image = resizedImage;

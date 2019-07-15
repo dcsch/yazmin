@@ -53,14 +53,14 @@
   if ([segue.identifier isEqualToString:@"Information"]) {
     NSInteger row = tableView.clickedRow;
     LibraryEntry *entry = arrayController.arrangedObjects[row];
-    NSData *pictureData = nil;
+    NSImage *picture = nil;
 
     // Is this a blorb we can pull data from?
     if ([Blorb isBlorbURL:entry.fileURL]) {
       NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
       if (data && [Blorb isBlorbData:data]) {
         Blorb *blorb = [[Blorb alloc] initWithData:data];
-        pictureData = blorb.pictureData;
+        picture = [[NSImage alloc] initWithData:blorb.pictureData];
       }
     }
 
@@ -72,7 +72,10 @@
         (InformationViewController *)tabViewController.tabViewItems[0]
             .viewController;
     infoViewController.storyMetadata = entry.storyMetadata;
-    infoViewController.pictureData = pictureData;
+    infoViewController.picture = picture;
+
+    NSViewController *artViewController = tabViewController.tabViewItems[1].viewController;
+    artViewController.representedObject = picture;
   }
 }
 
