@@ -10,20 +10,24 @@
 
 @class IFStory;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface LibraryEntry : NSObject
 
-@property(readonly, nonnull) NSString *ifid;
-@property(readonly, nonnull) NSURL *fileURL;
-@property(nullable) IFStory *storyMetadata;
-@property(readonly, nonnull) NSString *title;
+@property(readonly) NSString *ifid;
+@property(readonly) NSURL *fileURL;
+@property IFStory *storyMetadata;
+@property(readonly) NSString *title;
 @property(readonly, nullable) NSString *author;
 @property(readonly, nullable) NSString *genre;
 @property(readonly, nullable) NSString *group;
 @property(readonly, nullable) NSString *firstPublished;
 
-- (nonnull instancetype)initWithIFID:(nonnull NSString *)ifid
-                                 url:(nonnull NSURL *)url
+- (instancetype)initWithIFID:(NSString *)ifid
+                         url:(NSURL *)url
     NS_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init __attribute__((unavailable));
+- (instancetype)init __attribute__((unavailable));
 
 @end
+
+NS_ASSUME_NONNULL_END

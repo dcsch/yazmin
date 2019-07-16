@@ -10,7 +10,7 @@
 
 @implementation IFBibliographic
 
-- (nonnull instancetype)initWithXMLElement:(nonnull NSXMLElement *)element {
+- (instancetype)initWithXMLElement:(NSXMLElement *)element {
   self = [super init];
   if (self) {
     NSEnumerator *enumChildren = [element.children objectEnumerator];
@@ -43,5 +43,14 @@
   }
   return self;
 }
+
+- (instancetype)initWithTitle:(NSString *)title {
+  self = [super init];
+  if (self) {
+    _title = title;
+  }
+  return self;
+}
+
 
 @end

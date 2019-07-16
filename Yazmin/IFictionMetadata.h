@@ -10,13 +10,17 @@
 
 @class IFStory;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IFictionMetadata : NSObject
 
-- (nonnull instancetype)initWithData:(nonnull NSData *)data
-    NS_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init __attribute__((unavailable));
-@property(readonly, nonnull) NSArray<IFStory *> *stories;
+@property(readonly) NSArray<IFStory *> *stories;
 
-- (nullable IFStory *)storyWithIFID:(nonnull NSString *)ifid;
+- (instancetype)initWithData:(NSData *)data
+    NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
+- (nullable IFStory *)storyWithIFID:(NSString *)ifid;
 
 @end
+
+NS_ASSUME_NONNULL_END

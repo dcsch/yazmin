@@ -10,7 +10,7 @@
 
 @implementation IFIdentification
 
-- (nonnull instancetype)initWithXMLElement:(nonnull NSXMLElement *)element {
+- (instancetype)initWithXMLElement:(NSXMLElement *)element {
   self = [super init];
   if (self) {
     NSMutableArray<NSString *> *ifids = [[NSMutableArray alloc] init];

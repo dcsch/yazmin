@@ -8,11 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IFBibliographic : NSObject
 
-- (nonnull instancetype)initWithXMLElement:(nonnull NSXMLElement *)element
-    NS_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init __attribute__((unavailable));
 @property(readonly, nullable) NSString *title;
 @property(readonly, nullable) NSString *author;
 @property(readonly, nullable) NSString *language;
@@ -25,4 +24,10 @@
 @property(readonly) int seriesNumber;
 @property(readonly, nullable) NSString *forgiveness;
 
+- (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTitle:(NSString *)title NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
+
 @end
+
+NS_ASSUME_NONNULL_END

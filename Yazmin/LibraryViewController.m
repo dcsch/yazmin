@@ -26,6 +26,10 @@
 - (IBAction)selectStory:(id)sender;
 - (IBAction)removeStory:(id)sender;
 - (IBAction)searchStory:(NSSearchField *)sender;
+- (IBAction)showStoryInfo:(id)sender;
+- (void)prepareInformationWindowController:
+            (NSWindowController *)windowController
+                                   withRow:(NSInteger)row;
 
 @end
 
@@ -35,8 +39,12 @@
   [super viewDidLoad];
   AppController *appController = NSApp.delegate;
   self.library = appController.library;
+}
 
-  // We don't want this window to appear in the Windows menu
+- (void)viewWillAppear {
+  [super viewWillAppear];
+
+  // We don't want this window to appear in the Window menu
   self.view.window.excludedFromWindowsMenu = YES;
 }
 
@@ -49,33 +57,71 @@
   }
 }
 
+- (void)prepareInformationWindowController:
+            (NSWindowController *)windowController
+                                   withRow:(NSInteger)row {
+  LibraryEntry *entry = arrayController.arrangedObjects[row];
+  NSImage *picture = nil;
+
+  windowController.window.representedURL = entry.fileURL;
+
+  // Is this a blorb we can pull data from?
+  if ([Blorb isBlorbURL:entry.fileURL]) {
+    NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
+    if (data && [Blorb isBlorbData:data]) {
+      Blorb *blorb = [[Blorb alloc] initWithData:data];
+      picture = [[NSImage alloc] initWithData:blorb.pictureData];
+    }
+  }
+
+  // Fish through all the controllers
+  NSTabViewController *tabViewController =
+      (NSTabViewController *)windowController.contentViewController;
+  InformationViewController *infoViewController =
+      (InformationViewController *)tabViewController.tabViewItems[0]
+          .viewController;
+  infoViewController.storyMetadata = entry.storyMetadata;
+  infoViewController.picture = picture;
+
+  NSViewController *artViewController =
+      tabViewController.tabViewItems[1].viewController;
+  artViewController.representedObject = picture;
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSStoryboardSegueIdentifier)identifier
+                                  sender:(id)sender {
+  if ([identifier isEqualToString:@"Information"]) {
+    NSInteger row = tableView.clickedRow;
+    if (row == -1)
+      row = arrayController.selectionIndex;
+    if (row != NSIntegerMax) {
+
+      // Is this info window already open?
+      // (There can be multiple info windows, but we want only one for each
+      // story)
+      LibraryEntry *entry = arrayController.arrangedObjects[row];
+      for (NSWindow *window in NSApp.windows) {
+        if ([window.windowController.contentViewController
+                isKindOfClass:NSTabViewController.class] &&
+            [window.representedURL isEqualTo:entry.fileURL]) {
+          [window makeKeyAndOrderFront:self];
+          return NO;
+        }
+      }
+      return YES;
+    } else
+      return NO;
+  }
+  return YES;
+}
+
 - (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender {
   if ([segue.identifier isEqualToString:@"Information"]) {
     NSInteger row = tableView.clickedRow;
-    LibraryEntry *entry = arrayController.arrangedObjects[row];
-    NSImage *picture = nil;
-
-    // Is this a blorb we can pull data from?
-    if ([Blorb isBlorbURL:entry.fileURL]) {
-      NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
-      if (data && [Blorb isBlorbData:data]) {
-        Blorb *blorb = [[Blorb alloc] initWithData:data];
-        picture = [[NSImage alloc] initWithData:blorb.pictureData];
-      }
-    }
-
-    // Fish through all the controllers
-    NSWindowController *windowController = segue.destinationController;
-    NSTabViewController *tabViewController =
-        (NSTabViewController *)windowController.contentViewController;
-    InformationViewController *infoViewController =
-        (InformationViewController *)tabViewController.tabViewItems[0]
-            .viewController;
-    infoViewController.storyMetadata = entry.storyMetadata;
-    infoViewController.picture = picture;
-
-    NSViewController *artViewController = tabViewController.tabViewItems[1].viewController;
-    artViewController.representedObject = picture;
+    if (row == -1)
+      row = arrayController.selectionIndex;
+    [self prepareInformationWindowController:segue.destinationController
+                                     withRow:row];
   }
 }
 
@@ -114,6 +160,10 @@
     arrayController.filterPredicate = nil;
 }
 
+- (IBAction)showStoryInfo:(id)sender {
+  [self performSegueWithIdentifier:@"Information" sender:self];
+}
+
 - (BOOL)control:(NSControl *)control
                textView:(NSTextView *)textView
     doCommandBySelector:(SEL)commandSelector {
@@ -130,12 +180,14 @@
   return NO;
 }
 
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-  NSInteger row = tableView.clickedRow;
-  if (row > -1) {
-    return YES;
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item {
+  if (item.action == @selector(showStoryInfo:)) {
+    NSInteger row = tableView.clickedRow;
+    if (row == -1)
+      row = arrayController.selectionIndex;
+    return row != NSIntegerMax;
   }
-  return NO;
+  return YES;
 }
 
 @end

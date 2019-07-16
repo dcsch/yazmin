@@ -12,7 +12,7 @@
 
 @implementation IFStory
 
-- (nonnull instancetype)initWithXMLElement:(nonnull NSXMLElement *)element {
+- (instancetype)initWithXMLElement:(NSXMLElement *)element {
   self = [super init];
   if (self) {
     NSXMLElement *idElement = [element elementsForName:@"identification"][0];
@@ -20,6 +20,14 @@
 
     NSXMLElement *biblioElement = [element elementsForName:@"bibliographic"][0];
     _bibliographic = [[IFBibliographic alloc] initWithXMLElement:biblioElement];
+  }
+  return self;
+}
+
+- (instancetype)initWithTitle:(NSString *)title {
+  self = [super init];
+  if (self) {
+    _bibliographic = [[IFBibliographic alloc] initWithTitle:title];
   }
   return self;
 }

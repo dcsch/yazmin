@@ -12,7 +12,7 @@
 
 @implementation IFictionMetadata
 
-- (instancetype)initWithData:(nonnull NSData *)data {
+- (instancetype)initWithData:(NSData *)data {
   self = [super init];
   if (self) {
     NSMutableArray<IFStory *> *stories = [[NSMutableArray alloc] init];
@@ -34,7 +34,7 @@
   return self;
 }
 
-- (nullable IFStory *)storyWithIFID:(nonnull NSString *)ifid {
+- (nullable IFStory *)storyWithIFID:(NSString *)ifid {
   for (IFStory *story in _stories) {
     if ([story.identification.ifids containsObject:ifid]) {
       return story;

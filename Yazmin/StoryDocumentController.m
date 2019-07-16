@@ -7,6 +7,7 @@
 //
 
 #import "StoryDocumentController.h"
+#import "AppController.h"
 #import "LibraryViewController.h"
 #import "Story.h"
 
@@ -14,8 +15,10 @@
 
 - (void)addDocument:(NSDocument *)document {
   [super addDocument:document];
+  AppController *appController = NSApp.delegate;
   LibraryViewController *vc =
-      (LibraryViewController *)NSApp.mainWindow.contentViewController;
+      (LibraryViewController *)
+          appController.libraryWindow.contentViewController;
   Story *story = (Story *)document;
   [vc addStory:story];
 }

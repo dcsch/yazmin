@@ -11,14 +11,15 @@
 #import "IFStory.h"
 
 @interface LibraryEntry () {
+  IFStory *_storyMetadata;
 }
 
 @end
 
 @implementation LibraryEntry
 
-- (nonnull instancetype)initWithIFID:(nonnull NSString *)ifid
-                                 url:(nonnull NSURL *)url {
+- (instancetype)initWithIFID:(NSString *)ifid
+                         url:(NSURL *)url {
   self = [super init];
   if (self) {
     _ifid = ifid;
@@ -27,26 +28,37 @@
   return self;
 }
 
-- (nonnull NSString *)title {
+- (IFStory *)storyMetadata {
+  if (_storyMetadata == nil) {
+    return [[IFStory alloc] initWithTitle:_fileURL.path.lastPathComponent];
+  }
+  return _storyMetadata;
+}
+
+- (void)setStoryMetadata:(IFStory *)storyMetadata {
+  _storyMetadata = storyMetadata;
+}
+
+- (NSString *)title {
   if (_storyMetadata && _storyMetadata.bibliographic.title)
     return _storyMetadata.bibliographic.title;
   else
     return _fileURL.path.lastPathComponent;
 }
 
-- (nullable NSString *)author {
+- (NSString *)author {
   return _storyMetadata.bibliographic.author;
 }
 
-- (nullable NSString *)genre {
+- (NSString *)genre {
   return _storyMetadata.bibliographic.genre;
 }
 
-- (nullable NSString *)group {
+- (NSString *)group {
   return _storyMetadata.bibliographic.group;
 }
 
-- (nullable NSString *)firstPublished {
+- (NSString *)firstPublished {
   return _storyMetadata.bibliographic.firstPublished;
 }
 

@@ -15,7 +15,7 @@
   IBOutlet NSImageView *imageView;
   IBOutlet NSTextField *titleTextField;
   IBOutlet NSTextField *authorTextField;
-  IBOutlet NSTextView *storyDescription;
+  IBOutlet NSTextField *descriptionTextField;
 }
 
 @end
@@ -43,10 +43,11 @@
     [resizedImage lockFocus];
     [NSGraphicsContext currentContext].imageInterpolation =
         NSImageInterpolationHigh;
-    [_picture drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
-                fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
-               operation:NSCompositingOperationSourceOver
-                fraction:1.0];
+    [_picture
+        drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
+          fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
+         operation:NSCompositingOperationSourceOver
+          fraction:1.0];
     [resizedImage unlockFocus];
 
     imageView.image = resizedImage;
@@ -54,10 +55,10 @@
 
   if (_storyMetadata) {
     titleTextField.stringValue = _storyMetadata.bibliographic.title;
-    authorTextField.stringValue = _storyMetadata.bibliographic.author;
+    NSString *author = _storyMetadata.bibliographic.author;
+    authorTextField.stringValue = author ? author : @"";
     NSString *desc = _storyMetadata.bibliographic.storyDescription;
-    if (desc)
-      storyDescription.string = desc;
+    descriptionTextField.stringValue = desc ? desc : @"";
   }
 }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="yDF-ev-IJU">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -106,7 +106,7 @@
                                         </menuItem>
                                         <menuItem title="Get Info" keyEquivalent="i" id="B8s-pa-mZZ">
                                             <connections>
-                                                <action selector="showStoryInfo:" target="V39-F2-xEo" id="doz-75-BK4"/>
+                                                <action selector="showStoryInfo:" target="V39-F2-xEo" id="KKK-Tn-tXK"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="dcs-AT-Fur"/>
@@ -358,7 +358,11 @@
                                         <menuItem isSeparatorItem="YES" id="5sV-4r-vNt">
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
-                                        <menuItem title="IF Library" keyEquivalent="1" id="8gm-zi-hc3"/>
+                                        <menuItem title="IF Library" keyEquivalent="1" id="8gm-zi-hc3">
+                                            <connections>
+                                                <action selector="showLibraryWindow:" target="Bgz-is-0Qj" id="lU2-N9-Rzu"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="JGE-55-UG8">
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
@@ -420,7 +424,7 @@
         <!--Window Controller-->
         <scene sceneID="W9H-uF-CUX">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="yDF-ev-IJU" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="LibraryWindow" showSeguePresentationStyle="single" id="yDF-ev-IJU" sceneMemberID="viewController">
                     <window key="window" title="Library" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titleVisibility="hidden" id="tx4-bF-DL9">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -691,7 +695,8 @@
                                     <connections>
                                         <action trigger="doubleAction" selector="selectStory:" target="K2T-nf-LlE" id="2uG-mg-tWV"/>
                                         <binding destination="bpC-8J-9FR" name="content" keyPath="arrangedObjects" id="V0g-fF-BXM"/>
-                                        <binding destination="bpC-8J-9FR" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="V0g-fF-BXM" id="r6j-6f-o7Q"/>
+                                        <binding destination="bpC-8J-9FR" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="V0g-fF-BXM" id="chu-nX-QEM"/>
+                                        <binding destination="bpC-8J-9FR" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="chu-nX-QEM" id="dP1-KU-cv0"/>
                                         <outlet property="menu" destination="QmW-ka-RTl" id="Qfm-PR-cbm"/>
                                     </connections>
                                 </tableView>
@@ -754,7 +759,7 @@
         <!--Window Controller-->
         <scene sceneID="hwj-ht-Wc0">
             <objects>
-                <windowController showSeguePresentationStyle="single" id="wIJ-D0-52I" sceneMemberID="viewController">
+                <windowController id="wIJ-D0-52I" sceneMemberID="viewController">
                     <window key="window" title="Story Information" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="87C-gD-fkX">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -804,27 +809,27 @@
             <objects>
                 <viewController id="sVx-gd-SnN" customClass="InformationViewController" sceneMemberID="viewController">
                     <view key="view" id="HtG-Ng-mHC">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="193"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="214"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <imageView translatesAutoresizingMaskIntoConstraints="NO" id="Ypr-9p-AYy">
-                                <rect key="frame" x="20" y="45" width="128" height="128"/>
+                                <rect key="frame" x="20" y="66" width="128" height="128"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="128" id="kAz-5d-HUS"/>
-                                    <constraint firstAttribute="height" constant="128" id="sYg-3S-tKv"/>
+                                    <constraint firstAttribute="height" constant="128" id="b7X-L0-7Tk"/>
+                                    <constraint firstAttribute="width" constant="128" id="g00-rG-zh3"/>
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="2Kv-qx-Hov"/>
                             </imageView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GGK-f9-etV">
-                                <rect key="frame" x="162" y="156" width="31" height="17"/>
+                                <rect key="frame" x="162" y="177" width="270" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Title" id="B9q-8f-vuc">
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gkx-Gg-0pq">
-                                <rect key="frame" x="162" y="131" width="45" height="17"/>
+                                <rect key="frame" x="162" y="152" width="270" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Author" id="Y5p-bh-BGH">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -832,8 +837,8 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="LmC-r9-KMz">
-                                <rect key="frame" x="20" y="20" width="412" height="17"/>
-                                <textFieldCell key="cell" selectable="YES" title="Multiline Label" id="COM-yJ-5eS">
+                                <rect key="frame" x="162" y="127" width="270" height="17"/>
+                                <textFieldCell key="cell" selectable="YES" title="Description" id="COM-yJ-5eS">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -841,50 +846,59 @@
                             </textField>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="Ypr-9p-AYy" firstAttribute="top" secondItem="HtG-Ng-mHC" secondAttribute="top" constant="20" symbolic="YES" id="16l-vK-aij"/>
-                            <constraint firstItem="Ypr-9p-AYy" firstAttribute="top" secondItem="GGK-f9-etV" secondAttribute="top" id="2Ov-wy-CdO"/>
-                            <constraint firstItem="LmC-r9-KMz" firstAttribute="leading" secondItem="HtG-Ng-mHC" secondAttribute="leading" constant="22" id="4Pe-vw-pAL"/>
-                            <constraint firstAttribute="bottom" secondItem="LmC-r9-KMz" secondAttribute="bottom" constant="20" id="B1b-I0-UVw"/>
-                            <constraint firstItem="LmC-r9-KMz" firstAttribute="top" secondItem="Ypr-9p-AYy" secondAttribute="bottom" constant="8" symbolic="YES" id="JH3-Mh-WBf"/>
-                            <constraint firstItem="GGK-f9-etV" firstAttribute="leading" secondItem="Ypr-9p-AYy" secondAttribute="trailing" constant="16" id="JOJ-An-tQm"/>
-                            <constraint firstAttribute="trailing" secondItem="LmC-r9-KMz" secondAttribute="trailing" constant="20" id="V6i-h2-UAf"/>
-                            <constraint firstItem="Gkx-Gg-0pq" firstAttribute="leading" secondItem="GGK-f9-etV" secondAttribute="leading" id="bCA-NW-EKB"/>
-                            <constraint firstItem="Gkx-Gg-0pq" firstAttribute="top" secondItem="GGK-f9-etV" secondAttribute="bottom" constant="8" symbolic="YES" id="kUD-31-6wB"/>
-                            <constraint firstItem="Ypr-9p-AYy" firstAttribute="leading" secondItem="HtG-Ng-mHC" secondAttribute="leading" constant="20" symbolic="YES" id="u6v-Yb-GCn"/>
+                            <constraint firstItem="Ypr-9p-AYy" firstAttribute="top" secondItem="HtG-Ng-mHC" secondAttribute="top" constant="20" id="4mn-R8-rot"/>
+                            <constraint firstItem="GGK-f9-etV" firstAttribute="top" secondItem="HtG-Ng-mHC" secondAttribute="top" constant="20" id="8lL-JQ-nvF"/>
+                            <constraint firstItem="Ypr-9p-AYy" firstAttribute="leading" secondItem="HtG-Ng-mHC" secondAttribute="leading" constant="20" id="Bpb-8O-psT"/>
+                            <constraint firstItem="GGK-f9-etV" firstAttribute="leading" secondItem="Ypr-9p-AYy" secondAttribute="trailing" constant="16" id="Cd5-jb-osl"/>
+                            <constraint firstItem="Gkx-Gg-0pq" firstAttribute="leading" secondItem="Ypr-9p-AYy" secondAttribute="trailing" constant="16" id="FEd-lT-15s"/>
+                            <constraint firstAttribute="trailing" secondItem="GGK-f9-etV" secondAttribute="trailing" constant="20" id="Hqo-m8-QTb"/>
+                            <constraint firstItem="LmC-r9-KMz" firstAttribute="top" secondItem="Gkx-Gg-0pq" secondAttribute="bottom" constant="8" id="Oep-fV-LaL"/>
+                            <constraint firstAttribute="trailing" secondItem="LmC-r9-KMz" secondAttribute="trailing" constant="20" id="Vbz-R3-cuC"/>
+                            <constraint firstItem="Gkx-Gg-0pq" firstAttribute="top" secondItem="GGK-f9-etV" secondAttribute="bottom" constant="8" id="Xbf-87-Lhf"/>
+                            <constraint firstItem="LmC-r9-KMz" firstAttribute="leading" secondItem="Ypr-9p-AYy" secondAttribute="trailing" constant="16" id="gwy-N0-k21"/>
+                            <constraint firstAttribute="trailing" secondItem="Gkx-Gg-0pq" secondAttribute="trailing" constant="20" id="k9U-S3-QtP"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="authorTextField" destination="Gkx-Gg-0pq" id="qFi-wy-YAP"/>
+                        <outlet property="descriptionTextField" destination="LmC-r9-KMz" id="9mk-b4-mVq"/>
                         <outlet property="imageView" destination="Ypr-9p-AYy" id="N4z-rX-nnM"/>
                         <outlet property="titleTextField" destination="GGK-f9-etV" id="OUr-ib-Unv"/>
                     </connections>
                 </viewController>
                 <customObject id="Ivj-Yh-nxC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1209" y="77.5"/>
+            <point key="canvasLocation" x="1209" y="131"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="L5U-Ox-7fz">
             <objects>
                 <viewController id="Rl5-8V-jhl" sceneMemberID="viewController">
                     <view key="view" id="V7V-Oo-pQJ">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="296"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="76F-8m-6Qt">
-                                <rect key="frame" x="20" y="20" width="410" height="260"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="76F-8m-6Qt">
+                                <rect key="frame" x="97" y="20" width="256" height="256"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="256" id="eXl-Eg-4aN"/>
+                                    <constraint firstAttribute="width" constant="256" id="h8F-al-maE"/>
+                                </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bd4-4l-GZx"/>
                                 <connections>
                                     <binding destination="Rl5-8V-jhl" name="value" keyPath="representedObject" id="ozH-Nh-ToV"/>
                                 </connections>
                             </imageView>
                         </subviews>
+                        <constraints>
+                            <constraint firstItem="76F-8m-6Qt" firstAttribute="centerY" secondItem="V7V-Oo-pQJ" secondAttribute="centerY" id="1IQ-fj-jZK"/>
+                            <constraint firstItem="76F-8m-6Qt" firstAttribute="centerX" secondItem="V7V-Oo-pQJ" secondAttribute="centerX" id="csg-kl-jk8"/>
+                        </constraints>
                     </view>
                 </viewController>
                 <customObject id="9yr-sz-HOq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1209" y="447"/>
+            <point key="canvasLocation" x="1209" y="445"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="xHn-e4-VYu">

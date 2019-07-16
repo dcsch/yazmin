@@ -11,12 +11,18 @@
 @class IFIdentification;
 @class IFBibliographic;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface IFStory : NSObject
 
-- (nonnull instancetype)initWithXMLElement:(nonnull NSXMLElement *)element
+@property(readonly) IFIdentification *identification;
+@property(readonly) IFBibliographic *bibliographic;
+
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
     NS_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init __attribute__((unavailable));
-@property(readonly, nonnull) IFIdentification *identification;
-@property(readonly, nonnull) IFBibliographic *bibliographic;
+- (instancetype)initWithTitle:(NSString *)title NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 
 @end
+
+NS_ASSUME_NONNULL_END

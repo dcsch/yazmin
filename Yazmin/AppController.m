@@ -65,14 +65,22 @@
   return self;
 }
 
+- (IBAction)showLibraryWindow:(id)sender {
+  [_libraryWindow makeKeyAndOrderFront:self];
+}
+
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender {
   return NO;
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+  NSWindowController *windowController = [NSStoryboard.mainStoryboard
+      instantiateControllerWithIdentifier:@"LibraryWindow"];
+  _libraryWindow = windowController.window;
+
   // We've finished launching, so should we show the library window?
-  //  if ([[Preferences sharedPreferences] showsLibraryOnStartup])
-  //    [self showLibraryWindow:self];
+  if ([[Preferences sharedPreferences] showsLibraryOnStartup])
+    [self showLibraryWindow:self];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
