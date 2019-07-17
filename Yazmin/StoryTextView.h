@@ -1,5 +1,5 @@
 //
-//  StoryFacetView.h
+//  StoryTextView.h
 //  Yazmin
 //
 //  Created by David Schweinsberg on 6/11/07.
@@ -16,13 +16,12 @@ typedef NS_ENUM(NSUInteger, InputState) {
 
 @protocol StoryInput;
 
-@interface StoryFacetView : NSTextView
+@interface StoryTextView : NSTextView
 
 @property NSUInteger inputLocation;
 @property(strong) id<StoryInput> storyInput;
 @property(getter=isInputView) BOOL inputView;
 @property InputState inputState;
-@property CGFloat lineHeight;
 
 - (void)enterString:(NSString *)input;
 

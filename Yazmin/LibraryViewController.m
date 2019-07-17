@@ -8,10 +8,6 @@
 
 #import "LibraryViewController.h"
 #import "AppController.h"
-#import "Blorb.h"
-#import "IFBibliographic.h"
-#import "IFStory.h"
-#import "InformationViewController.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"
@@ -27,9 +23,6 @@
 - (IBAction)removeStory:(id)sender;
 - (IBAction)searchStory:(NSSearchField *)sender;
 - (IBAction)showStoryInfo:(id)sender;
-- (void)prepareInformationWindowController:
-            (NSWindowController *)windowController
-                                   withRow:(NSInteger)row;
 
 @end
 
@@ -54,74 +47,6 @@
         [[LibraryEntry alloc] initWithIFID:story.ifid url:story.fileURL];
     entry.storyMetadata = story.metadata;
     [arrayController addObject:entry];
-  }
-}
-
-- (void)prepareInformationWindowController:
-            (NSWindowController *)windowController
-                                   withRow:(NSInteger)row {
-  LibraryEntry *entry = arrayController.arrangedObjects[row];
-  NSImage *picture = nil;
-
-  windowController.window.representedURL = entry.fileURL;
-
-  // Is this a blorb we can pull data from?
-  if ([Blorb isBlorbURL:entry.fileURL]) {
-    NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
-    if (data && [Blorb isBlorbData:data]) {
-      Blorb *blorb = [[Blorb alloc] initWithData:data];
-      picture = [[NSImage alloc] initWithData:blorb.pictureData];
-    }
-  }
-
-  // Fish through all the controllers
-  NSTabViewController *tabViewController =
-      (NSTabViewController *)windowController.contentViewController;
-  InformationViewController *infoViewController =
-      (InformationViewController *)tabViewController.tabViewItems[0]
-          .viewController;
-  infoViewController.storyMetadata = entry.storyMetadata;
-  infoViewController.picture = picture;
-
-  NSViewController *artViewController =
-      tabViewController.tabViewItems[1].viewController;
-  artViewController.representedObject = picture;
-}
-
-- (BOOL)shouldPerformSegueWithIdentifier:(NSStoryboardSegueIdentifier)identifier
-                                  sender:(id)sender {
-  if ([identifier isEqualToString:@"Information"]) {
-    NSInteger row = tableView.clickedRow;
-    if (row == -1)
-      row = arrayController.selectionIndex;
-    if (row != NSIntegerMax) {
-
-      // Is this info window already open?
-      // (There can be multiple info windows, but we want only one for each
-      // story)
-      LibraryEntry *entry = arrayController.arrangedObjects[row];
-      for (NSWindow *window in NSApp.windows) {
-        if ([window.windowController.contentViewController
-                isKindOfClass:NSTabViewController.class] &&
-            [window.representedURL isEqualTo:entry.fileURL]) {
-          [window makeKeyAndOrderFront:self];
-          return NO;
-        }
-      }
-      return YES;
-    } else
-      return NO;
-  }
-  return YES;
-}
-
-- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender {
-  if ([segue.identifier isEqualToString:@"Information"]) {
-    NSInteger row = tableView.clickedRow;
-    if (row == -1)
-      row = arrayController.selectionIndex;
-    [self prepareInformationWindowController:segue.destinationController
-                                     withRow:row];
   }
 }
 
@@ -161,7 +86,20 @@
 }
 
 - (IBAction)showStoryInfo:(id)sender {
-  [self performSegueWithIdentifier:@"Information" sender:self];
+  NSInteger row = tableView.clickedRow;
+  if (row == -1)
+    row = arrayController.selectionIndex;
+  LibraryEntry *libraryEntry = arrayController.arrangedObjects[row];
+
+  [NSDocumentController.sharedDocumentController
+      openDocumentWithContentsOfURL:libraryEntry.fileURL
+                            display:NO
+                  completionHandler:^(NSDocument *_Nullable document,
+                                      BOOL documentWasAlreadyOpen,
+                                      NSError *_Nullable error) {
+                    Story *story = (Story *)document;
+                    [story showStoryInfo:self];
+                  }];
 }
 
 - (BOOL)control:(NSControl *)control

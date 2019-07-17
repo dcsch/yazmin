@@ -16,8 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(readonly) NSArray<IFStory *> *stories;
 
-- (instancetype)initWithData:(NSData *)data
-    NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 - (nullable IFStory *)storyWithIFID:(NSString *)ifid;
 

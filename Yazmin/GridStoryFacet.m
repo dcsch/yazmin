@@ -122,6 +122,7 @@
 }
 
 - (NSArray<NSValue *> *)chunksOfString:(NSString *)string {
+  NSAssert(self.widthInCharacters, @"widthInCharacters is zero");
   NSMutableArray *array = [NSMutableArray array];
   NSUInteger pos = x;
   NSUInteger strLen = string.length;

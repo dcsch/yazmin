@@ -1,12 +1,12 @@
 //
-//  StoryController.m
+//  StoryViewController.m
 //  Yazmin
 //
-//  Created by David Schweinsberg on 22/08/07.
-//  Copyright 2007 David Schweinsberg. All rights reserved.
+//  Created by David Schweinsberg on 7/16/19.
+//  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import "StoryController.h"
+#import "StoryViewController.h"
 #import "AbbreviationsController.h"
 #import "Blorb.h"
 #import "DebugController.h"
@@ -14,17 +14,18 @@
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
-#import "LayoutView.h"
 #import "ObjectBrowserController.h"
 #import "Preferences.h"
 #import "Story.h"
 #import "StoryFacet.h"
-#import "StoryFacetView.h"
+#import "StoryTextView.h"
 #import "ZMachine.h"
 
-@interface StoryController () {
-  IBOutlet LayoutView *layoutView;
-  //  StoryInformationController *informationController;
+@interface StoryViewController () {
+  IBOutlet NSTextView *upperView;
+  IBOutlet StoryTextView *lowerView;
+  IBOutlet NSScrollView *lowerScrollView;
+  IBOutlet NSLayoutConstraint *upperHeightConstraint;
   DebugController *debugController;
   ObjectBrowserController *objectBrowserController;
   AbbreviationsController *abbreviationsController;
@@ -37,11 +38,13 @@
   NSOutputStream *_commandOutputStream;
   NSInputStream *_commandInputStream;
   CGFloat _viewedHeight;
+  BOOL _storyHasStarted;
 }
 
 - (int)calculateScreenWidthInColumns;
 - (int)calculateLowerWindowHeightinLines;
 - (void)calculateStoryFacetDimensions;
+- (void)resizeUpperWindow:(int)lines;
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
@@ -52,7 +55,6 @@
 - (void)stringInput:(NSString *)string;
 - (void)update;
 - (IBAction)reload:(id)sender;
-//- (IBAction)showStoryInfo:(id)sender;
 - (IBAction)showDebuggerWindow:(id)sender;
 - (IBAction)showObjectBrowserWindow:(id)sender;
 - (IBAction)showAbbreviationsWindow:(id)sender;
@@ -61,38 +63,14 @@
 
 @end
 
-@implementation StoryController
+@implementation StoryViewController
 
-- (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-
-  // Retrieve the title from metadata, if present.  Otherwise use the
-  // default display name.
-  Story *story = self.document;
-  NSString *title;
-  if (story.metadata)
-    title = story.metadata.bibliographic.title;
-  else
-    title = [super windowTitleForDocumentDisplayName:displayName];
-
-  if (story.hasEnded)
-    title = [title stringByAppendingString:@" — Ended"];
-
-  return title;
-}
-
-- (void)windowDidLoad {
-  [super windowDidLoad];
+- (void)viewDidLoad {
+  [super viewDidLoad];
 
   curheight = 0;
   maxheight = 0;
   seenheight = 0;
-
-  Story *story = self.document;
-  [self setWindowFrameAutosaveName:story.ifid];
-
-  // When the user closes the story window, we want all other windows
-  // attached to the story (debuggers, etc) to close also
-  self.shouldCloseDocument = YES;
 
   // Listen to some notifications
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -111,44 +89,47 @@
   [nc addObserver:self
          selector:@selector(handleWindowWillClose:)
              name:NSWindowWillCloseNotification
-           object:self.window];
+           object:self.view.window];
 
-  // Lower Window (initially full frame)
-  NSRect frame = layoutView.lowerScrollView.contentView.frame;
-  StoryFacetView *textView = [[StoryFacetView alloc] initWithFrame:frame];
-  textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-  textView.textContainerInset = NSMakeSize(20.0, 20.0);
-  textView.storyInput = self;
-  textView.inputView = YES;
-
-  story.facets[0].textStorage = textView.textStorage;
-  layoutView.lowerWindow = textView;
+  // Lower Window
+  lowerView.textContainerInset = NSMakeSize(20.0, 20.0);
+  lowerView.storyInput = self;
+  lowerView.inputView = YES;
 
   // Upper Window (initially zero height)
-  NSRect upperFrame = NSMakeRect(0, 0, frame.size.width, 0);
-  textView = [[StoryFacetView alloc] initWithFrame:upperFrame];
-  textView.verticallyResizable = NO;
-  textView.horizontallyResizable = NO;
-  textView.autoresizingMask = NSViewWidthSizable;
-  textView.textContainerInset = NSMakeSize(20.0, 10.0);
+  upperView.textContainerInset = NSMakeSize(20.0, 10.0);
+  upperView.textContainer.widthTracksTextView = YES;
+  upperView.textContainer.heightTracksTextView = NO;
+  upperView.textContainer.maximumNumberOfLines = 0;
+  upperHeightConstraint.constant = 0.0;
+}
 
-  textView.textContainer.widthTracksTextView = YES;
-  textView.textContainer.heightTracksTextView = NO;
-  textView.textContainer.maximumNumberOfLines = 0;
-
-  story.facets[1].textStorage = textView.textStorage;
-  layoutView.upperWindow = textView;
+- (void)viewDidAppear {
+  [super viewDidAppear];
 
   [self calculateStoryFacetDimensions];
 
-  // Kick off the story
-  [self executeStory];
+  if (!_storyHasStarted) {
+    // Kick off the story
+    [self executeStory];
+    _storyHasStarted = YES;
+  }
+}
+
+- (void)setRepresentedObject:(id)representedObject {
+  [super setRepresentedObject:representedObject];
+
+  if (representedObject) {
+    Story *story = self.representedObject;
+    story.facets[0].textStorage = lowerView.textStorage;
+    story.facets[1].textStorage = upperView.textStorage;
+  }
 }
 
 - (int)calculateScreenWidthInColumns {
-  Story *story = self.document;
+  Story *story = self.representedObject;
   NSFont *font = [story.facets[0] fontForStyle:8];
-  float lineWidth = layoutView.upperWindow.textContainer.size.width;
+  float lineWidth = upperView.textContainer.size.width;
   float charWidth = [font advancementForGlyph:0].width;
   return lineWidth / charWidth;
 }
@@ -158,23 +139,38 @@
   // height was coming through as some rediculously large number. Needs to be
   // checked as frame height won't account for the text container inset
   // (does NSTextContainer size do that?)
-  CGFloat frameHeight = layoutView.lowerWindow.frame.size.height;
-  Story *story = self.document;
+  CGFloat frameHeight = lowerView.frame.size.height;
+  Story *story = self.representedObject;
   NSFont *font = [story.facets[0] fontForStyle:0];
-  CGFloat lineHeight =
-      [layoutView.lowerWindow.layoutManager defaultLineHeightForFont:font];
+  CGFloat lineHeight = [upperView.layoutManager defaultLineHeightForFont:font];
   return MIN((int)(frameHeight / lineHeight), 255);
 }
 
 - (void)calculateStoryFacetDimensions {
   int screenWidthInChars = [self calculateScreenWidthInColumns];
-  Story *story = self.document;
+  Story *story = self.representedObject;
   story.facets[0].widthInCharacters = screenWidthInChars;
   story.facets[1].widthInCharacters = screenWidthInChars;
   story.facets[1].heightInLines = [self calculateLowerWindowHeightinLines];
   [story.zMachine updateScreenSize];
   NSLog(@"Set screen size as: %d x %d", screenWidthInChars,
         story.facets[1].heightInLines);
+}
+
+- (void)resizeUpperWindow:(int)lines {
+  Story *story = self.representedObject;
+  GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
+  NSFont *font = [facet fontForStyle:8];
+  CGFloat lineHeight = [upperView.layoutManager defaultLineHeightForFont:font];
+  CGFloat upperHeight =
+      lines > 0 ? lineHeight * lines + 2.0 * upperView.textContainerInset.height
+                : 0;
+  upperHeightConstraint.constant = upperHeight;
+  upperView.textContainer.maximumNumberOfLines = lines;
+
+  // Scroll the lower window to compensate for the shift in position
+  // (we're keeping this simple for now: just scroll to the bottom)
+  //  [lowerView scrollPoint:NSMakePoint(0, lowerView.frame.size.height)];
 }
 
 - (void)handleWindowWillClose:(NSNotification *)note {
@@ -187,19 +183,19 @@
 }
 
 - (void)handleViewFrameChange:(NSNotification *)note {
-  if (note.object == layoutView) {
-    [self calculateStoryFacetDimensions];
-    Story *story = self.document;
-    story.zMachine.needsRedraw = YES;
-  }
+  //  if (note.object == layoutView) {
+  //    [self calculateStoryFacetDimensions];
+  //    Story *story = self.representedObject;
+  //    story.zMachine.needsRedraw = YES;
+  //  }
 }
 
 - (void)handleBackgroundColorChange:(NSNotification *)note {
   Preferences *prefs = note.object;
   NSColor *newColor = prefs.backgroundColor;
-  layoutView.lowerWindow.backgroundColor = newColor;
-  layoutView.upperWindow.backgroundColor = newColor;
-  layoutView.needsDisplay = YES;
+  lowerView.backgroundColor = newColor;
+  upperView.backgroundColor = newColor;
+  self.view.needsDisplay = YES;
 }
 
 - (void)handleForegroundColorChange:(NSNotification *)note {
@@ -207,13 +203,13 @@
 }
 
 - (void)scrollLowerWindowToEnd {
-  NSTextView *textView = layoutView.lowerWindow;
-  [textView.layoutManager ensureLayoutForTextContainer:textView.textContainer];
+  [lowerView.layoutManager
+      ensureLayoutForTextContainer:lowerView.textContainer];
 
-  NSRect rect =
-      [textView.layoutManager usedRectForTextContainer:textView.textContainer];
+  NSRect rect = [lowerView.layoutManager
+      usedRectForTextContainer:lowerView.textContainer];
   CGFloat heightOfContent = rect.size.height;
-  CGFloat heightOfWindow = layoutView.lowerScrollView.frame.size.height;
+  CGFloat heightOfWindow = lowerScrollView.frame.size.height;
 
   CGFloat blockHeight = heightOfContent - _viewedHeight;
 
@@ -226,13 +222,12 @@
     NSLog(@"[MORE]");
 
     _viewedHeight += heightOfWindow;
-    [layoutView.lowerWindow
-        scrollPoint:NSMakePoint(0, _viewedHeight - heightOfWindow)];
+    [lowerView scrollPoint:NSMakePoint(0, _viewedHeight - heightOfWindow)];
   } else {
 
     // This block will fit within the window, so just scroll to the
     // end of it
-    [layoutView.lowerWindow scrollPoint:NSMakePoint(0, heightOfContent)];
+    [lowerView scrollPoint:NSMakePoint(0, heightOfContent)];
     _viewedHeight = heightOfContent;
   }
 }
@@ -250,12 +245,12 @@
 
 - (void)prepareInputWithOffset:(NSInteger)offset {
   [self resolveStatusHeight];
-  Story *story = self.document;
+  Story *story = self.representedObject;
   NSUInteger len = story.facets[0].textStorage.length;
-  [layoutView.lowerWindow setInputLocation:len + offset];
+  [lowerView setInputLocation:len + offset];
   if (_commandInputStream) {
     NSString *inputString = [self playbackInputString];
-    [layoutView.lowerWindow enterString:inputString];
+    [lowerView enterString:inputString];
     if (inputString.length > 0) {
       [self executeStory];
       return;
@@ -264,22 +259,22 @@
       _commandInputStream = nil;
     }
   }
-  [layoutView.lowerWindow setInputState:kStringInputState];
+  [lowerView setInputState:kStringInputState];
   [self scrollLowerWindowToEnd];
 }
 
 - (void)prepareInputChar {
   [self resolveStatusHeight];
-  [layoutView.lowerWindow setInputState:kCharacterInputState];
+  [lowerView setInputState:kCharacterInputState];
   [self scrollLowerWindowToEnd];
 }
 
 - (void)restoreSession {
   NSOpenPanel *panel = [NSOpenPanel openPanel];
   panel.allowedFileTypes = @[ @"qut" ];
-  [panel beginSheetModalForWindow:self.window
+  [panel beginSheetModalForWindow:self.view.window
                 completionHandler:^(NSInteger result) {
-                  Story *story = self.document;
+                  Story *story = self.representedObject;
                   if (result == NSModalResponseOK) {
 
                     // Hand restore data to the story, to be picked up when
@@ -298,9 +293,9 @@
   // Ask the user for a save file name
   NSSavePanel *panel = [NSSavePanel savePanel];
   panel.allowedFileTypes = @[ @"qut" ];
-  [panel beginSheetModalForWindow:self.window
+  [panel beginSheetModalForWindow:self.view.window
                 completionHandler:^(NSInteger result) {
-                  Story *story = self.document;
+                  Story *story = self.representedObject;
                   if (result == NSModalResponseOK) {
                     [data writeToURL:panel.URL atomically:YES];
                     story.lastRestoreOrSaveResult = 1;
@@ -314,12 +309,12 @@
   if (!_transcriptURL) {
     NSSavePanel *panel = [NSSavePanel savePanel];
     panel.allowedFileTypes = @[ @"txt" ];
-    Story *story = self.document;
+    Story *story = self.representedObject;
     panel.nameFieldStringValue = [NSString
         stringWithFormat:@"%@ Transcript (%@)", story.displayName,
                          [NSDate.date
                              descriptionWithLocale:NSLocale.currentLocale]];
-    [panel beginSheetModalForWindow:self.window
+    [panel beginSheetModalForWindow:self.view.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
                       self->_transcriptURL = panel.URL;
@@ -342,12 +337,12 @@
   if (!_commandURL) {
     NSSavePanel *panel = [NSSavePanel savePanel];
     panel.allowedFileTypes = @[ @"txt" ];
-    Story *story = self.document;
+    Story *story = self.representedObject;
     panel.nameFieldStringValue = [NSString
         stringWithFormat:@"%@ Commands (%@)", story.displayName,
                          [NSDate.date
                              descriptionWithLocale:NSLocale.currentLocale]];
-    [panel beginSheetModalForWindow:self.window
+    [panel beginSheetModalForWindow:self.view.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
                       self->_commandURL = panel.URL;
@@ -387,7 +382,7 @@
   } else if (number == 1) {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
     panel.allowedFileTypes = @[ @"txt" ];
-    [panel beginSheetModalForWindow:self.window
+    [panel beginSheetModalForWindow:self.view.window
                   completionHandler:^(NSInteger result) {
                     if (result == NSModalResponseOK) {
                       self->_commandInputStream =
@@ -405,7 +400,7 @@
   NSAlert *alert = [[NSAlert alloc] init];
   alert.messageText = @"Error";
   alert.informativeText = errorMessage;
-  [alert beginSheetModalForWindow:self.window
+  [alert beginSheetModalForWindow:self.view.window
                 completionHandler:^(NSModalResponse returnCode) {
                   NSLog(@"sheetDidEnd");
                 }];
@@ -422,12 +417,8 @@
 - (void)updateWindowLayout {
 
   // Retrieve the height of the upper window
-  Story *story = self.document;
+  Story *story = self.representedObject;
   GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
-  NSFont *font = [facet fontForStyle:8];
-  float lineHeight =
-      [layoutView.upperWindow.layoutManager defaultLineHeightForFont:font];
-  layoutView.upperWindow.lineHeight = lineHeight;
 
   // Implement zarf's fix to the quote box problem
   // (https://eblong.com/zarf/glk/quote-box.html)
@@ -446,15 +437,15 @@
     [facet eraseFromLine:oldheight + 1];
   }
 
-  [layoutView resizeUpperWindow:maxheight];
-  layoutView.needsDisplay = YES;
+  [self resizeUpperWindow:maxheight];
+  self.view.needsLayout = YES;
 }
 
 - (void)updateWindowBackgroundColor {
-  Story *story = self.document;
-  layoutView.lowerWindow.backgroundColor = story.backgroundColor;
-  layoutView.upperWindow.backgroundColor = story.backgroundColor;
-  layoutView.lowerWindow.insertionPointColor = story.foregroundColor;
+  Story *story = self.representedObject;
+  lowerView.backgroundColor = story.backgroundColor;
+  upperView.backgroundColor = story.backgroundColor;
+  lowerView.insertionPointColor = story.foregroundColor;
 }
 
 // If the status height is too large because of last turn's quote box,
@@ -467,9 +458,9 @@
   if (seenheight == maxheight)
     maxheight = curheight;
 
-  if (layoutView.upperWindow.textContainer.maximumNumberOfLines != maxheight) {
-    [layoutView resizeUpperWindow:maxheight];
-    layoutView.needsDisplay = YES;
+  if (upperView.textContainer.maximumNumberOfLines != maxheight) {
+    [self resizeUpperWindow:maxheight];
+    self.view.needsLayout = YES;
   }
 
   seenheight = maxheight;
@@ -478,14 +469,14 @@
 
 - (void)updateTextAttributes {
   // Set the typing attributes of the lower window so they reflect the change
-  Story *story = self.document;
+  Story *story = self.representedObject;
   StoryFacet *facet = story.facets[0];
 
   NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
   [facet applyColorsOfStyle:story.currentStyle toAttributes:attributes];
   [facet applyFontOfStyle:story.currentStyle toAttributes:attributes];
   [facet applyLowerWindowAttributes:attributes];
-  layoutView.lowerWindow.typingAttributes = attributes;
+  lowerView.typingAttributes = attributes;
 }
 
 - (void)printCharToOutputStreams:(unichar)c {
@@ -502,7 +493,7 @@
 
 - (void)printToOutputStreams:(NSString *)text {
   if (_transcriptOutputStream || _commandOutputStream) {
-    Story *story = self.document;
+    Story *story = self.representedObject;
     const char *utf8String = text.UTF8String;
     size_t len = strlen(utf8String);
     if (_transcriptOutputStream && story.window == 0) {
@@ -518,23 +509,23 @@
 }
 
 - (void)characterInput:(unichar)c {
-  layoutView.lowerWindow.inputState = kNoInputState;
-  Story *story = self.document;
+  lowerView.inputState = kNoInputState;
+  Story *story = self.representedObject;
   story.inputCharacter = c;
   [self printCharToOutputStreams:c];
   [self executeStory];
 }
 
 - (void)stringInput:(NSString *)string {
-  layoutView.lowerWindow.inputState = kNoInputState;
-  Story *story = self.document;
+  lowerView.inputState = kNoInputState;
+  Story *story = self.representedObject;
   story.inputString = string;
   [self printToOutputStreams:string];
   [self executeStory];
 }
 
 - (IBAction)reload:(id)sender {
-  Story *story = self.document;
+  Story *story = self.representedObject;
   [story revertDocumentToSaved:sender];
   [story.facets[0].textStorage
       deleteCharactersInRange:NSMakeRange(0,
@@ -547,29 +538,15 @@
   [self executeStory];
 }
 
-//- (IBAction)showStoryInfo:(id)sender {
-//  if (!informationController) {
-//    Story *story = self.document;
-//    NSData *metaData = story.blorb.metaData;
-//    if (metaData) {
-//      NSData *pictureData = story.blorb.pictureData;
-//      IFictionMetadata *ifmd = [[IFictionMetadata alloc]
-//      initWithData:metaData];
-//      if (ifmd.stories.count > 0) {
-//        informationController = [[StoryInformationController alloc]
-//            initWithStoryMetadata:ifmd.stories[0]
-//                      pictureData:pictureData];
-//        [self.document addWindowController:informationController];
-//      }
-//    }
-//  }
-//  [informationController showWindow:self];
-//}
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender {
+  Story *story = self.representedObject;
+  [story addWindowController:segue.destinationController];
+}
 
 - (IBAction)showDebuggerWindow:(id)sender {
   if (!debugController) {
     debugController = [[DebugController alloc] init];
-    [self.document addWindowController:debugController];
+    [self.representedObject addWindowController:debugController];
   }
   [debugController showWindow:self];
 }
@@ -577,7 +554,7 @@
 - (IBAction)showObjectBrowserWindow:(id)sender {
   if (!objectBrowserController) {
     objectBrowserController = [[ObjectBrowserController alloc] init];
-    [self.document addWindowController:objectBrowserController];
+    [self.representedObject addWindowController:objectBrowserController];
   }
   [objectBrowserController showWindow:self];
 }
@@ -585,7 +562,7 @@
 - (IBAction)showAbbreviationsWindow:(id)sender {
   if (!abbreviationsController) {
     abbreviationsController = [[AbbreviationsController alloc] init];
-    [self.document addWindowController:abbreviationsController];
+    [self.representedObject addWindowController:abbreviationsController];
   }
   [abbreviationsController showWindow:self];
 }
@@ -599,28 +576,29 @@
       scheduledTimerWithTimeInterval:0.0
                              repeats:NO
                                block:^(NSTimer *_Nonnull timer) {
-                                 Story *story = self.document;
+                                 Story *story = self.representedObject;
                                  [story.zMachine executeUntilHalt];
                                  if (story.hasEnded) {
-                                   [self->layoutView.lowerWindow
+                                   [self->lowerView
                                        setInputState:kNoInputState];
                                    [self->_transcriptOutputStream close];
                                    [self->_commandOutputStream close];
                                    [self->_commandInputStream close];
                                  }
-                                 [self synchronizeWindowTitleWithDocumentName];
+                                 [story.windowControllers[0]
+                                     synchronizeWindowTitleWithDocumentName];
                                  [self updateViews];
                                }];
 }
 
 - (BOOL)executeRoutine:(int)routine {
-  Story *story = self.document;
-  NSUInteger inputLoc = layoutView.lowerWindow.inputLocation;
+  Story *story = self.representedObject;
+  NSUInteger inputLoc = lowerView.inputLocation;
   NSUInteger totalLen = story.facets[0].textStorage.length;
   NSUInteger inputLen = totalLen - inputLoc;
   NSAttributedString *inputSoFar = nil;
 
-  if (totalLen > 0 && layoutView.lowerWindow.inputState == kStringInputState) {
+  if (totalLen > 0 && lowerView.inputState == kStringInputState) {
     if (inputLen > 0) {
       inputSoFar = [story.facets[0].textStorage
           attributedSubstringFromRange:NSMakeRange(inputLoc, inputLen)];
@@ -636,7 +614,7 @@
   // after the newly printed output.
   NSUInteger addedLen = story.facets[0].textStorage.length - totalLen;
   if (addedLen > 0) {
-    layoutView.lowerWindow.inputLocation += addedLen + inputLen;
+    lowerView.inputLocation += addedLen + inputLen;
     if (inputSoFar)
       [story.facets[0].textStorage appendAttributedString:inputSoFar];
   }
@@ -646,7 +624,7 @@
 - (void)splitWindow:(int)lines {
 
   // Keep track of what the player has viewed after a split window
-  NSTextView *textView = layoutView.lowerWindow;
+  NSTextView *textView = lowerView;
   NSRect rect =
       [textView.layoutManager usedRectForTextContainer:textView.textContainer];
   CGFloat heightOfContent = rect.size.height;
@@ -659,7 +637,7 @@
 }
 
 - (void)print:(NSString *)text {
-  Story *story = self.document;
+  Story *story = self.representedObject;
   if (_transcriptOutputStream && story.window == 0) {
     const char *utf8String = text.UTF8String;
     [_transcriptOutputStream write:(const uint8_t *)utf8String

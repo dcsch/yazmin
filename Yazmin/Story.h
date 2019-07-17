@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class StoryFacet;
-@class StoryController;
+@class StoryViewController;
 @class Blorb;
 @class IFStory;
 @class ZMachine;
@@ -17,16 +17,17 @@
 
 @interface Story : NSDocument
 
-@property(readonly, copy) NSArray<StoryFacet *> *facets;
-@property(readonly) StoryController *storyController;
-@property(copy) NSString *inputString;
+@property(readonly) NSArray<StoryFacet *> *facets;
+@property(readonly) StoryViewController *storyViewController;
+@property NSString *inputString;
 @property unichar inputCharacter;
-@property(readonly, copy) NSData *zcodeData;
-@property(readonly, strong) Blorb *blorb;
-@property(readonly, strong) IFStory *metadata;
-@property(readonly, copy) NSString *ifid;
-@property(readonly, strong) ZMachine *zMachine;
-@property(readonly, strong) DebugInfo *debugInfo;
+@property(readonly) NSData *zcodeData;
+@property(readonly) Blorb *blorb;
+@property(readonly) IFStory *metadata;
+@property(readonly) NSImage *coverImage;
+@property(readonly) NSString *ifid;
+@property(readonly) ZMachine *zMachine;
+@property(readonly) DebugInfo *debugInfo;
 @property(readonly) BOOL hasEnded;
 @property unsigned int lastRestoreOrSaveResult;
 @property NSData *restoreData;
@@ -37,6 +38,8 @@
 @property(readonly) int backgroundColorCode;
 @property(readonly) int currentStyle;
 @property BOOL forceFixedPitchFont;
+
+- (IBAction)showStoryInfo:(id)sender;
 
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;

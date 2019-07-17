@@ -1,17 +1,16 @@
 //
-//  StoryFacetView.m
+//  StoryTextView.m
 //  Yazmin
 //
 //  Created by David Schweinsberg on 6/11/07.
 //  Copyright 2007 David Schweinsberg. All rights reserved.
 //
 
-#import "StoryFacetView.h"
-#import "LayoutView.h"
+#import "StoryTextView.h"
 #import "StoryInput.h"
 #include <Carbon/Carbon.h>
 
-@interface StoryFacetView () {
+@interface StoryTextView () {
   NSUInteger inputLocation;
   InputState _inputState;
   NSMutableArray<NSString *> *inputHistory;
@@ -23,11 +22,10 @@
 
 @end
 
-@implementation StoryFacetView
+@implementation StoryTextView
 
-- (instancetype)initWithFrame:(NSRect)frame
-                textContainer:(NSTextContainer *)container {
-  self = [super initWithFrame:frame textContainer:container];
+- (instancetype)initWithCoder:(NSCoder *)coder {
+  self = [super initWithCoder:coder];
   if (self) {
     inputLocation = 0;
     _storyInput = nil;

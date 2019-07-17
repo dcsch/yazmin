@@ -18,8 +18,7 @@
 
 @implementation LibraryEntry
 
-- (instancetype)initWithIFID:(NSString *)ifid
-                         url:(NSURL *)url {
+- (instancetype)initWithIFID:(NSString *)ifid url:(NSURL *)url {
   self = [super init];
   if (self) {
     _ifid = ifid;

@@ -24,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) int seriesNumber;
 @property(readonly, nullable) NSString *forgiveness;
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithXMLElement:(NSXMLElement *)element
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithTitle:(NSString *)title NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 

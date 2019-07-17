@@ -15,11 +15,12 @@
 #import "IFIdentification.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
+#import "InformationWindowController.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Preferences.h"
-#import "StoryController.h"
 #import "StoryFacet.h"
+#import "StoryViewController.h"
 #import "ZMachine.h"
 
 @interface Story () {
@@ -106,8 +107,30 @@
 }
 
 - (void)makeWindowControllers {
-  _storyController = [[StoryController alloc] initWithWindowNibName:@"Story"];
-  [self addWindowController:_storyController];
+  NSStoryboard *storyboard = NSStoryboard.mainStoryboard;
+  NSWindowController *windowController =
+      [storyboard instantiateControllerWithIdentifier:@"StoryWindow"];
+  [self addWindowController:windowController];
+
+  _storyViewController =
+      (StoryViewController *)windowController.contentViewController;
+}
+
+- (IBAction)showStoryInfo:(id)sender {
+
+  // Is it already being displayed?
+  for (NSWindowController *windowController in self.windowControllers) {
+    if ([windowController isKindOfClass:InformationWindowController.class]) {
+      [windowController.window makeKeyAndOrderFront:self];
+      return;
+    }
+  }
+
+  NSStoryboard *storyboard = NSStoryboard.mainStoryboard;
+  NSWindowController *windowController =
+      [storyboard instantiateControllerWithIdentifier:@"InformationWindow"];
+  [self addWindowController:windowController];
+  [self showWindows];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError {
@@ -193,6 +216,9 @@
             _ifid = _metadata.identification.ifids[0];
         }
       }
+      NSData *imageData = _blorb.pictureData;
+      if (imageData)
+        _coverImage = [[NSImage alloc] initWithData:imageData];
       _zcodeData = _blorb.zcodeData;
     }
   } else {
@@ -239,23 +265,23 @@
 }
 
 - (void)restoreSession {
-  [_storyController restoreSession];
+  [_storyViewController restoreSession];
 }
 
 - (void)saveSessionData:(NSData *)data {
-  [_storyController saveSessionData:data];
+  [_storyViewController saveSessionData:data];
 }
 
 - (void)error:(NSString *)errorMessage {
-  [_storyController showError:errorMessage];
+  [_storyViewController showError:errorMessage];
 }
 
 - (void)updateWindowLayout {
-  [_storyController updateWindowLayout];
+  [_storyViewController updateWindowLayout];
 }
 
 - (void)updateWindowBackgroundColor {
-  [_storyController updateWindowBackgroundColor];
+  [_storyViewController updateWindowBackgroundColor];
 }
 
 - (void)handleBackgroundColorChange:(NSNotification *)note {
@@ -298,12 +324,12 @@
   //      index += range.length;
   //    }
   //  }
-  [_storyController updateTextAttributes];
-  [_storyController updateWindowLayout];
+  [_storyViewController updateTextAttributes];
+  [_storyViewController updateWindowLayout];
 }
 
 - (void)beginInputWithOffset:(NSInteger)offset {
-  [_storyController prepareInputWithOffset:offset];
+  [_storyViewController prepareInputWithOffset:offset];
 }
 
 - (NSString *)endInput {
@@ -314,7 +340,7 @@
 }
 
 - (void)beginInputChar {
-  [_storyController prepareInputChar];
+  [_storyViewController prepareInputChar];
 }
 
 - (unichar)endInputChar {
@@ -322,7 +348,7 @@
 }
 
 - (void)outputStream:(int)number {
-  [_storyController outputStream:number];
+  [_storyViewController outputStream:number];
   switch (number) {
   case 1:
     _screenEnabled = true;
@@ -334,7 +360,7 @@
 }
 
 - (void)inputStream:(int)number {
-  [_storyController inputStream:number];
+  [_storyViewController inputStream:number];
 }
 
 - (int)closestColorCodeToColor:(NSColor *)color {
@@ -483,7 +509,7 @@
   storyFacet.numberOfLines = lines;
   if (lines == 0)
     _storyFacet = _facets[0];
-  [_storyController splitWindow:lines];
+  [_storyViewController splitWindow:lines];
 }
 
 - (void)eraseWindow:(int)window {
@@ -497,7 +523,7 @@
     [self eraseWindow:1];
   } else {
     [_facets[window] erase];
-    [_storyController eraseWindow:window];
+    [_storyViewController eraseWindow:window];
   }
 }
 
@@ -529,20 +555,20 @@
   _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
   if (_screenEnabled)
     [_storyFacet print:text];
-  [_storyController print:text];
+  [_storyViewController print:text];
 }
 
 - (void)printNumber:(int)number {
   _forceFixedPitchFont = _zMachine.forcedFixedPitchFont;
   if (_screenEnabled)
     [_storyFacet printNumber:number];
-  [_storyController printNumber:number];
+  [_storyViewController printNumber:number];
 }
 
 - (void)newLine {
   if (_screenEnabled)
     [_storyFacet newLine];
-  [_storyController newLine];
+  [_storyViewController newLine];
 }
 
 - (void)showStatus {
@@ -632,11 +658,11 @@
       scheduledTimerWithTimeInterval:interval
                              repeats:YES
                                block:^(NSTimer *_Nonnull timer) {
-                                 BOOL retVal = [self->_storyController
+                                 BOOL retVal = [self->_storyViewController
                                      executeRoutine:routine];
                                  if (retVal) {
                                    [timer invalidate];
-                                   [self->_storyController stringInput:nil];
+                                   [self->_storyViewController stringInput:nil];
                                  }
                                }];
 }

@@ -1,15 +1,17 @@
 //
-//  StoryController.h
+//  StoryViewController.h
 //  Yazmin
 //
-//  Created by David Schweinsberg on 22/08/07.
-//  Copyright 2007 David Schweinsberg. All rights reserved.
+//  Created by David Schweinsberg on 7/16/19.
+//  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
 #import "StoryInput.h"
 #import <Cocoa/Cocoa.h>
 
-@interface StoryController : NSWindowController <StoryInput>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface StoryViewController : NSViewController <StoryInput>
 
 - (void)prepareInputWithOffset:(NSInteger)offset;
 - (void)prepareInputChar;
@@ -31,3 +33,5 @@
 - (void)newLine;
 
 @end
+
+NS_ASSUME_NONNULL_END
