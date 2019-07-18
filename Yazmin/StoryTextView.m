@@ -13,12 +13,15 @@
 @interface StoryTextView () {
   NSUInteger inputLocation;
   InputState _inputState;
+  BOOL _moreToDisplay;
   NSMutableArray<NSString *> *inputHistory;
   NSUInteger historyIndex;
   NSMutableArray<NSEvent *> *keyEvents;
 }
 
 - (void)useInputHistoryIndex:(NSUInteger)index;
+- (void)checkFinalPage;
+- (void)handleLiveScroll:(NSNotification *)notification;
 
 @end
 
@@ -34,6 +37,12 @@
     inputHistory = [NSMutableArray array];
     historyIndex = 0;
     keyEvents = [NSMutableArray array];
+
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self
+           selector:@selector(handleLiveScroll:)
+               name:NSScrollViewDidLiveScrollNotification
+             object:self.superview.superview];
   }
   return self;
 }
@@ -70,6 +79,14 @@
     [self setEditable:NO];
 }
 
+- (BOOL)isMoreToDisplay {
+  return _moreToDisplay;
+}
+
+- (void)setMoreToDisplay:(BOOL)moreToDisplay {
+  _moreToDisplay = moreToDisplay;
+}
+
 - (void)useInputHistoryIndex:(NSUInteger)index {
   NSRange range =
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation);
@@ -78,6 +95,27 @@
     [self.textStorage replaceCharactersInRange:range withString:input];
   } else {
     [self.textStorage deleteCharactersInRange:range];
+  }
+}
+
+- (void)checkFinalPage {
+  // Is this more than one page yet to display?
+  NSRect textRect =
+      [self.layoutManager usedRectForTextContainer:self.textContainer];
+  NSRect visibleRect = self.visibleRect;
+  visibleRect.origin.y += visibleRect.size.height;
+  if (NSMaxY(textRect) <= NSMaxY(visibleRect)) {
+    _moreToDisplay = NO;
+  }
+}
+
+- (void)handleLiveScroll:(NSNotification *)notification {
+  // Is this the last page?
+  NSRect textRect =
+      [self.layoutManager usedRectForTextContainer:self.textContainer];
+  NSRect visibleRect = self.visibleRect;
+  if (NSMaxY(textRect) <= NSMaxY(visibleRect)) {
+    _moreToDisplay = NO;
   }
 }
 
@@ -100,13 +138,31 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-  if (_inputState == kCharacterInputState)
+  if (_inputState == kCharacterInputState && !_moreToDisplay)
     [_storyInput characterInput:254];
   else
     [super mouseDown:event];
 }
 
 - (void)keyDown:(NSEvent *)event {
+
+  // Are we waiting to display more text?
+  if (_inputState != kNoInputState && _moreToDisplay) {
+    switch (event.keyCode) {
+    //      case kVK_PageDown:
+    //        break;
+    //      case kVK_PageUp:
+    //        break;
+    case kVK_Space:
+      [self checkFinalPage];
+      [self pageDown:self];
+      break;
+      //      case kVK_Return:
+      //        break;
+    }
+    return;
+  }
+
   if (_inputState == kStringInputState) {
 
     switch (event.keyCode) {

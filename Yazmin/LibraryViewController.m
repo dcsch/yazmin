@@ -39,6 +39,10 @@
 
   // We don't want this window to appear in the Window menu
   self.view.window.excludedFromWindowsMenu = YES;
+
+  // Setting this programmatically as the storyboard setting
+  // doesn't appear to work
+  self.view.window.windowController.windowFrameAutosaveName = @"LibraryWindow";
 }
 
 - (void)addStory:(Story *)story {
@@ -56,7 +60,13 @@
                             display:YES
                   completionHandler:^(NSDocument *_Nullable document,
                                       BOOL documentWasAlreadyOpen,
-                                      NSError *_Nullable error){
+                                      NSError *_Nullable error) {
+                    Story *story = (Story *)document;
+                    if (documentWasAlreadyOpen &&
+                        story.storyViewController == nil) {
+                      [story makeWindowControllers];
+                      [story showWindows];
+                    }
                   }];
 }
 

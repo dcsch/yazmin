@@ -170,7 +170,7 @@
 
   // Scroll the lower window to compensate for the shift in position
   // (we're keeping this simple for now: just scroll to the bottom)
-  //  [lowerView scrollPoint:NSMakePoint(0, lowerView.frame.size.height)];
+  [lowerView scrollPoint:NSMakePoint(0, lowerView.frame.size.height)];
 }
 
 - (void)handleWindowWillClose:(NSNotification *)note {
@@ -203,17 +203,23 @@
 }
 
 - (void)scrollLowerWindowToEnd {
+  if (lowerView.textStorage.length == 0)
+    return;
+
   [lowerView.layoutManager
       ensureLayoutForTextContainer:lowerView.textContainer];
 
   NSRect rect = [lowerView.layoutManager
       usedRectForTextContainer:lowerView.textContainer];
-  CGFloat heightOfContent = rect.size.height;
+  NSSize inset = lowerView.textContainerInset;
+  CGFloat heightOfContent = rect.size.height + 2.0 * inset.height;
   CGFloat heightOfWindow = lowerScrollView.frame.size.height;
 
   CGFloat blockHeight = heightOfContent - _viewedHeight;
 
-  NSLog(@"block height: %f", blockHeight);
+  // TODO: Should we round blockHeight down to a multiple of line height?
+
+  //  NSLog(@"block height: %f", blockHeight);
 
   if (blockHeight > heightOfWindow) {
 
@@ -223,6 +229,7 @@
 
     _viewedHeight += heightOfWindow;
     [lowerView scrollPoint:NSMakePoint(0, _viewedHeight - heightOfWindow)];
+    lowerView.moreToDisplay = YES;
   } else {
 
     // This block will fit within the window, so just scroll to the
