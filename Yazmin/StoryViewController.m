@@ -21,6 +21,12 @@
 #import "StoryTextView.h"
 #import "ZMachine.h"
 
+typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
+  SpeakMove,
+  SpeakAtFirst,
+  SpeakAtLast
+};
+
 @interface StoryViewController () {
   IBOutlet NSTextView *upperView;
   IBOutlet StoryTextView *lowerView;
@@ -37,6 +43,10 @@
   NSOutputStream *_transcriptOutputStream;
   NSOutputStream *_commandOutputStream;
   NSInputStream *_commandInputStream;
+  NSSpeechSynthesizer *_speechSynthesizer;
+  NSMutableArray<NSMutableString *> *_moveStrings;
+  SpeakingHistoryState _speakingHistoryState;
+  NSInteger _lastSpokenMove;
   CGFloat _viewedHeight;
   BOOL _storyHasStarted;
 }
@@ -55,6 +65,10 @@
 - (void)stringInput:(NSString *)string;
 - (void)update;
 - (IBAction)reload:(id)sender;
+- (IBAction)repeatMostRecentMove:(id)sender;
+- (IBAction)speakPreviousMove:(id)sender;
+- (IBAction)speakNextMove:(id)sender;
+- (IBAction)speakStatus:(id)sender;
 - (IBAction)showDebuggerWindow:(id)sender;
 - (IBAction)showObjectBrowserWindow:(id)sender;
 - (IBAction)showAbbreviationsWindow:(id)sender;
@@ -102,6 +116,12 @@
   upperView.textContainer.heightTracksTextView = NO;
   upperView.textContainer.maximumNumberOfLines = 0;
   upperHeightConstraint.constant = 0.0;
+
+  // Speech
+  _speechSynthesizer = [[NSSpeechSynthesizer alloc] init];
+  _moveStrings = [NSMutableArray array];
+  _lastSpokenMove = -1;
+  _speakingHistoryState = SpeakAtLast;
 }
 
 - (void)viewDidAppear {
@@ -531,6 +551,48 @@
   [self executeStory];
 }
 
+- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender {
+  Story *story = self.representedObject;
+  [story addWindowController:segue.destinationController];
+}
+
+// TODO: Internationalzation of these strings
+
+- (NSString *)speakingStringForMove:(NSUInteger)move
+                    includePosition:(BOOL)includePosition {
+  NSString *string = _moveStrings[move];
+  NSMutableString *speakingString = [NSMutableString string];
+  if (includePosition) {
+    if (move == 0)
+      [speakingString appendString:@"Start. "];
+    else if (move == _moveStrings.count - 1)
+      [speakingString appendString:@"Most recent move. "];
+    else {
+      NSUInteger movesFromEnd = _moveStrings.count - move;
+      [speakingString appendFormat:@"%lu moves ago. ", (unsigned long)movesFromEnd];
+    }
+  }
+
+  __block BOOL previousLineNotEmpty = NO;
+  __block BOOL previousLineEndedWithoutPeriod = NO;
+  [string enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+    if (previousLineNotEmpty && previousLineEndedWithoutPeriod)
+      [speakingString appendString:@"."];
+
+    if (line.length > 0) {
+      if (speakingString.length > 0)
+        [speakingString appendString:@" "];
+      [speakingString appendString:line];
+    }
+
+    previousLineNotEmpty = line.length > 0;
+    previousLineEndedWithoutPeriod = ![line hasSuffix:@"."];
+  }];
+  return speakingString;
+}
+
+#pragma mark - Actions
+
 - (IBAction)reload:(id)sender {
   Story *story = self.representedObject;
   [story revertDocumentToSaved:sender];
@@ -545,9 +607,91 @@
   [self executeStory];
 }
 
-- (void)prepareForSegue:(NSStoryboardSegue *)segue sender:(id)sender {
-  Story *story = self.representedObject;
-  [story addWindowController:segue.destinationController];
+- (IBAction)repeatMostRecentMove:(id)sender {
+  NSUInteger move = _moveStrings.count - 1;
+  NSString *speakingString = [self speakingStringForMove:move includePosition:NO];
+  [_speechSynthesizer startSpeakingString:speakingString];
+}
+
+- (IBAction)speakPreviousMove:(id)sender {
+
+  if (_speakingHistoryState == SpeakAtFirst) {
+    NSLog(@"Speak no previous moves");
+    return;
+  }
+
+  if (_lastSpokenMove == -1)
+    _lastSpokenMove = _moveStrings.count - 1;
+
+  if (_lastSpokenMove == 0)
+    _speakingHistoryState = SpeakAtFirst;
+  else {
+    _speakingHistoryState = SpeakMove;
+    --_lastSpokenMove;
+  }
+
+  NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
+
+  //  NSInteger move = -1;
+//  if (_lastSpokenMove == -1) {
+//    move = _moveStrings.count - 1;
+//    _lastSpokenMove = move;
+//  } else {
+//    move = _lastSpokenMove - 1;
+//  }
+//  if (move >= 0) {
+//    NSString *speakingString = [self speakingStringForMove:move includePosition:YES];
+//    [_speechSynthesizer startSpeakingString:speakingString];
+//    NSLog(@"Speaking move %lu", move);
+//  } else {
+//    [_speechSynthesizer startSpeakingString:@"No previous moves"];
+//  }
+}
+
+- (IBAction)speakNextMove:(id)sender {
+
+  if (_lastSpokenMove == -1) {
+    _speakingHistoryState = SpeakMove;
+    _lastSpokenMove = _moveStrings.count - 1;
+  }
+
+  if (_speakingHistoryState == SpeakAtLast) {
+    NSLog(@"Speak no further moves");
+    return;
+  }
+
+  if (_speakingHistoryState == SpeakAtFirst) {
+    _speakingHistoryState = SpeakMove;
+    _lastSpokenMove = 0;
+  } else {
+    ++_lastSpokenMove;
+  }
+
+  if (_lastSpokenMove == _moveStrings.count - 1) {
+    _speakingHistoryState = SpeakAtLast;
+  }
+
+  NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
+
+//  NSInteger move = -1;
+//  if (_lastSpokenMove == -1) {
+//    move = _moveStrings.count - 1;
+//    _lastSpokenMove = move;
+//  } else {
+//    move = _lastSpokenMove + 1;
+//  }
+//  if (move > _moveStrings.count - 1) {
+//    NSString *speakingString = [self speakingStringForMove:move includePosition:YES];
+//    [_speechSynthesizer startSpeakingString:speakingString];
+//    NSLog(@"Speaking move %lu", move);
+//  } else {
+//    [_speechSynthesizer startSpeakingString:@"No further moves"];
+//  }
+}
+
+- (IBAction)speakStatus:(id)sender {
+  _lastSpokenMove = -1;
+  [_speechSynthesizer stopSpeaking];
 }
 
 - (IBAction)showDebuggerWindow:(id)sender {
@@ -574,11 +718,16 @@
   [abbreviationsController showWindow:self];
 }
 
+#pragma mark -
+
 - (void)updateViews {
   [objectBrowserController update];
 }
 
 - (void)executeStory {
+  [_moveStrings addObject:[NSMutableString string]];
+  _lastSpokenMove = -1;
+  _speakingHistoryState = SpeakAtLast;
   [NSTimer
       scheduledTimerWithTimeInterval:0.0
                              repeats:NO
@@ -645,10 +794,13 @@
 
 - (void)print:(NSString *)text {
   Story *story = self.representedObject;
-  if (_transcriptOutputStream && story.window == 0) {
-    const char *utf8String = text.UTF8String;
-    [_transcriptOutputStream write:(const uint8_t *)utf8String
-                         maxLength:strlen(utf8String)];
+  if (story.window == 0) {
+    [_moveStrings.lastObject appendString:text];
+    if (_transcriptOutputStream) {
+      const char *utf8String = text.UTF8String;
+      [_transcriptOutputStream write:(const uint8_t *)utf8String
+                           maxLength:strlen(utf8String)];
+    }
   }
 }
 

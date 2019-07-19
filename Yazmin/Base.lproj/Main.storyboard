@@ -156,12 +156,6 @@
                                                 <action selector="paste:" target="V39-F2-xEo" id="8cx-7S-4OL"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Paste and Match Style" keyEquivalent="V" id="tl9-2L-IaT">
-                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
-                                            <connections>
-                                                <action selector="pasteAsPlainText:" target="V39-F2-xEo" id="AwJ-B1-8w2"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem title="Delete" id="RPl-ge-w0M">
                                             <connections>
                                                 <action selector="delete:" target="V39-F2-xEo" id="paC-Er-G8V"/>
@@ -207,105 +201,6 @@
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Spelling and Grammar" id="mKU-Dw-FVb">
-                                            <menu key="submenu" title="Spelling and Grammar" id="5Nc-WW-Sj4">
-                                                <items>
-                                                    <menuItem title="Show Spelling and Grammar" keyEquivalent=":" id="68J-KG-s1i">
-                                                        <connections>
-                                                            <action selector="showGuessPanel:" target="V39-F2-xEo" id="y1e-vm-MdD"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Check Document Now" keyEquivalent=";" id="Mw3-Si-i4n">
-                                                        <connections>
-                                                            <action selector="checkSpelling:" target="V39-F2-xEo" id="Bqi-b9-VBm"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem isSeparatorItem="YES" id="8UN-z5-0zj"/>
-                                                    <menuItem title="Check Spelling While Typing" id="jYZ-Ib-s5l">
-                                                        <connections>
-                                                            <action selector="toggleContinuousSpellChecking:" target="V39-F2-xEo" id="IkU-dh-sIr"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Check Grammar With Spelling" id="8NH-cf-1qd">
-                                                        <connections>
-                                                            <action selector="toggleGrammarChecking:" target="V39-F2-xEo" id="N8P-Jw-bND"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Correct Spelling Automatically" id="qNB-rh-c9i">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="toggleAutomaticSpellingCorrection:" target="V39-F2-xEo" id="7mN-IT-QpH"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
-                                        <menuItem title="Substitutions" id="8BQ-JC-eEm">
-                                            <menu key="submenu" title="Substitutions" id="n3C-9s-7aR">
-                                                <items>
-                                                    <menuItem title="Show Substitutions" id="WNJ-vH-G5C">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="orderFrontSubstitutionsPanel:" target="V39-F2-xEo" id="9kt-ZY-ahL"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem isSeparatorItem="YES" id="2uP-nm-hQc"/>
-                                                    <menuItem title="Smart Copy/Paste" tag="1" keyEquivalent="f" id="GVa-xu-yeX">
-                                                        <connections>
-                                                            <action selector="toggleSmartInsertDelete:" target="V39-F2-xEo" id="Amx-jG-oS5"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Smart Quotes" tag="2" keyEquivalent="g" id="dXn-z1-mJJ">
-                                                        <connections>
-                                                            <action selector="toggleAutomaticQuoteSubstitution:" target="V39-F2-xEo" id="uSB-jK-IqK"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Smart Dashes" id="BTX-gu-aIH">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="toggleAutomaticDashSubstitution:" target="V39-F2-xEo" id="dJ0-Dp-NQe"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Smart Links" tag="3" keyEquivalent="G" id="zhb-oe-Z8b">
-                                                        <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
-                                                        <connections>
-                                                            <action selector="toggleAutomaticLinkDetection:" target="V39-F2-xEo" id="AGn-3c-ne3"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Text Replacement" id="ncQ-4u-uJN">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="toggleAutomaticTextReplacement:" target="V39-F2-xEo" id="6d2-iC-ej5"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
-                                        <menuItem title="Transformations" id="VzQ-ne-Jol">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <menu key="submenu" title="Transformations" id="spT-Xk-9JY">
-                                                <items>
-                                                    <menuItem title="Make Upper Case" id="9X8-fy-D9j">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="uppercaseWord:" target="V39-F2-xEo" id="VDo-Vw-hVE"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Make Lower Case" id="MLq-MP-tby">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="lowercaseWord:" target="V39-F2-xEo" id="fNw-nW-qgy"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                    <menuItem title="Capitalize" id="Za3-Pf-GQf">
-                                                        <modifierMask key="keyEquivalentModifierMask"/>
-                                                        <connections>
-                                                            <action selector="capitalizeWord:" target="V39-F2-xEo" id="gBX-YG-4Ux"/>
-                                                        </connections>
-                                                    </menuItem>
-                                                </items>
-                                            </menu>
-                                        </menuItem>
                                         <menuItem title="Speech" id="J6w-Qp-TjA">
                                             <menu key="submenu" title="Speech" id="fdY-I8-18G">
                                                 <items>
@@ -317,6 +212,34 @@
                                                     <menuItem title="Stop Speaking" id="gei-AG-Kaj">
                                                         <connections>
                                                             <action selector="stopSpeaking:" target="V39-F2-xEo" id="Hob-HH-Sai"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem isSeparatorItem="YES" id="k8M-hP-fdV"/>
+                                                    <menuItem title="Repeat Most Recent Move" keyEquivalent="" id="dBX-rb-4bj">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="repeatMostRecentMove:" target="V39-F2-xEo" id="M0X-5H-Lyg"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Speak Previous Move" keyEquivalent="" id="qof-ZP-MQU">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="speakPreviousMove:" target="V39-F2-xEo" id="Kvm-Jd-iJU"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Speak Next Move" keyEquivalent="" id="up7-Gx-brw">
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="speakNextMove:" target="V39-F2-xEo" id="GVA-BT-PIu"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="Speak Status" id="XtD-3n-MuS">
+                                                        <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                                        <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="speakStatus:" target="V39-F2-xEo" id="sZ5-6p-upo"/>
                                                         </connections>
                                                     </menuItem>
                                                 </items>
@@ -419,7 +342,7 @@
                 <customObject id="V39-F2-xEo" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <customObject id="Bgz-is-0Qj" customClass="AppController"/>
             </objects>
-            <point key="canvasLocation" x="38" y="-657"/>
+            <point key="canvasLocation" x="-573" y="-686"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="W9H-uF-CUX">
@@ -775,29 +698,29 @@
                 </windowController>
                 <customObject id="l53-hf-HdJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-557" y="139"/>
+            <point key="canvasLocation" x="-557" y="181"/>
         </scene>
         <!--Story View Controller-->
         <scene sceneID="5Yi-o8-mvz">
             <objects>
                 <viewController id="Sgk-2a-Yb6" customClass="StoryViewController" sceneMemberID="viewController">
                     <view key="view" id="Ojh-oj-wXK">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="720" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U55-ec-o96">
-                                <rect key="frame" x="0.0" y="198" width="480" height="72"/>
+                                <rect key="frame" x="0.0" y="408" width="720" height="72"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="8cj-FY-l6g">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="72"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="720" height="72"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView editable="NO" selectable="NO" verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" spellingCorrection="YES" smartInsertDelete="YES" id="PII-qe-je1">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="72"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="72"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="480" height="72"/>
-                                            <size key="maxSize" width="480" height="10000000"/>
+                                            <size key="minSize" width="720" height="72"/>
+                                            <size key="maxSize" width="720" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
@@ -815,18 +738,18 @@
                                 </scroller>
                             </scrollView>
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOw-pX-LSo">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="198"/>
+                                <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="3be-FR-WqR">
-                                    <rect key="frame" x="0.0" y="0.0" width="480" height="198"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" spellingCorrection="YES" smartInsertDelete="YES" id="YD4-1E-BWH" customClass="StoryTextView">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="198"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="480" height="198"/>
-                                            <size key="maxSize" width="480" height="10000000"/>
+                                            <size key="minSize" width="720" height="408"/>
+                                            <size key="maxSize" width="720" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
                                     </subviews>
@@ -836,7 +759,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="W4T-ar-0bp">
-                                    <rect key="frame" x="464" y="0.0" width="16" height="198"/>
+                                    <rect key="frame" x="704" y="0.0" width="16" height="408"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -860,7 +783,7 @@
                 </viewController>
                 <customObject id="Idy-Ua-SBh" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="91" y="167"/>
+            <point key="canvasLocation" x="181" y="181"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="hwj-ht-Wc0">
@@ -881,7 +804,7 @@
                 </windowController>
                 <customObject id="k6a-Xd-VgF" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-557" y="589"/>
+            <point key="canvasLocation" x="-510" y="719"/>
         </scene>
         <!--Tab View Controller-->
         <scene sceneID="22s-S4-nZC">
@@ -908,7 +831,7 @@
                 </tabViewController>
                 <customObject id="veo-Kz-Ue8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8" y="583"/>
+            <point key="canvasLocation" x="55" y="713"/>
         </scene>
         <!--Information View Controller-->
         <scene sceneID="PSw-of-FgO">
@@ -976,7 +899,7 @@
                 </viewController>
                 <customObject id="Ivj-Yh-nxC" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="575" y="495"/>
+            <point key="canvasLocation" x="622" y="625"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="L5U-Ox-7fz">
@@ -1006,7 +929,7 @@
                 </viewController>
                 <customObject id="9yr-sz-HOq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="575" y="809"/>
+            <point key="canvasLocation" x="622" y="939"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="xHn-e4-VYu">
