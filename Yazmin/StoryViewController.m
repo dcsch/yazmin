@@ -21,12 +21,6 @@
 #import "StoryTextView.h"
 #import "ZMachine.h"
 
-typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
-  SpeakMove,
-  SpeakAtFirst,
-  SpeakAtLast
-};
-
 @interface StoryViewController () {
   IBOutlet NSTextView *upperView;
   IBOutlet StoryTextView *lowerView;
@@ -45,7 +39,6 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
   NSInputStream *_commandInputStream;
   NSSpeechSynthesizer *_speechSynthesizer;
   NSMutableArray<NSMutableString *> *_moveStrings;
-  SpeakingHistoryState _speakingHistoryState;
   NSInteger _lastSpokenMove;
   CGFloat _viewedHeight;
   BOOL _storyHasStarted;
@@ -58,12 +51,15 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
 - (void)handleViewFrameChange:(NSNotification *)note;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;
+- (void)scrollLowerWindow;
 - (NSString *)playbackInputString;
 - (void)printCharToOutputStreams:(unichar)c;
 - (void)printToOutputStreams:(NSString *)text;
 - (void)characterInput:(unichar)c;
 - (void)stringInput:(NSString *)string;
 - (void)update;
+- (NSString *)speakingStringForMove:(NSUInteger)move
+                    includePosition:(BOOL)includePosition;
 - (IBAction)reload:(id)sender;
 - (IBAction)repeatMostRecentMove:(id)sender;
 - (IBAction)speakPreviousMove:(id)sender;
@@ -120,8 +116,6 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
   // Speech
   _speechSynthesizer = [[NSSpeechSynthesizer alloc] init];
   _moveStrings = [NSMutableArray array];
-  _lastSpokenMove = -1;
-  _speakingHistoryState = SpeakAtLast;
 }
 
 - (void)viewDidAppear {
@@ -222,7 +216,7 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
   NSLog(@"handleForegroundColorChange:");
 }
 
-- (void)scrollLowerWindowToEnd {
+- (void)scrollLowerWindow {
   if (lowerView.textStorage.length == 0)
     return;
 
@@ -243,13 +237,9 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
 
   if (blockHeight > heightOfWindow) {
 
-    // TODO: There is more text than can be shown in the window, so we must
-    // present a "more" prompt
-    NSLog(@"[MORE]");
-
+    // Scroll the amount of new text that would fill the window
     _viewedHeight += heightOfWindow;
     [lowerView scrollPoint:NSMakePoint(0, _viewedHeight - heightOfWindow)];
-    lowerView.moreToDisplay = YES;
   } else {
 
     // This block will fit within the window, so just scroll to the
@@ -287,13 +277,13 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
     }
   }
   [lowerView setInputState:kStringInputState];
-  [self scrollLowerWindowToEnd];
+  [self scrollLowerWindow];
 }
 
 - (void)prepareInputChar {
   [self resolveStatusHeight];
   [lowerView setInputState:kCharacterInputState];
-  [self scrollLowerWindowToEnd];
+  [self scrollLowerWindow];
 }
 
 - (void)restoreSession {
@@ -563,31 +553,36 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
   NSString *string = _moveStrings[move];
   NSMutableString *speakingString = [NSMutableString string];
   if (includePosition) {
-    if (move == 0)
-      [speakingString appendString:@"Start. "];
-    else if (move == _moveStrings.count - 1)
+    if (move == _moveStrings.count - 1)
       [speakingString appendString:@"Most recent move. "];
     else {
       NSUInteger movesFromEnd = _moveStrings.count - move;
-      [speakingString appendFormat:@"%lu moves ago. ", (unsigned long)movesFromEnd];
+      [speakingString
+          appendFormat:@"%lu moves ago. ", (unsigned long)movesFromEnd];
     }
+    if (move == 0)
+      [speakingString appendString:@"Start. "];
   }
 
+  // Output needs to be cleaned up so that lines that end with a newline have
+  // a period appended so that the speech synthesizer includes an appropriate
+  // pause
   __block BOOL previousLineNotEmpty = NO;
   __block BOOL previousLineEndedWithoutPeriod = NO;
-  [string enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
-    if (previousLineNotEmpty && previousLineEndedWithoutPeriod)
-      [speakingString appendString:@"."];
+  [string
+      enumerateLinesUsingBlock:^(NSString *_Nonnull line, BOOL *_Nonnull stop) {
+        if (previousLineNotEmpty && previousLineEndedWithoutPeriod)
+          [speakingString appendString:@"."];
 
-    if (line.length > 0) {
-      if (speakingString.length > 0)
-        [speakingString appendString:@" "];
-      [speakingString appendString:line];
-    }
+        if (line.length > 0) {
+          if (speakingString.length > 0)
+            [speakingString appendString:@" "];
+          [speakingString appendString:line];
+        }
 
-    previousLineNotEmpty = line.length > 0;
-    previousLineEndedWithoutPeriod = ![line hasSuffix:@"."];
-  }];
+        previousLineNotEmpty = line.length > 0;
+        previousLineEndedWithoutPeriod = ![line hasSuffix:@"."];
+      }];
   return speakingString;
 }
 
@@ -609,89 +604,43 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
 
 - (IBAction)repeatMostRecentMove:(id)sender {
   NSUInteger move = _moveStrings.count - 1;
-  NSString *speakingString = [self speakingStringForMove:move includePosition:NO];
+  NSString *speakingString =
+      [self speakingStringForMove:move includePosition:NO];
   [_speechSynthesizer startSpeakingString:speakingString];
 }
 
 - (IBAction)speakPreviousMove:(id)sender {
-
-  if (_speakingHistoryState == SpeakAtFirst) {
-    NSLog(@"Speak no previous moves");
-    return;
-  }
-
-  if (_lastSpokenMove == -1)
-    _lastSpokenMove = _moveStrings.count - 1;
-
-  if (_lastSpokenMove == 0)
-    _speakingHistoryState = SpeakAtFirst;
-  else {
-    _speakingHistoryState = SpeakMove;
+  if (_lastSpokenMove > -1)
     --_lastSpokenMove;
+  if (_lastSpokenMove == -1) {
+    NSLog(@"Speak no previous moves");
+    [_speechSynthesizer startSpeakingString:@"No previous moves"];
+  } else {
+    NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
+    NSString *speakingString =
+        [self speakingStringForMove:_lastSpokenMove includePosition:YES];
+    [_speechSynthesizer startSpeakingString:speakingString];
   }
-
-  NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
-
-  //  NSInteger move = -1;
-//  if (_lastSpokenMove == -1) {
-//    move = _moveStrings.count - 1;
-//    _lastSpokenMove = move;
-//  } else {
-//    move = _lastSpokenMove - 1;
-//  }
-//  if (move >= 0) {
-//    NSString *speakingString = [self speakingStringForMove:move includePosition:YES];
-//    [_speechSynthesizer startSpeakingString:speakingString];
-//    NSLog(@"Speaking move %lu", move);
-//  } else {
-//    [_speechSynthesizer startSpeakingString:@"No previous moves"];
-//  }
 }
 
 - (IBAction)speakNextMove:(id)sender {
-
-  if (_lastSpokenMove == -1) {
-    _speakingHistoryState = SpeakMove;
-    _lastSpokenMove = _moveStrings.count - 1;
-  }
-
-  if (_speakingHistoryState == SpeakAtLast) {
-    NSLog(@"Speak no further moves");
-    return;
-  }
-
-  if (_speakingHistoryState == SpeakAtFirst) {
-    _speakingHistoryState = SpeakMove;
-    _lastSpokenMove = 0;
-  } else {
+  if (_lastSpokenMove < (NSInteger)_moveStrings.count)
     ++_lastSpokenMove;
+  if (_lastSpokenMove == _moveStrings.count) {
+    NSLog(@"Speak no further moves");
+    [_speechSynthesizer startSpeakingString:@"No further moves"];
+  } else {
+    NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
+    NSString *speakingString =
+        [self speakingStringForMove:_lastSpokenMove includePosition:YES];
+    [_speechSynthesizer startSpeakingString:speakingString];
   }
-
-  if (_lastSpokenMove == _moveStrings.count - 1) {
-    _speakingHistoryState = SpeakAtLast;
-  }
-
-  NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
-
-//  NSInteger move = -1;
-//  if (_lastSpokenMove == -1) {
-//    move = _moveStrings.count - 1;
-//    _lastSpokenMove = move;
-//  } else {
-//    move = _lastSpokenMove + 1;
-//  }
-//  if (move > _moveStrings.count - 1) {
-//    NSString *speakingString = [self speakingStringForMove:move includePosition:YES];
-//    [_speechSynthesizer startSpeakingString:speakingString];
-//    NSLog(@"Speaking move %lu", move);
-//  } else {
-//    [_speechSynthesizer startSpeakingString:@"No further moves"];
-//  }
 }
 
 - (IBAction)speakStatus:(id)sender {
-  _lastSpokenMove = -1;
-  [_speechSynthesizer stopSpeaking];
+  _lastSpokenMove = _moveStrings.count;
+  NSString *speakingString = upperView.textStorage.string;
+  [_speechSynthesizer startSpeakingString:speakingString];
 }
 
 - (IBAction)showDebuggerWindow:(id)sender {
@@ -726,8 +675,6 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
 
 - (void)executeStory {
   [_moveStrings addObject:[NSMutableString string]];
-  _lastSpokenMove = -1;
-  _speakingHistoryState = SpeakAtLast;
   [NSTimer
       scheduledTimerWithTimeInterval:0.0
                              repeats:NO
@@ -796,6 +743,10 @@ typedef NS_ENUM(NSUInteger, SpeakingHistoryState) {
   Story *story = self.representedObject;
   if (story.window == 0) {
     [_moveStrings.lastObject appendString:text];
+
+    // Reset the spoken history
+    _lastSpokenMove = _moveStrings.count;
+
     if (_transcriptOutputStream) {
       const char *utf8String = text.UTF8String;
       [_transcriptOutputStream write:(const uint8_t *)utf8String

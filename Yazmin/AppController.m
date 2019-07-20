@@ -21,32 +21,8 @@
 @implementation AppController
 
 + (void)initialize {
-  // Create a dictionary
-  NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
 
-  // Archive the color objects
-  NSData *backgroundColorAsData =
-      [NSKeyedArchiver archivedDataWithRootObject:[NSColor textBackgroundColor]
-                            requiringSecureCoding:NO
-                                            error:nil];
-  NSData *foregroundColorAsData =
-      [NSKeyedArchiver archivedDataWithRootObject:[NSColor textColor]
-                            requiringSecureCoding:NO
-                                            error:nil];
-
-  // Put the defaults in the dictionary
-  defaultValues[SMBackgroundColorKey] = backgroundColorAsData;
-  defaultValues[SMForegroundColorKey] = foregroundColorAsData;
-  defaultValues[SMMonospacedFontKey] = @"Menlo";
-  defaultValues[SMProportionalFontKey] = @"Helvetica Neue";
-  defaultValues[SMCharacterGraphicsFontKey] = @"Zork";
-  defaultValues[SMFontSizeKey] = @14.0f;
-  defaultValues[SMShowLibraryOnStartupKey] = @1;
-  defaultValues[SMInterpreterNumberKey] = @3;
-  defaultValues[SMInterpreterVersionKey] = @'Z';
-
-  // Register the dictionary of defaults
-  [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+  [Preferences registerDefaults];
 
   // These days we have to get in really early with the creation
   // of our custom document controller
@@ -61,6 +37,7 @@
   if (self) {
     _library = [[Library alloc] init];
     [_library syncMetadata]; // This might be a little heavy handed
+    [Preferences.sharedPreferences applyAppPreferences];
   }
   return self;
 }

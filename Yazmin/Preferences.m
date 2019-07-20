@@ -8,6 +8,7 @@
 
 #import "Preferences.h"
 
+NSString *SMAppearanceKey = @"Appearance";
 NSString *SMBackgroundColorKey = @"BackgroundColor";
 NSString *SMForegroundColorKey = @"ForegroundColor";
 NSString *SMMonospacedFontKey = @"MonospacedFont";
@@ -17,6 +18,8 @@ NSString *SMFontSizeKey = @"FontSize";
 NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 NSString *SMInterpreterNumberKey = @"InterpreterNumber";
 NSString *SMInterpreterVersionKey = @"InterpreterVersion";
+
+static void *AppearanceContext = &AppearanceContext;
 
 @interface Preferences () {
   NSUserDefaults *defaults;
@@ -35,13 +38,78 @@ NSString *SMInterpreterVersionKey = @"InterpreterVersion";
   return preferences;
 }
 
++ (void)registerDefaults {
+
+  // Archive the color objects
+  NSData *backgroundColorAsData =
+      [NSKeyedArchiver archivedDataWithRootObject:[NSColor textBackgroundColor]
+                            requiringSecureCoding:NO
+                                            error:nil];
+  NSData *foregroundColorAsData =
+      [NSKeyedArchiver archivedDataWithRootObject:[NSColor textColor]
+                            requiringSecureCoding:NO
+                                            error:nil];
+
+  // Put the defaults in a dictionary
+  NSDictionary *defaultValues = @{
+    SMAppearanceKey : @0,
+    SMBackgroundColorKey : backgroundColorAsData,
+    SMForegroundColorKey : foregroundColorAsData,
+    SMMonospacedFontKey : @"Menlo",
+    SMProportionalFontKey : @"Helvetica Neue",
+    SMCharacterGraphicsFontKey : @"Zork",
+    SMFontSizeKey : @14.0f,
+    SMShowLibraryOnStartupKey : @1,
+    SMInterpreterNumberKey : @3,
+    SMInterpreterVersionKey : @'Z'
+  };
+
+  // Register the dictionary of defaults
+  [NSUserDefaults.standardUserDefaults registerDefaults:defaultValues];
+}
+
 - (instancetype)init {
   self = [super init];
   if (self) {
     defaults = [NSUserDefaults standardUserDefaults];
     nc = [NSNotificationCenter defaultCenter];
+
+    [defaults
+        addObserver:self
+         forKeyPath:SMAppearanceKey
+            options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+            context:AppearanceContext];
   }
   return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+
+  if (context == AppearanceContext) {
+    [self applyAppPreferences];
+  } else {
+    [super observeValueForKeyPath:keyPath
+                         ofObject:object
+                           change:change
+                          context:context];
+  }
+}
+
+- (void)applyAppPreferences {
+  switch ([defaults integerForKey:SMAppearanceKey]) {
+  case 0:
+    NSApp.appearance = nil;
+    break;
+  case 1:
+    NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameAqua];
+    break;
+  case 2:
+    NSApp.appearance = [NSAppearance appearanceNamed:NSAppearanceNameDarkAqua];
+    break;
+  }
 }
 
 - (NSColor *)backgroundColor {
