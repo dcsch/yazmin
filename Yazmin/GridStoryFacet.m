@@ -45,7 +45,6 @@
 
 - (void)setNumberOfLines:(int)lines {
   _numberOfLines = lines;
-  [self.story updateWindowLayout];
 }
 
 - (void)erase {
@@ -239,6 +238,17 @@
         NSMakeRange(range.location, self.textStorage.length - range.location);
     [self.textStorage deleteCharactersInRange:rangeToEnd];
   }
+}
+
+- (NSAttributedString *)attributedStringFromLine:(int)line {
+  NSArray<NSValue *> *ranges = [self rangesOfLines];
+  if (ranges.count > line) {
+    NSRange range = ranges[line - 1].rangeValue;
+    NSRange rangeToEnd =
+        NSMakeRange(range.location, self.textStorage.length - range.location);
+    return [self.textStorage attributedSubstringFromRange:rangeToEnd];
+  }
+  return nil;
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import "StoryFacet.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GridStoryFacet : StoryFacet
 
 - (instancetype)initWithStory:(Story *)aStory;
@@ -23,5 +25,8 @@
 - (void)printNumber:(int)number;
 - (void)newLine;
 - (void)eraseFromLine:(int)line;
+- (nullable NSAttributedString *)attributedStringFromLine:(int)line;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -29,9 +29,7 @@
   DebugController *debugController;
   ObjectBrowserController *objectBrowserController;
   AbbreviationsController *abbreviationsController;
-  int curheight;
-  int maxheight;
-  int seenheight;
+  NSUInteger _upperViewLineCount;
   NSURL *_transcriptURL;
   NSURL *_commandURL;
   NSOutputStream *_transcriptOutputStream;
@@ -69,7 +67,7 @@
 - (IBAction)showObjectBrowserWindow:(id)sender;
 - (IBAction)showAbbreviationsWindow:(id)sender;
 - (void)updateViews;
-- (void)resolveStatusHeight;
+- (void)updateWindowLayoutIfNeeded;
 
 @end
 
@@ -77,10 +75,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
-  curheight = 0;
-  maxheight = 0;
-  seenheight = 0;
 
   // Listen to some notifications
   NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -181,6 +175,7 @@
                 : 0;
   upperHeightConstraint.constant = upperHeight;
   upperView.textContainer.maximumNumberOfLines = lines;
+  _upperViewLineCount = lines;
 
   // Scroll the lower window to compensate for the shift in position
   // (we're keeping this simple for now: just scroll to the bottom)
@@ -261,7 +256,8 @@
 }
 
 - (void)prepareInputWithOffset:(NSInteger)offset {
-  [self resolveStatusHeight];
+  [self updateWindowLayoutIfNeeded];
+
   Story *story = self.representedObject;
   NSUInteger len = story.facets[0].textStorage.length;
   [lowerView setInputLocation:len + offset];
@@ -281,7 +277,8 @@
 }
 
 - (void)prepareInputChar {
-  [self resolveStatusHeight];
+  [self updateWindowLayoutIfNeeded];
+
   [lowerView setInputState:kCharacterInputState];
   [self scrollLowerWindow];
 }
@@ -431,31 +428,16 @@
   //    [[layoutView lowerWindow] setInputLocation:len];
 }
 
-- (void)updateWindowLayout {
-
-  // Retrieve the height of the upper window
+- (void)updateWindowLayoutIfNeeded {
   Story *story = self.representedObject;
   GridStoryFacet *facet = (GridStoryFacet *)story.facets[1];
 
-  // Implement zarf's fix to the quote box problem
-  // (https://eblong.com/zarf/glk/quote-box.html)
-  int oldheight = curheight;
-  curheight = facet.numberOfLines;
-
-  // We do not decrease the height at this time -- it can only
-  // increase.
-  if (curheight > maxheight)
-    maxheight = curheight;
-
-  // However, if the VM thinks it's increasing the height, we must be
-  // careful to clear the "newly created" space.
-  if (curheight > oldheight) {
-    // blank out all lines from oldheight to the bottom of the window
-    [facet eraseFromLine:oldheight + 1];
+  // Retrieve the height of the upper window
+  // If it has changed since the last move, then resize it
+  if (_upperViewLineCount != facet.numberOfLines) {
+    [self resizeUpperWindow:facet.numberOfLines];
+    self.view.needsLayout = YES;
   }
-
-  [self resizeUpperWindow:maxheight];
-  self.view.needsLayout = YES;
 }
 
 - (void)updateWindowBackgroundColor {
@@ -463,25 +445,6 @@
   lowerView.backgroundColor = story.backgroundColor;
   upperView.backgroundColor = story.backgroundColor;
   lowerView.insertionPointColor = story.foregroundColor;
-}
-
-// If the status height is too large because of last turn's quote box,
-// shrink it down now.
-// This must be called immediately before any input event. (That is,
-// the beginning of the @read and @read_char opcodes.)
-- (void)resolveStatusHeight {
-
-  // If the player has seen the entire window, we can shrink it.
-  if (seenheight == maxheight)
-    maxheight = curheight;
-
-  if (upperView.textContainer.maximumNumberOfLines != maxheight) {
-    [self resizeUpperWindow:maxheight];
-    self.view.needsLayout = YES;
-  }
-
-  seenheight = maxheight;
-  maxheight = curheight;
 }
 
 - (void)updateTextAttributes {
@@ -735,8 +698,15 @@
 }
 
 - (void)eraseWindow:(int)window {
-  if (window == 0)
+  if (window == 0) {
     _viewedHeight = 0.0;
+
+    // Remove any box text subviews
+    for (NSView *view in lowerView.subviews) {
+      if ([view isKindOfClass:NSTextView.class])
+        [view removeFromSuperview];
+    }
+  }
 }
 
 - (void)print:(NSString *)text {
@@ -761,6 +731,24 @@
 
 - (void)newLine {
   [self print:@"\n"];
+}
+
+- (void)printBox:(NSAttributedString *)text {
+
+  // Drop a separate text box into the lower view
+  NSRect visibleRect = lowerScrollView.documentVisibleRect;
+  NSLog(@"Visible rect: %f, %f (%f x %f)", visibleRect.origin.x,
+        visibleRect.origin.y, visibleRect.size.width, visibleRect.size.height);
+
+  NSRect frame = NSMakeRect(upperView.textContainerInset.width,
+                            visibleRect.origin.y, visibleRect.size.width, 0);
+  NSTextView *textView = [[NSTextView alloc] initWithFrame:frame];
+  textView.editable = NO;
+  textView.selectable = NO;
+  textView.backgroundColor = NSColor.clearColor;
+  [textView.textStorage appendAttributedString:text];
+  [textView.layoutManager ensureLayoutForTextContainer:textView.textContainer];
+  [lowerView addSubview:textView];
 }
 
 @end

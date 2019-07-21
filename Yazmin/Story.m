@@ -28,6 +28,7 @@
   NSColor *_foregroundColor;
   NSColor *_backgroundColor;
   BOOL _justSetTextStyle;
+  NSUInteger _upperWindowSeenHeight;
   StoryFacet *_storyFacet;
   NSSound *_lowSound;
   NSSound *_highSound;
@@ -276,10 +277,6 @@
   [_storyViewController showError:errorMessage];
 }
 
-- (void)updateWindowLayout {
-  [_storyViewController updateWindowLayout];
-}
-
 - (void)updateWindowBackgroundColor {
   [_storyViewController updateWindowBackgroundColor];
 }
@@ -324,11 +321,12 @@
   //      index += range.length;
   //    }
   //  }
-  [_storyViewController updateTextAttributes];
-  [_storyViewController updateWindowLayout];
+  //  [_storyViewController updateTextAttributes];
+  //  [_storyViewController updateWindowLayout];
 }
 
 - (void)beginInputWithOffset:(NSInteger)offset {
+  _upperWindowSeenHeight = _facets[1].numberOfLines;
   [_storyViewController prepareInputWithOffset:offset];
 }
 
@@ -340,6 +338,7 @@
 }
 
 - (void)beginInputChar {
+  _upperWindowSeenHeight = _facets[1].numberOfLines;
   [_storyViewController prepareInputChar];
 }
 
@@ -505,7 +504,18 @@
 }
 
 - (void)splitWindow:(int)lines {
-  StoryFacet *storyFacet = _facets[1];
+  GridStoryFacet *storyFacet = (GridStoryFacet *)_facets[1];
+
+  // If upper window is being shrunk down after being expanded within
+  // a single move, then this is a box quote, so grab a copy of the
+  // box quote text and imprint on to the lower window.
+  if (storyFacet.numberOfLines > _upperWindowSeenHeight &&
+      storyFacet.numberOfLines > lines) {
+    NSAttributedString *str =
+        [storyFacet attributedStringFromLine:(int)_upperWindowSeenHeight + 1];
+    [_storyViewController printBox:str];
+  }
+
   storyFacet.numberOfLines = lines;
   if (lines == 0)
     _storyFacet = _facets[0];

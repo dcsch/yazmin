@@ -44,7 +44,6 @@
 - (void)restoreSession;
 - (void)saveSessionData:(NSData *)data;
 - (void)error:(NSString *)errorMessage;
-- (void)updateWindowLayout;
 - (void)updateWindowBackgroundColor;
 - (void)handleBackgroundColorChange:(NSNotification *)note;
 - (void)handleForegroundColorChange:(NSNotification *)note;

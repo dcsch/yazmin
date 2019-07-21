@@ -20,7 +20,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)outputStream:(int)number;
 - (void)inputStream:(int)number;
 - (void)showError:(NSString *)errorMessage;
-- (void)updateWindowLayout;
 - (void)updateWindowBackgroundColor;
 - (void)updateTextAttributes;
 - (void)executeStory;
@@ -31,6 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
+- (void)printBox:(NSAttributedString *)text;
 
 @end
 

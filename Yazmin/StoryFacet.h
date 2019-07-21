@@ -10,6 +10,8 @@
 
 @class Story;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface StoryFacet : NSObject
 
 - (instancetype)initWithStory:(Story *)story NS_DESIGNATED_INITIALIZER;
@@ -39,3 +41,5 @@
 - (void)applyLowerWindowAttributes:(NSMutableDictionary *)attributes;
 
 @end
+
+NS_ASSUME_NONNULL_END

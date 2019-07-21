@@ -11,4 +11,3 @@ Yazmin is Yet Another Z-Machine Interpreter for macOS, developed in Objective-C 
 - [Z-machine Common Save-File Format Standard](http://inform-fiction.org/zmachine/standards/quetzal/)
 - [Blorb: An IF Resource Collection Format Standard](https://www.eblong.com/zarf/blorb/)
 - [The Treaty of Babel: Software and a standard for IF bibliography](http://babel.ifarchive.org)
-- [The Z-Machine Quote Box Problem](https://eblong.com/zarf/glk/quote-box.html)

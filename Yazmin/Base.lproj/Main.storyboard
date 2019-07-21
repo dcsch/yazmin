@@ -743,7 +743,7 @@ CA
                                     <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" spellingCorrection="YES" smartInsertDelete="YES" id="YD4-1E-BWH" customClass="StoryTextView">
+                                        <textView importsGraphics="NO" verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" allowsNonContiguousLayout="YES" spellingCorrection="YES" smartInsertDelete="YES" id="YD4-1E-BWH" customClass="StoryTextView">
                                             <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
