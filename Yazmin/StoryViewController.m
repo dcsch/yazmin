@@ -734,6 +734,7 @@
 }
 
 - (void)printBox:(NSAttributedString *)text {
+  [self scrollLowerWindow];
 
   // Drop a separate text box into the lower view
   NSRect visibleRect = lowerScrollView.documentVisibleRect;

@@ -984,11 +984,11 @@ CA
             <objects>
                 <viewController title="General" id="2Ll-03-QU8" customClass="GeneralPreferencesViewController" sceneMemberID="viewController">
                     <view key="view" id="s0w-Ct-YC8">
-                        <rect key="frame" x="0.0" y="0.0" width="464" height="244"/>
+                        <rect key="frame" x="0.0" y="0.0" width="425" height="244"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="jY5-gO-H1C">
-                                <rect key="frame" x="20" y="20" width="424" height="204"/>
+                                <rect key="frame" x="20" y="20" width="385" height="204"/>
                                 <rows>
                                     <gridRow id="SgY-80-c4r"/>
                                     <gridRow yPlacement="center" id="9fo-jB-bXh"/>
@@ -999,13 +999,13 @@ CA
                                     <gridRow id="Dtg-kS-5cT"/>
                                 </rows>
                                 <columns>
-                                    <gridColumn xPlacement="trailing" width="152" id="m6u-0F-r8e"/>
-                                    <gridColumn width="266" id="hND-X3-dZy"/>
+                                    <gridColumn xPlacement="trailing" width="160" id="m6u-0F-r8e"/>
+                                    <gridColumn width="219" id="hND-X3-dZy"/>
                                 </columns>
                                 <gridCells>
                                     <gridCell row="SgY-80-c4r" column="m6u-0F-r8e" yPlacement="center" id="0hK-j8-oc2">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mS9-k5-36A">
-                                            <rect key="frame" x="73" y="185" width="81" height="17"/>
+                                            <rect key="frame" x="81" y="185" width="81" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Appearance:" id="tD3-hf-7SG">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1015,7 +1015,7 @@ CA
                                     </gridCell>
                                     <gridCell row="SgY-80-c4r" column="hND-X3-dZy" id="IxK-1L-R3U">
                                         <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pVY-vZ-nJv">
-                                            <rect key="frame" x="156" y="180" width="82" height="25"/>
+                                            <rect key="frame" x="164" y="180" width="82" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="Default" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="us5-3Z-EYZ" id="lRG-bU-P7y">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -1034,7 +1034,7 @@ CA
                                     </gridCell>
                                     <gridCell row="9fo-jB-bXh" column="m6u-0F-r8e" id="4P8-h5-dky">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gl9-l1-bg2">
-                                            <rect key="frame" x="42" y="154" width="112" height="17"/>
+                                            <rect key="frame" x="50" y="154" width="112" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Foreground color:" id="KbF-uy-Nmr">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1044,7 +1044,7 @@ CA
                                     </gridCell>
                                     <gridCell row="9fo-jB-bXh" column="hND-X3-dZy" id="At4-Eh-ETc">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="Y4a-1R-6Os">
-                                            <rect key="frame" x="158" y="147" width="60" height="30"/>
+                                            <rect key="frame" x="166" y="147" width="60" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="g5d-ST-ScN"/>
                                                 <constraint firstAttribute="width" constant="60" id="yOB-2h-x6T"/>
@@ -1054,7 +1054,7 @@ CA
                                     </gridCell>
                                     <gridCell row="Fgr-t4-cxF" column="m6u-0F-r8e" id="bzF-U0-abM">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QhF-BX-1cz">
-                                            <rect key="frame" x="39" y="118" width="115" height="17"/>
+                                            <rect key="frame" x="47" y="118" width="115" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Background color:" id="2um-Sr-JJc">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1064,7 +1064,7 @@ CA
                                     </gridCell>
                                     <gridCell row="Fgr-t4-cxF" column="hND-X3-dZy" id="xF3-2I-tJW">
                                         <colorWell key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="LqT-Tf-zbB">
-                                            <rect key="frame" x="158" y="111" width="60" height="30"/>
+                                            <rect key="frame" x="166" y="111" width="60" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="EwL-My-hd6"/>
                                                 <constraint firstAttribute="height" constant="30" id="nhd-Ia-07w"/>
@@ -1074,13 +1074,13 @@ CA
                                     </gridCell>
                                     <gridCell row="TGV-eg-czb" column="m6u-0F-r8e" headOfMergedCell="GKI-bN-OcI" xPlacement="fill" id="GKI-bN-OcI">
                                         <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="khK-vv-dOm">
-                                            <rect key="frame" x="0.0" y="88" width="424" height="5"/>
+                                            <rect key="frame" x="0.0" y="88" width="385" height="5"/>
                                         </box>
                                     </gridCell>
                                     <gridCell row="TGV-eg-czb" column="hND-X3-dZy" headOfMergedCell="GKI-bN-OcI" id="aVs-SM-TbH"/>
                                     <gridCell row="z7p-ha-fpm" column="m6u-0F-r8e" yPlacement="center" id="bwV-1a-DwN">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nCb-gF-HUd">
-                                            <rect key="frame" x="44" y="57" width="110" height="17"/>
+                                            <rect key="frame" x="52" y="57" width="110" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Proportional font:" id="Mae-Wg-Jy0">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1090,7 +1090,7 @@ CA
                                     </gridCell>
                                     <gridCell row="z7p-ha-fpm" column="hND-X3-dZy" id="T2Z-Th-o4W">
                                         <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="w2e-Gt-bC6">
-                                            <rect key="frame" x="156" y="52" width="73" height="25"/>
+                                            <rect key="frame" x="164" y="52" width="73" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="HJH-1f-Fqf" id="5Zn-TY-3Uz">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -1109,7 +1109,7 @@ CA
                                     </gridCell>
                                     <gridCell row="q4D-UT-Bse" column="m6u-0F-r8e" yPlacement="center" id="UhT-D8-moy">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3Os-SA-jGQ">
-                                            <rect key="frame" x="40" y="30" width="114" height="17"/>
+                                            <rect key="frame" x="48" y="30" width="114" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Monospaced font:" id="Nwb-95-DCB">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1119,7 +1119,7 @@ CA
                                     </gridCell>
                                     <gridCell row="q4D-UT-Bse" column="hND-X3-dZy" id="Mk8-ld-N2g">
                                         <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jMj-tS-WRa">
-                                            <rect key="frame" x="156" y="25" width="71" height="25"/>
+                                            <rect key="frame" x="164" y="25" width="71" height="25"/>
                                             <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="MtC-Tf-VdS" id="gZE-CT-c12">
                                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="menu"/>
@@ -1136,7 +1136,7 @@ CA
                                     </gridCell>
                                     <gridCell row="Dtg-kS-5cT" column="m6u-0F-r8e" yPlacement="center" id="sq4-XL-TsF">
                                         <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Za8-a0-7sj">
-                                            <rect key="frame" x="91" y="3" width="63" height="17"/>
+                                            <rect key="frame" x="99" y="3" width="63" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" title="Font size:" id="xsu-50-Uk8">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1146,7 +1146,7 @@ CA
                                     </gridCell>
                                     <gridCell row="Dtg-kS-5cT" column="hND-X3-dZy" id="OsY-Xh-GCZ">
                                         <textField key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UAL-6v-d0f">
-                                            <rect key="frame" x="158" y="0.0" width="60" height="22"/>
+                                            <rect key="frame" x="166" y="0.0" width="60" height="22"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="hvT-qq-cuQ"/>
                                             </constraints>
@@ -1169,9 +1169,9 @@ CA
                         </subviews>
                         <constraints>
                             <constraint firstItem="jY5-gO-H1C" firstAttribute="top" secondItem="s0w-Ct-YC8" secondAttribute="top" constant="20" symbolic="YES" id="1zY-Z9-tgV"/>
+                            <constraint firstAttribute="trailing" secondItem="jY5-gO-H1C" secondAttribute="trailing" constant="20" id="XH4-PD-7DJ"/>
                             <constraint firstAttribute="bottom" secondItem="jY5-gO-H1C" secondAttribute="bottom" constant="20" symbolic="YES" id="rMe-LY-zGL"/>
                             <constraint firstItem="jY5-gO-H1C" firstAttribute="leading" secondItem="s0w-Ct-YC8" secondAttribute="leading" constant="20" symbolic="YES" id="s3L-bP-yTu"/>
-                            <constraint firstAttribute="trailing" secondItem="jY5-gO-H1C" secondAttribute="trailing" constant="20" symbolic="YES" id="tdN-bU-YQm"/>
                         </constraints>
                     </view>
                     <connections>
@@ -1185,121 +1185,137 @@ CA
                 <customObject id="VsU-8s-ppw" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="rGR-Aj-nJ1"/>
             </objects>
-            <point key="canvasLocation" x="2017" y="-626"/>
+            <point key="canvasLocation" x="2016" y="-645"/>
         </scene>
         <!--Interpreter-->
         <scene sceneID="uLH-yY-0wB">
             <objects>
                 <viewController title="Interpreter" id="G3I-DZ-lH1" customClass="InterpreterPreferencesViewController" sceneMemberID="viewController">
                     <view key="view" id="6Lv-F1-C44">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="89"/>
+                        <rect key="frame" x="0.0" y="0.0" width="429" height="95"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K1S-j8-BUf">
-                                <rect key="frame" x="18" y="52" width="121" height="17"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Interpreter Number" id="w8S-hZ-pMP">
-                                    <font key="font" usesAppearanceFont="YES"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W39-UK-gMJ">
-                                <rect key="frame" x="143" y="47" width="174" height="25"/>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="none" translatesAutoresizingMaskIntoConstraints="NO" id="3cF-lx-0BY">
+                                <rect key="frame" x="20" y="20" width="389" height="55"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="169" id="oLe-nt-o3W"/>
+                                    <constraint firstItem="Kne-nt-gcX" firstAttribute="top" secondItem="W39-UK-gMJ" secondAttribute="bottom" constant="12" id="ZwL-FA-11P"/>
+                                    <constraint firstItem="K1S-j8-BUf" firstAttribute="baseline" secondItem="W39-UK-gMJ" secondAttribute="baseline" id="dqJ-rJ-e5M"/>
+                                    <constraint firstItem="Skx-7x-Wdt" firstAttribute="top" secondItem="K1S-j8-BUf" secondAttribute="bottom" constant="13" id="tXO-Qk-9ue"/>
                                 </constraints>
-                                <popUpButtonCell key="cell" type="push" title="0: Empty" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="GOG-Z3-FjB" id="Mj1-d6-W3W">
-                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="qgn-fL-fuS">
-                                        <items>
-                                            <menuItem title="0: Empty" state="on" hidden="YES" id="GOG-Z3-FjB">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="1: DECSystem-20" id="RR7-mG-cNh">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="2: Apple IIe" id="Vxu-6a-aHA">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="3: Macintosh" id="OkU-em-5Xx">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="4: Amiga" id="jqh-vP-4gt">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="5: Atari ST" id="Z0e-VL-nwe">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="6: IBM PC" id="qa3-6p-T2y">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="7: Commodore 128" id="yg6-CI-e3l">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="8: Commodore 64" id="NSt-k4-2ek">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="9: Apple IIc" id="FKr-Ea-n9d">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="10: Apple IIgs" id="xJ0-Fa-T3P">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                            <menuItem title="11: Tandy Color" id="3SX-Hl-Tis">
-                                                <modifierMask key="keyEquivalentModifierMask"/>
-                                            </menuItem>
-                                        </items>
-                                    </menu>
-                                    <connections>
-                                        <binding destination="Awg-00-0bS" name="selectedIndex" keyPath="values.InterpreterNumber" id="0NQ-8x-XVZ"/>
-                                    </connections>
-                                </popUpButtonCell>
-                            </popUpButton>
-                            <textField verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kne-nt-gcX">
-                                <rect key="frame" x="145" y="20" width="70" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="7he-Tn-cQi"/>
-                                </constraints>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="VrO-lR-kyi">
-                                    <customFormatter key="formatter" id="bfe-NI-haT" customClass="VersionFormatter"/>
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                                <connections>
-                                    <binding destination="Awg-00-0bS" name="value" keyPath="values.InterpreterVersion" id="w4C-MV-GLa"/>
-                                    <outlet property="delegate" destination="G3I-DZ-lH1" id="cwR-iz-1rJ"/>
-                                </connections>
-                            </textField>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Skx-7x-Wdt">
-                                <rect key="frame" x="18" y="23" width="118" height="17"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Interpreter Version" id="VH6-Qa-HsP">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
+                                <rows>
+                                    <gridRow id="uK5-Vs-ya7"/>
+                                    <gridRow id="H04-Ku-1q3"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn xPlacement="trailing" width="160" id="DeE-ua-IU0"/>
+                                    <gridColumn width="223" id="l9n-jk-T5r"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="uK5-Vs-ya7" column="DeE-ua-IU0" yPlacement="center" id="bXg-YY-Mey">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K1S-j8-BUf">
+                                            <rect key="frame" x="39" y="36" width="123" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Interpreter number:" id="w8S-hZ-pMP">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="uK5-Vs-ya7" column="l9n-jk-T5r" id="Lkv-RR-M8P">
+                                        <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W39-UK-gMJ">
+                                            <rect key="frame" x="164" y="31" width="153" height="25"/>
+                                            <popUpButtonCell key="cell" type="push" title="0: Empty" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="GOG-Z3-FjB" id="Mj1-d6-W3W">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="qgn-fL-fuS">
+                                                    <items>
+                                                        <menuItem title="0: Empty" state="on" hidden="YES" id="GOG-Z3-FjB">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="1: DECSystem-20" id="RR7-mG-cNh">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="2: Apple IIe" id="Vxu-6a-aHA">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="3: Macintosh" id="OkU-em-5Xx">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="4: Amiga" id="jqh-vP-4gt">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="5: Atari ST" id="Z0e-VL-nwe">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="6: IBM PC" id="qa3-6p-T2y">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="7: Commodore 128" id="yg6-CI-e3l">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="8: Commodore 64" id="NSt-k4-2ek">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="9: Apple IIc" id="FKr-Ea-n9d">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="10: Apple IIgs" id="xJ0-Fa-T3P">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="11: Tandy Color" id="3SX-Hl-Tis">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                    </items>
+                                                </menu>
+                                                <connections>
+                                                    <binding destination="Awg-00-0bS" name="selectedIndex" keyPath="values.InterpreterNumber" id="0NQ-8x-XVZ"/>
+                                                </connections>
+                                            </popUpButtonCell>
+                                        </popUpButton>
+                                    </gridCell>
+                                    <gridCell row="H04-Ku-1q3" column="DeE-ua-IU0" yPlacement="center" id="g3s-66-Sxo">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Skx-7x-Wdt">
+                                            <rect key="frame" x="42" y="5" width="120" height="18"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Interpreter version:" id="VH6-Qa-HsP">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="H04-Ku-1q3" column="l9n-jk-T5r" id="H9n-X9-oNu">
+                                        <textField key="contentView" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kne-nt-gcX">
+                                            <rect key="frame" x="166" y="0.0" width="80" height="22"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="80" id="QHe-UQ-xgz"/>
+                                            </constraints>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="VrO-lR-kyi">
+                                                <customFormatter key="formatter" id="bfe-NI-haT" customClass="VersionFormatter"/>
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                            <connections>
+                                                <binding destination="Awg-00-0bS" name="value" keyPath="values.InterpreterVersion" id="w4C-MV-GLa"/>
+                                                <outlet property="delegate" destination="G3I-DZ-lH1" id="cwR-iz-1rJ"/>
+                                            </connections>
+                                        </textField>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="K1S-j8-BUf" firstAttribute="leading" secondItem="6Lv-F1-C44" secondAttribute="leading" constant="20" symbolic="YES" id="1dt-ww-sJP"/>
-                            <constraint firstItem="Kne-nt-gcX" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Skx-7x-Wdt" secondAttribute="trailing" constant="8" symbolic="YES" id="92p-Tv-qdf"/>
-                            <constraint firstItem="Skx-7x-Wdt" firstAttribute="baseline" secondItem="Kne-nt-gcX" secondAttribute="baseline" id="Gut-rw-Ofo"/>
-                            <constraint firstItem="K1S-j8-BUf" firstAttribute="top" secondItem="6Lv-F1-C44" secondAttribute="top" constant="20" symbolic="YES" id="PAu-bn-Th6"/>
-                            <constraint firstItem="K1S-j8-BUf" firstAttribute="leading" secondItem="Skx-7x-Wdt" secondAttribute="leading" id="Uki-BU-vl4"/>
-                            <constraint firstItem="W39-UK-gMJ" firstAttribute="leading" secondItem="Kne-nt-gcX" secondAttribute="leading" id="XTr-eX-Sft"/>
-                            <constraint firstAttribute="bottom" secondItem="Kne-nt-gcX" secondAttribute="bottom" constant="20" id="jaM-Cj-FV5"/>
-                            <constraint firstItem="Kne-nt-gcX" firstAttribute="top" secondItem="W39-UK-gMJ" secondAttribute="bottom" constant="8" id="mMR-68-cLg"/>
-                            <constraint firstItem="W39-UK-gMJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="K1S-j8-BUf" secondAttribute="trailing" constant="8" symbolic="YES" id="mRu-Z6-zdu"/>
-                            <constraint firstAttribute="trailing" secondItem="W39-UK-gMJ" secondAttribute="trailing" constant="136" id="mq2-zg-TxH"/>
-                            <constraint firstItem="K1S-j8-BUf" firstAttribute="baseline" secondItem="W39-UK-gMJ" secondAttribute="baseline" id="r8H-JO-6Z8"/>
+                            <constraint firstAttribute="bottom" secondItem="3cF-lx-0BY" secondAttribute="bottom" constant="20" id="5DN-gf-2yZ"/>
+                            <constraint firstItem="3cF-lx-0BY" firstAttribute="leading" secondItem="6Lv-F1-C44" secondAttribute="leading" constant="20" id="Mlj-tb-OyI"/>
+                            <constraint firstAttribute="trailing" secondItem="3cF-lx-0BY" secondAttribute="trailing" constant="20" id="TyY-Ht-ooD"/>
+                            <constraint firstItem="3cF-lx-0BY" firstAttribute="top" secondItem="6Lv-F1-C44" secondAttribute="top" constant="20" id="zhK-AG-5DG"/>
                         </constraints>
                     </view>
                 </viewController>
                 <customObject id="eYb-Y0-ahM" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="Awg-00-0bS"/>
             </objects>
-            <point key="canvasLocation" x="2059" y="-212"/>
+            <point key="canvasLocation" x="2015.5" y="-346.5"/>
         </scene>
     </scenes>
     <resources>
