@@ -12,8 +12,8 @@
 #import "LibraryEntry.h"
 #import "Story.h"
 
-@interface LibraryViewController () <NSMenuItemValidation,
-                                     NSSearchFieldDelegate> {
+@interface LibraryViewController () <
+    NSMenuItemValidation, NSSearchFieldDelegate, NSTableViewDelegate> {
   IBOutlet NSTableView *tableView;
   IBOutlet NSArrayController *arrayController;
 }
@@ -136,6 +136,12 @@
     return row != NSIntegerMax;
   }
   return YES;
+}
+
+#pragma mark - NSTableViewDelegate Methods
+
+- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row {
+  return NO;
 }
 
 @end
