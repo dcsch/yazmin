@@ -173,13 +173,17 @@
   CGFloat upperHeight =
       lines > 0 ? lineHeight * lines + 2.0 * upperView.textContainerInset.height
                 : 0;
+  CGFloat oldUpperHeight = upperHeightConstraint.constant;
   upperHeightConstraint.constant = upperHeight;
   upperView.textContainer.maximumNumberOfLines = lines;
   _upperViewLineCount = lines;
 
   // Scroll the lower window to compensate for the shift in position
-  // (we're keeping this simple for now: just scroll to the bottom)
-  [lowerView scrollPoint:NSMakePoint(0, lowerView.frame.size.height)];
+  NSRect rect = lowerScrollView.contentView.visibleRect;
+  CGFloat heightDiff = upperHeight - oldUpperHeight;
+  CGFloat y = MAX(0, rect.origin.y + heightDiff);
+  [self.view layoutSubtreeIfNeeded];
+  [lowerScrollView.contentView scrollToPoint:NSMakePoint(0, y)];
 }
 
 - (void)handleWindowWillClose:(NSNotification *)note {

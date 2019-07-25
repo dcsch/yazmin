@@ -516,6 +516,7 @@
     [_storyViewController printBox:str];
   }
 
+  [storyFacet eraseFromLine:lines + 1];
   storyFacet.numberOfLines = lines;
   if (lines == 0)
     _storyFacet = _facets[0];

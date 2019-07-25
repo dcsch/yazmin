@@ -232,7 +232,7 @@
 
   // How many lines are already in the window?
   NSArray<NSValue *> *ranges = [self rangesOfLines];
-  if (ranges.count > line) {
+  if (ranges.count >= line) {
     NSRange range = ranges[line - 1].rangeValue;
     NSRange rangeToEnd =
         NSMakeRange(range.location, self.textStorage.length - range.location);
@@ -242,7 +242,7 @@
 
 - (NSAttributedString *)attributedStringFromLine:(int)line {
   NSArray<NSValue *> *ranges = [self rangesOfLines];
-  if (ranges.count > line) {
+  if (ranges.count >= line) {
     NSRange range = ranges[line - 1].rangeValue;
     NSRange rangeToEnd =
         NSMakeRange(range.location, self.textStorage.length - range.location);
