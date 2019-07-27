@@ -113,6 +113,7 @@
 		03DC648B22D9B28C006EE03C /* LibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		03DC649122DAF995006EE03C /* InformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InformationViewController.h; sourceTree = "<group>"; };
 		03DC649222DAF995006EE03C /* InformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationViewController.m; sourceTree = "<group>"; };
+		03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yazmin.entitlements; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -402,6 +403,7 @@
 		639A098513322F08000E27F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */,
 				639A098613322F08000E27F4 /* Yazmin-Info.plist */,
 				639A098713322F08000E27F4 /* InfoPlist.strings */,
 				639A098A13322F08000E27F4 /* Yazmin-Prefix.pch */,
@@ -481,6 +483,15 @@
 			attributes = {
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "David Schweinsberg";
+				TargetAttributes = {
+					639A097913322F08000E27F4 = {
+						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+						};
+					};
+				};
 			};
 			buildConfigurationList = 639A097413322F07000E27F4 /* Build configuration list for PBXProject "Yazmin" */;
 			compatibilityVersion = "Xcode 10.0";
@@ -762,6 +773,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 9MWCHY26A8;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -786,6 +798,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9MWCHY26A8;
+				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Yazmin/Yazmin-Prefix.pch";
