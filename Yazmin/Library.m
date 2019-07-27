@@ -51,16 +51,16 @@
   return dictionary;
 }
 
-- (LibraryEntry *)entryForIFID:(NSString *)ifid {
+- (IFStory *)metadataForIFID:(NSString *)ifid {
   NSUInteger index = [self.entries
       indexOfObjectPassingTest:^BOOL(LibraryEntry *_Nonnull entry,
                                      NSUInteger idx, BOOL *_Nonnull stop) {
         return [entry.ifid isEqualToString:ifid];
       }];
   if (index != NSNotFound)
-    return _entries[index];
+    return _entries[index].storyMetadata;
   else
-    return nil;
+    return [_defaultMetadata storyWithIFID:ifid];
 }
 
 - (BOOL)containsStory:(Story *)story {

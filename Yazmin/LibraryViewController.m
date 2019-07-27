@@ -11,14 +11,17 @@
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"
+#import "StoryDocumentController.h"
 
 @interface LibraryViewController () <
-    NSMenuItemValidation, NSSearchFieldDelegate, NSTableViewDelegate> {
+    NSUserInterfaceValidations, NSSearchFieldDelegate, NSTableViewDelegate> {
   IBOutlet NSTableView *tableView;
   IBOutlet NSArrayController *arrayController;
 }
 
+- (void)addStoryURLs:(NSArray<NSURL *> *)urls;
 - (void)openStory:(LibraryEntry *)libraryEntry;
+- (IBAction)addStoryToLibrary:(id)sender;
 - (IBAction)selectStory:(id)sender;
 - (IBAction)removeStory:(id)sender;
 - (IBAction)searchStory:(NSSearchField *)sender;
@@ -54,6 +57,26 @@
   }
 }
 
+- (void)addStoryURLs:(NSArray<NSURL *> *)urls {
+  StoryDocumentController *docController =
+      NSDocumentController.sharedDocumentController;
+  docController.onlyPeeking = YES;
+  __block NSUInteger count = urls.count;
+  for (NSURL *url in urls)
+    [docController
+        openDocumentWithContentsOfURL:url
+                              display:NO
+                    completionHandler:^(NSDocument *_Nullable document,
+                                        BOOL documentWasAlreadyOpen,
+                                        NSError *_Nullable error) {
+                      if (!documentWasAlreadyOpen) {
+                        [document close];
+                      }
+                      if (--count == 0)
+                        docController.onlyPeeking = NO;
+                    }];
+}
+
 - (void)openStory:(LibraryEntry *)libraryEntry {
   [NSDocumentController.sharedDocumentController
       openDocumentWithContentsOfURL:libraryEntry.fileURL
@@ -70,15 +93,33 @@
                   }];
 }
 
+#pragma mark - Actions
+
+- (IBAction)addStoryToLibrary:(id)sender {
+  NSOpenPanel *panel = [NSOpenPanel openPanel];
+  panel.allowedFileTypes = @[ @"z3", @"z4", @"z5", @"z7", @"z8", @"zblorb" ];
+  panel.allowsMultipleSelection = YES;
+  [panel beginSheetModalForWindow:self.view.window
+                completionHandler:^(NSInteger result) {
+                  if (result == NSModalResponseOK) {
+                    [self addStoryURLs:panel.URLs];
+                  }
+                }];
+}
+
 - (IBAction)selectStory:(id)sender {
   NSInteger row = tableView.clickedRow;
-  if (row > -1)
+  if (row == -1)
+    row = arrayController.selectionIndex;
+  if (row != NSIntegerMax)
     [self openStory:arrayController.arrangedObjects[row]];
 }
 
 - (IBAction)removeStory:(id)sender {
   NSInteger row = tableView.clickedRow;
-  if (row > -1) {
+  if (row == -1)
+    row = arrayController.selectionIndex;
+  if (row != NSIntegerMax) {
     LibraryEntry *entry = arrayController.arrangedObjects[row];
     [arrayController removeObject:entry];
   }
@@ -112,6 +153,8 @@
                   }];
 }
 
+#pragma mark - NSControlTextEditingDelegate
+
 - (BOOL)control:(NSControl *)control
                textView:(NSTextView *)textView
     doCommandBySelector:(SEL)commandSelector {
@@ -128,8 +171,12 @@
   return NO;
 }
 
+#pragma mark - NSUserInterfaceValidations
+
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item {
-  if (item.action == @selector(showStoryInfo:)) {
+  if (item.action == @selector(selectStory:) ||
+      item.action == @selector(removeStory:) ||
+      item.action == @selector(showStoryInfo:)) {
     NSInteger row = tableView.clickedRow;
     if (row == -1)
       row = arrayController.selectionIndex;

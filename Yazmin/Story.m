@@ -234,9 +234,7 @@
     // we should have an IFID
     if (!_metadata) {
       AppController *appController = NSApp.delegate;
-      LibraryEntry *entry = [appController.library entryForIFID:_ifid];
-      if (entry)
-        _metadata = entry.storyMetadata;
+      _metadata = [appController.library metadataForIFID:_ifid];
     }
 
     // Is there any debug information to load?

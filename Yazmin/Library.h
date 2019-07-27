@@ -10,12 +10,13 @@
 
 @class Story;
 @class LibraryEntry;
+@class IFStory;
 
 @interface Library : NSObject
 
 @property(strong, readonly) NSMutableArray<LibraryEntry *> *entries;
 
-- (LibraryEntry *)entryForIFID:(NSString *)ifid;
+- (IFStory *)metadataForIFID:(NSString *)ifid;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
 - (void)syncMetadata;

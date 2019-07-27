@@ -23,4 +23,9 @@
   [vc addStory:story];
 }
 
+- (void)noteNewRecentDocument:(NSDocument *)document {
+  if (!self.onlyPeeking)
+    [super noteNewRecentDocument:document];
+}
+
 @end

@@ -91,6 +91,30 @@
                                         <menuItem isSeparatorItem="YES" id="uHC-yh-olY">
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
+                                        <menuItem title="Add to Library..." keyEquivalent="o" id="XOa-M2-VEE">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="addStoryToLibrary:" target="V39-F2-xEo" id="JDd-xq-CwW"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Open Selection" id="yzQ-i8-w13">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="selectStory:" target="V39-F2-xEo" id="d81-75-7oe"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Remove from Library" id="fxd-qO-6P7">
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+CA
+</string>
+                                            <connections>
+                                                <action selector="removeStory:" target="V39-F2-xEo" id="Wau-hL-8hR"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Uja-Z6-sgy"/>
                                         <menuItem title="Close" keyEquivalent="w" id="Rb9-NB-rvm">
                                             <connections>
                                                 <action selector="performClose:" target="V39-F2-xEo" id="y5z-uQ-Ara"/>
@@ -771,15 +795,15 @@ CA
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOw-pX-LSo">
                                 <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="3be-FR-WqR">
-                                    <rect key="frame" x="0.0" y="0.0" width="705" height="408"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" allowsNonContiguousLayout="YES" spellingCorrection="YES" smartInsertDelete="YES" id="YD4-1E-BWH" customClass="StoryTextView">
-                                            <rect key="frame" x="0.0" y="0.0" width="705" height="408"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="705" height="408"/>
+                                            <size key="minSize" width="720" height="408"/>
                                             <size key="maxSize" width="720" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -790,7 +814,7 @@ CA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="W4T-ar-0bp">
-                                    <rect key="frame" x="705" y="0.0" width="15" height="408"/>
+                                    <rect key="frame" x="704" y="0.0" width="16" height="408"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
