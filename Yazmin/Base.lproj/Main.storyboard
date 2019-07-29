@@ -463,7 +463,7 @@ CA
                                     <tableViewGridLines key="gridStyleMask" vertical="YES"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn width="189" minWidth="40" maxWidth="1000" id="btR-Nj-70L">
+                                        <tableColumn identifier="Title" width="189" minWidth="40" maxWidth="1000" id="btR-Nj-70L">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Title">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -477,7 +477,7 @@ CA
                                             <sortDescriptor key="sortDescriptorPrototype" selector="caseInsensitiveCompare:" sortKey="title"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="kCj-AU-7nt">
+                                                <tableCellView identifier="Title" id="kCj-AU-7nt">
                                                     <rect key="frame" x="1" y="1" width="189" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -488,9 +488,6 @@ CA
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="kCj-AU-7nt" name="value" keyPath="objectValue.title" id="nGO-8m-dK2"/>
-                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -504,7 +501,7 @@ CA
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn width="127" minWidth="40" maxWidth="1000" id="3IX-XV-r3Z">
+                                        <tableColumn identifier="Author" width="127" minWidth="40" maxWidth="1000" id="3IX-XV-r3Z">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Author">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -518,7 +515,7 @@ CA
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="author"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="bDh-kn-mxx">
+                                                <tableCellView identifier="Author" id="bDh-kn-mxx">
                                                     <rect key="frame" x="193" y="1" width="127" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -529,9 +526,6 @@ CA
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="bDh-kn-mxx" name="value" keyPath="objectValue.author" id="AEL-Qn-iLI"/>
-                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -545,7 +539,7 @@ CA
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn width="87" minWidth="10" maxWidth="3.4028234663852886e+38" id="axJ-xW-y5I">
+                                        <tableColumn identifier="Genre" width="87" minWidth="10" maxWidth="3.4028234663852886e+38" id="axJ-xW-y5I">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Genre">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -559,7 +553,7 @@ CA
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="genre"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="M8B-bn-65l">
+                                                <tableCellView identifier="Genre" id="M8B-bn-65l">
                                                     <rect key="frame" x="323" y="1" width="87" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -570,9 +564,6 @@ CA
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="M8B-bn-65l" name="value" keyPath="objectValue.genre" id="oRs-Se-6P7"/>
-                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -586,7 +577,7 @@ CA
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn width="77" minWidth="10" maxWidth="3.4028234663852886e+38" id="sqK-53-RZR">
+                                        <tableColumn identifier="Group" width="77" minWidth="10" maxWidth="3.4028234663852886e+38" id="sqK-53-RZR">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Group">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -600,7 +591,7 @@ CA
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="group"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="YQR-Gg-zzf">
+                                                <tableCellView identifier="Group" id="YQR-Gg-zzf">
                                                     <rect key="frame" x="413" y="1" width="77" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -611,9 +602,6 @@ CA
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="YQR-Gg-zzf" name="value" keyPath="objectValue.group" id="Hhv-2d-xdK"/>
-                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -627,7 +615,7 @@ CA
                                                 </tableCellView>
                                             </prototypeCellViews>
                                         </tableColumn>
-                                        <tableColumn width="86" minWidth="10" maxWidth="3.4028234663852886e+38" id="z2N-N6-KyR">
+                                        <tableColumn identifier="FirstPublished" width="86" minWidth="10" maxWidth="3.4028234663852886e+38" id="z2N-N6-KyR">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="First Published">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -641,7 +629,7 @@ CA
                                             <sortDescriptor key="sortDescriptorPrototype" selector="compare:" sortKey="firstPublished"/>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="p9q-Y8-aZ4">
+                                                <tableCellView identifier="FirstPublished" id="p9q-Y8-aZ4">
                                                     <rect key="frame" x="493" y="1" width="86" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
@@ -652,9 +640,6 @@ CA
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
-                                                            <connections>
-                                                                <binding destination="p9q-Y8-aZ4" name="value" keyPath="objectValue.firstPublished" id="P0K-7u-wMl"/>
-                                                            </connections>
                                                         </textField>
                                                     </subviews>
                                                     <constraints>
@@ -671,9 +656,7 @@ CA
                                     </tableColumns>
                                     <connections>
                                         <action trigger="doubleAction" selector="selectStory:" target="K2T-nf-LlE" id="2uG-mg-tWV"/>
-                                        <binding destination="bpC-8J-9FR" name="content" keyPath="arrangedObjects" id="V0g-fF-BXM"/>
-                                        <binding destination="bpC-8J-9FR" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="V0g-fF-BXM" id="chu-nX-QEM"/>
-                                        <binding destination="bpC-8J-9FR" name="sortDescriptors" keyPath="sortDescriptors" previousBinding="chu-nX-QEM" id="dP1-KU-cv0"/>
+                                        <outlet property="dataSource" destination="K2T-nf-LlE" id="3oO-YD-RV3"/>
                                         <outlet property="delegate" destination="K2T-nf-LlE" id="Jxl-ID-R0p"/>
                                         <outlet property="menu" destination="QmW-ka-RTl" id="Qfm-PR-cbm"/>
                                     </connections>
@@ -694,7 +677,6 @@ CA
                         </tableHeaderView>
                     </scrollView>
                     <connections>
-                        <outlet property="arrayController" destination="bpC-8J-9FR" id="HMb-AS-4g5"/>
                         <outlet property="tableView" destination="YV4-vh-K6a" id="XKT-qt-Opr"/>
                     </connections>
                 </viewController>
@@ -721,15 +703,6 @@ CA
                         </menuItem>
                     </items>
                 </menu>
-                <arrayController objectClassName="LibraryEntry" id="bpC-8J-9FR">
-                    <declaredKeys>
-                        <string>title</string>
-                        <string>author</string>
-                    </declaredKeys>
-                    <connections>
-                        <binding destination="K2T-nf-LlE" name="contentArray" keyPath="library.entries" id="bDa-pb-S8h"/>
-                    </connections>
-                </arrayController>
                 <customObject id="pcv-95-N6D" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="116" y="-273"/>
