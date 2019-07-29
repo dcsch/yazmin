@@ -26,6 +26,7 @@
 		03D6A1DA22DE9B1700B16F09 /* InformationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */; };
 		03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC648B22D9B28C006EE03C /* LibraryViewController.m */; };
 		03DC649322DAF995006EE03C /* InformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC649222DAF995006EE03C /* InformationViewController.m */; };
+		03F4DDFC22EEC03D0099EE64 /* SearchFieldDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F4DDFB22EEC03D0099EE64 /* SearchFieldDelegate.m */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
 		6338E0A7180AB53B005A3263 /* Blorb.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E053180AB53B005A3263 /* Blorb.m */; };
@@ -114,6 +115,8 @@
 		03DC649122DAF995006EE03C /* InformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InformationViewController.h; sourceTree = "<group>"; };
 		03DC649222DAF995006EE03C /* InformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationViewController.m; sourceTree = "<group>"; };
 		03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yazmin.entitlements; sourceTree = "<group>"; };
+		03F4DDFA22EEC03D0099EE64 /* SearchFieldDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchFieldDelegate.h; sourceTree = "<group>"; };
+		03F4DDFB22EEC03D0099EE64 /* SearchFieldDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchFieldDelegate.m; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
 		6338E04F180AB53B005A3263 /* AbbreviationsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbbreviationsController.m; sourceTree = "<group>"; };
 		6338E050180AB53B005A3263 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -285,6 +288,8 @@
 				6338E07B180AB53B005A3263 /* LibraryEntry.m */,
 				03DC648A22D9B28C006EE03C /* LibraryViewController.h */,
 				03DC648B22D9B28C006EE03C /* LibraryViewController.m */,
+				03F4DDFA22EEC03D0099EE64 /* SearchFieldDelegate.h */,
+				03F4DDFB22EEC03D0099EE64 /* SearchFieldDelegate.m */,
 				03DC649122DAF995006EE03C /* InformationViewController.h */,
 				03DC649222DAF995006EE03C /* InformationViewController.m */,
 				03D6A1D822DE9B1700B16F09 /* InformationWindowController.h */,
@@ -575,6 +580,7 @@
 				6338E0B6180AB53B005A3263 /* IFIdentification.m in Sources */,
 				6338E0CB180AB53B005A3263 /* ZMProcessor.cpp in Sources */,
 				6338E0A9180AB53B005A3263 /* DebugController.m in Sources */,
+				03F4DDFC22EEC03D0099EE64 /* SearchFieldDelegate.m in Sources */,
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
 				03DC649322DAF995006EE03C /* InformationViewController.m in Sources */,
 				6338E0CA180AB53B005A3263 /* ZMObject.cpp in Sources */,

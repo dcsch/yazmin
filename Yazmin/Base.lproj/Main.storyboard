@@ -421,6 +421,7 @@ CA
                                         </searchFieldCell>
                                         <connections>
                                             <action selector="searchStory:" target="MmW-hR-IlJ" id="l6x-A6-aWd"/>
+                                            <outlet property="delegate" destination="pkp-Sa-NSe" id="KN1-ks-HV6"/>
                                         </connections>
                                     </searchField>
                                 </toolbarItem>
@@ -441,6 +442,7 @@ CA
                     </connections>
                 </windowController>
                 <customObject id="MmW-hR-IlJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customObject id="pkp-Sa-NSe" customClass="SearchFieldDelegate"/>
             </objects>
             <point key="canvasLocation" x="-557" y="-258"/>
         </scene>

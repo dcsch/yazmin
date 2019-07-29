@@ -14,15 +14,11 @@
 #import "StoryDocumentController.h"
 
 @interface LibraryViewController () <
-    NSUserInterfaceValidations, NSSearchFieldDelegate, NSTableViewDataSource,
-    NSTableViewDelegate> {
+    NSUserInterfaceValidations, NSTableViewDataSource, NSTableViewDelegate> {
   IBOutlet NSTableView *tableView;
-  NSPredicate *filterPredicate;
-  NSArray<LibraryEntry *> *sortedEntries;
 }
 
 - (void)addStoryURLs:(NSArray<NSURL *> *)urls;
-- (void)openStory:(LibraryEntry *)libraryEntry;
 - (void)reloadSortedData;
 - (IBAction)addStoryToLibrary:(id)sender;
 - (IBAction)selectStory:(id)sender;
@@ -100,12 +96,12 @@
 
 - (void)reloadSortedData {
   NSArray *filteredEntries;
-  if (filterPredicate)
+  if (_filterPredicate)
     filteredEntries =
-        [_library.entries filteredArrayUsingPredicate:filterPredicate];
+        [_library.entries filteredArrayUsingPredicate:_filterPredicate];
   else
     filteredEntries = _library.entries;
-  sortedEntries =
+  _sortedEntries =
       [filteredEntries sortedArrayUsingDescriptors:tableView.sortDescriptors];
   [tableView reloadData];
 }
@@ -129,7 +125,7 @@
   if (row == -1)
     row = tableView.selectedRow;
   if (row != -1)
-    [self openStory:sortedEntries[row]];
+    [self openStory:_sortedEntries[row]];
 }
 
 - (IBAction)removeStory:(id)sender {
@@ -137,7 +133,7 @@
   if (row == -1)
     row = tableView.selectedRow;
   if (row != -1) {
-    LibraryEntry *entry = sortedEntries[row];
+    LibraryEntry *entry = _sortedEntries[row];
     [_library.entries removeObject:entry];
     [self reloadSortedData];
   }
@@ -149,9 +145,9 @@
     searchTerm = [NSString stringWithFormat:@"*%@*", searchTerm];
     NSPredicate *predicate =
         [NSPredicate predicateWithFormat:@"title like[cd] %@", searchTerm];
-    filterPredicate = predicate;
+    _filterPredicate = predicate;
   } else
-    filterPredicate = nil;
+    _filterPredicate = nil;
   [self reloadSortedData];
 }
 
@@ -159,7 +155,7 @@
   NSInteger row = tableView.clickedRow;
   if (row == -1)
     row = tableView.selectedRow;
-  LibraryEntry *libraryEntry = sortedEntries[row];
+  LibraryEntry *libraryEntry = _sortedEntries[row];
 
   [NSDocumentController.sharedDocumentController
       openDocumentWithContentsOfURL:libraryEntry.fileURL
@@ -170,24 +166,6 @@
                     Story *story = (Story *)document;
                     [story showStoryInfo:self];
                   }];
-}
-
-#pragma mark - NSControlTextEditingDelegate
-
-- (BOOL)control:(NSControl *)control
-               textView:(NSTextView *)textView
-    doCommandBySelector:(SEL)commandSelector {
-
-  // TODO: Replace with a segue
-
-  //  if (arrayController.filterPredicate &&
-  //      commandSelector == @selector(insertNewline:)) {
-  //    NSArray *objects = arrayController.arrangedObjects;
-  //    if (objects.count > 0)
-  //      [self openStory:objects[0]];
-  //    return YES;
-  //  }
-  return NO;
 }
 
 #pragma mark - NSUserInterfaceValidations
@@ -207,7 +185,7 @@
 #pragma mark - NSTableViewDataSource Methods
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-  return sortedEntries.count;
+  return _sortedEntries.count;
 }
 
 - (void)tableView:(NSTableView *)tableView
@@ -221,7 +199,7 @@
     viewForTableColumn:(NSTableColumn *)tableColumn
                    row:(NSInteger)row {
   NSTableCellView *tableCellView = nil;
-  LibraryEntry *entry = sortedEntries[row];
+  LibraryEntry *entry = _sortedEntries[row];
   if ([tableColumn.identifier isEqualToString:@"Title"]) {
     tableCellView = [tableView makeViewWithIdentifier:@"Title" owner:self];
     tableCellView.textField.stringValue = entry.title;
