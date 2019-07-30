@@ -401,7 +401,7 @@ CA
         <!--Window Controller-->
         <scene sceneID="W9H-uF-CUX">
             <objects>
-                <windowController storyboardIdentifier="LibraryWindow" showSeguePresentationStyle="single" id="yDF-ev-IJU" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="LibraryWindow" showSeguePresentationStyle="single" id="yDF-ev-IJU" customClass="LibraryWindowController" sceneMemberID="viewController">
                     <window key="window" title="Library" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" tabbingMode="disallowed" titleVisibility="hidden" id="tx4-bF-DL9">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -421,7 +421,7 @@ CA
                                         </searchFieldCell>
                                         <connections>
                                             <action selector="searchStory:" target="MmW-hR-IlJ" id="l6x-A6-aWd"/>
-                                            <outlet property="delegate" destination="pkp-Sa-NSe" id="KN1-ks-HV6"/>
+                                            <outlet property="delegate" destination="yDF-ev-IJU" id="Dwx-z9-NSY"/>
                                         </connections>
                                     </searchField>
                                 </toolbarItem>
@@ -442,7 +442,6 @@ CA
                     </connections>
                 </windowController>
                 <customObject id="MmW-hR-IlJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <customObject id="pkp-Sa-NSe" customClass="SearchFieldDelegate"/>
             </objects>
             <point key="canvasLocation" x="-557" y="-258"/>
         </scene>

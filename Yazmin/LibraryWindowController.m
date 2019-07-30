@@ -1,26 +1,31 @@
 //
-//  SearchFieldDelegate.m
+//  LibraryWindowController.m
 //  Yazmin
 //
-//  Created by David Schweinsberg on 7/28/19.
+//  Created by David Schweinsberg on 7/29/19.
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import "SearchFieldDelegate.h"
+#import "LibraryWindowController.h"
 #import "LibraryViewController.h"
 
-@interface SearchFieldDelegate () <NSSearchFieldDelegate>
+@interface LibraryWindowController () <NSSearchFieldDelegate>
 
 @end
 
-@implementation SearchFieldDelegate
+@implementation LibraryWindowController
+
+- (void)windowDidLoad {
+  [super windowDidLoad];
+}
+
+#pragma mark - NSSearchFieldDelegate Methods
 
 - (BOOL)control:(NSControl *)control
                textView:(NSTextView *)textView
     doCommandBySelector:(SEL)commandSelector {
   LibraryViewController *vc =
-      (LibraryViewController *)
-          control.window.windowController.contentViewController;
+      (LibraryViewController *)self.contentViewController;
   if (vc.filterPredicate && commandSelector == @selector(insertNewline:)) {
     if (vc.sortedEntries.count > 0)
       [vc openStory:vc.sortedEntries[0]];

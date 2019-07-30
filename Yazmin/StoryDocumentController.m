@@ -18,7 +18,7 @@
   AppController *appController = NSApp.delegate;
   LibraryViewController *vc =
       (LibraryViewController *)
-          appController.libraryWindow.contentViewController;
+          appController.libraryWindowController.contentViewController;
   Story *story = (Story *)document;
   [vc addStory:story];
 }

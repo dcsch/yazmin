@@ -15,7 +15,8 @@
 #import "Story.h"
 
 @interface Library ()
-@property(readonly, copy) NSDictionary *ifidURLDictionary;
+@property(readonly) NSURL *libraryDataURL;
+@property(readonly) NSDictionary *ifidURLDictionary;
 @property IFictionMetadata *defaultMetadata;
 @end
 
@@ -25,15 +26,21 @@
   self = [super init];
   if (self) {
     _entries = [[NSMutableArray alloc] init];
-
-    // Load the library entries saved in the user preferences
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *stories = [defaults objectForKey:@"Stories"];
-    for (NSString *url in stories) {
-      LibraryEntry *entry =
-          [[LibraryEntry alloc] initWithIFID:[stories valueForKey:url]
-                                         url:[NSURL URLWithString:url]];
-      [_entries addObject:entry];
+    NSURL *libraryDataURL = self.libraryDataURL;
+    NSData *libraryData = [NSData dataWithContentsOfURL:libraryDataURL];
+    if (libraryData) {
+      NSError *error;
+      NSDictionary *stories = [NSPropertyListSerialization
+          propertyListWithData:libraryData
+                       options:NSPropertyListMutableContainers
+                        format:nil
+                         error:&error];
+      for (NSString *url in stories) {
+        LibraryEntry *entry =
+            [[LibraryEntry alloc] initWithIFID:[stories valueForKey:url]
+                                           url:[NSURL URLWithString:url]];
+        [_entries addObject:entry];
+      }
     }
 
     NSBundle *mainBundle = NSBundle.mainBundle;
@@ -42,6 +49,20 @@
     _defaultMetadata = [[IFictionMetadata alloc] initWithData:data];
   }
   return self;
+}
+
+- (NSURL *)libraryDataURL {
+  NSFileManager *fm = NSFileManager.defaultManager;
+  NSArray<NSURL *> *urls = [fm URLsForDirectory:NSApplicationSupportDirectory
+                                      inDomains:NSUserDomainMask];
+  NSString *appName = NSBundle.mainBundle.infoDictionary[@"CFBundleExecutable"];
+  NSURL *supportURL = [urls.firstObject URLByAppendingPathComponent:appName];
+  NSError *error;
+  [fm createDirectoryAtURL:supportURL
+      withIntermediateDirectories:NO
+                       attributes:nil
+                            error:&error];
+  return [supportURL URLByAppendingPathComponent:@"games.plist"];
 }
 
 - (NSDictionary *)ifidURLDictionary {
@@ -73,8 +94,14 @@
 }
 
 - (void)save {
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  [defaults setObject:self.ifidURLDictionary forKey:@"Stories"];
+  NSError *error;
+  NSData *data = [NSPropertyListSerialization
+      dataWithPropertyList:self.ifidURLDictionary
+                    format:NSPropertyListXMLFormat_v1_0
+                   options:0
+                     error:&error];
+  if (data)
+    [data writeToURL:self.libraryDataURL atomically:YES];
 }
 
 - (void)syncMetadata {

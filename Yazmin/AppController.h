@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface AppController : NSObject <NSApplicationDelegate>
 
 @property(readonly) Library *library;
-@property(readonly) NSWindow *libraryWindow;
+@property(readonly) NSWindowController *libraryWindowController;
 
 @end
 
