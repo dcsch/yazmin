@@ -18,6 +18,10 @@
 @property(readonly) NSURL *libraryDataURL;
 @property(readonly) NSDictionary *ifidURLDictionary;
 @property IFictionMetadata *defaultMetadata;
+
+- (NSURL *)URLForResource:(NSString *)name
+                  subdirectory:(nullable NSString *)subpath
+    createNonexistentDirectory:(BOOL)create;
 @end
 
 @implementation Library
@@ -51,18 +55,38 @@
   return self;
 }
 
-- (NSURL *)libraryDataURL {
+- (NSURL *)URLForResource:(NSString *)name
+                  subdirectory:(nullable NSString *)subpath
+    createNonexistentDirectory:(BOOL)create {
   NSFileManager *fm = NSFileManager.defaultManager;
   NSArray<NSURL *> *urls = [fm URLsForDirectory:NSApplicationSupportDirectory
                                       inDomains:NSUserDomainMask];
   NSString *appName = NSBundle.mainBundle.infoDictionary[@"CFBundleExecutable"];
-  NSURL *supportURL = [urls.firstObject URLByAppendingPathComponent:appName];
-  NSError *error;
-  [fm createDirectoryAtURL:supportURL
-      withIntermediateDirectories:NO
-                       attributes:nil
-                            error:&error];
-  return [supportURL URLByAppendingPathComponent:@"games.plist"];
+  NSURL *supportDirURL =
+      [urls.firstObject URLByAppendingPathComponent:appName isDirectory:YES];
+  NSURL *subDirURL;
+  if (subpath)
+    subDirURL =
+        [supportDirURL URLByAppendingPathComponent:subpath isDirectory:YES];
+  else
+    subDirURL = supportDirURL;
+
+  if (create) {
+    // Create it if it doesn't exist
+    NSError *error;
+    [fm createDirectoryAtURL:subDirURL
+        withIntermediateDirectories:YES
+                         attributes:nil
+                              error:&error];
+  }
+  return [subDirURL URLByAppendingPathComponent:name];
+}
+
+- (NSURL *)libraryDataURL {
+  NSURL *url = [self URLForResource:@"games.plist"
+                       subdirectory:nil
+         createNonexistentDirectory:YES];
+  return url;
 }
 
 - (NSDictionary *)ifidURLDictionary {
@@ -82,6 +106,18 @@
     return _entries[index].storyMetadata;
   else
     return [_defaultMetadata storyWithIFID:ifid];
+}
+
+- (NSImage *)imageForIFID:(NSString *)ifid {
+  NSString *filename = [NSString stringWithFormat:@"%@.jpg", ifid];
+  NSURL *url = [self URLForResource:filename
+                       subdirectory:@"Cover Art"
+         createNonexistentDirectory:NO];
+  NSData *data = [NSData dataWithContentsOfURL:url];
+  if (data)
+    return [[NSImage alloc] initWithData:data];
+  else
+    return nil;
 }
 
 - (BOOL)containsStory:(Story *)story {

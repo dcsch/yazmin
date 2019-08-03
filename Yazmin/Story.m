@@ -237,6 +237,12 @@
       _metadata = [appController.library metadataForIFID:_ifid];
     }
 
+    // Retrieve any cover art that may have been assigned to this story
+    if (!_coverImage) {
+      AppController *appController = NSApp.delegate;
+      _coverImage = [appController.library imageForIFID:_ifid];
+    }
+
     // Is there any debug information to load?
     NSString *path = self.fileURL.path;
     NSString *folderPath = path.stringByDeletingLastPathComponent;

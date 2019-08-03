@@ -12,13 +12,18 @@
 @class LibraryEntry;
 @class IFStory;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface Library : NSObject
 
 @property(strong, readonly) NSMutableArray<LibraryEntry *> *entries;
 
 - (IFStory *)metadataForIFID:(NSString *)ifid;
+- (nullable NSImage *)imageForIFID:(NSString *)ifid;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
 - (void)syncMetadata;
 
 @end
+
+NS_ASSUME_NONNULL_END
