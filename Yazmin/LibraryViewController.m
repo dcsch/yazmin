@@ -34,6 +34,7 @@
   [super viewDidLoad];
   AppController *appController = NSApp.delegate;
   self.library = appController.library;
+  [tableView registerForDraggedTypes:@[ NSPasteboardTypeFileURL ]];
   [self reloadSortedData];
 }
 
@@ -110,7 +111,7 @@
 
 - (IBAction)addStoryToLibrary:(id)sender {
   NSOpenPanel *panel = [NSOpenPanel openPanel];
-  panel.allowedFileTypes = @[ @"z3", @"z4", @"z5", @"z7", @"z8", @"zblorb" ];
+  panel.allowedFileTypes = [AllowedFileTypes copy];
   panel.allowsMultipleSelection = YES;
   [panel beginSheetModalForWindow:self.view.window
                 completionHandler:^(NSInteger result) {
@@ -186,6 +187,30 @@
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
   return _sortedEntries.count;
+}
+
+- (BOOL)tableView:(NSTableView *)tableView
+       acceptDrop:(id<NSDraggingInfo>)info
+              row:(NSInteger)row
+    dropOperation:(NSTableViewDropOperation)dropOperation {
+  NSPasteboard *pb = info.draggingPasteboard;
+  NSURL *url = [NSURL URLFromPasteboard:pb];
+  [self addStoryURLs:@[ url ]];
+  return YES;
+}
+
+- (NSDragOperation)tableView:(NSTableView *)tableView
+                validateDrop:(id<NSDraggingInfo>)info
+                 proposedRow:(NSInteger)row
+       proposedDropOperation:(NSTableViewDropOperation)dropOperation {
+  NSPasteboard *pb = info.draggingPasteboard;
+  if ([pb.types containsObject:NSPasteboardTypeFileURL]) {
+    NSURL *url = [NSURL URLFromPasteboard:pb];
+    NSString *path = url.path;
+    if ([AllowedFileTypes containsObject:path.pathExtension])
+      return NSDragOperationLink;
+  }
+  return NSDragOperationNone;
 }
 
 - (void)tableView:(NSTableView *)tableView

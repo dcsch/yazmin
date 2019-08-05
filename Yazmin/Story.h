@@ -15,6 +15,10 @@
 @class ZMachine;
 @class DebugInfo;
 
+extern const NSPasteboardType PasteboardTypeZcodeStory;
+extern const NSPasteboardType PasteboardTypeZcodeBlorb;
+extern const NSArray<NSString *> *AllowedFileTypes;
+
 @interface Story : NSDocument
 
 @property(readonly) NSArray<StoryFacet *> *facets;

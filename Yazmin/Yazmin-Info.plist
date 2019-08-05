@@ -19,17 +19,22 @@
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>ZCode story</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
+			<string>Z-code Story</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>Story</string>
+			<key>UTExportedTypeDeclarations</key>
+			<array>
+				<dict>
+					<key>CFBundleTypeName</key>
+					<string>public.zcode</string>
+					<key>LSHandlerRank</key>
+					<string>Default</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -37,19 +42,26 @@
 				<string>zblorb</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>ZCode Blorb</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>????</string>
-			</array>
+			<string>Z-code Blorb</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
 			<string>Story</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
+			<key>UTExportedTypeDeclarations</key>
+			<array>
+				<dict>
+					<key>UTTypeConformsTo</key>
+					<array>
+						<string></string>
+					</array>
+					<key>UTTypeIdentifier</key>
+					<string>public.zcode.blorb</string>
+					<key>UTTypeTagSpecification</key>
+					<dict/>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
@@ -64,8 +76,6 @@
 			<true/>
 			<key>NSDocumentClass</key>
 			<string>Story</string>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>Binary</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
@@ -92,5 +102,44 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Z-code Story</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.zcode</string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Blorb Resource</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.blorb</string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Z-code Story</string>
+			<key>UTTypeIdentifier</key>
+			<string>public.blorb.zcode</string>
+			<key>UTTypeTagSpecification</key>
+			<dict/>
+		</dict>
+	</array>
 </dict>
 </plist>

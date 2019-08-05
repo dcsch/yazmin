@@ -23,6 +23,10 @@
 #import "StoryViewController.h"
 #import "ZMachine.h"
 
+const NSPasteboardType PasteboardTypeZcodeStory = @"public.zcode";
+const NSPasteboardType PasteboardTypeZcodeBlorb = @"public.blorb.zcode";
+const NSArray<NSString *> *AllowedFileTypes;
+
 @interface Story () {
   NSArray<StoryFacet *> *_facets;
   NSColor *_foregroundColor;
@@ -48,6 +52,10 @@
 @end
 
 @implementation Story
+
++ (void)initialize {
+  AllowedFileTypes = @[ @"z3", @"z4", @"z5", @"z7", @"z8", @"zblorb" ];
+}
 
 - (instancetype)init {
   self = [super init];
@@ -204,7 +212,7 @@
                error:(NSError **)outError {
   _blorb = nil;
 
-  if ([typeName compare:@"ZCode Blorb"] == 0) {
+  if ([typeName compare:@"Z-code Blorb"] == 0) {
     // This is a blorb, so we need to unwrap
     if ([Blorb isBlorbData:data]) {
       _blorb = [[Blorb alloc] initWithData:data];
