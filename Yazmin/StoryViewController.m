@@ -58,6 +58,7 @@
 - (void)update;
 - (NSString *)speakingStringForMove:(NSUInteger)move
                     includePosition:(BOOL)includePosition;
+- (void)speakLatestMove;
 - (IBAction)reload:(id)sender;
 - (IBAction)repeatMostRecentMove:(id)sender;
 - (IBAction)speakPreviousMove:(id)sender;
@@ -260,6 +261,7 @@
 }
 
 - (void)prepareInputWithOffset:(NSInteger)offset {
+  [self speakLatestMove];
   [self updateWindowLayoutIfNeeded];
 
   Story *story = self.representedObject;
@@ -281,6 +283,7 @@
 }
 
 - (void)prepareInputChar {
+  [self speakLatestMove];
   [self updateWindowLayoutIfNeeded];
 
   [lowerView setInputState:kCharacterInputState];
@@ -551,6 +554,16 @@
         previousLineEndedWithoutPeriod = ![line hasSuffix:@"."];
       }];
   return speakingString;
+}
+
+- (void)speakLatestMove {
+  Preferences *preferences = Preferences.sharedPreferences;
+  if (preferences.speakText) {
+    NSUInteger move = _moveStrings.count - 1;
+    NSString *speakingString =
+    [self speakingStringForMove:move includePosition:NO];
+    [_speechSynthesizer startSpeakingString:speakingString];
+  }
 }
 
 #pragma mark - Actions

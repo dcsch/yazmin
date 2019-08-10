@@ -18,6 +18,7 @@ NSString *SMFontSizeKey = @"FontSize";
 NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 NSString *SMInterpreterNumberKey = @"InterpreterNumber";
 NSString *SMInterpreterVersionKey = @"InterpreterVersion";
+NSString *SMSpeakTextKey = @"SpeakText";
 
 static void *AppearanceContext = &AppearanceContext;
 
@@ -61,7 +62,8 @@ static void *AppearanceContext = &AppearanceContext;
     SMFontSizeKey : @14.0f,
     SMShowLibraryOnStartupKey : @1,
     SMInterpreterNumberKey : @3,
-    SMInterpreterVersionKey : @'Z'
+    SMInterpreterVersionKey : @'Z',
+    SMSpeakTextKey : @0
   };
 
   // Register the dictionary of defaults
@@ -192,6 +194,10 @@ static void *AppearanceContext = &AppearanceContext;
 
 - (char)interpreterVersion {
   return [[defaults objectForKey:SMInterpreterVersionKey] charValue];
+}
+
+- (BOOL)speakText {
+  return [[defaults objectForKey:SMSpeakTextKey] intValue];
 }
 
 @end

@@ -23,6 +23,7 @@ extern NSString *SMFontSizeKey;
 extern NSString *SMShowLibraryOnStartupKey;
 extern NSString *SMInterpreterNumberKey;
 extern NSString *SMInterpreterVersionKey;
+extern NSString *SMSpeakTextKey;
 
 @interface Preferences : NSObject
 
@@ -37,6 +38,7 @@ extern NSString *SMInterpreterVersionKey;
 @property BOOL showsLibraryOnStartup;
 @property(readonly) int interpreterNumber;
 @property(readonly) char interpreterVersion;
+@property(readonly) BOOL speakText;
 
 + (void)registerDefaults;
 - (void)applyAppPreferences;
