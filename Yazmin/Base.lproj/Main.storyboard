@@ -882,10 +882,10 @@ CA
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="2Kv-qx-Hov"/>
                                     </imageView>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IqJ-sn-5wM">
-                                        <rect key="frame" x="136" y="61" width="274" height="67"/>
+                                        <rect key="frame" x="136" y="36" width="274" height="92"/>
                                         <subviews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GGK-f9-etV">
-                                                <rect key="frame" x="-2" y="50" width="33" height="17"/>
+                                                <rect key="frame" x="-2" y="75" width="33" height="17"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Title" id="B9q-8f-vuc">
                                                     <font key="font" metaFont="systemBold"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -893,7 +893,7 @@ CA
                                                 </textFieldCell>
                                             </textField>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Gkx-Gg-0pq">
-                                                <rect key="frame" x="-2" y="25" width="45" height="17"/>
+                                                <rect key="frame" x="-2" y="50" width="45" height="17"/>
                                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Author" id="Y5p-bh-BGH">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -901,8 +901,16 @@ CA
                                                 </textFieldCell>
                                             </textField>
                                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="LmC-r9-KMz">
-                                                <rect key="frame" x="-2" y="0.0" width="74" height="17"/>
+                                                <rect key="frame" x="-2" y="25" width="74" height="17"/>
                                                 <textFieldCell key="cell" selectable="YES" title="Description" id="COM-yJ-5eS">
+                                                    <font key="font" metaFont="system"/>
+                                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                </textFieldCell>
+                                            </textField>
+                                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UMM-pd-jh0">
+                                                <rect key="frame" x="-2" y="0.0" width="28" height="17"/>
+                                                <textFieldCell key="cell" lineBreakMode="clipping" title="IFID" id="K15-h7-WNG">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -913,8 +921,10 @@ CA
                                             <integer value="1000"/>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
+                                            <integer value="1000"/>
                                         </visibilityPriorities>
                                         <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
                                             <real value="3.4028234663852886e+38"/>
@@ -941,6 +951,7 @@ CA
                     <connections>
                         <outlet property="authorTextField" destination="Gkx-Gg-0pq" id="qFi-wy-YAP"/>
                         <outlet property="descriptionTextField" destination="LmC-r9-KMz" id="9mk-b4-mVq"/>
+                        <outlet property="ifidTextField" destination="UMM-pd-jh0" id="Nqd-ee-KTL"/>
                         <outlet property="imageView" destination="Ypr-9p-AYy" id="N4z-rX-nnM"/>
                         <outlet property="titleTextField" destination="GGK-f9-etV" id="OUr-ib-Unv"/>
                     </connections>

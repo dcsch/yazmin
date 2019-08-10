@@ -10,12 +10,14 @@
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
+#import "Story.h"
 
 @interface InformationViewController () {
   IBOutlet NSImageView *imageView;
   IBOutlet NSTextField *titleTextField;
   IBOutlet NSTextField *authorTextField;
   IBOutlet NSTextField *descriptionTextField;
+  IBOutlet NSTextField *ifidTextField;
 }
 
 @end
@@ -28,6 +30,10 @@
 
 - (void)viewWillAppear {
   [super viewWillAppear];
+
+  Story *story = self.representedObject;
+
+  ifidTextField.stringValue = story.ifid;
 
   // Set the artwork
   if (_picture) {

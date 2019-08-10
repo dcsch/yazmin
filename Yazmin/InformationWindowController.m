@@ -37,6 +37,7 @@
   InformationViewController *infoViewController =
       (InformationViewController *)tabViewController.tabViewItems[0]
           .viewController;
+  infoViewController.representedObject = self.document;
   infoViewController.storyMetadata = storyMetadata;
   infoViewController.picture = image;
 
