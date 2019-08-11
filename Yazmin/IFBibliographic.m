@@ -8,6 +8,12 @@
 
 #import "IFBibliographic.h"
 
+@interface IFBibliographic ()
+
+- (NSString *)renderDescriptionElement:(NSXMLElement *)element;
+
+@end
+
 @implementation IFBibliographic
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element {
@@ -31,7 +37,8 @@
       } else if ([node.name compare:@"group"] == 0) {
         _group = node.stringValue;
       } else if ([node.name compare:@"description"] == 0) {
-        _storyDescription = node.stringValue;
+        _storyDescription =
+            [self renderDescriptionElement:(NSXMLElement *)node];
       } else if ([node.name compare:@"series"] == 0) {
         _series = node.stringValue;
       } else if ([node.name compare:@"seriesnumber"] == 0) {
@@ -50,6 +57,20 @@
     _title = title;
   }
   return self;
+}
+
+- (NSString *)renderDescriptionElement:(NSXMLElement *)element {
+  NSMutableString *string = [NSMutableString string];
+  NSEnumerator *enumChildren = [element.children objectEnumerator];
+  NSXMLNode *node;
+  NSUInteger count = 0;
+  while ((node = [enumChildren nextObject])) {
+    if (count > 0)
+      [string appendString:@"\n"];
+    [string appendString:node.stringValue];
+    ++count;
+  }
+  return string;
 }
 
 @end

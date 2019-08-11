@@ -16,7 +16,7 @@
   IBOutlet NSImageView *imageView;
   IBOutlet NSTextField *titleTextField;
   IBOutlet NSTextField *authorTextField;
-  IBOutlet NSTextField *descriptionTextField;
+  IBOutlet NSTextView *descriptionTextView;
   IBOutlet NSTextField *ifidTextField;
 }
 
@@ -62,9 +62,27 @@
   if (story.metadata) {
     titleTextField.stringValue = story.metadata.bibliographic.title;
     NSString *author = story.metadata.bibliographic.author;
-    authorTextField.stringValue = author ? author : @"";
+    authorTextField.stringValue = author ? author : @"Unknown author";
     NSString *desc = story.metadata.bibliographic.storyDescription;
-    descriptionTextField.stringValue = desc ? desc : @"";
+    if (!desc)
+      desc = @"No description";
+
+    NSFont *font = [NSFont labelFontOfSize:13.0];
+    NSMutableParagraphStyle *paragraphStyle =
+        [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+    paragraphStyle.alignment = NSTextAlignmentJustified;
+    paragraphStyle.hyphenationFactor = 1.0;
+    NSDictionary *attrs = @{
+      NSFontAttributeName : font,
+      NSForegroundColorAttributeName : NSColor.textColor,
+      NSParagraphStyleAttributeName : paragraphStyle
+    };
+    NSAttributedString *str =
+        [[NSAttributedString alloc] initWithString:desc attributes:attrs];
+    NSRange existingRange =
+        NSMakeRange(0, descriptionTextView.textStorage.length);
+    [descriptionTextView.textStorage replaceCharactersInRange:existingRange
+                                         withAttributedString:str];
   }
 }
 

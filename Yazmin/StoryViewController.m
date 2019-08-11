@@ -561,7 +561,7 @@
   if (preferences.speakText) {
     NSUInteger move = _moveStrings.count - 1;
     NSString *speakingString =
-    [self speakingStringForMove:move includePosition:NO];
+        [self speakingStringForMove:move includePosition:NO];
     [_speechSynthesizer startSpeakingString:speakingString];
   }
 }

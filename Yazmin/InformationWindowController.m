@@ -23,18 +23,18 @@
 - (void)setDocument:(id)document {
   [super setDocument:document];
 
-//  Story *story = document;
+  //  Story *story = document;
 
   // Fish through all the controllers
   NSTabViewController *tabViewController =
-  (NSTabViewController *)self.contentViewController;
+      (NSTabViewController *)self.contentViewController;
   InformationViewController *infoViewController =
-  (InformationViewController *)tabViewController.tabViewItems[0]
-  .viewController;
+      (InformationViewController *)tabViewController.tabViewItems[0]
+          .viewController;
   infoViewController.representedObject = document;
 
   NSViewController *artViewController =
-  tabViewController.tabViewItems[1].viewController;
+      tabViewController.tabViewItems[1].viewController;
   artViewController.representedObject = document;
 }
 
