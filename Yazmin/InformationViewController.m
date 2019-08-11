@@ -36,7 +36,7 @@
   ifidTextField.stringValue = story.ifid;
 
   // Set the artwork
-  if (_picture) {
+  if (story.coverImage) {
 
     // Resize the image to a high quality thumbnail
     float resizeWidth = 128.0;
@@ -44,12 +44,12 @@
     NSImage *resizedImage =
         [[NSImage alloc] initWithSize:NSMakeSize(resizeWidth, resizeHeight)];
 
-    NSSize originalSize = _picture.size;
+    NSSize originalSize = story.coverImage.size;
 
     [resizedImage lockFocus];
     [NSGraphicsContext currentContext].imageInterpolation =
         NSImageInterpolationHigh;
-    [_picture
+    [story.coverImage
         drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
           fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
          operation:NSCompositingOperationSourceOver
@@ -59,11 +59,11 @@
     imageView.image = resizedImage;
   }
 
-  if (_storyMetadata) {
-    titleTextField.stringValue = _storyMetadata.bibliographic.title;
-    NSString *author = _storyMetadata.bibliographic.author;
+  if (story.metadata) {
+    titleTextField.stringValue = story.metadata.bibliographic.title;
+    NSString *author = story.metadata.bibliographic.author;
     authorTextField.stringValue = author ? author : @"";
-    NSString *desc = _storyMetadata.bibliographic.storyDescription;
+    NSString *desc = story.metadata.bibliographic.storyDescription;
     descriptionTextField.stringValue = desc ? desc : @"";
   }
 }

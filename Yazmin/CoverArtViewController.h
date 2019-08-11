@@ -1,8 +1,8 @@
 //
-//  InformationViewController.h
+//  CoverArtViewController.h
 //  Yazmin
 //
-//  Created by David Schweinsberg on 7/13/19.
+//  Created by David Schweinsberg on 8/11/19.
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface InformationViewController : NSViewController
+@interface CoverArtViewController : NSViewController
 
 @end
 

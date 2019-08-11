@@ -960,10 +960,10 @@ CA
             </objects>
             <point key="canvasLocation" x="622" y="625"/>
         </scene>
-        <!--View Controller-->
+        <!--Cover Art View Controller-->
         <scene sceneID="L5U-Ox-7fz">
             <objects>
-                <viewController id="Rl5-8V-jhl" sceneMemberID="viewController">
+                <viewController id="Rl5-8V-jhl" customClass="CoverArtViewController" sceneMemberID="viewController">
                     <view key="view" id="V7V-Oo-pQJ">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="296"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -975,9 +975,6 @@ CA
                                     <constraint firstAttribute="width" constant="256" id="h8F-al-maE"/>
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bd4-4l-GZx"/>
-                                <connections>
-                                    <binding destination="Rl5-8V-jhl" name="value" keyPath="representedObject" id="ozH-Nh-ToV"/>
-                                </connections>
                             </imageView>
                         </subviews>
                         <constraints>
@@ -985,6 +982,9 @@ CA
                             <constraint firstItem="76F-8m-6Qt" firstAttribute="centerX" secondItem="V7V-Oo-pQJ" secondAttribute="centerX" id="csg-kl-jk8"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="76F-8m-6Qt" id="Qr3-m5-4iy"/>
+                    </connections>
                 </viewController>
                 <customObject id="9yr-sz-HOq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>

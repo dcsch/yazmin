@@ -12,8 +12,6 @@
 
 @interface InformationWindowController ()
 
-- (void)prepareWithMetadata:(IFStory *)storyMetadata image:(NSImage *)image;
-
 @end
 
 @implementation InformationWindowController
@@ -25,25 +23,19 @@
 - (void)setDocument:(id)document {
   [super setDocument:document];
 
-  Story *story = document;
-  [self prepareWithMetadata:story.metadata image:story.coverImage];
-}
-
-- (void)prepareWithMetadata:(IFStory *)storyMetadata image:(NSImage *)image {
+//  Story *story = document;
 
   // Fish through all the controllers
   NSTabViewController *tabViewController =
-      (NSTabViewController *)self.contentViewController;
+  (NSTabViewController *)self.contentViewController;
   InformationViewController *infoViewController =
-      (InformationViewController *)tabViewController.tabViewItems[0]
-          .viewController;
-  infoViewController.representedObject = self.document;
-  infoViewController.storyMetadata = storyMetadata;
-  infoViewController.picture = image;
+  (InformationViewController *)tabViewController.tabViewItems[0]
+  .viewController;
+  infoViewController.representedObject = document;
 
   NSViewController *artViewController =
-      tabViewController.tabViewItems[1].viewController;
-  artViewController.representedObject = image;
+  tabViewController.tabViewItems[1].viewController;
+  artViewController.representedObject = document;
 }
 
 @end

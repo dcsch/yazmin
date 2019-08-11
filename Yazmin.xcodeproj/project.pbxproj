@@ -14,6 +14,7 @@
 		0316CFCD22B07A4A00C882C5 /* ZMTextTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */; };
 		0332A81322D7AFA300B3996D /* VersionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332A81222D7AFA300B3996D /* VersionFormatter.m */; };
 		0332A81622D92C4800B3996D /* GeneralPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332A81522D92C4800B3996D /* GeneralPreferencesViewController.m */; };
+		0358DAD32300B210004C0DC5 /* CoverArtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD22300B210004C0DC5 /* CoverArtViewController.m */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		037F044822CE94A0008AD5A5 /* babel.ifiction in Resources */ = {isa = PBXBuildFile; fileRef = 037F044722CE949F008AD5A5 /* babel.ifiction */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
@@ -94,6 +95,8 @@
 		0332A81222D7AFA300B3996D /* VersionFormatter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VersionFormatter.m; sourceTree = "<group>"; };
 		0332A81422D92C4800B3996D /* GeneralPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneralPreferencesViewController.h; sourceTree = "<group>"; };
 		0332A81522D92C4800B3996D /* GeneralPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeneralPreferencesViewController.m; sourceTree = "<group>"; };
+		0358DAD12300B210004C0DC5 /* CoverArtViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoverArtViewController.h; sourceTree = "<group>"; };
+		0358DAD22300B210004C0DC5 /* CoverArtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoverArtViewController.m; sourceTree = "<group>"; };
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		037F044722CE949F008AD5A5 /* babel.ifiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = babel.ifiction; sourceTree = "<group>"; };
@@ -292,6 +295,8 @@
 				03F4DE2A22EF75960099EE64 /* LibraryWindowController.m */,
 				03DC649122DAF995006EE03C /* InformationViewController.h */,
 				03DC649222DAF995006EE03C /* InformationViewController.m */,
+				0358DAD12300B210004C0DC5 /* CoverArtViewController.h */,
+				0358DAD22300B210004C0DC5 /* CoverArtViewController.m */,
 				03D6A1D822DE9B1700B16F09 /* InformationWindowController.h */,
 				03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */,
 			);
@@ -584,6 +589,7 @@
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
 				03DC649322DAF995006EE03C /* InformationViewController.m in Sources */,
 				6338E0CA180AB53B005A3263 /* ZMObject.cpp in Sources */,
+				0358DAD32300B210004C0DC5 /* CoverArtViewController.m in Sources */,
 				6338E0A6180AB53B005A3263 /* AppController.m in Sources */,
 				03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */,
 				6338E0A7180AB53B005A3263 /* Blorb.m in Sources */,
