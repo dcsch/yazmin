@@ -879,7 +879,7 @@ CA
                                             <constraint firstAttribute="width" constant="128" id="dki-jF-k0d"/>
                                             <constraint firstAttribute="height" constant="128" id="kM3-ZO-dbn"/>
                                         </constraints>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="2Kv-qx-Hov"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NoCoverArt" id="2Kv-qx-Hov"/>
                                     </imageView>
                                     <stackView distribution="fill" orientation="vertical" alignment="leading" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IqJ-sn-5wM">
                                         <rect key="frame" x="136" y="0.0" width="274" height="210"/>
@@ -992,7 +992,7 @@ CA
                                     <constraint firstAttribute="height" constant="256" id="eXl-Eg-4aN"/>
                                     <constraint firstAttribute="width" constant="256" id="h8F-al-maE"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="bd4-4l-GZx"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NoCoverArt" id="bd4-4l-GZx"/>
                             </imageView>
                         </subviews>
                         <constraints>
@@ -1388,5 +1388,6 @@ CA
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
+        <image name="NoCoverArt" width="960" height="960"/>
     </resources>
 </document>
