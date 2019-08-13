@@ -840,8 +840,9 @@ CA
             <objects>
                 <tabViewController selectedTabViewItemIndex="0" id="bGL-d7-VVO" sceneMemberID="viewController">
                     <tabViewItems>
-                        <tabViewItem label="Information" identifier="" id="h25-b0-Roe"/>
-                        <tabViewItem label="Artwork" identifier="" id="WvZ-CO-cDL"/>
+                        <tabViewItem label="Summary" identifier="" id="h25-b0-Roe" userLabel="Summary"/>
+                        <tabViewItem label="Artwork" identifier="" id="WvZ-CO-cDL" userLabel="Artwork"/>
+                        <tabViewItem label="Bibliographic" id="lTT-Af-3ig" userLabel="Bibliographic"/>
                     </tabViewItems>
                     <viewControllerTransitionOptions key="transitionOptions" allowUserInteraction="YES"/>
                     <tabView key="tabView" type="noTabsNoBorder" id="joq-Px-hKA">
@@ -856,16 +857,17 @@ CA
                         <outlet property="tabView" destination="joq-Px-hKA" id="4kj-Sd-T3G"/>
                         <segue destination="sVx-gd-SnN" kind="relationship" relationship="tabItems" id="yJD-wE-FNY"/>
                         <segue destination="Rl5-8V-jhl" kind="relationship" relationship="tabItems" id="Bab-mQ-xNw"/>
+                        <segue destination="swT-dl-dly" kind="relationship" relationship="tabItems" id="M76-KD-S8P"/>
                     </connections>
                 </tabViewController>
                 <customObject id="veo-Kz-Ue8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="55" y="713"/>
         </scene>
-        <!--Information View Controller-->
+        <!--Summary View Controller-->
         <scene sceneID="PSw-of-FgO">
             <objects>
-                <viewController id="sVx-gd-SnN" customClass="InformationViewController" sceneMemberID="viewController">
+                <viewController id="sVx-gd-SnN" customClass="SummaryViewController" sceneMemberID="viewController">
                     <view key="view" id="HtG-Ng-mHC">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="250"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1383,6 +1385,233 @@ CA
                 <userDefaultsController representsSharedInstance="YES" id="Awg-00-0bS"/>
             </objects>
             <point key="canvasLocation" x="2016" y="-359"/>
+        </scene>
+        <!--Bibliographic-->
+        <scene sceneID="kQK-EW-Uij">
+            <objects>
+                <viewController title="Bibliographic" id="swT-dl-dly" customClass="BibliographicViewController" sceneMemberID="viewController">
+                    <view key="view" id="FP0-9g-yzr">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="207"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="jzs-BF-A8z">
+                                <rect key="frame" x="20" y="20" width="410" height="167"/>
+                                <rows>
+                                    <gridRow id="pls-uk-GXe"/>
+                                    <gridRow id="s7w-N7-BeY"/>
+                                    <gridRow id="4zJ-yG-4Xt"/>
+                                    <gridRow id="fBA-MO-GFE"/>
+                                    <gridRow id="jw6-ah-sfA"/>
+                                    <gridRow id="lNd-TD-Wjf"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn xPlacement="trailing" width="164" id="BOE-VW-Ltj"/>
+                                    <gridColumn width="240" id="RUf-3F-pfY"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="pls-uk-GXe" column="BOE-VW-Ltj" id="r0w-lL-DGh">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8ag-WQ-qcw">
+                                            <rect key="frame" x="131" y="148" width="35" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Title:" id="efF-95-TPE">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="pls-uk-GXe" column="RUf-3F-pfY" id="gtE-bi-2mM">
+                                        <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iFX-Ev-0I8">
+                                            <rect key="frame" x="170" y="145" width="100" height="22"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="Gmd-fq-G4G">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="s7w-N7-BeY" column="BOE-VW-Ltj" id="rdO-Sj-0dY">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vds-Bn-5p4">
+                                            <rect key="frame" x="117" y="114" width="49" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Author:" id="jQF-il-cLI">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="s7w-N7-BeY" column="RUf-3F-pfY" id="sLF-My-GyE">
+                                        <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t1j-XE-9wW">
+                                            <rect key="frame" x="170" y="111" width="100" height="22"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="DXH-GW-Efc">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="4zJ-yG-4Xt" column="BOE-VW-Ltj" id="kJ7-aX-Hj5">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IrF-cS-DO3">
+                                            <rect key="frame" x="105" y="86" width="61" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Headline:" id="Hvm-aa-hLi">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="4zJ-yG-4Xt" column="RUf-3F-pfY" id="6Gt-Um-h2g">
+                                        <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6sX-tI-oZx">
+                                            <rect key="frame" x="170" y="83" width="100" height="22"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="08a-1h-Vqw">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="fBA-MO-GFE" column="BOE-VW-Ltj" id="DgM-8a-hkT">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iuJ-sq-rKJ">
+                                            <rect key="frame" x="68" y="58" width="98" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="First Published:" id="D5b-iG-R38">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="fBA-MO-GFE" column="RUf-3F-pfY" id="CxS-H7-3WX">
+                                        <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VmF-D9-Z9w">
+                                            <rect key="frame" x="170" y="55" width="100" height="22"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="MVy-mL-DjW">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="jw6-ah-sfA" column="BOE-VW-Ltj" id="cVM-g6-GVi">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kt4-Sj-kjv">
+                                            <rect key="frame" x="121" y="30" width="45" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Genre:" id="8VN-1c-zwR">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="jw6-ah-sfA" column="RUf-3F-pfY" id="l8U-XZ-c6O">
+                                        <popUpButton key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hdp-sa-vUF">
+                                            <rect key="frame" x="168" y="25" width="143" height="25"/>
+                                            <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="odu-YD-yPr" id="wpF-ob-Hhr">
+                                                <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="menu"/>
+                                                <menu key="menu" id="h9G-oY-vr5">
+                                                    <items>
+                                                        <menuItem id="odu-YD-yPr">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Children's Fiction" state="on" id="pMg-bt-EI1"/>
+                                                        <menuItem title="Collegiate Fiction" id="uKh-Lz-EDl"/>
+                                                        <menuItem title="Comedy" id="QPn-qO-ABL"/>
+                                                        <menuItem title="Erotica" id="5MJ-xo-cqG">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Fairy Tale" id="by8-ta-OLx">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Fantasy" id="oR9-rB-bur">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Fiction" id="lmY-6X-NT9">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Historical" id="QIs-sb-dL8">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Horror" id="erm-Z0-qaz">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Mystery" id="hkQ-D4-wrZ">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Non-Fiction" id="Kyf-9O-Ojb">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Other" id="Sph-gy-Qca">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Religious Fiction" id="ggR-ZX-6Rk">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Romance" id="NFe-Y6-EPz">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Science Fiction" id="HKI-o7-eg2">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Surreal" id="bBI-sm-sdJ">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem title="Western" id="wWE-C5-Hpt">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem isSeparatorItem="YES" id="IUU-Rg-p3F"/>
+                                                        <menuItem title="Special" id="YxK-SA-Yog">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                        <menuItem isSeparatorItem="YES" id="YSE-AM-rwQ"/>
+                                                        <menuItem title="Custom..." id="1lc-EO-l3y">
+                                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                                        </menuItem>
+                                                    </items>
+                                                </menu>
+                                            </popUpButtonCell>
+                                        </popUpButton>
+                                    </gridCell>
+                                    <gridCell row="lNd-TD-Wjf" column="BOE-VW-Ltj" id="EAn-kC-GUv">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0eV-1V-HQ7">
+                                            <rect key="frame" x="120" y="3" width="46" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Group:" id="ibR-SL-T4H">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="lNd-TD-Wjf" column="RUf-3F-pfY" id="8RO-YL-DY3">
+                                        <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Qc-cp-zOo">
+                                            <rect key="frame" x="170" y="0.0" width="100" height="22"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="MsX-fo-ARP">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="jzs-BF-A8z" secondAttribute="trailing" constant="20" id="D9f-f1-0pe"/>
+                            <constraint firstAttribute="bottom" secondItem="jzs-BF-A8z" secondAttribute="bottom" constant="20" id="O8S-cO-k5W"/>
+                            <constraint firstItem="jzs-BF-A8z" firstAttribute="leading" secondItem="FP0-9g-yzr" secondAttribute="leading" constant="20" id="P52-8i-R67"/>
+                            <constraint firstItem="jzs-BF-A8z" firstAttribute="top" secondItem="FP0-9g-yzr" secondAttribute="top" constant="20" id="uRD-uQ-j2D"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="authorTextField" destination="t1j-XE-9wW" id="MT8-W8-VOZ"/>
+                        <outlet property="firstPublishedTextField" destination="VmF-D9-Z9w" id="Vpw-rr-63U"/>
+                        <outlet property="genrePopUpButton" destination="hdp-sa-vUF" id="fu1-aI-6IG"/>
+                        <outlet property="groupTextField" destination="7Qc-cp-zOo" id="PsT-fS-mFt"/>
+                        <outlet property="headlineTextField" destination="6sX-tI-oZx" id="Xzh-Gw-U9v"/>
+                        <outlet property="specialMenuItem" destination="YxK-SA-Yog" id="Mx7-MJ-9fD"/>
+                        <outlet property="specialSeparatorMenuItem" destination="YSE-AM-rwQ" id="27L-cB-rqo"/>
+                        <outlet property="titleTextField" destination="iFX-Ev-0I8" id="1FH-N4-hOj"/>
+                    </connections>
+                </viewController>
+                <customObject id="5Rb-7H-yrT" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="622" y="1314.5"/>
         </scene>
     </scenes>
     <resources>

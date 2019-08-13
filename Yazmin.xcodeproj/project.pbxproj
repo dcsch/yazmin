@@ -15,6 +15,7 @@
 		0332A81322D7AFA300B3996D /* VersionFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332A81222D7AFA300B3996D /* VersionFormatter.m */; };
 		0332A81622D92C4800B3996D /* GeneralPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332A81522D92C4800B3996D /* GeneralPreferencesViewController.m */; };
 		0358DAD32300B210004C0DC5 /* CoverArtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD22300B210004C0DC5 /* CoverArtViewController.m */; };
+		0358DAD62303314F004C0DC5 /* BibliographicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD52303314F004C0DC5 /* BibliographicViewController.m */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		037F044822CE94A0008AD5A5 /* babel.ifiction in Resources */ = {isa = PBXBuildFile; fileRef = 037F044722CE949F008AD5A5 /* babel.ifiction */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
@@ -26,7 +27,7 @@
 		03D6A1D522DE8B1900B16F09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 03D6A1D722DE8B1900B16F09 /* Main.storyboard */; };
 		03D6A1DA22DE9B1700B16F09 /* InformationWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */; };
 		03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC648B22D9B28C006EE03C /* LibraryViewController.m */; };
-		03DC649322DAF995006EE03C /* InformationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC649222DAF995006EE03C /* InformationViewController.m */; };
+		03DC649322DAF995006EE03C /* SummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03DC649222DAF995006EE03C /* SummaryViewController.m */; };
 		03F4DE2B22EF75960099EE64 /* LibraryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03F4DE2A22EF75960099EE64 /* LibraryWindowController.m */; };
 		6338E0A5180AB53B005A3263 /* AbbreviationsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E04F180AB53B005A3263 /* AbbreviationsController.m */; };
 		6338E0A6180AB53B005A3263 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6338E051180AB53B005A3263 /* AppController.m */; };
@@ -97,6 +98,8 @@
 		0332A81522D92C4800B3996D /* GeneralPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GeneralPreferencesViewController.m; sourceTree = "<group>"; };
 		0358DAD12300B210004C0DC5 /* CoverArtViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoverArtViewController.h; sourceTree = "<group>"; };
 		0358DAD22300B210004C0DC5 /* CoverArtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoverArtViewController.m; sourceTree = "<group>"; };
+		0358DAD42303314F004C0DC5 /* BibliographicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibliographicViewController.h; sourceTree = "<group>"; };
+		0358DAD52303314F004C0DC5 /* BibliographicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibliographicViewController.m; sourceTree = "<group>"; };
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		037F044722CE949F008AD5A5 /* babel.ifiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = babel.ifiction; sourceTree = "<group>"; };
@@ -115,8 +118,8 @@
 		03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationWindowController.m; sourceTree = "<group>"; };
 		03DC648A22D9B28C006EE03C /* LibraryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryViewController.h; sourceTree = "<group>"; };
 		03DC648B22D9B28C006EE03C /* LibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
-		03DC649122DAF995006EE03C /* InformationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InformationViewController.h; sourceTree = "<group>"; };
-		03DC649222DAF995006EE03C /* InformationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InformationViewController.m; sourceTree = "<group>"; };
+		03DC649122DAF995006EE03C /* SummaryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SummaryViewController.h; sourceTree = "<group>"; };
+		03DC649222DAF995006EE03C /* SummaryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SummaryViewController.m; sourceTree = "<group>"; };
 		03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yazmin.entitlements; sourceTree = "<group>"; };
 		03F4DE2922EF75960099EE64 /* LibraryWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryWindowController.h; sourceTree = "<group>"; };
 		03F4DE2A22EF75960099EE64 /* LibraryWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryWindowController.m; sourceTree = "<group>"; };
@@ -293,10 +296,12 @@
 				03DC648B22D9B28C006EE03C /* LibraryViewController.m */,
 				03F4DE2922EF75960099EE64 /* LibraryWindowController.h */,
 				03F4DE2A22EF75960099EE64 /* LibraryWindowController.m */,
-				03DC649122DAF995006EE03C /* InformationViewController.h */,
-				03DC649222DAF995006EE03C /* InformationViewController.m */,
+				03DC649122DAF995006EE03C /* SummaryViewController.h */,
+				03DC649222DAF995006EE03C /* SummaryViewController.m */,
 				0358DAD12300B210004C0DC5 /* CoverArtViewController.h */,
 				0358DAD22300B210004C0DC5 /* CoverArtViewController.m */,
+				0358DAD42303314F004C0DC5 /* BibliographicViewController.h */,
+				0358DAD52303314F004C0DC5 /* BibliographicViewController.m */,
 				03D6A1D822DE9B1700B16F09 /* InformationWindowController.h */,
 				03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */,
 			);
@@ -564,6 +569,7 @@
 				6338E0B3180AB53B005A3263 /* IFBibliographic.m in Sources */,
 				03D6A1CD22DE4B2300B16F09 /* StoryViewController.m in Sources */,
 				6338E0B5180AB53B005A3263 /* IFictionMetadata.m in Sources */,
+				0358DAD62303314F004C0DC5 /* BibliographicViewController.m in Sources */,
 				03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */,
 				6338E0B2180AB53B005A3263 /* GridStoryFacet.m in Sources */,
 				6338E0B4180AB53B005A3263 /* iff.c in Sources */,
@@ -587,7 +593,7 @@
 				6338E0CB180AB53B005A3263 /* ZMProcessor.cpp in Sources */,
 				6338E0A9180AB53B005A3263 /* DebugController.m in Sources */,
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
-				03DC649322DAF995006EE03C /* InformationViewController.m in Sources */,
+				03DC649322DAF995006EE03C /* SummaryViewController.m in Sources */,
 				6338E0CA180AB53B005A3263 /* ZMObject.cpp in Sources */,
 				0358DAD32300B210004C0DC5 /* CoverArtViewController.m in Sources */,
 				6338E0A6180AB53B005A3263 /* AppController.m in Sources */,

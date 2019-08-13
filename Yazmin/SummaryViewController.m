@@ -1,18 +1,18 @@
 //
-//  InformationViewController.m
+//  SummaryViewController.m
 //  Yazmin
 //
 //  Created by David Schweinsberg on 7/13/19.
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import "InformationViewController.h"
+#import "SummaryViewController.h"
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "Story.h"
 
-@interface InformationViewController () {
+@interface SummaryViewController () {
   IBOutlet NSImageView *imageView;
   IBOutlet NSTextField *titleTextField;
   IBOutlet NSTextField *authorTextField;
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation InformationViewController
+@implementation SummaryViewController
 
 - (void)viewDidLoad {
   [super viewDidLoad];

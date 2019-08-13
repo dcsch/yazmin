@@ -7,8 +7,8 @@
 //
 
 #import "InformationWindowController.h"
-#import "InformationViewController.h"
 #import "Story.h"
+#import "SummaryViewController.h"
 
 @interface InformationWindowController ()
 
@@ -28,14 +28,17 @@
   // Fish through all the controllers
   NSTabViewController *tabViewController =
       (NSTabViewController *)self.contentViewController;
-  InformationViewController *infoViewController =
-      (InformationViewController *)tabViewController.tabViewItems[0]
-          .viewController;
-  infoViewController.representedObject = document;
+  //  SummaryViewController *infoViewController =
+  //      (SummaryViewController *)tabViewController.tabViewItems[0]
+  //          .viewController;
+  //  infoViewController.representedObject = document;
+  //
+  //  NSViewController *artViewController =
+  //      tabViewController.tabViewItems[1].viewController;
+  //  artViewController.representedObject = document;
 
-  NSViewController *artViewController =
-      tabViewController.tabViewItems[1].viewController;
-  artViewController.representedObject = document;
+  for (NSTabViewItem *item in tabViewController.tabViewItems)
+    item.viewController.representedObject = document;
 }
 
 @end

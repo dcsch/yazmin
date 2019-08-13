@@ -1,5 +1,5 @@
 //
-//  InformationViewController.h
+//  SummaryViewController.h
 //  Yazmin
 //
 //  Created by David Schweinsberg on 7/13/19.
@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface InformationViewController : NSViewController
+@interface SummaryViewController : NSViewController
 
 @end
 
