@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(strong, readonly) NSMutableArray<LibraryEntry *> *entries;
 
-- (IFStory *)metadataForIFID:(NSString *)ifid;
+- (nullable IFStory *)metadataForIFID:(NSString *)ifid;
+- (nullable IFStory *)defaultMetadataForIFID:(NSString *)ifid;
 - (nullable NSImage *)imageForIFID:(NSString *)ifid;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;

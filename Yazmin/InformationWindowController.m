@@ -7,8 +7,6 @@
 //
 
 #import "InformationWindowController.h"
-#import "Story.h"
-#import "SummaryViewController.h"
 
 @interface InformationWindowController ()
 
@@ -23,20 +21,9 @@
 - (void)setDocument:(id)document {
   [super setDocument:document];
 
-  //  Story *story = document;
-
-  // Fish through all the controllers
+  // Set representedObject for all the controllers
   NSTabViewController *tabViewController =
       (NSTabViewController *)self.contentViewController;
-  //  SummaryViewController *infoViewController =
-  //      (SummaryViewController *)tabViewController.tabViewItems[0]
-  //          .viewController;
-  //  infoViewController.representedObject = document;
-  //
-  //  NSViewController *artViewController =
-  //      tabViewController.tabViewItems[1].viewController;
-  //  artViewController.representedObject = document;
-
   for (NSTabViewItem *item in tabViewController.tabViewItems)
     item.viewController.representedObject = document;
 }

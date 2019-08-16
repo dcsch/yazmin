@@ -12,21 +12,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IFBibliographic : NSObject
 
-@property(readonly, nullable) NSString *title;
-@property(readonly, nullable) NSString *author;
-@property(readonly, nullable) NSString *language;
-@property(readonly, nullable) NSString *headline;
-@property(readonly, nullable) NSString *firstPublished;
-@property(readonly, nullable) NSString *genre;
-@property(readonly, nullable) NSString *group;
-@property(readonly, nullable) NSString *storyDescription;
-@property(readonly, nullable) NSString *series;
-@property(readonly) int seriesNumber;
-@property(readonly, nullable) NSString *forgiveness;
+@property(nullable) NSString *title;
+@property(nullable) NSString *author;
+@property(nullable) NSString *language;
+@property(nullable) NSString *headline;
+@property(nullable) NSString *firstPublished;
+@property(nullable) NSString *genre;
+@property(nullable) NSString *group;
+@property(nullable) NSString *storyDescription;
+@property(nullable) NSString *series;
+@property int seriesNumber;
+@property(nullable) NSString *forgiveness;
+@property(readonly) NSString *xmlString;
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element
     NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithTitle:(NSString *)title NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 
 @end

@@ -11,6 +11,7 @@
 @interface IFBibliographic ()
 
 - (NSString *)renderDescriptionElement:(NSXMLElement *)element;
+- (NSString *)encodeString:(NSString *)original;
 
 @end
 
@@ -51,14 +52,6 @@
   return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title {
-  self = [super init];
-  if (self) {
-    _title = title;
-  }
-  return self;
-}
-
 - (NSString *)renderDescriptionElement:(NSXMLElement *)element {
   NSMutableString *string = [NSMutableString string];
   NSEnumerator *enumChildren = [element.children objectEnumerator];
@@ -70,6 +63,57 @@
     [string appendString:node.stringValue];
     ++count;
   }
+  return string;
+}
+
+- (NSString *)encodeString:(NSString *)original {
+  NSMutableString *string = [NSMutableString string];
+  for (NSUInteger i = 0; i < original.length; ++i) {
+    unichar c = [original characterAtIndex:i];
+    if (c == '&')
+      [string appendString:@"&amp;"];
+    else if (c == '<')
+      [string appendString:@"&lt;"];
+    else if (c == '>')
+      [string appendString:@"&gt;"];
+    else if (c == '\n')
+      [string appendString:@"<br/>"];
+    else
+      [string appendFormat:@"%lc", c];
+  }
+  return string;
+}
+
+- (NSString *)xmlString {
+  NSMutableString *string = [NSMutableString string];
+  [string appendString:@"<bibliographic>\n"];
+  [string appendFormat:@"<title>%@</title>\n", [self encodeString:_title]];
+  [string appendFormat:@"<author>%@</author>\n", [self encodeString:_author]];
+  if (_language)
+    [string appendFormat:@"<language>%@</language>\n",
+                         [self encodeString:_language]];
+  if (_headline)
+    [string appendFormat:@"<headline>%@</headline>\n",
+                         [self encodeString:_headline]];
+  if (_firstPublished)
+    [string appendFormat:@"<firstpublished>%@</firstpublished>\n",
+                         [self encodeString:_firstPublished]];
+  if (_genre)
+    [string appendFormat:@"<genre>%@</genre>\n", [self encodeString:_genre]];
+  if (_group)
+    [string appendFormat:@"<group>%@</group>\n", [self encodeString:_group]];
+  if (_storyDescription) {
+    [string appendFormat:@"<description>%@</description>\n",
+                         [self encodeString:_storyDescription]];
+  }
+  if (_series)
+    [string appendFormat:@"<series>%@</series>\n", [self encodeString:_series]];
+  if (_seriesNumber)
+    [string appendFormat:@"<seriesnumber>%d</seriesnumber>\n", _seriesNumber];
+  if (_forgiveness)
+    [string appendFormat:@"<forgiveness>%@</forgiveness>\n",
+                         [self encodeString:_forgiveness]];
+  [string appendString:@"</bibliographic>\n"];
   return string;
 }
 

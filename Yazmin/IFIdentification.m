@@ -31,4 +31,17 @@
   return self;
 }
 
+- (NSString *)xmlString {
+  NSMutableString *string = [NSMutableString string];
+  [string appendString:@"<identification>\n"];
+  for (NSString *ifid in _ifids)
+    [string appendFormat:@"<ifid>%@</ifid>\n", ifid];
+  if (![_format isEqualToString:@""])
+    [string appendFormat:@"<format>%@</format>\n", _format];
+  if (_bafn)
+    [string appendFormat:@"<bafn>%d</bafn>\n", _bafn];
+  [string appendString:@"</identification>\n"];
+  return string;
+}
+
 @end

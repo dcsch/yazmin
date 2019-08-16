@@ -16,6 +16,7 @@
 		0332A81622D92C4800B3996D /* GeneralPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0332A81522D92C4800B3996D /* GeneralPreferencesViewController.m */; };
 		0358DAD32300B210004C0DC5 /* CoverArtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD22300B210004C0DC5 /* CoverArtViewController.m */; };
 		0358DAD62303314F004C0DC5 /* BibliographicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD52303314F004C0DC5 /* BibliographicViewController.m */; };
+		0358DAD923061691004C0DC5 /* CustomGenreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD823061691004C0DC5 /* CustomGenreViewController.m */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		037F044822CE94A0008AD5A5 /* babel.ifiction in Resources */ = {isa = PBXBuildFile; fileRef = 037F044722CE949F008AD5A5 /* babel.ifiction */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
@@ -100,6 +101,8 @@
 		0358DAD22300B210004C0DC5 /* CoverArtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoverArtViewController.m; sourceTree = "<group>"; };
 		0358DAD42303314F004C0DC5 /* BibliographicViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BibliographicViewController.h; sourceTree = "<group>"; };
 		0358DAD52303314F004C0DC5 /* BibliographicViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BibliographicViewController.m; sourceTree = "<group>"; };
+		0358DAD723061691004C0DC5 /* CustomGenreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomGenreViewController.h; sourceTree = "<group>"; };
+		0358DAD823061691004C0DC5 /* CustomGenreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomGenreViewController.m; sourceTree = "<group>"; };
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		037F044722CE949F008AD5A5 /* babel.ifiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = babel.ifiction; sourceTree = "<group>"; };
@@ -302,6 +305,8 @@
 				0358DAD22300B210004C0DC5 /* CoverArtViewController.m */,
 				0358DAD42303314F004C0DC5 /* BibliographicViewController.h */,
 				0358DAD52303314F004C0DC5 /* BibliographicViewController.m */,
+				0358DAD723061691004C0DC5 /* CustomGenreViewController.h */,
+				0358DAD823061691004C0DC5 /* CustomGenreViewController.m */,
 				03D6A1D822DE9B1700B16F09 /* InformationWindowController.h */,
 				03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */,
 			);
@@ -601,6 +606,7 @@
 				6338E0A7180AB53B005A3263 /* Blorb.m in Sources */,
 				6338E0C6180AB53B005A3263 /* ZMDictionary.cpp in Sources */,
 				0332A81322D7AFA300B3996D /* VersionFormatter.m in Sources */,
+				0358DAD923061691004C0DC5 /* CustomGenreViewController.m in Sources */,
 				0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */,
 				6338E0B9180AB53B005A3263 /* Library.m in Sources */,
 			);

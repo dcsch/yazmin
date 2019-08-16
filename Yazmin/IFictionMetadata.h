@@ -15,9 +15,13 @@ NS_ASSUME_NONNULL_BEGIN
 @interface IFictionMetadata : NSObject
 
 @property(readonly) NSArray<IFStory *> *stories;
+@property(readonly) NSString *xmlString;
 
 - (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStories:(NSArray<IFStory *> *)stories
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
+
 - (nullable IFStory *)storyWithIFID:(NSString *)ifid;
 
 @end

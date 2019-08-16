@@ -8,6 +8,8 @@
 
 #import "LibraryViewController.h"
 #import "AppController.h"
+#import "IFBibliographic.h"
+#import "IFStory.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"

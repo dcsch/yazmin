@@ -17,11 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(readonly) IFIdentification *identification;
 @property(readonly) IFBibliographic *bibliographic;
+@property(readonly) NSString *xmlString;
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element
-    NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithTitle:(NSString *)title NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
+- (instancetype)initWithXMLElement:(NSXMLElement *)element;
 
 @end
 

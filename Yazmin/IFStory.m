@@ -24,12 +24,13 @@
   return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title {
-  self = [super init];
-  if (self) {
-    _bibliographic = [[IFBibliographic alloc] initWithTitle:title];
-  }
-  return self;
+- (NSString *)xmlString {
+  NSMutableString *string = [NSMutableString string];
+  [string appendString:@"<story>\n"];
+  [string appendString:_identification.xmlString];
+  [string appendString:_bibliographic.xmlString];
+  [string appendString:@"</story>\n"];
+  return string;
 }
 
 @end

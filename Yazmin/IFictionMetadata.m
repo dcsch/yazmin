@@ -34,6 +34,14 @@
   return self;
 }
 
+- (instancetype)initWithStories:(NSArray<IFStory *> *)stories {
+  self = [super init];
+  if (self) {
+    _stories = stories;
+  }
+  return self;
+}
+
 - (nullable IFStory *)storyWithIFID:(NSString *)ifid {
   for (IFStory *story in _stories) {
     if ([story.identification.ifids containsObject:ifid]) {
@@ -41,6 +49,18 @@
     }
   }
   return nil;
+}
+
+- (NSString *)xmlString {
+  NSMutableString *string = [NSMutableString string];
+  [string appendString:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"];
+  [string appendString:@"<ifindex version=\"1.0\" "
+                       @"xmlns=\"http://babel.ifarchive.org/protocol/iFiction/"
+                       @"\">\n"];
+  for (IFStory *story in _stories)
+    [string appendString:story.xmlString];
+  [string appendString:@"</ifindex>\n"];
+  return string;
 }
 
 @end

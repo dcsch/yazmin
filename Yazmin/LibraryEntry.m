@@ -10,9 +10,7 @@
 #import "IFBibliographic.h"
 #import "IFStory.h"
 
-@interface LibraryEntry () {
-  IFStory *_storyMetadata;
-}
+@interface LibraryEntry ()
 
 @end
 
@@ -23,19 +21,9 @@
   if (self) {
     _ifid = ifid;
     _fileURL = url;
+    _storyMetadata = nil;
   }
   return self;
-}
-
-- (IFStory *)storyMetadata {
-  if (_storyMetadata == nil) {
-    return [[IFStory alloc] initWithTitle:_fileURL.path.lastPathComponent];
-  }
-  return _storyMetadata;
-}
-
-- (void)setStoryMetadata:(IFStory *)storyMetadata {
-  _storyMetadata = storyMetadata;
 }
 
 - (NSString *)title {

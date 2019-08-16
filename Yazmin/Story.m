@@ -211,6 +211,7 @@ const NSArray<NSString *> *AllowedFileTypes;
               ofType:(NSString *)typeName
                error:(NSError **)outError {
   _blorb = nil;
+  IFStory *blorbMetadata = nil;
 
   if ([typeName compare:@"Z-code Blorb"] == 0) {
     // This is a blorb, so we need to unwrap
@@ -220,9 +221,9 @@ const NSArray<NSString *> *AllowedFileTypes;
       if (mddata) {
         IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
         if (ifmd.stories.count > 0) {
-          _metadata = ifmd.stories[0];
-          if (_metadata.identification.ifids.count > 0)
-            _ifid = _metadata.identification.ifids[0];
+          blorbMetadata = ifmd.stories[0];
+          if (blorbMetadata.identification.ifids.count > 0)
+            _ifid = blorbMetadata.identification.ifids[0];
         }
       }
       NSData *imageData = _blorb.pictureData;
@@ -238,11 +239,22 @@ const NSArray<NSString *> *AllowedFileTypes;
   if (_zcodeData) {
     [self createZMachine];
 
-    // Retrieve any missing metadata from the library, now that
-    // we should have an IFID
+    AppController *appController = NSApp.delegate;
+
+    // Retrieve metadata from the library, now that we have an IFID
+    _metadata = [appController.library metadataForIFID:_ifid];
     if (!_metadata) {
-      AppController *appController = NSApp.delegate;
-      _metadata = [appController.library metadataForIFID:_ifid];
+
+      // Not available?
+      // - Use any Blorb metadata
+      // - Look for default metadata
+      // - Generate empty metadata
+      if (blorbMetadata)
+        _metadata = blorbMetadata;
+      else
+        _metadata = [appController.library defaultMetadataForIFID:_ifid];
+      if (!_metadata)
+        _metadata = [[IFStory alloc] init];
     }
 
     // Retrieve any cover art that may have been assigned to this story

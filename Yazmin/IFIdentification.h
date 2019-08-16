@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) NSArray<NSString *> *ifids;
 @property(readonly) NSString *format;
 @property(readonly) int bafn;
+@property(readonly) NSString *xmlString;
 
 @end
 

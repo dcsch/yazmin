@@ -16,6 +16,7 @@
 
 @interface Library ()
 @property(readonly) NSURL *libraryDataURL;
+@property(readonly) NSURL *libraryMetadataURL;
 @property(readonly) NSDictionary *ifidURLDictionary;
 @property IFictionMetadata *defaultMetadata;
 
@@ -89,6 +90,13 @@
   return url;
 }
 
+- (NSURL *)libraryMetadataURL {
+  NSURL *url = [self URLForResource:@"games.iFiction"
+                       subdirectory:nil
+         createNonexistentDirectory:YES];
+  return url;
+}
+
 - (NSDictionary *)ifidURLDictionary {
   NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
   for (LibraryEntry *entry in _entries)
@@ -105,7 +113,11 @@
   if (index != NSNotFound)
     return _entries[index].storyMetadata;
   else
-    return [_defaultMetadata storyWithIFID:ifid];
+    return nil;
+}
+
+- (IFStory *)defaultMetadataForIFID:(NSString *)ifid {
+  return [_defaultMetadata storyWithIFID:ifid];
 }
 
 - (NSImage *)imageForIFID:(NSString *)ifid {
@@ -138,6 +150,17 @@
                      error:&error];
   if (data)
     [data writeToURL:self.libraryDataURL atomically:YES];
+
+  // Save the iFiction metadata
+  NSMutableArray<IFStory *> *stories = [NSMutableArray array];
+  for (LibraryEntry *entry in _entries)
+    if (entry.storyMetadata)
+      [stories addObject:entry.storyMetadata];
+  IFictionMetadata *metadata =
+      [[IFictionMetadata alloc] initWithStories:stories];
+  data = [metadata.xmlString dataUsingEncoding:NSUTF8StringEncoding];
+  if (data)
+    [data writeToURL:self.libraryMetadataURL atomically:YES];
 }
 
 - (void)syncMetadata {
@@ -155,7 +178,10 @@
       }
     } else {
       // Search for metadata that we have stored
-      entry.storyMetadata = [_defaultMetadata storyWithIFID:entry.ifid];
+      //      IFStory *storyMetadata = [_defaultMetadata
+      //      storyWithIFID:entry.ifid];
+      //      if (storyMetadata)
+      //        entry.storyMetadata = storyMetadata;
     }
   }
 }
