@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) NSURL *fileURL;
 @property(readonly) IFStory *storyMetadata;
 @property(readonly) NSString *title;
+@property(readonly) NSString *sortTitle;
 @property(readonly, nullable) NSString *author;
 @property(readonly, nullable) NSString *genre;
 @property(readonly, nullable) NSString *group;

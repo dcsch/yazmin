@@ -36,6 +36,16 @@
     return _fileURL.path.lastPathComponent;
 }
 
+- (NSString *)sortTitle {
+  NSString *title = [self.title lowercaseString];
+  if ([title hasPrefix:@"a "])
+    return [self.title substringFromIndex:2];
+  else if ([title hasPrefix:@"the "])
+    return [self.title substringFromIndex:4];
+  else
+    return self.title;
+}
+
 - (NSString *)author {
   return _storyMetadata.bibliographic.author;
 }
