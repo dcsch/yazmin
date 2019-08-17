@@ -254,7 +254,7 @@ const NSArray<NSString *> *AllowedFileTypes;
       else
         _metadata = [appController.library defaultMetadataForIFID:_ifid];
       if (!_metadata)
-        _metadata = [[IFStory alloc] init];
+        _metadata = [[IFStory alloc] initWithIFID:_ifid];
     }
 
     // Retrieve any cover art that may have been assigned to this story

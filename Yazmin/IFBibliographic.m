@@ -52,16 +52,25 @@
   return self;
 }
 
+- (instancetype)init {
+  self = [super init];
+  if (self) {
+  }
+  return self;
+}
+
 - (NSString *)renderDescriptionElement:(NSXMLElement *)element {
   NSMutableString *string = [NSMutableString string];
   NSEnumerator *enumChildren = [element.children objectEnumerator];
   NSXMLNode *node;
   NSUInteger count = 0;
   while ((node = [enumChildren nextObject])) {
-    if (count > 0)
-      [string appendString:@"\n"];
-    [string appendString:node.stringValue];
-    ++count;
+    if (node.kind == NSXMLTextKind) {
+      if (count > 0)
+        [string appendString:@"\n"];
+      [string appendString:node.stringValue];
+      ++count;
+    }
   }
   return string;
 }

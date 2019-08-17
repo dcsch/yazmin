@@ -12,13 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IFIdentification : NSObject
 
-- (instancetype)initWithXMLElement:(NSXMLElement *)element
-    NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
 @property(readonly) NSArray<NSString *> *ifids;
 @property(readonly) NSString *format;
 @property(readonly) int bafn;
 @property(readonly) NSString *xmlString;
+
+- (instancetype)initWithXMLElement:(NSXMLElement *)element;
+- (instancetype)initWithIFID:(NSString *)ifid;
 
 @end
 

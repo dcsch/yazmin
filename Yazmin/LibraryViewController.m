@@ -8,6 +8,7 @@
 
 #import "LibraryViewController.h"
 #import "AppController.h"
+#import "BibliographicViewController.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "Library.h"
@@ -28,6 +29,8 @@
 - (IBAction)searchStory:(NSSearchField *)sender;
 - (IBAction)showStoryInfo:(id)sender;
 
+- (void)handleMetadataChanged:(NSNotification *)note;
+
 @end
 
 @implementation LibraryViewController
@@ -38,6 +41,12 @@
   self.library = appController.library;
   [tableView registerForDraggedTypes:@[ NSPasteboardTypeFileURL ]];
   [self reloadSortedData];
+
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+  [nc addObserver:self
+         selector:@selector(handleMetadataChanged:)
+             name:SMMetadataChangedNotification
+           object:nil];
 }
 
 - (void)viewWillAppear {
@@ -53,9 +62,9 @@
 
 - (void)addStory:(Story *)story {
   if (![_library containsStory:story]) {
-    LibraryEntry *entry =
-        [[LibraryEntry alloc] initWithIFID:story.ifid url:story.fileURL];
-    entry.storyMetadata = story.metadata;
+    LibraryEntry *entry = [[LibraryEntry alloc] initWithIFID:story.ifid
+                                                         url:story.fileURL
+                                               storyMetadata:story.metadata];
     [_library.entries addObject:entry];
     [self reloadSortedData];
   }
@@ -169,6 +178,12 @@
                     Story *story = (Story *)document;
                     [story showStoryInfo:self];
                   }];
+}
+
+#pragma mark - Notifications
+
+- (void)handleMetadataChanged:(NSNotification *)note {
+  [self reloadSortedData];
 }
 
 #pragma mark - NSUserInterfaceValidations

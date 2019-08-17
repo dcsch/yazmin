@@ -11,6 +11,8 @@
 #import "IFStory.h"
 #import "Story.h"
 
+NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
+
 @interface BibliographicViewController () <NSControlTextEditingDelegate> {
   IBOutlet NSTextField *titleTextField;
   IBOutlet NSTextField *authorTextField;
@@ -105,6 +107,8 @@
   } else if (obj.object == groupTextField) {
     bib.group = groupTextField.stringValue;
   }
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+  [nc postNotificationName:SMMetadataChangedNotification object:self];
 }
 
 @end

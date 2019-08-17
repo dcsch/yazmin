@@ -42,10 +42,8 @@
   // Retrieve the title from metadata, if present.  Otherwise use the
   // default display name.
   Story *story = self.document;
-  NSString *title;
-  if (story.metadata)
-    title = story.metadata.bibliographic.title;
-  else
+  NSString *title = story.metadata.bibliographic.title;
+  if (title == nil || [title isEqualToString:@""])
     title = [super windowTitleForDocumentDisplayName:displayName];
 
   if (story.hasEnded)

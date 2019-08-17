@@ -8,6 +8,7 @@
 
 #import "IFStory.h"
 #import "IFBibliographic.h"
+#import "IFColophon.h"
 #import "IFIdentification.h"
 
 @implementation IFStory
@@ -20,6 +21,22 @@
 
     NSXMLElement *biblioElement = [element elementsForName:@"bibliographic"][0];
     _bibliographic = [[IFBibliographic alloc] initWithXMLElement:biblioElement];
+
+    NSArray<NSXMLElement *> *elements = [element elementsForName:@"colophon"];
+    if (elements.count > 0) {
+      NSXMLElement *colophonElement = elements[0];
+      _colophon = [[IFColophon alloc] initWithXMLElement:colophonElement];
+    }
+  }
+  return self;
+}
+
+- (instancetype)initWithIFID:(NSString *)ifid {
+  self = [super init];
+  if (self) {
+    _identification = [[IFIdentification alloc] initWithIFID:ifid];
+    _bibliographic = [[IFBibliographic alloc] init];
+    _colophon = [[IFColophon alloc] init];
   }
   return self;
 }
@@ -29,6 +46,8 @@
   [string appendString:@"<story>\n"];
   [string appendString:_identification.xmlString];
   [string appendString:_bibliographic.xmlString];
+  if (_colophon)
+    [string appendString:_colophon.xmlString];
   [string appendString:@"</story>\n"];
   return string;
 }

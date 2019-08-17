@@ -30,6 +30,9 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
+    NSData *data = [NSData dataWithContentsOfURL:self.libraryMetadataURL];
+    IFictionMetadata *metadata = [[IFictionMetadata alloc] initWithData:data];
+
     _entries = [[NSMutableArray alloc] init];
     NSURL *libraryDataURL = self.libraryDataURL;
     NSData *libraryData = [NSData dataWithContentsOfURL:libraryDataURL];
@@ -41,16 +44,19 @@
                         format:nil
                          error:&error];
       for (NSString *url in stories) {
+        NSString *ifid = [stories valueForKey:url];
+        IFStory *storyMetadata = [metadata storyWithIFID:ifid];
         LibraryEntry *entry =
-            [[LibraryEntry alloc] initWithIFID:[stories valueForKey:url]
-                                           url:[NSURL URLWithString:url]];
+            [[LibraryEntry alloc] initWithIFID:ifid
+                                           url:[NSURL URLWithString:url]
+                                 storyMetadata:storyMetadata];
         [_entries addObject:entry];
       }
     }
 
     NSBundle *mainBundle = NSBundle.mainBundle;
     NSURL *url = [mainBundle URLForResource:@"babel" withExtension:@"ifiction"];
-    NSData *data = [NSData dataWithContentsOfURL:url];
+    data = [NSData dataWithContentsOfURL:url];
     _defaultMetadata = [[IFictionMetadata alloc] initWithData:data];
   }
   return self;
@@ -164,26 +170,27 @@
 }
 
 - (void)syncMetadata {
-  for (LibraryEntry *entry in _entries) {
-    NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
-    if (data && [Blorb isBlorbData:data]) {
-
-      // Use metadata as found in blorb
-      Blorb *blorb = [[Blorb alloc] initWithData:data];
-      NSData *mddata = blorb.metaData;
-      if (mddata) {
-        IFictionMetadata *ifmd = [[IFictionMetadata alloc] initWithData:mddata];
-        if (ifmd.stories.count > 0)
-          entry.storyMetadata = ifmd.stories[0];
-      }
-    } else {
-      // Search for metadata that we have stored
-      //      IFStory *storyMetadata = [_defaultMetadata
-      //      storyWithIFID:entry.ifid];
-      //      if (storyMetadata)
-      //        entry.storyMetadata = storyMetadata;
-    }
-  }
+  //  for (LibraryEntry *entry in _entries) {
+  //    NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
+  //    if (data && [Blorb isBlorbData:data]) {
+  //
+  //      // Use metadata as found in blorb
+  //      Blorb *blorb = [[Blorb alloc] initWithData:data];
+  //      NSData *mddata = blorb.metaData;
+  //      if (mddata) {
+  //        IFictionMetadata *ifmd = [[IFictionMetadata alloc]
+  //        initWithData:mddata];
+  //        if (ifmd.stories.count > 0)
+  //          entry.storyMetadata = ifmd.stories[0];
+  //      }
+  //    } else {
+  //      // Search for metadata that we have stored
+  //      //      IFStory *storyMetadata = [_defaultMetadata
+  //      //      storyWithIFID:entry.ifid];
+  //      //      if (storyMetadata)
+  //      //        entry.storyMetadata = storyMetadata;
+  //    }
+  //  }
 }
 
 @end

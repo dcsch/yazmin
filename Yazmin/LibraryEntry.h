@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(readonly) NSString *ifid;
 @property(readonly) NSURL *fileURL;
-@property IFStory *storyMetadata;
+@property(readonly) IFStory *storyMetadata;
 @property(readonly) NSString *title;
 @property(readonly, nullable) NSString *author;
 @property(readonly, nullable) NSString *genre;
@@ -24,7 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, nullable) NSString *firstPublished;
 
 - (instancetype)initWithIFID:(NSString *)ifid
-                         url:(NSURL *)url NS_DESIGNATED_INITIALIZER;
+                         url:(NSURL *)url
+               storyMetadata:(IFStory *)storyMetadata NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 
 @end

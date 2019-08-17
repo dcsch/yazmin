@@ -31,6 +31,17 @@
   return self;
 }
 
+- (instancetype)initWithIFID:(NSString *)ifid {
+  self = [super init];
+  if (self) {
+    _ifids = [NSArray arrayWithObject:ifid];
+
+    // TODO: Revisit this when we're dealing with more than Z-code
+    _format = @"zcode";
+  }
+  return self;
+}
+
 - (NSString *)xmlString {
   NSMutableString *string = [NSMutableString string];
   [string appendString:@"<identification>\n"];

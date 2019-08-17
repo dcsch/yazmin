@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString *SMMetadataChangedNotification;
+
 @interface BibliographicViewController : NSViewController
 
 - (void)addCustomGenre:(NSString *)genre;

@@ -16,18 +16,21 @@
 
 @implementation LibraryEntry
 
-- (instancetype)initWithIFID:(NSString *)ifid url:(NSURL *)url {
+- (instancetype)initWithIFID:(NSString *)ifid
+                         url:(NSURL *)url
+               storyMetadata:(IFStory *)storyMetadata {
   self = [super init];
   if (self) {
     _ifid = ifid;
     _fileURL = url;
-    _storyMetadata = nil;
+    _storyMetadata = storyMetadata;
   }
   return self;
 }
 
 - (NSString *)title {
-  if (_storyMetadata && _storyMetadata.bibliographic.title)
+  if (_storyMetadata && _storyMetadata.bibliographic.title &&
+      ![_storyMetadata.bibliographic.title isEqualToString:@""])
     return _storyMetadata.bibliographic.title;
   else
     return _fileURL.path.lastPathComponent;
