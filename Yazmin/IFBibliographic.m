@@ -88,7 +88,7 @@
     else if (c == '\n')
       [string appendString:@"<br/>"];
     else
-      [string appendFormat:@"%lc", c];
+      [string appendFormat:@"%C", c];
   }
   return string;
 }
