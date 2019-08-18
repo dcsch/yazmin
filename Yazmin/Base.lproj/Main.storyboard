@@ -128,6 +128,13 @@ CA
                                         <menuItem isSeparatorItem="YES" id="Doc-ov-PZP">
                                             <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                         </menuItem>
+                                        <menuItem title="Fetch Metadata from IFDB" id="sPv-hd-uk8">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="fetchMetadata:" target="V39-F2-xEo" id="Lk9-zm-HIB"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="nDz-sF-gAp"/>
                                         <menuItem title="Get Info" keyEquivalent="i" id="B8s-pa-mZZ">
                                             <connections>
                                                 <action selector="showStoryInfo:" target="V39-F2-xEo" id="KKK-Tn-tXK"/>
@@ -696,6 +703,13 @@ CA
                             </connections>
                         </menuItem>
                         <menuItem isSeparatorItem="YES" id="lhM-Af-r7z"/>
+                        <menuItem title="Fetch Metadata" id="o9J-5R-eE0">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="fetchMetadata:" target="K2T-nf-LlE" id="sHh-6b-OwG"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem isSeparatorItem="YES" id="DMa-6K-OOf"/>
                         <menuItem title="Remove" id="WR6-96-JU2">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>

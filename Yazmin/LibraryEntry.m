@@ -28,6 +28,12 @@
   return self;
 }
 
+- (void)updateFromStory:(IFStory *)story {
+  if (!_storyMetadata)
+    _storyMetadata = [[IFStory alloc] initWithIFID:_ifid];
+  [_storyMetadata updateFromStory:story];
+}
+
 - (NSString *)title {
   if (_storyMetadata && _storyMetadata.bibliographic.title &&
       ![_storyMetadata.bibliographic.title isEqualToString:@""])

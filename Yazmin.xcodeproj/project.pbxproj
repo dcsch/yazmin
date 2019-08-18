@@ -18,6 +18,7 @@
 		0358DAD62303314F004C0DC5 /* BibliographicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD52303314F004C0DC5 /* BibliographicViewController.m */; };
 		0358DAD923061691004C0DC5 /* CustomGenreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DAD823061691004C0DC5 /* CustomGenreViewController.m */; };
 		0358DADC2307651D004C0DC5 /* IFColophon.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DADB2307651D004C0DC5 /* IFColophon.m */; };
+		0358DADF230883F3004C0DC5 /* IFDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 0358DADE230883F3004C0DC5 /* IFDB.m */; };
 		0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0366C80B210016BB003EEEB6 /* Images.xcassets */; };
 		037F044822CE94A0008AD5A5 /* babel.ifiction in Resources */ = {isa = PBXBuildFile; fileRef = 037F044722CE949F008AD5A5 /* babel.ifiction */; };
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
@@ -106,6 +107,8 @@
 		0358DAD823061691004C0DC5 /* CustomGenreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomGenreViewController.m; sourceTree = "<group>"; };
 		0358DADA2307651D004C0DC5 /* IFColophon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFColophon.h; sourceTree = "<group>"; };
 		0358DADB2307651D004C0DC5 /* IFColophon.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFColophon.m; sourceTree = "<group>"; };
+		0358DADD230883F3004C0DC5 /* IFDB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFDB.h; sourceTree = "<group>"; };
+		0358DADE230883F3004C0DC5 /* IFDB.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFDB.m; sourceTree = "<group>"; };
 		0366C80B210016BB003EEEB6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0366C80D21002FAC003EEEB6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		037F044722CE949F008AD5A5 /* babel.ifiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = babel.ifiction; sourceTree = "<group>"; };
@@ -314,6 +317,8 @@
 				0358DAD823061691004C0DC5 /* CustomGenreViewController.m */,
 				03D6A1D822DE9B1700B16F09 /* InformationWindowController.h */,
 				03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */,
+				0358DADD230883F3004C0DC5 /* IFDB.h */,
+				0358DADE230883F3004C0DC5 /* IFDB.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -606,6 +611,7 @@
 				6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */,
 				03DC649322DAF995006EE03C /* SummaryViewController.m in Sources */,
 				6338E0CA180AB53B005A3263 /* ZMObject.cpp in Sources */,
+				0358DADF230883F3004C0DC5 /* IFDB.m in Sources */,
 				0358DAD32300B210004C0DC5 /* CoverArtViewController.m in Sources */,
 				6338E0A6180AB53B005A3263 /* AppController.m in Sources */,
 				03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */,

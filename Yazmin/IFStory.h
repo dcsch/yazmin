@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element;
 - (instancetype)initWithIFID:(NSString *)ifid;
+- (void)updateFromStory:(IFStory *)story;
 
 @end
 

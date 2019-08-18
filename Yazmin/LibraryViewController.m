@@ -10,7 +10,9 @@
 #import "AppController.h"
 #import "BibliographicViewController.h"
 #import "IFBibliographic.h"
+#import "IFDB.h"
 #import "IFStory.h"
+#import "IFictionMetadata.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Story.h"
@@ -19,6 +21,7 @@
 @interface LibraryViewController () <
     NSUserInterfaceValidations, NSTableViewDataSource, NSTableViewDelegate> {
   IBOutlet NSTableView *tableView;
+  IFDB *ifdb;
 }
 
 - (void)addStoryURLs:(NSArray<NSURL *> *)urls;
@@ -28,6 +31,7 @@
 - (IBAction)removeStory:(id)sender;
 - (IBAction)searchStory:(NSSearchField *)sender;
 - (IBAction)showStoryInfo:(id)sender;
+- (IBAction)fetchMetadata:(id)sender;
 
 - (void)handleMetadataChanged:(NSNotification *)note;
 
@@ -47,6 +51,8 @@
          selector:@selector(handleMetadataChanged:)
              name:SMMetadataChangedNotification
            object:nil];
+
+  ifdb = [[IFDB alloc] init];
 }
 
 - (void)viewWillAppear {
@@ -180,6 +186,25 @@
                   }];
 }
 
+- (IBAction)fetchMetadata:(id)sender {
+  NSInteger row = tableView.clickedRow;
+  if (row == -1)
+    row = tableView.selectedRow;
+  LibraryEntry *libraryEntry = _sortedEntries[row];
+
+  [ifdb
+      fetchRecordForIFID:libraryEntry.ifid
+       completionHandler:^(NSData *data) {
+         IFictionMetadata *metadata =
+             [[IFictionMetadata alloc] initWithData:data];
+         if (metadata.stories.count > 0) {
+           [libraryEntry updateFromStory:metadata.stories.firstObject];
+           NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+           [nc postNotificationName:SMMetadataChangedNotification object:self];
+         }
+       }];
+}
+
 #pragma mark - Notifications
 
 - (void)handleMetadataChanged:(NSNotification *)note {
@@ -191,7 +216,8 @@
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)item {
   if (item.action == @selector(selectStory:) ||
       item.action == @selector(removeStory:) ||
-      item.action == @selector(showStoryInfo:)) {
+      item.action == @selector(showStoryInfo:) ||
+      item.action == @selector(fetchMetadata:)) {
     NSInteger row = tableView.clickedRow;
     if (row == -1)
       row = tableView.selectedRow;

@@ -41,6 +41,12 @@
   return self;
 }
 
+- (void)updateFromStory:(IFStory *)story {
+  _identification = story.identification;
+  _bibliographic = story.bibliographic;
+  _colophon = story.colophon;
+}
+
 - (NSString *)xmlString {
   NSMutableString *string = [NSMutableString string];
   [string appendString:@"<story>\n"];

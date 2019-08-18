@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
                storyMetadata:(IFStory *)storyMetadata NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 
+- (void)updateFromStory:(IFStory *)story;
+
 @end
 
 NS_ASSUME_NONNULL_END
