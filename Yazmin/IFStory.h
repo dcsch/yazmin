@@ -11,6 +11,7 @@
 @class IFIdentification;
 @class IFBibliographic;
 @class IFColophon;
+@class IFDB;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) IFIdentification *identification;
 @property(readonly) IFBibliographic *bibliographic;
 @property(readonly, nullable) IFColophon *colophon;
+@property(readonly, nullable) IFDB *ifdb;
 @property(readonly) NSString *xmlString;
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element;

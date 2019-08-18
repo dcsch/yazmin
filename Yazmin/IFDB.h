@@ -2,7 +2,7 @@
 //  IFDB.h
 //  Yazmin
 //
-//  Created by David Schweinsberg on 8/17/19.
+//  Created by David Schweinsberg on 8/18/19.
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
@@ -12,8 +12,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IFDB : NSObject
 
-- (void)fetchRecordForIFID:(NSString *)ifid
-         completionHandler:(void (^)(NSData *data))handler;
+@property NSString *tuid;
+@property NSURL *link;
+@property NSURL *coverArt;
+@property CGFloat averageRating;
+@property CGFloat starRating;
+@property NSUInteger ratingCountAvg;
+@property NSUInteger ratingCountTot;
+
+- (instancetype)initWithXMLElement:(NSXMLElement *)element;
 
 @end
 

@@ -11,6 +11,7 @@
 #import "BibliographicViewController.h"
 #import "IFBibliographic.h"
 #import "IFDB.h"
+#import "IFDBService.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
 #import "Library.h"
@@ -21,7 +22,7 @@
 @interface LibraryViewController () <
     NSUserInterfaceValidations, NSTableViewDataSource, NSTableViewDelegate> {
   IBOutlet NSTableView *tableView;
-  IFDB *ifdb;
+  IFDBService *ifdbService;
 }
 
 - (void)addStoryURLs:(NSArray<NSURL *> *)urls;
@@ -52,7 +53,7 @@
              name:SMMetadataChangedNotification
            object:nil];
 
-  ifdb = [[IFDB alloc] init];
+  ifdbService = [[IFDBService alloc] init];
 }
 
 - (void)viewWillAppear {
@@ -192,13 +193,25 @@
     row = tableView.selectedRow;
   LibraryEntry *libraryEntry = _sortedEntries[row];
 
-  [ifdb
+  [ifdbService
       fetchRecordForIFID:libraryEntry.ifid
        completionHandler:^(NSData *data) {
          IFictionMetadata *metadata =
              [[IFictionMetadata alloc] initWithData:data];
          if (metadata.stories.count > 0) {
-           [libraryEntry updateFromStory:metadata.stories.firstObject];
+           IFStory *story = metadata.stories.firstObject;
+           [libraryEntry updateFromStory:story];
+           if (story.ifdb.coverArt) {
+
+             // IFDB image links are provided as HTTP, which does not
+             // conform to ATS policy, so reform it as HTTPS
+             NSURLComponents *components =
+                 [NSURLComponents componentsWithURL:story.ifdb.coverArt
+                            resolvingAgainstBaseURL:YES];
+             components.scheme = @"https";
+             [self->_library fetchImageForIFID:libraryEntry.ifid
+                                           URL:components.URL];
+           }
            NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
            [nc postNotificationName:SMMetadataChangedNotification object:self];
          }

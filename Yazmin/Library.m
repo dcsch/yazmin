@@ -127,15 +127,57 @@
 }
 
 - (NSImage *)imageForIFID:(NSString *)ifid {
+
+  // First look for a JPEG
   NSString *filename = [NSString stringWithFormat:@"%@.jpg", ifid];
   NSURL *url = [self URLForResource:filename
                        subdirectory:@"Cover Art"
          createNonexistentDirectory:NO];
   NSData *data = [NSData dataWithContentsOfURL:url];
+
+  if (!data) {
+
+    // Try loading a PNG
+    filename = [NSString stringWithFormat:@"%@.png", ifid];
+    url = [self URLForResource:filename
+                      subdirectory:@"Cover Art"
+        createNonexistentDirectory:NO];
+    data = [NSData dataWithContentsOfURL:url];
+  }
+
   if (data)
     return [[NSImage alloc] initWithData:data];
   else
     return nil;
+}
+
+- (void)fetchImageForIFID:(NSString *)ifid URL:(NSURL *)url {
+  NSURLSession *session = NSURLSession.sharedSession;
+  NSURLSessionDataTask *dataTask =
+      [session dataTaskWithURL:url
+             completionHandler:^(NSData *data, NSURLResponse *response,
+                                 NSError *error) {
+               NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+               NSLog(@"Image response: %ld", (long)httpResponse.statusCode);
+               if (httpResponse.statusCode == 200) {
+                 NSString *ext = nil;
+                 if ([httpResponse.MIMEType isEqualToString:@"image/jpeg"])
+                   ext = @"jpg";
+                 else if ([httpResponse.MIMEType isEqualToString:@"image/png"])
+                   ext = @"png";
+                 if (ext) {
+                   NSString *filename =
+                       [NSString stringWithFormat:@"%@.%@", ifid, ext];
+                   NSURL *url = [self URLForResource:filename
+                                        subdirectory:@"Cover Art"
+                          createNonexistentDirectory:YES];
+                   [data writeToURL:url atomically:YES];
+                   dispatch_async(dispatch_get_main_queue(), ^{
+                                  });
+                 }
+               }
+             }];
+  [dataTask resume];
 }
 
 - (BOOL)containsStory:(Story *)story {

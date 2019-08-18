@@ -9,6 +9,7 @@
 #import "IFStory.h"
 #import "IFBibliographic.h"
 #import "IFColophon.h"
+#import "IFDB.h"
 #import "IFIdentification.h"
 
 @implementation IFStory
@@ -27,6 +28,11 @@
       NSXMLElement *colophonElement = elements[0];
       _colophon = [[IFColophon alloc] initWithXMLElement:colophonElement];
     }
+
+    elements = [element elementsForLocalName:@"ifdb"
+                                         URI:@"http://ifdb.tads.org/api/xmlns"];
+    if (elements.count > 0)
+      _ifdb = [[IFDB alloc] initWithXMLElement:elements.firstObject];
   }
   return self;
 }

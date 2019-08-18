@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable IFStory *)metadataForIFID:(NSString *)ifid;
 - (nullable IFStory *)defaultMetadataForIFID:(NSString *)ifid;
 - (nullable NSImage *)imageForIFID:(NSString *)ifid;
+- (void)fetchImageForIFID:(NSString *)ifid URL:(NSURL *)url;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
 - (void)syncMetadata;
