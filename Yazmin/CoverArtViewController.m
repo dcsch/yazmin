@@ -25,7 +25,8 @@
   [super viewWillAppear];
 
   Story *story = self.representedObject;
-  imageView.image = story.coverImage;
+  if (story.coverImage)
+    imageView.image = story.coverImage;
 }
 
 @end

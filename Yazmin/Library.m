@@ -145,6 +145,17 @@
     data = [NSData dataWithContentsOfURL:url];
   }
 
+  if (!data) {
+
+    // Try loading a GIF (yes, this is not standard, but at least
+    // one image from IFDB is a GIF - Suveh Nux)
+    filename = [NSString stringWithFormat:@"%@.gif", ifid];
+    url = [self URLForResource:filename
+                  subdirectory:@"Cover Art"
+    createNonexistentDirectory:NO];
+    data = [NSData dataWithContentsOfURL:url];
+  }
+
   if (data)
     return [[NSImage alloc] initWithData:data];
   else
@@ -158,13 +169,15 @@
              completionHandler:^(NSData *data, NSURLResponse *response,
                                  NSError *error) {
                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-               NSLog(@"Image response: %ld", (long)httpResponse.statusCode);
+               NSLog(@"Image response: %ld (%@)", (long)httpResponse.statusCode, httpResponse.MIMEType);
                if (httpResponse.statusCode == 200) {
                  NSString *ext = nil;
                  if ([httpResponse.MIMEType isEqualToString:@"image/jpeg"])
                    ext = @"jpg";
                  else if ([httpResponse.MIMEType isEqualToString:@"image/png"])
                    ext = @"png";
+                 else if ([httpResponse.MIMEType isEqualToString:@"image/gif"])
+                   ext = @"gif";
                  if (ext) {
                    NSString *filename =
                        [NSString stringWithFormat:@"%@.%@", ifid, ext];

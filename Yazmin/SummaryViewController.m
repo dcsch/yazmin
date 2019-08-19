@@ -36,28 +36,8 @@
   ifidTextField.stringValue = story.ifid;
 
   // Set the artwork
-  if (story.coverImage) {
-
-    // Resize the image to a high quality thumbnail
-    float resizeWidth = 128.0;
-    float resizeHeight = 128.0;
-    NSImage *resizedImage =
-        [[NSImage alloc] initWithSize:NSMakeSize(resizeWidth, resizeHeight)];
-
-    NSSize originalSize = story.coverImage.size;
-
-    [resizedImage lockFocus];
-    [NSGraphicsContext currentContext].imageInterpolation =
-        NSImageInterpolationHigh;
-    [story.coverImage
-        drawInRect:NSMakeRect(0, 0, resizeWidth, resizeHeight)
-          fromRect:NSMakeRect(0, 0, originalSize.width, originalSize.height)
-         operation:NSCompositingOperationSourceOver
-          fraction:1.0];
-    [resizedImage unlockFocus];
-
-    imageView.image = resizedImage;
-  }
+  if (story.coverImage)
+    imageView.image = story.coverImage;
 
   NSString *title = story.metadata.bibliographic.title;
   if (title && ![title isEqualToString:@""])
