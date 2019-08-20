@@ -783,15 +783,15 @@ CA
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOw-pX-LSo">
                                 <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="3be-FR-WqR">
-                                    <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="705" height="408"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" allowsNonContiguousLayout="YES" spellingCorrection="YES" smartInsertDelete="YES" id="YD4-1E-BWH" customClass="StoryTextView">
-                                            <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="705" height="408"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="720" height="408"/>
+                                            <size key="minSize" width="705" height="408"/>
                                             <size key="maxSize" width="720" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -802,7 +802,7 @@ CA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="W4T-ar-0bp">
-                                    <rect key="frame" x="704" y="0.0" width="16" height="408"/>
+                                    <rect key="frame" x="705" y="0.0" width="15" height="408"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -1008,7 +1008,11 @@ CA
                                     <constraint firstAttribute="height" constant="200" id="Uv2-6d-VDO"/>
                                     <constraint firstAttribute="width" constant="200" id="mTz-st-NuZ"/>
                                 </constraints>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NoCoverArt" id="bd4-4l-GZx"/>
+                                <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" image="NoCoverArt" id="bd4-4l-GZx"/>
+                                <connections>
+                                    <action selector="dropImage:" target="Rl5-8V-jhl" id="ppv-4b-gGD"/>
+                                    <outlet property="menu" destination="gSJ-KE-Ooz" id="H7g-iU-Fvn"/>
+                                </connections>
                             </imageView>
                         </subviews>
                         <constraints>
@@ -1021,6 +1025,16 @@ CA
                     </connections>
                 </viewController>
                 <customObject id="9yr-sz-HOq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="gSJ-KE-Ooz">
+                    <items>
+                        <menuItem title="Remove Image" id="Efr-tg-zgT">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="removeImage:" target="Rl5-8V-jhl" id="hKg-HK-hhA"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="622" y="976"/>
         </scene>
@@ -1724,6 +1738,6 @@ Gw
     <resources>
         <image name="NSAdvanced" width="32" height="32"/>
         <image name="NSPreferencesGeneral" width="32" height="32"/>
-        <image name="NoCoverArt" width="480" height="480"/>
+        <image name="NoCoverArt" width="960" height="960"/>
     </resources>
 </document>

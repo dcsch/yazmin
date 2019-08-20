@@ -13,6 +13,7 @@
 #import "IFictionMetadata.h"
 #import "LibraryEntry.h"
 #import "Story.h"
+#import "AppController.h"
 
 @interface Library ()
 @property(readonly) NSURL *libraryDataURL;
@@ -20,9 +21,6 @@
 @property(readonly) NSDictionary *ifidURLDictionary;
 @property IFictionMetadata *defaultMetadata;
 
-- (NSURL *)URLForResource:(NSString *)name
-                  subdirectory:(nullable NSString *)subpath
-    createNonexistentDirectory:(BOOL)create;
 @end
 
 @implementation Library
@@ -62,44 +60,17 @@
   return self;
 }
 
-- (NSURL *)URLForResource:(NSString *)name
-                  subdirectory:(nullable NSString *)subpath
-    createNonexistentDirectory:(BOOL)create {
-  NSFileManager *fm = NSFileManager.defaultManager;
-  NSArray<NSURL *> *urls = [fm URLsForDirectory:NSApplicationSupportDirectory
-                                      inDomains:NSUserDomainMask];
-  NSString *appName = NSBundle.mainBundle.infoDictionary[@"CFBundleExecutable"];
-  NSURL *supportDirURL =
-      [urls.firstObject URLByAppendingPathComponent:appName isDirectory:YES];
-  NSURL *subDirURL;
-  if (subpath)
-    subDirURL =
-        [supportDirURL URLByAppendingPathComponent:subpath isDirectory:YES];
-  else
-    subDirURL = supportDirURL;
-
-  if (create) {
-    // Create it if it doesn't exist
-    NSError *error;
-    [fm createDirectoryAtURL:subDirURL
-        withIntermediateDirectories:YES
-                         attributes:nil
-                              error:&error];
-  }
-  return [subDirURL URLByAppendingPathComponent:name];
-}
-
 - (NSURL *)libraryDataURL {
-  NSURL *url = [self URLForResource:@"games.plist"
-                       subdirectory:nil
-         createNonexistentDirectory:YES];
+  NSURL *url = [AppController URLForResource:@"games.plist"
+                                subdirectory:nil
+                  createNonexistentDirectory:YES];
   return url;
 }
 
 - (NSURL *)libraryMetadataURL {
-  NSURL *url = [self URLForResource:@"games.iFiction"
-                       subdirectory:nil
-         createNonexistentDirectory:YES];
+  NSURL *url = [AppController URLForResource:@"games.iFiction"
+                                subdirectory:nil
+                  createNonexistentDirectory:YES];
   return url;
 }
 
@@ -130,18 +101,18 @@
 
   // First look for a JPEG
   NSString *filename = [NSString stringWithFormat:@"%@.jpg", ifid];
-  NSURL *url = [self URLForResource:filename
-                       subdirectory:@"Cover Art"
-         createNonexistentDirectory:NO];
+  NSURL *url = [AppController URLForResource:filename
+                                subdirectory:@"Cover Art"
+                  createNonexistentDirectory:NO];
   NSData *data = [NSData dataWithContentsOfURL:url];
 
   if (!data) {
 
     // Try loading a PNG
     filename = [NSString stringWithFormat:@"%@.png", ifid];
-    url = [self URLForResource:filename
-                      subdirectory:@"Cover Art"
-        createNonexistentDirectory:NO];
+    url = [AppController URLForResource:filename
+                           subdirectory:@"Cover Art"
+             createNonexistentDirectory:NO];
     data = [NSData dataWithContentsOfURL:url];
   }
 
@@ -150,9 +121,9 @@
     // Try loading a GIF (yes, this is not standard, but at least
     // one image from IFDB is a GIF - Suveh Nux)
     filename = [NSString stringWithFormat:@"%@.gif", ifid];
-    url = [self URLForResource:filename
-                  subdirectory:@"Cover Art"
-    createNonexistentDirectory:NO];
+    url = [AppController URLForResource:filename
+                           subdirectory:@"Cover Art"
+             createNonexistentDirectory:NO];
     data = [NSData dataWithContentsOfURL:url];
   }
 
@@ -181,9 +152,9 @@
                  if (ext) {
                    NSString *filename =
                        [NSString stringWithFormat:@"%@.%@", ifid, ext];
-                   NSURL *url = [self URLForResource:filename
-                                        subdirectory:@"Cover Art"
-                          createNonexistentDirectory:YES];
+                   NSURL *url = [AppController URLForResource:filename
+                                                 subdirectory:@"Cover Art"
+                                   createNonexistentDirectory:YES];
                    [data writeToURL:url atomically:YES];
                    dispatch_async(dispatch_get_main_queue(), ^{
                                   });
@@ -222,30 +193,6 @@
   data = [metadata.xmlString dataUsingEncoding:NSUTF8StringEncoding];
   if (data)
     [data writeToURL:self.libraryMetadataURL atomically:YES];
-}
-
-- (void)syncMetadata {
-  //  for (LibraryEntry *entry in _entries) {
-  //    NSData *data = [NSData dataWithContentsOfURL:entry.fileURL];
-  //    if (data && [Blorb isBlorbData:data]) {
-  //
-  //      // Use metadata as found in blorb
-  //      Blorb *blorb = [[Blorb alloc] initWithData:data];
-  //      NSData *mddata = blorb.metaData;
-  //      if (mddata) {
-  //        IFictionMetadata *ifmd = [[IFictionMetadata alloc]
-  //        initWithData:mddata];
-  //        if (ifmd.stories.count > 0)
-  //          entry.storyMetadata = ifmd.stories[0];
-  //      }
-  //    } else {
-  //      // Search for metadata that we have stored
-  //      //      IFStory *storyMetadata = [_defaultMetadata
-  //      //      storyWithIFID:entry.ifid];
-  //      //      if (storyMetadata)
-  //      //        entry.storyMetadata = storyMetadata;
-  //    }
-  //  }
 }
 
 @end

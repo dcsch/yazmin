@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)fetchImageForIFID:(NSString *)ifid URL:(NSURL *)url;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
-- (void)syncMetadata;
 
 @end
 

@@ -38,6 +38,8 @@
   // Set the artwork
   if (story.coverImage)
     imageView.image = story.coverImage;
+  else
+    imageView.image = [NSBundle.mainBundle imageForResource:@"NoCoverArt"];
 
   NSString *title = story.metadata.bibliographic.title;
   if (title && ![title isEqualToString:@""])

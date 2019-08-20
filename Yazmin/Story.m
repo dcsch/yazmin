@@ -105,6 +105,10 @@ const NSArray<NSString *> *AllowedFileTypes;
            selector:@selector(handleFontChange:)
                name:@"SMFontSizeChanged"
              object:nil];
+    [nc addObserver:self
+           selector:@selector(handleCoverImageChange:)
+               name:SMCoverImageChangedNotification
+             object:nil];
   }
   return self;
 }
@@ -305,6 +309,8 @@ const NSArray<NSString *> *AllowedFileTypes;
   [_storyViewController updateWindowBackgroundColor];
 }
 
+#pragma mark - Notifications
+
 - (void)handleBackgroundColorChange:(NSNotification *)note {
   //    Preferences *sender = [note object];
   //    NSColor *newColor = [sender backgroundColor];
@@ -348,6 +354,13 @@ const NSArray<NSString *> *AllowedFileTypes;
   //  [_storyViewController updateTextAttributes];
   //  [_storyViewController updateWindowLayout];
 }
+
+- (void)handleCoverImageChange:(NSNotification *)note {
+  AppController *appController = NSApp.delegate;
+  _coverImage = [appController.library imageForIFID:_ifid];
+}
+
+#pragma mark -
 
 - (void)beginInputWithOffset:(NSInteger)offset {
   _upperWindowSeenHeight = _facets[1].numberOfLines;

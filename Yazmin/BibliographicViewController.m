@@ -10,8 +10,7 @@
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "Story.h"
-
-NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
+#import "AppController.h"
 
 @interface BibliographicViewController () <NSControlTextEditingDelegate> {
   IBOutlet NSTextField *titleTextField;

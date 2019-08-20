@@ -11,6 +11,9 @@
 #import "Preferences.h"
 #import "StoryDocumentController.h"
 
+NSString *SMCoverImageChangedNotification = @"SMCoverImageChanged";
+NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
+
 @interface AppController ()
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender;
@@ -36,7 +39,6 @@
   self = [super init];
   if (self) {
     _library = [[Library alloc] init];
-    [_library syncMetadata]; // This might be a little heavy handed
     [Preferences.sharedPreferences applyAppPreferences];
   }
   return self;
@@ -63,6 +65,37 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
   // Make sure we've saved our library
   [_library save];
+}
+
++ (NSURL *)applicationSupportDirectoryURL {
+  NSFileManager *fm = NSFileManager.defaultManager;
+  NSArray<NSURL *> *urls = [fm URLsForDirectory:NSApplicationSupportDirectory
+                                      inDomains:NSUserDomainMask];
+  NSString *appName = NSBundle.mainBundle.infoDictionary[@"CFBundleExecutable"];
+  return [urls.firstObject URLByAppendingPathComponent:appName isDirectory:YES];
+}
+
++ (NSURL *)URLForResource:(NSString *)name
+             subdirectory:(nullable NSString *)subpath
+createNonexistentDirectory:(BOOL)create {
+  NSFileManager *fm = NSFileManager.defaultManager;
+  NSURL *supportDirURL = [AppController applicationSupportDirectoryURL];
+  NSURL *subDirURL;
+  if (subpath)
+    subDirURL =
+    [supportDirURL URLByAppendingPathComponent:subpath isDirectory:YES];
+  else
+    subDirURL = supportDirURL;
+
+  if (create) {
+    // Create it if it doesn't exist
+    NSError *error;
+    [fm createDirectoryAtURL:subDirURL
+ withIntermediateDirectories:YES
+                  attributes:nil
+                       error:&error];
+  }
+  return [subDirURL URLByAppendingPathComponent:name];
 }
 
 @end

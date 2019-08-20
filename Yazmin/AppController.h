@@ -12,10 +12,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSString *SMCoverImageChangedNotification;
+extern NSString *SMMetadataChangedNotification;
+
 @interface AppController : NSObject <NSApplicationDelegate>
 
 @property(readonly) Library *library;
 @property(readonly) NSWindowController *libraryWindowController;
+@property(class, readonly) NSURL *applicationSupportDirectoryURL;
+
++ (NSURL *)URLForResource:(NSString *)name
+             subdirectory:(nullable NSString *)subpath
+createNonexistentDirectory:(BOOL)create;
 
 @end
 
