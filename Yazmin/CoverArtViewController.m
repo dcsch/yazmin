@@ -7,8 +7,8 @@
 //
 
 #import "CoverArtViewController.h"
-#import "Story.h"
 #import "AppController.h"
+#import "Story.h"
 
 @interface CoverArtViewController () {
   IBOutlet NSImageView *imageView;
@@ -39,8 +39,11 @@
   for (NSImageRep *imageRep in imageView.image.representations) {
     if ([imageRep isKindOfClass:NSBitmapImageRep.class]) {
       NSBitmapImageRep *bitmapImageRep = (NSBitmapImageRep *)imageRep;
-      NSData *data = [bitmapImageRep representationUsingType:NSBitmapImageFileTypeJPEG
-                                                  properties:@{NSImageCompressionFactor: @0.8}];
+      NSData *data =
+          [bitmapImageRep representationUsingType:NSBitmapImageFileTypeJPEG
+                                       properties:@{
+                                         NSImageCompressionFactor : @0.8
+                                       }];
       Story *story = self.representedObject;
       NSString *filename = [NSString stringWithFormat:@"%@.jpg", story.ifid];
       NSURL *url = [AppController URLForResource:filename
@@ -60,7 +63,7 @@
   Story *story = self.representedObject;
   NSFileManager *fm = NSFileManager.defaultManager;
   NSURL *artURL = [AppController.applicationSupportDirectoryURL
-                   URLByAppendingPathComponent:@"Cover Art"];
+      URLByAppendingPathComponent:@"Cover Art"];
   NSArray<NSURL *> *urls = [fm contentsOfDirectoryAtURL:artURL
                              includingPropertiesForKeys:nil
                                                 options:0

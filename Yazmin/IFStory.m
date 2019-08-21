@@ -7,6 +7,7 @@
 //
 
 #import "IFStory.h"
+#import "IFAnnotation.h"
 #import "IFBibliographic.h"
 #import "IFColophon.h"
 #import "IFDB.h"
@@ -29,6 +30,11 @@
       _colophon = [[IFColophon alloc] initWithXMLElement:colophonElement];
     }
 
+    elements = [element elementsForName:@"annotation"];
+    if (elements.count > 0)
+      _annotation =
+          [[IFAnnotation alloc] initWithXMLElement:elements.firstObject];
+
     elements = [element elementsForLocalName:@"ifdb"
                                          URI:@"http://ifdb.tads.org/api/xmlns"];
     if (elements.count > 0)
@@ -43,6 +49,7 @@
     _identification = [[IFIdentification alloc] initWithIFID:ifid];
     _bibliographic = [[IFBibliographic alloc] init];
     _colophon = [[IFColophon alloc] init];
+    _annotation = [[IFAnnotation alloc] init];
   }
   return self;
 }
@@ -51,6 +58,7 @@
   _identification = story.identification;
   _bibliographic = story.bibliographic;
   _colophon = story.colophon;
+  // Don't update annotations
 }
 
 - (NSString *)xmlString {
@@ -60,6 +68,8 @@
   [string appendString:_bibliographic.xmlString];
   if (_colophon)
     [string appendString:_colophon.xmlString];
+  if (_annotation)
+    [string appendString:_annotation.xmlString];
   [string appendString:@"</story>\n"];
   return string;
 }

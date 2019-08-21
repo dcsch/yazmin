@@ -8,18 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class IFIdentification;
 @class IFBibliographic;
 @class IFColophon;
+@class IFAnnotation;
 @class IFDB;
-
-NS_ASSUME_NONNULL_BEGIN
 
 @interface IFStory : NSObject
 
 @property(readonly) IFIdentification *identification;
 @property(readonly) IFBibliographic *bibliographic;
 @property(readonly, nullable) IFColophon *colophon;
+@property(readonly, nullable) IFAnnotation *annotation;
 @property(readonly, nullable) IFDB *ifdb;
 @property(readonly) NSString *xmlString;
 

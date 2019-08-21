@@ -22,8 +22,8 @@ extern NSString *SMMetadataChangedNotification;
 @property(class, readonly) NSURL *applicationSupportDirectoryURL;
 
 + (NSURL *)URLForResource:(NSString *)name
-             subdirectory:(nullable NSString *)subpath
-createNonexistentDirectory:(BOOL)create;
+                  subdirectory:(nullable NSString *)subpath
+    createNonexistentDirectory:(BOOL)create;
 
 @end
 

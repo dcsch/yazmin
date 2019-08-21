@@ -7,13 +7,13 @@
 //
 
 #import "Library.h"
+#import "AppController.h"
 #import "Blorb.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "IFictionMetadata.h"
 #import "LibraryEntry.h"
 #import "Story.h"
-#import "AppController.h"
 
 @interface Library ()
 @property(readonly) NSURL *libraryDataURL;
@@ -29,7 +29,9 @@
   self = [super init];
   if (self) {
     NSData *data = [NSData dataWithContentsOfURL:self.libraryMetadataURL];
-    IFictionMetadata *metadata = [[IFictionMetadata alloc] initWithData:data];
+    IFictionMetadata *metadata = nil;
+    if (data)
+      metadata = [[IFictionMetadata alloc] initWithData:data];
 
     _entries = [[NSMutableArray alloc] init];
     NSURL *libraryDataURL = self.libraryDataURL;
@@ -43,7 +45,9 @@
                          error:&error];
       for (NSString *url in stories) {
         NSString *ifid = [stories valueForKey:url];
-        IFStory *storyMetadata = [metadata storyWithIFID:ifid];
+        IFStory *storyMetadata = nil;
+        if (metadata)
+          storyMetadata = [metadata storyWithIFID:ifid];
         LibraryEntry *entry =
             [[LibraryEntry alloc] initWithIFID:ifid
                                            url:[NSURL URLWithString:url]
@@ -140,7 +144,8 @@
              completionHandler:^(NSData *data, NSURLResponse *response,
                                  NSError *error) {
                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-               NSLog(@"Image response: %ld (%@)", (long)httpResponse.statusCode, httpResponse.MIMEType);
+               NSLog(@"Image response: %ld (%@)", (long)httpResponse.statusCode,
+                     httpResponse.MIMEType);
                if (httpResponse.statusCode == 200) {
                  NSString *ext = nil;
                  if ([httpResponse.MIMEType isEqualToString:@"image/jpeg"])

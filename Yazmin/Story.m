@@ -250,15 +250,18 @@ const NSArray<NSString *> *AllowedFileTypes;
     if (!_metadata) {
 
       // Not available?
+      // - Generate empty metadata
       // - Use any Blorb metadata
       // - Look for default metadata
-      // - Generate empty metadata
+      _metadata = [[IFStory alloc] initWithIFID:_ifid];
       if (blorbMetadata)
-        _metadata = blorbMetadata;
-      else
-        _metadata = [appController.library defaultMetadataForIFID:_ifid];
-      if (!_metadata)
-        _metadata = [[IFStory alloc] initWithIFID:_ifid];
+        [_metadata updateFromStory:blorbMetadata];
+      else {
+        IFStory *metadata =
+            [appController.library defaultMetadataForIFID:_ifid];
+        if (metadata)
+          [_metadata updateFromStory:metadata];
+      }
     }
 
     // Retrieve any cover art that may have been assigned to this story

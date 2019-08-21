@@ -7,10 +7,10 @@
 //
 
 #import "BibliographicViewController.h"
+#import "AppController.h"
 #import "IFBibliographic.h"
 #import "IFStory.h"
 #import "Story.h"
-#import "AppController.h"
 
 @interface BibliographicViewController () <NSControlTextEditingDelegate> {
   IBOutlet NSTextField *titleTextField;

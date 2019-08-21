@@ -76,14 +76,14 @@ NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
 }
 
 + (NSURL *)URLForResource:(NSString *)name
-             subdirectory:(nullable NSString *)subpath
-createNonexistentDirectory:(BOOL)create {
+                  subdirectory:(nullable NSString *)subpath
+    createNonexistentDirectory:(BOOL)create {
   NSFileManager *fm = NSFileManager.defaultManager;
   NSURL *supportDirURL = [AppController applicationSupportDirectoryURL];
   NSURL *subDirURL;
   if (subpath)
     subDirURL =
-    [supportDirURL URLByAppendingPathComponent:subpath isDirectory:YES];
+        [supportDirURL URLByAppendingPathComponent:subpath isDirectory:YES];
   else
     subDirURL = supportDirURL;
 
@@ -91,9 +91,9 @@ createNonexistentDirectory:(BOOL)create {
     // Create it if it doesn't exist
     NSError *error;
     [fm createDirectoryAtURL:subDirURL
- withIntermediateDirectories:YES
-                  attributes:nil
-                       error:&error];
+        withIntermediateDirectories:YES
+                         attributes:nil
+                              error:&error];
   }
   return [subDirURL URLByAppendingPathComponent:name];
 }

@@ -25,6 +25,8 @@
 		038980FE22960792004EDC55 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 038980FD22960792004EDC55 /* Carbon.framework */; };
 		03898114229CAB5F004EDC55 /* StoryDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03898113229CAB5F004EDC55 /* StoryDocumentController.m */; };
 		0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */; };
+		039E0D61230C881A00AF5471 /* IFAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D60230C881A00AF5471 /* IFAnnotation.m */; };
+		039E0D64230C883000AF5471 /* IFYazmin.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D63230C883000AF5471 /* IFYazmin.m */; };
 		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
 		03D6A1CD22DE4B2300B16F09 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1CC22DE4B2300B16F09 /* StoryViewController.m */; };
 		03D6A1D422DE4D3900B16F09 /* StoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1D322DE4D3900B16F09 /* StoryWindowController.m */; };
@@ -120,6 +122,10 @@
 		03898113229CAB5F004EDC55 /* StoryDocumentController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryDocumentController.m; sourceTree = "<group>"; };
 		0393ED6F22D6C2F00071A23B /* InterpreterPreferencesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterpreterPreferencesViewController.h; sourceTree = "<group>"; };
 		0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterpreterPreferencesViewController.m; sourceTree = "<group>"; };
+		039E0D5F230C881A00AF5471 /* IFAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFAnnotation.h; sourceTree = "<group>"; };
+		039E0D60230C881A00AF5471 /* IFAnnotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFAnnotation.m; sourceTree = "<group>"; };
+		039E0D62230C883000AF5471 /* IFYazmin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFYazmin.h; sourceTree = "<group>"; };
+		039E0D63230C883000AF5471 /* IFYazmin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFYazmin.m; sourceTree = "<group>"; };
 		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
 		03D6A1CB22DE4B2300B16F09 /* StoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
 		03D6A1CC22DE4B2300B16F09 /* StoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
@@ -248,6 +254,10 @@
 				6338E06B180AB53B005A3263 /* IFBibliographic.m */,
 				0358DADA2307651D004C0DC5 /* IFColophon.h */,
 				0358DADB2307651D004C0DC5 /* IFColophon.m */,
+				039E0D5F230C881A00AF5471 /* IFAnnotation.h */,
+				039E0D60230C881A00AF5471 /* IFAnnotation.m */,
+				039E0D62230C883000AF5471 /* IFYazmin.h */,
+				039E0D63230C883000AF5471 /* IFYazmin.m */,
 				0358DAE02309E202004C0DC5 /* IFDB.h */,
 				0358DAE12309E202004C0DC5 /* IFDB.m */,
 				037F044722CE949F008AD5A5 /* babel.ifiction */,
@@ -597,6 +607,7 @@
 				6338E0B4180AB53B005A3263 /* iff.c in Sources */,
 				6338E0CC180AB53B005A3263 /* ZMStack.cpp in Sources */,
 				6338E0BF180AB53B005A3263 /* RoutineDebugRecord.m in Sources */,
+				039E0D64230C883000AF5471 /* IFYazmin.m in Sources */,
 				6338E0C7180AB53B005A3263 /* ZMErrorAdapter.mm in Sources */,
 				6338E0AA180AB53B005A3263 /* DebugInfo.m in Sources */,
 				6338E0C2180AB53B005A3263 /* StoryTextView.m in Sources */,
@@ -623,6 +634,7 @@
 				03DC648C22D9B28C006EE03C /* LibraryViewController.m in Sources */,
 				6338E0A7180AB53B005A3263 /* Blorb.m in Sources */,
 				6338E0C6180AB53B005A3263 /* ZMDictionary.cpp in Sources */,
+				039E0D61230C881A00AF5471 /* IFAnnotation.m in Sources */,
 				0332A81322D7AFA300B3996D /* VersionFormatter.m in Sources */,
 				0358DAD923061691004C0DC5 /* CustomGenreViewController.m in Sources */,
 				0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */,
