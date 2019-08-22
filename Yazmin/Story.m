@@ -9,16 +9,20 @@
 #import "Story.h"
 #import "AppController.h"
 #import "Blorb.h"
+#import "BlorbResource.h"
 #import "DebugInfo.h"
 #import "DebugInfoReader.h"
 #import "GridStoryFacet.h"
+#import "IFAnnotation.h"
 #import "IFIdentification.h"
 #import "IFStory.h"
+#import "IFYazmin.h"
 #import "IFictionMetadata.h"
 #import "InformationWindowController.h"
 #import "Library.h"
 #import "LibraryEntry.h"
 #import "Preferences.h"
+#import "SoundEffect.h"
 #import "StoryFacet.h"
 #import "StoryViewController.h"
 #import "ZMachine.h"
@@ -36,6 +40,7 @@ const NSArray<NSString *> *AllowedFileTypes;
   StoryFacet *_storyFacet;
   NSSound *_lowSound;
   NSSound *_highSound;
+  NSDictionary<NSNumber *, SoundEffect *> *_soundEffects;
   NSTimer *_timer;
 }
 
@@ -263,6 +268,30 @@ const NSArray<NSString *> *AllowedFileTypes;
           [_metadata updateFromStory:metadata];
       }
     }
+
+    NSMutableDictionary<NSNumber *, SoundEffect *> *soundEffects =
+        [NSMutableDictionary dictionary];
+    soundEffects[@1] = [[SoundEffect alloc] initWithSound:_lowSound];
+    soundEffects[@2] = [[SoundEffect alloc] initWithSound:_highSound];
+    soundEffects[@0] = soundEffects[@1];
+
+    // Load any resource blorb
+    NSURL *resourceURL = _metadata.annotation.yazmin.blorbURL;
+    if (resourceURL) {
+      NSData *data = [NSData dataWithContentsOfURL:resourceURL];
+      Blorb *blorb = [[Blorb alloc] initWithData:data];
+
+      // Assign sounds
+      NSArray<BlorbResource *> *soundResources =
+          [blorb resourcesForUsage:SoundResource];
+      for (BlorbResource *soundResource in soundResources) {
+        NSData *soundData = [blorb dataForResource:soundResource];
+        NSSound *sound = [[NSSound alloc] initWithData:soundData];
+        SoundEffect *se = [[SoundEffect alloc] initWithSound:sound];
+        soundEffects[@(soundResource.number)] = se;
+      }
+    }
+    _soundEffects = soundEffects;
 
     // Retrieve any cover art that may have been assigned to this story
     if (!_coverImage) {
@@ -696,11 +725,26 @@ const NSArray<NSString *> *AllowedFileTypes;
                    effect:(int)effect
                    repeat:(int)repeat
                    volume:(int)volume {
-  // Minimal implementation
-  if (number == 1 || number == 0)
-    [_highSound play];
-  else if (number == 2)
-    [_lowSound play];
+  if (effect == 0)
+    effect = 2;
+
+  if (effect == 2) {
+    SoundEffect *soundEffect = _soundEffects[@(number)];
+    if (repeat == 0)
+      repeat = 1;
+    soundEffect.repeat = repeat;
+    if (volume == 255)
+      soundEffect.sound.volume = 1.0;
+    else
+      soundEffect.sound.volume = volume / 8.0;
+    [soundEffect.sound play];
+  } else if (effect == 3 || effect == 4) {
+    if (number == 0) {
+      // Stop all sound effects
+      for (SoundEffect *soundEffect in _soundEffects.allValues)
+        [soundEffect.sound stop];
+    }
+  }
 }
 
 - (void)startTime:(int)time routine:(int)routine {

@@ -12,7 +12,6 @@
 
 @interface Blorb () {
   NSData *data;
-  NSMutableArray *resources;
   NSData *metaData;
 }
 
@@ -41,12 +40,12 @@
     return NO;
 }
 
-- (nonnull instancetype)initWithData:(nonnull NSData *)aData {
+- (instancetype)initWithData:(NSData *)aData {
   self = [super init];
   if (self) {
     data = aData;
-    resources = [[NSMutableArray alloc] init];
     metaData = nil;
+    NSMutableArray<BlorbResource *> *resources = [[NSMutableArray alloc] init];
 
     const unsigned char *ptr = data.bytes;
     ptr += 12;
@@ -79,20 +78,40 @@
         ptr += len + 8;
       }
     }
+    _resources = resources;
   }
   return self;
 }
 
-- (nullable BlorbResource *)findResourceOfUsage:(unsigned int)usage {
-  for (int i = 0; i < resources.count; ++i) {
-    BlorbResource *resource = resources[i];
+- (NSData *)dataForResource:(BlorbResource *)resource {
+  const unsigned char *ptr = data.bytes;
+  ptr += resource.start;
+  unsigned int chunkID;
+  unsigned int len = chunkIDAndLength(ptr, &chunkID);
+  NSRange range = NSMakeRange(resource.start, len + 8);
+  return [data subdataWithRange:range];
+}
+
+- (NSArray<BlorbResource *> *)resourcesForUsage:(unsigned int)usage {
+  NSMutableArray<BlorbResource *> *array = [NSMutableArray array];
+  for (int i = 0; i < _resources.count; ++i) {
+    BlorbResource *resource = _resources[i];
+    if (resource.usage == usage)
+      [array addObject:resource];
+  }
+  return array;
+}
+
+- (BlorbResource *)findResourceOfUsage:(unsigned int)usage {
+  for (int i = 0; i < _resources.count; ++i) {
+    BlorbResource *resource = _resources[i];
     if ([resource usage] == usage)
       return resource;
   }
   return nil;
 }
 
-- (nullable NSData *)zcodeData {
+- (NSData *)zcodeData {
   // Look up the executable chunk
   BlorbResource *resource = [self findResourceOfUsage:ExecutableResource];
   if (resource) {
@@ -108,7 +127,7 @@
   return nil;
 }
 
-- (nullable NSData *)pictureData {
+- (NSData *)pictureData {
   // Look up the picture chunk
   BlorbResource *resource = [self findResourceOfUsage:PictureResource];
   if (resource) {
@@ -122,7 +141,7 @@
   return nil;
 }
 
-- (nullable NSData *)metaData {
+- (NSData *)metaData {
   return metaData;
 }
 

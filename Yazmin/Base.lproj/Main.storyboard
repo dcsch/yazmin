@@ -857,6 +857,7 @@ CA
                         <tabViewItem label="Summary" identifier="" id="h25-b0-Roe" userLabel="Summary"/>
                         <tabViewItem label="Artwork" identifier="" id="WvZ-CO-cDL" userLabel="Artwork"/>
                         <tabViewItem label="Bibliographic" id="lTT-Af-3ig" userLabel="Bibliographic"/>
+                        <tabViewItem id="bYs-Ba-HxG"/>
                     </tabViewItems>
                     <viewControllerTransitionOptions key="transitionOptions" allowUserInteraction="YES"/>
                     <tabView key="tabView" type="noTabsNoBorder" id="joq-Px-hKA">
@@ -872,6 +873,7 @@ CA
                         <segue destination="sVx-gd-SnN" kind="relationship" relationship="tabItems" id="yJD-wE-FNY"/>
                         <segue destination="Rl5-8V-jhl" kind="relationship" relationship="tabItems" id="Bab-mQ-xNw"/>
                         <segue destination="swT-dl-dly" kind="relationship" relationship="tabItems" id="M76-KD-S8P"/>
+                        <segue destination="gOG-wS-Joi" kind="relationship" relationship="tabItems" id="GXL-UR-K9s"/>
                     </connections>
                 </tabViewController>
                 <customObject id="veo-Kz-Ue8" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1733,6 +1735,91 @@ Gw
                 <customObject id="PPz-5e-6W9" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1126.5" y="1262"/>
+        </scene>
+        <!--Resources-->
+        <scene sceneID="1X7-Ai-9V1">
+            <objects>
+                <viewController title="Resources" id="gOG-wS-Joi" customClass="ResourcesViewController" sceneMemberID="viewController">
+                    <view key="view" id="ASr-vp-dkW">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <gridView xPlacement="leading" yPlacement="bottom" rowAlignment="firstBaseline" translatesAutoresizingMaskIntoConstraints="NO" id="K09-IU-524">
+                                <rect key="frame" x="20" y="246" width="410" height="34"/>
+                                <rows>
+                                    <gridRow id="cyv-ci-ihN"/>
+                                    <gridRow id="yEY-uv-fmf"/>
+                                    <gridRow id="NaD-Az-YNf"/>
+                                </rows>
+                                <columns>
+                                    <gridColumn xPlacement="trailing" width="120" id="ZoT-JZ-eii"/>
+                                    <gridColumn id="N7X-KO-NLa"/>
+                                </columns>
+                                <gridCells>
+                                    <gridCell row="cyv-ci-ihN" column="ZoT-JZ-eii" id="Ms9-V7-YtS">
+                                        <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JzO-Qr-jQn">
+                                            <rect key="frame" x="82" y="15" width="40" height="17"/>
+                                            <textFieldCell key="cell" lineBreakMode="clipping" title="Blorb:" id="gJe-Vn-dg3">
+                                                <font key="font" usesAppearanceFont="YES"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                    </gridCell>
+                                    <gridCell row="cyv-ci-ihN" column="N7X-KO-NLa" id="T3q-ng-Ioz">
+                                        <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aKf-l7-RfD">
+                                            <rect key="frame" x="126" y="12" width="102" height="22"/>
+                                            <subviews>
+                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xVm-Xe-eZz">
+                                                    <rect key="frame" x="0.0" y="0.0" width="8" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="cFg-d9-CCj">
+                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jr0-Ax-0aO">
+                                                    <rect key="frame" x="10" y="-6" width="98" height="32"/>
+                                                    <buttonCell key="cell" type="push" title="Choose..." bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fe7-VN-TRc">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="chooseBlorb:" target="gOG-wS-Joi" id="1A5-yB-r2y"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <visibilityPriorities>
+                                                <integer value="1000"/>
+                                                <integer value="1000"/>
+                                            </visibilityPriorities>
+                                            <customSpacing>
+                                                <real value="3.4028234663852886e+38"/>
+                                                <real value="3.4028234663852886e+38"/>
+                                            </customSpacing>
+                                        </stackView>
+                                    </gridCell>
+                                    <gridCell row="yEY-uv-fmf" column="ZoT-JZ-eii" id="lGY-Rx-U4Z"/>
+                                    <gridCell row="yEY-uv-fmf" column="N7X-KO-NLa" id="tc7-6R-sPJ"/>
+                                    <gridCell row="NaD-Az-YNf" column="ZoT-JZ-eii" id="alR-UT-gpR"/>
+                                    <gridCell row="NaD-Az-YNf" column="N7X-KO-NLa" id="z54-yG-45H"/>
+                                </gridCells>
+                            </gridView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="K09-IU-524" firstAttribute="top" secondItem="ASr-vp-dkW" secondAttribute="top" constant="20" id="FRE-4O-Ufw"/>
+                            <constraint firstItem="K09-IU-524" firstAttribute="leading" secondItem="ASr-vp-dkW" secondAttribute="leading" constant="20" id="fS9-f3-O52"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="K09-IU-524" secondAttribute="bottom" constant="20" id="kIY-nE-ceX"/>
+                            <constraint firstAttribute="trailing" secondItem="K09-IU-524" secondAttribute="trailing" constant="20" id="m83-kD-8XM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="blorbTextField" destination="xVm-Xe-eZz" id="sxB-OO-aY9"/>
+                    </connections>
+                </viewController>
+                <customObject id="JB4-8c-wlV" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="622" y="1672"/>
         </scene>
     </scenes>
     <resources>

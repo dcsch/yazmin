@@ -10,19 +10,21 @@
 
 #define ExecutableResource 0x45786563
 #define PictureResource 0x50696374
+#define SoundResource 0x536e6420
 
-@interface BlorbResource : NSObject {
-  unsigned int usage;
-  unsigned int number;
-  unsigned int start;
-}
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithUsage:(unsigned int)aUsage
-                       number:(unsigned int)aNumber
-                        start:(unsigned int)aStart NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
+@interface BlorbResource : NSObject
+
 @property(readonly) unsigned int usage;
 @property(readonly) unsigned int number;
 @property(readonly) unsigned int start;
 
+- (instancetype)initWithUsage:(unsigned int)usage
+                       number:(unsigned int)number
+                        start:(unsigned int)start NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
+
 @end
+
+NS_ASSUME_NONNULL_END

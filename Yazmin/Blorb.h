@@ -8,18 +8,26 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class BlorbResource;
 
 @interface Blorb : NSObject
 
+@property(readonly) NSArray<BlorbResource *> *resources;
 @property(readonly, nullable) NSData *zcodeData;
 @property(readonly, nullable) NSData *pictureData;
 @property(readonly, nullable) NSData *metaData;
 
-+ (BOOL)isBlorbURL:(nonnull NSURL *)url;
-+ (BOOL)isBlorbData:(nonnull NSData *)data;
-- (nonnull instancetype)initWithData:(nonnull NSData *)data
-    NS_DESIGNATED_INITIALIZER;
-- (nonnull instancetype)init __attribute__((unavailable));
++ (BOOL)isBlorbURL:(NSURL *)url;
++ (BOOL)isBlorbData:(NSData *)data;
+
+- (instancetype)initWithData:(NSData *)data NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
+
+- (nullable NSData *)dataForResource:(BlorbResource *)resource;
+- (NSArray<BlorbResource *> *)resourcesForUsage:(unsigned int)usage;
 
 @end
+
+NS_ASSUME_NONNULL_END

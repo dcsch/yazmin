@@ -17,11 +17,13 @@
     NSXMLNode *node;
     while ((node = [enumChildren nextObject])) {
       if ([node.name compare:@"story"] == 0) {
-        _story = [NSURL URLWithString:node.stringValue];
+        _storyURL = [NSURL URLWithString:node.stringValue];
+      } else if ([node.name compare:@"blorb"] == 0) {
+        _blorbURL = [NSURL URLWithString:node.stringValue];
       } else if ([node.name compare:@"graphics"] == 0) {
-        _graphics = [NSURL URLWithString:node.stringValue];
+        _graphicsURL = [NSURL URLWithString:node.stringValue];
       } else if ([node.name compare:@"sound"] == 0) {
-        _sound = [NSURL URLWithString:node.stringValue];
+        _soundURL = [NSURL URLWithString:node.stringValue];
       }
     }
   }
@@ -31,7 +33,7 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
-    _story = [NSURL URLWithString:@""];
+    _storyURL = [NSURL URLWithString:@""];
   }
   return self;
 }
@@ -39,11 +41,13 @@
 - (NSString *)xmlString {
   NSMutableString *string = [NSMutableString string];
   [string appendString:@"<yazmin>\n"];
-  [string appendFormat:@"<story>%@</story>\n", _story];
-  if (_graphics)
-    [string appendFormat:@"<graphics>%@</graphics>\n", _graphics];
-  if (_sound)
-    [string appendFormat:@"<sound>%@</sound>\n", _sound];
+  [string appendFormat:@"<story>%@</story>\n", _storyURL];
+  if (_blorbURL)
+    [string appendFormat:@"<blorb>%@</blorb>\n", _blorbURL];
+  if (_graphicsURL)
+    [string appendFormat:@"<graphics>%@</graphics>\n", _graphicsURL];
+  if (_soundURL)
+    [string appendFormat:@"<sound>%@</sound>\n", _soundURL];
   [string appendString:@"</yazmin>\n"];
   return string;
 }

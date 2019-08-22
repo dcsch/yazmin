@@ -12,9 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IFYazmin : NSObject
 
-@property NSURL *story;
-@property(nullable) NSURL *graphics;
-@property(nullable) NSURL *sound;
+@property NSURL *storyURL;
+@property(nullable) NSURL *blorbURL;
+@property(nullable) NSURL *graphicsURL;
+@property(nullable) NSURL *soundURL;
 @property(readonly) NSString *xmlString;
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element;

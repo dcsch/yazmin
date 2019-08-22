@@ -27,6 +27,8 @@
 		0393ED7122D6C2F00071A23B /* InterpreterPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0393ED7022D6C2F00071A23B /* InterpreterPreferencesViewController.m */; };
 		039E0D61230C881A00AF5471 /* IFAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D60230C881A00AF5471 /* IFAnnotation.m */; };
 		039E0D64230C883000AF5471 /* IFYazmin.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D63230C883000AF5471 /* IFYazmin.m */; };
+		039E0D67230DC5AC00AF5471 /* ResourcesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D66230DC5AC00AF5471 /* ResourcesViewController.m */; };
+		039E0D6A230E370200AF5471 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D69230E370200AF5471 /* SoundEffect.m */; };
 		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
 		03D6A1CD22DE4B2300B16F09 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1CC22DE4B2300B16F09 /* StoryViewController.m */; };
 		03D6A1D422DE4D3900B16F09 /* StoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1D322DE4D3900B16F09 /* StoryWindowController.m */; };
@@ -126,6 +128,10 @@
 		039E0D60230C881A00AF5471 /* IFAnnotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFAnnotation.m; sourceTree = "<group>"; };
 		039E0D62230C883000AF5471 /* IFYazmin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IFYazmin.h; sourceTree = "<group>"; };
 		039E0D63230C883000AF5471 /* IFYazmin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFYazmin.m; sourceTree = "<group>"; };
+		039E0D65230DC5AC00AF5471 /* ResourcesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResourcesViewController.h; sourceTree = "<group>"; };
+		039E0D66230DC5AC00AF5471 /* ResourcesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResourcesViewController.m; sourceTree = "<group>"; };
+		039E0D68230E370200AF5471 /* SoundEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundEffect.h; sourceTree = "<group>"; };
+		039E0D69230E370200AF5471 /* SoundEffect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundEffect.m; sourceTree = "<group>"; };
 		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
 		03D6A1CB22DE4B2300B16F09 /* StoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
 		03D6A1CC22DE4B2300B16F09 /* StoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
@@ -330,6 +336,8 @@
 				0358DAD52303314F004C0DC5 /* BibliographicViewController.m */,
 				0358DAD723061691004C0DC5 /* CustomGenreViewController.h */,
 				0358DAD823061691004C0DC5 /* CustomGenreViewController.m */,
+				039E0D65230DC5AC00AF5471 /* ResourcesViewController.h */,
+				039E0D66230DC5AC00AF5471 /* ResourcesViewController.m */,
 				03D6A1D822DE9B1700B16F09 /* InformationWindowController.h */,
 				03D6A1D922DE9B1700B16F09 /* InformationWindowController.m */,
 				0358DADD230883F3004C0DC5 /* IFDBService.h */,
@@ -437,6 +445,8 @@
 				6338E088180AB53B005A3263 /* StoryTextView.h */,
 				6338E089180AB53B005A3263 /* StoryTextView.m */,
 				6338E08C180AB53B005A3263 /* StoryInput.h */,
+				039E0D68230E370200AF5471 /* SoundEffect.h */,
+				039E0D69230E370200AF5471 /* SoundEffect.m */,
 				6338E04D180AB4B4005A3263 /* Z-machine */,
 				0393ED6E22D6C2650071A23B /* Preferences */,
 				037F045722D6B3C5008AD5A5 /* Resources */,
@@ -614,7 +624,9 @@
 				6338E0C8180AB53B005A3263 /* ZMHeader.cpp in Sources */,
 				6338E0A8180AB53B005A3263 /* BlorbResource.m in Sources */,
 				6338E0BB180AB53B005A3263 /* LibraryEntry.m in Sources */,
+				039E0D67230DC5AC00AF5471 /* ResourcesViewController.m in Sources */,
 				03102FAD22A79B85004B280B /* ZMQuetzal.cpp in Sources */,
+				039E0D6A230E370200AF5471 /* SoundEffect.m in Sources */,
 				03D6A1DA22DE9B1700B16F09 /* InformationWindowController.m in Sources */,
 				6338E0C9180AB53B005A3263 /* ZMMemory.cpp in Sources */,
 				6338E0BE180AB53B005A3263 /* Preferences.m in Sources */,

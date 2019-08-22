@@ -10,28 +10,16 @@
 
 @implementation BlorbResource
 
-- (instancetype)initWithUsage:(unsigned int)aUsage
-                       number:(unsigned int)aNumber
-                        start:(unsigned int)aStart {
+- (instancetype)initWithUsage:(unsigned int)usage
+                       number:(unsigned int)number
+                        start:(unsigned int)start {
   self = [super init];
   if (self) {
-    usage = aUsage;
-    number = aNumber;
-    start = aStart;
+    _usage = usage;
+    _number = number;
+    _start = start;
   }
   return self;
-}
-
-- (unsigned int)usage {
-  return usage;
-}
-
-- (unsigned int)number {
-  return number;
-}
-
-- (unsigned int)start {
-  return start;
 }
 
 @end
