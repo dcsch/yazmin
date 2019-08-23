@@ -7,8 +7,11 @@
 //
 
 #import "LibraryEntry.h"
+#import "IFAnnotation.h"
 #import "IFBibliographic.h"
+#import "IFIdentification.h"
 #import "IFStory.h"
+#import "IFYazmin.h"
 
 @interface LibraryEntry ()
 
@@ -16,22 +19,24 @@
 
 @implementation LibraryEntry
 
-- (instancetype)initWithIFID:(NSString *)ifid
-                         url:(NSURL *)url
-               storyMetadata:(IFStory *)storyMetadata {
+- (instancetype)initWithStoryMetadata:(IFStory *)storyMetadata {
   self = [super init];
   if (self) {
-    _ifid = ifid;
-    _fileURL = url;
     _storyMetadata = storyMetadata;
   }
   return self;
 }
 
 - (void)updateFromStory:(IFStory *)story {
-  if (!_storyMetadata)
-    _storyMetadata = [[IFStory alloc] initWithIFID:_ifid];
   [_storyMetadata updateFromStory:story];
+}
+
+- (NSString *)ifid {
+  return _storyMetadata.identification.ifids.firstObject;
+}
+
+- (NSURL *)fileURL {
+  return _storyMetadata.annotation.yazmin.storyURL;
 }
 
 - (NSString *)title {
@@ -39,7 +44,7 @@
       ![_storyMetadata.bibliographic.title isEqualToString:@""])
     return _storyMetadata.bibliographic.title;
   else
-    return _fileURL.path.lastPathComponent;
+    return self.fileURL.path.lastPathComponent;
 }
 
 - (NSString *)sortTitle {

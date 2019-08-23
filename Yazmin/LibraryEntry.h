@@ -24,9 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly, nullable) NSString *group;
 @property(readonly, nullable) NSString *firstPublished;
 
-- (instancetype)initWithIFID:(NSString *)ifid
-                         url:(NSURL *)url
-               storyMetadata:(IFStory *)storyMetadata NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStoryMetadata:(IFStory *)storyMetadata
+    NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 
 - (void)updateFromStory:(IFStory *)story;

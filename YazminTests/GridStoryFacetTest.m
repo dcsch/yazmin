@@ -18,6 +18,8 @@
 
 - (void)setUp {
   facet = [[GridStoryFacet alloc] initWithStory:nil];
+  facet.widthInCharacters = 80;
+  facet.heightInLines = 25;
 }
 
 - (void)tearDown {
@@ -113,6 +115,7 @@
 }
 
 - (void)testLineWrap {
+  facet.widthInCharacters = 30;
   [facet setCursorLine:2 column:28];
   [facet print:@"Thisshouldbesplit"];
   [facet print:@"Another line"];
@@ -123,6 +126,8 @@
 
 - (void)testMultipleLines {
   facet = [[GridStoryFacet alloc] initWithStory:nil];
+  facet.widthInCharacters = 80;
+  facet.heightInLines = 25;
   [facet setCursorLine:1 column:1];
   [facet print:@"Information is available on the following subjects:\n\n"
                @"Instructions    giving some basic information\n"

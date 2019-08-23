@@ -69,9 +69,8 @@
 
 - (void)addStory:(Story *)story {
   if (![_library containsStory:story]) {
-    LibraryEntry *entry = [[LibraryEntry alloc] initWithIFID:story.ifid
-                                                         url:story.fileURL
-                                               storyMetadata:story.metadata];
+    LibraryEntry *entry =
+        [[LibraryEntry alloc] initWithStoryMetadata:story.metadata];
     [_library.entries addObject:entry];
     [self reloadSortedData];
   }

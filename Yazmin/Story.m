@@ -258,7 +258,7 @@ const NSArray<NSString *> *AllowedFileTypes;
       // - Generate empty metadata
       // - Use any Blorb metadata
       // - Look for default metadata
-      _metadata = [[IFStory alloc] initWithIFID:_ifid];
+      _metadata = [[IFStory alloc] initWithIFID:_ifid storyURL:self.fileURL];
       if (blorbMetadata)
         [_metadata updateFromStory:blorbMetadata];
       else {

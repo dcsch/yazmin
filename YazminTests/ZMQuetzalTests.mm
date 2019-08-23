@@ -9,6 +9,7 @@
 #include "../Yazmin/ZMQuetzal.h"
 #include "../Yazmin/ZMMemory.h"
 #include "../Yazmin/ZMStack.h"
+#import "TestIO.h"
 #import <XCTest/XCTest.h>
 
 @interface ZMQuetzalTests : XCTestCase
@@ -91,7 +92,10 @@
   memset(data, 0, dataLen);
 
   // Set up a header
-  data[0] = 5;
+  data[0] = 5; // v5
+
+  data[4] = 0x10; // base high memory
+  data[5] = 0x00;
 
   data[0x0e] = 0x10; // base static memory (limit of dynamic memory)
   data[0x0f] = 0x00;
@@ -105,8 +109,9 @@
     data[i + 1] = 0xff;
   }
 
+  TestIO testIO;
+  ZMMemory memory(data, dataLen, testIO);
   ZMStack stack;
-  ZMMemory memory(data, dataLen);
 
   ZMQuetzal quetzal(memory, stack);
 
@@ -114,9 +119,9 @@
   size_t rleLen;
   quetzal.createCMemChunk(&rleBuf, &rleLen);
 
-  uint8_t rle[] = {0x00, 0x00, 0x9d, 0x00, 0x1b, 0x03, 0x5a, 0x21, 0x5e,
-                   0x00, 0x00, 0x5e, 0x00, 0x00, 0x21, 0x01, 0x01, 0x00,
-                   0x03, 0x09, 0x02, 0x00, 0x03, 0x01, 0x01};
+  uint8_t rle[] = {0x00, 0x00, 0x9d, 0x00, 0x1b, 0x03, 0x5a,
+                   0x50, 0x19, 0x00, 0x00, 0x19, 0x00, 0x00,
+                   0x50, 0x01, 0x01, 0x00, 0x09, 0x01, 0x01};
 
   XCTAssertEqual(rleLen, sizeof rle);
   for (size_t i = 0; i < rleLen; ++i)

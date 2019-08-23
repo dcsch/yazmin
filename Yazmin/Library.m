@@ -9,16 +9,17 @@
 #import "Library.h"
 #import "AppController.h"
 #import "Blorb.h"
+#import "IFAnnotation.h"
 #import "IFBibliographic.h"
+#import "IFIdentification.h"
 #import "IFStory.h"
+#import "IFYazmin.h"
 #import "IFictionMetadata.h"
 #import "LibraryEntry.h"
 #import "Story.h"
 
 @interface Library ()
-@property(readonly) NSURL *libraryDataURL;
 @property(readonly) NSURL *libraryMetadataURL;
-@property(readonly) NSDictionary *ifidURLDictionary;
 @property IFictionMetadata *defaultMetadata;
 
 @end
@@ -28,30 +29,15 @@
 - (instancetype)init {
   self = [super init];
   if (self) {
+    _entries = [[NSMutableArray alloc] init];
+
     NSData *data = [NSData dataWithContentsOfURL:self.libraryMetadataURL];
     IFictionMetadata *metadata = nil;
-    if (data)
+    if (data) {
       metadata = [[IFictionMetadata alloc] initWithData:data];
-
-    _entries = [[NSMutableArray alloc] init];
-    NSURL *libraryDataURL = self.libraryDataURL;
-    NSData *libraryData = [NSData dataWithContentsOfURL:libraryDataURL];
-    if (libraryData) {
-      NSError *error;
-      NSDictionary *stories = [NSPropertyListSerialization
-          propertyListWithData:libraryData
-                       options:NSPropertyListMutableContainers
-                        format:nil
-                         error:&error];
-      for (NSString *url in stories) {
-        NSString *ifid = [stories valueForKey:url];
-        IFStory *storyMetadata = nil;
-        if (metadata)
-          storyMetadata = [metadata storyWithIFID:ifid];
+      for (IFStory *storyMetadata in metadata.stories) {
         LibraryEntry *entry =
-            [[LibraryEntry alloc] initWithIFID:ifid
-                                           url:[NSURL URLWithString:url]
-                                 storyMetadata:storyMetadata];
+            [[LibraryEntry alloc] initWithStoryMetadata:storyMetadata];
         [_entries addObject:entry];
       }
     }
@@ -64,25 +50,11 @@
   return self;
 }
 
-- (NSURL *)libraryDataURL {
-  NSURL *url = [AppController URLForResource:@"games.plist"
-                                subdirectory:nil
-                  createNonexistentDirectory:YES];
-  return url;
-}
-
 - (NSURL *)libraryMetadataURL {
-  NSURL *url = [AppController URLForResource:@"games.iFiction"
+  NSURL *url = [AppController URLForResource:@"stories.iFiction"
                                 subdirectory:nil
                   createNonexistentDirectory:YES];
   return url;
-}
-
-- (NSDictionary *)ifidURLDictionary {
-  NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-  for (LibraryEntry *entry in _entries)
-    dictionary[entry.fileURL.absoluteString] = entry.ifid;
-  return dictionary;
 }
 
 - (IFStory *)metadataForIFID:(NSString *)ifid {
@@ -179,14 +151,6 @@
 }
 
 - (void)save {
-  NSError *error;
-  NSData *data = [NSPropertyListSerialization
-      dataWithPropertyList:self.ifidURLDictionary
-                    format:NSPropertyListXMLFormat_v1_0
-                   options:0
-                     error:&error];
-  if (data)
-    [data writeToURL:self.libraryDataURL atomically:YES];
 
   // Save the iFiction metadata
   NSMutableArray<IFStory *> *stories = [NSMutableArray array];
@@ -195,7 +159,7 @@
       [stories addObject:entry.storyMetadata];
   IFictionMetadata *metadata =
       [[IFictionMetadata alloc] initWithStories:stories];
-  data = [metadata.xmlString dataUsingEncoding:NSUTF8StringEncoding];
+  NSData *data = [metadata.xmlString dataUsingEncoding:NSUTF8StringEncoding];
   if (data)
     [data writeToURL:self.libraryMetadataURL atomically:YES];
 }

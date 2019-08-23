@@ -12,6 +12,7 @@
 #import "IFColophon.h"
 #import "IFDB.h"
 #import "IFIdentification.h"
+#import "IFYazmin.h"
 
 @implementation IFStory
 
@@ -43,20 +44,47 @@
   return self;
 }
 
-- (instancetype)initWithIFID:(NSString *)ifid {
+- (instancetype)initWithIFID:(NSString *)ifid storyURL:(NSURL *)storyURL {
   self = [super init];
   if (self) {
     _identification = [[IFIdentification alloc] initWithIFID:ifid];
     _bibliographic = [[IFBibliographic alloc] init];
     _colophon = [[IFColophon alloc] init];
     _annotation = [[IFAnnotation alloc] init];
+    _annotation.yazmin.storyURL = storyURL;
   }
   return self;
 }
 
 - (void)updateFromStory:(IFStory *)story {
-  _identification = story.identification;
-  _bibliographic = story.bibliographic;
+  // Don't update identifications
+
+  // Update bibliographic fields that aren't nil
+  // (except group, for which we'll keep the user-specified group if not nil)
+  IFBibliographic *bib = story.bibliographic;
+  if (bib.title)
+    _bibliographic.title = bib.title;
+  if (bib.author)
+    _bibliographic.author = bib.author;
+  if (bib.language)
+    _bibliographic.language = bib.language;
+  if (bib.headline)
+    _bibliographic.headline = bib.headline;
+  if (bib.firstPublished)
+    _bibliographic.firstPublished = bib.firstPublished;
+  if (bib.genre)
+    _bibliographic.genre = bib.genre;
+  if (!_bibliographic.group && bib.group)
+    _bibliographic.group = bib.group;
+  if (bib.storyDescription)
+    _bibliographic.storyDescription = bib.storyDescription;
+  if (bib.series) {
+    _bibliographic.series = bib.series;
+    _bibliographic.seriesNumber = bib.seriesNumber;
+  }
+  if (bib.forgiveness)
+    _bibliographic.forgiveness = bib.forgiveness;
+
   _colophon = story.colophon;
   // Don't update annotations
 }

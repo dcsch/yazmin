@@ -29,6 +29,8 @@
 		039E0D64230C883000AF5471 /* IFYazmin.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D63230C883000AF5471 /* IFYazmin.m */; };
 		039E0D67230DC5AC00AF5471 /* ResourcesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D66230DC5AC00AF5471 /* ResourcesViewController.m */; };
 		039E0D6A230E370200AF5471 /* SoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D69230E370200AF5471 /* SoundEffect.m */; };
+		039E0D6D230F02E200AF5471 /* TestIO.mm in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D6C230F02E200AF5471 /* TestIO.mm */; };
+		039E0D6F230F1BEC00AF5471 /* IFictionMetadataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 039E0D6E230F1BEC00AF5471 /* IFictionMetadataTests.m */; };
 		03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */; };
 		03D6A1CD22DE4B2300B16F09 /* StoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1CC22DE4B2300B16F09 /* StoryViewController.m */; };
 		03D6A1D422DE4D3900B16F09 /* StoryWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 03D6A1D322DE4D3900B16F09 /* StoryWindowController.m */; };
@@ -76,8 +78,6 @@
 		639A099213322F08000E27F4 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A099113322F08000E27F4 /* Story.m */; };
 		639A099F13322F08000E27F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639A097E13322F08000E27F4 /* Cocoa.framework */; };
 		639A09A713322F08000E27F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 639A09A513322F08000E27F4 /* InfoPlist.strings */; };
-		639A09AA13322F08000E27F4 /* YazminTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 639A09A913322F08000E27F4 /* YazminTests.h */; };
-		639A09AC13322F08000E27F4 /* YazminTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A09AB13322F08000E27F4 /* YazminTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +132,9 @@
 		039E0D66230DC5AC00AF5471 /* ResourcesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResourcesViewController.m; sourceTree = "<group>"; };
 		039E0D68230E370200AF5471 /* SoundEffect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SoundEffect.h; sourceTree = "<group>"; };
 		039E0D69230E370200AF5471 /* SoundEffect.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SoundEffect.m; sourceTree = "<group>"; };
+		039E0D6B230F02E200AF5471 /* TestIO.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestIO.h; sourceTree = "<group>"; };
+		039E0D6C230F02E200AF5471 /* TestIO.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = TestIO.mm; sourceTree = "<group>"; };
+		039E0D6E230F1BEC00AF5471 /* IFictionMetadataTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IFictionMetadataTests.m; sourceTree = "<group>"; };
 		03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMHeaderTests.mm; sourceTree = "<group>"; };
 		03D6A1CB22DE4B2300B16F09 /* StoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryViewController.h; sourceTree = "<group>"; };
 		03D6A1CC22DE4B2300B16F09 /* StoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryViewController.m; sourceTree = "<group>"; };
@@ -222,8 +225,6 @@
 		639A09A413322F08000E27F4 /* YazminTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YazminTests-Info.plist"; sourceTree = "<group>"; };
 		639A09A613322F08000E27F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		639A09A813322F08000E27F4 /* YazminTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YazminTests-Prefix.pch"; sourceTree = "<group>"; };
-		639A09A913322F08000E27F4 /* YazminTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YazminTests.h; sourceTree = "<group>"; };
-		639A09AB13322F08000E27F4 /* YazminTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YazminTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -470,13 +471,14 @@
 		639A09A213322F08000E27F4 /* YazminTests */ = {
 			isa = PBXGroup;
 			children = (
-				639A09A913322F08000E27F4 /* YazminTests.h */,
-				639A09AB13322F08000E27F4 /* YazminTests.m */,
 				0310D4D5229341AC004F67F5 /* GridStoryFacetTest.m */,
 				03BB3DEA22A34DE30075CB3B /* ZMHeaderTests.mm */,
 				0316CF8022AAEFF600C882C5 /* ZMStackTests.mm */,
 				0316CF8222AAF02200C882C5 /* ZMQuetzalTests.mm */,
 				0316CFCC22B07A4A00C882C5 /* ZMTextTests.mm */,
+				039E0D6B230F02E200AF5471 /* TestIO.h */,
+				039E0D6C230F02E200AF5471 /* TestIO.mm */,
+				039E0D6E230F1BEC00AF5471 /* IFictionMetadataTests.m */,
 				639A09A313322F08000E27F4 /* Supporting Files */,
 			);
 			path = YazminTests;
@@ -587,7 +589,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				639A09A713322F08000E27F4 /* InfoPlist.strings in Resources */,
-				639A09AA13322F08000E27F4 /* YazminTests.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -658,8 +659,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				639A09AC13322F08000E27F4 /* YazminTests.m in Sources */,
+				039E0D6D230F02E200AF5471 /* TestIO.mm in Sources */,
 				0316CF8122AAEFF600C882C5 /* ZMStackTests.mm in Sources */,
+				039E0D6F230F1BEC00AF5471 /* IFictionMetadataTests.m in Sources */,
 				03BB3DEB22A34DE30075CB3B /* ZMHeaderTests.mm in Sources */,
 				0316CFCD22B07A4A00C882C5 /* ZMTextTests.mm in Sources */,
 				0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */,
@@ -882,8 +884,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Yazmin.app/Contents/MacOS/Yazmin";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 9MWCHY26A8;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -892,6 +897,7 @@
 				INFOPLIST_FILE = "YazminTests/YazminTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.synchroma.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
@@ -902,9 +908,12 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Yazmin.app/Contents/MacOS/Yazmin";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9MWCHY26A8;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "YazminTests/YazminTests-Prefix.pch";
@@ -912,6 +921,7 @@
 				INFOPLIST_FILE = "YazminTests/YazminTests-Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.synchroma.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
