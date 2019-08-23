@@ -8,14 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class Story;
-
 NS_ASSUME_NONNULL_BEGIN
 
-@interface StoryFacet : NSObject
+@class Story;
 
-- (instancetype)initWithStory:(Story *)story NS_DESIGNATED_INITIALIZER;
-- (instancetype)init __attribute__((unavailable));
+@interface StoryFacet : NSObject
 
 @property Story *story;
 @property NSTextStorage *textStorage;
@@ -25,6 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property int numberOfLines;
 @property int widthInCharacters;
 @property int heightInLines;
+
+- (instancetype)initWithStory:(Story *)story NS_DESIGNATED_INITIALIZER;
+- (instancetype)init __attribute__((unavailable));
 
 - (NSFont *)fontForStyle:(int)style;
 
@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)applyFontOfStyle:(int)style
             toAttributes:(NSMutableDictionary *)attributes;
 - (void)applyLowerWindowAttributes:(NSMutableDictionary *)attributes;
+- (void)updateFontPreferences;
 
 @end
 

@@ -20,6 +20,16 @@ NSString *SMInterpreterNumberKey = @"InterpreterNumber";
 NSString *SMInterpreterVersionKey = @"InterpreterVersion";
 NSString *SMSpeakTextKey = @"SpeakText";
 
+NSString *SMBackgroundColorChangedNotification = @"SMBackgroundColorChanged";
+NSString *SMForegroundColorChangedNotification = @"SMForegroundColorChanged";
+NSString *SMProportionalFontFamilyChangedNotification =
+    @"SMProportionalFontFamilyChanged";
+NSString *SMMonospacedFontFamilyChangedNotification =
+    @"SMMonospacedFontFamilyChanged";
+NSString *SMCharacterGraphicsFontChangedNotification =
+    @"SMCharacterGraphicsFontChanged";
+NSString *SMFontSizeChangedNotification = @"SMFontSizeChanged";
+
 static void *AppearanceContext = &AppearanceContext;
 
 @interface Preferences () {
@@ -126,7 +136,7 @@ static void *AppearanceContext = &AppearanceContext;
                                               requiringSecureCoding:NO
                                                               error:nil];
   [defaults setObject:colorAsData forKey:SMBackgroundColorKey];
-  [nc postNotificationName:@"SMBackgroundColorChanged" object:self];
+  [nc postNotificationName:SMBackgroundColorChangedNotification object:self];
 }
 
 - (NSColor *)foregroundColor {
@@ -141,7 +151,7 @@ static void *AppearanceContext = &AppearanceContext;
                                               requiringSecureCoding:NO
                                                               error:nil];
   [defaults setObject:colorAsData forKey:SMForegroundColorKey];
-  [nc postNotificationName:@"SMForegroundColorChanged" object:self];
+  [nc postNotificationName:SMForegroundColorChangedNotification object:self];
 }
 
 - (NSString *)proportionalFontFamily {
@@ -150,7 +160,8 @@ static void *AppearanceContext = &AppearanceContext;
 
 - (void)setProportionalFontFamily:(NSString *)family {
   [defaults setObject:family forKey:SMProportionalFontKey];
-  [nc postNotificationName:@"SMProportionalFontFamilyChanged" object:self];
+  [nc postNotificationName:SMProportionalFontFamilyChangedNotification
+                    object:self];
 }
 
 - (NSString *)monospacedFontFamily {
@@ -159,7 +170,8 @@ static void *AppearanceContext = &AppearanceContext;
 
 - (void)setMonospacedFontFamily:(NSString *)family {
   [defaults setObject:family forKey:SMMonospacedFontKey];
-  [nc postNotificationName:@"SMMonospacedFontFamilyChanged" object:self];
+  [nc postNotificationName:SMMonospacedFontFamilyChangedNotification
+                    object:self];
 }
 
 - (NSString *)characterGraphicsFontFamily {
@@ -168,7 +180,8 @@ static void *AppearanceContext = &AppearanceContext;
 
 - (void)setCharacterGraphicsFontFamily:(NSString *)family {
   [defaults setObject:family forKey:SMCharacterGraphicsFontKey];
-  [nc postNotificationName:@"SMCharacterGraphicsFontKeyChanged" object:self];
+  [nc postNotificationName:SMCharacterGraphicsFontChangedNotification
+                    object:self];
 }
 
 - (float)fontSize {
@@ -177,7 +190,7 @@ static void *AppearanceContext = &AppearanceContext;
 
 - (void)setFontSize:(float)size {
   [defaults setObject:@(size) forKey:SMFontSizeKey];
-  [nc postNotificationName:@"SMFontSizeChanged" object:self];
+  [nc postNotificationName:SMFontSizeChangedNotification object:self];
 }
 
 - (BOOL)showsLibraryOnStartup {

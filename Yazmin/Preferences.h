@@ -13,6 +13,8 @@
 */
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 extern NSString *SMAppearanceKey;
 extern NSString *SMBackgroundColorKey;
 extern NSString *SMForegroundColorKey;
@@ -24,6 +26,13 @@ extern NSString *SMShowLibraryOnStartupKey;
 extern NSString *SMInterpreterNumberKey;
 extern NSString *SMInterpreterVersionKey;
 extern NSString *SMSpeakTextKey;
+
+extern NSString *SMBackgroundColorChangedNotification;
+extern NSString *SMForegroundColorChangedNotification;
+extern NSString *SMProportionalFontFamilyChangedNotification;
+extern NSString *SMMonospacedFontFamilyChangedNotification;
+extern NSString *SMCharacterGraphicsFontChangedNotification;
+extern NSString *SMFontSizeChangedNotification;
 
 @interface Preferences : NSObject
 
@@ -44,3 +53,5 @@ extern NSString *SMSpeakTextKey;
 - (void)applyAppPreferences;
 
 @end
+
+NS_ASSUME_NONNULL_END

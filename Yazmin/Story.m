@@ -46,6 +46,11 @@ const NSArray<NSString *> *AllowedFileTypes;
 
 @property BOOL screenEnabled;
 
+- (void)handleBackgroundColorChange:(NSNotification *)note;
+- (void)handleForegroundColorChange:(NSNotification *)note;
+- (void)handleFontChange:(NSNotification *)note;
+- (void)handleCoverImageChange:(NSNotification *)note;
+
 - (void)createZMachine;
 - (NSColor *)colorFromCode:(int)colorCode
               currentColor:(NSColor *)currentColor
@@ -92,23 +97,23 @@ const NSArray<NSString *> *AllowedFileTypes;
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self
            selector:@selector(handleBackgroundColorChange:)
-               name:@"SMBackgroundColorChanged"
+               name:SMBackgroundColorChangedNotification
              object:nil];
     [nc addObserver:self
            selector:@selector(handleForegroundColorChange:)
-               name:@"SMForegroundColorChanged"
+               name:SMForegroundColorChangedNotification
              object:nil];
     [nc addObserver:self
            selector:@selector(handleFontChange:)
-               name:@"SMProportionalFontFamilyChanged"
+               name:SMProportionalFontFamilyChangedNotification
              object:nil];
     [nc addObserver:self
            selector:@selector(handleFontChange:)
-               name:@"SMMonospacedFontFamilyChanged"
+               name:SMMonospacedFontFamilyChangedNotification
              object:nil];
     [nc addObserver:self
            selector:@selector(handleFontChange:)
-               name:@"SMFontSizeChanged"
+               name:SMFontSizeChangedNotification
              object:nil];
     [nc addObserver:self
            selector:@selector(handleCoverImageChange:)
@@ -356,35 +361,10 @@ const NSArray<NSString *> *AllowedFileTypes;
 }
 
 - (void)handleFontChange:(NSNotification *)note {
-  NSLog(@"Font change");
-
-  //  Preferences *prefs = [Preferences sharedPreferences];
-  //  StoryFacet *facet;
-  //  for (facet in _facets) {
-  //    // Adjust the current font attribute
-  //    NSFont *font = [prefs fontForStyle:[facet currentStyle]];
-  //    [facet currentAttributes][NSFontAttributeName] = font;
-  //
-  //    // Scan all the text and convert the fonts found within
-  //    unsigned int index = 0;
-  //    while (index < [facet textStorage].length) {
-  //      NSRange range;
-  //      NSFont *oldFont = [[facet textStorage] attribute:NSFontAttributeName
-  //                                               atIndex:index
-  //                                        effectiveRange:&range];
-  //      if (oldFont) {
-  //        NSLog(@"Old font: %@ (%f)", oldFont.fontName, oldFont.pointSize);
-  //        NSFont *newFont = [prefs convertFont:oldFont forceFixedPitch:NO];
-  //        NSLog(@"New font: %@ (%f)", newFont.fontName, newFont.pointSize);
-  //        [[facet textStorage] addAttribute:NSFontAttributeName
-  //                                    value:newFont
-  //                                    range:range];
-  //      }
-  //      index += range.length;
-  //    }
-  //  }
-  //  [_storyViewController updateTextAttributes];
-  //  [_storyViewController updateWindowLayout];
+  for (StoryFacet *facet in _facets)
+    [facet updateFontPreferences];
+  [_storyViewController updateTextAttributes];
+  //[_storyViewController updateWindowLayout];
 }
 
 - (void)handleCoverImageChange:(NSNotification *)note {

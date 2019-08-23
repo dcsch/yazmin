@@ -176,4 +176,47 @@
   [self print:@"\n"];
 }
 
+- (void)updateFontPreferences {
+
+  // Clear out the font cache
+  [_fonts removeAllObjects];
+
+  Preferences *prefs = Preferences.sharedPreferences;
+
+  // Scan all the text and convert the fonts found within
+  unsigned int index = 0;
+  while (index < _textStorage.length) {
+    NSRange range;
+    NSFont *oldFont = [_textStorage attribute:NSFontAttributeName
+                                      atIndex:index
+                               effectiveRange:&range];
+    if (oldFont) {
+      // NSLog(@"Old font: %@ (%f)", oldFont.fontName, oldFont.pointSize);
+
+      NSFontDescriptor *fd = oldFont.fontDescriptor;
+      NSString *name;
+      if (oldFont.fixedPitch)
+        name = prefs.monospacedFontFamily;
+      else
+        name = prefs.proportionalFontFamily;
+      float size = prefs.fontSize;
+      NSFontDescriptorSymbolicTraits traits = fd.symbolicTraits;
+
+      NSDictionary<NSFontDescriptorAttributeName, id> *attrs = @{
+        NSFontFamilyAttribute : name,
+        NSFontSizeAttribute : @(size),
+        NSFontTraitsAttribute : @{NSFontSymbolicTrait : @(traits)}
+      };
+      NSFontDescriptor *newFontDescriptor =
+          [NSFontDescriptor fontDescriptorWithFontAttributes:attrs];
+
+      NSFont *newFont = [NSFont fontWithDescriptor:newFontDescriptor size:size];
+      // NSLog(@"New font: %@ (%f)", newFont.fontName, newFont.pointSize);
+
+      [_textStorage addAttribute:NSFontAttributeName value:newFont range:range];
+    }
+    index += range.length;
+  }
+}
+
 @end
