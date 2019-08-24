@@ -31,11 +31,12 @@ NSString *SMCharacterGraphicsFontChangedNotification =
 NSString *SMFontSizeChangedNotification = @"SMFontSizeChanged";
 
 static void *AppearanceContext = &AppearanceContext;
+static void *FontSizeContext = &FontSizeContext;
 
-@interface Preferences () {
-  NSUserDefaults *defaults;
-  NSNotificationCenter *nc;
-}
+@interface Preferences ()
+
+- (void)applyAppearance;
+- (void)notifyFontSizeChange;
 
 @end
 
@@ -83,14 +84,17 @@ static void *AppearanceContext = &AppearanceContext;
 - (instancetype)init {
   self = [super init];
   if (self) {
-    defaults = [NSUserDefaults standardUserDefaults];
-    nc = [NSNotificationCenter defaultCenter];
-
+    NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
     [defaults
         addObserver:self
          forKeyPath:SMAppearanceKey
             options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
             context:AppearanceContext];
+    [defaults
+        addObserver:self
+         forKeyPath:SMFontSizeKey
+            options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
+            context:FontSizeContext];
   }
   return self;
 }
@@ -101,7 +105,9 @@ static void *AppearanceContext = &AppearanceContext;
                        context:(void *)context {
 
   if (context == AppearanceContext) {
-    [self applyAppPreferences];
+    [self applyAppearance];
+  } else if (context == FontSizeContext) {
+    [self notifyFontSizeChange];
   } else {
     [super observeValueForKeyPath:keyPath
                          ofObject:object
@@ -111,6 +117,11 @@ static void *AppearanceContext = &AppearanceContext;
 }
 
 - (void)applyAppPreferences {
+  [self applyAppearance];
+}
+
+- (void)applyAppearance {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   switch ([defaults integerForKey:SMAppearanceKey]) {
   case 0:
     NSApp.appearance = nil;
@@ -124,7 +135,13 @@ static void *AppearanceContext = &AppearanceContext;
   }
 }
 
+- (void)notifyFontSizeChange {
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+  [nc postNotificationName:SMFontSizeChangedNotification object:self];
+}
+
 - (NSColor *)backgroundColor {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   NSData *colorAsData = [defaults objectForKey:SMBackgroundColorKey];
   return [NSKeyedUnarchiver unarchivedObjectOfClass:NSColor.class
                                            fromData:colorAsData
@@ -132,6 +149,8 @@ static void *AppearanceContext = &AppearanceContext;
 }
 
 - (void)setBackgroundColor:(NSColor *)color {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
   NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color
                                               requiringSecureCoding:NO
                                                               error:nil];
@@ -140,6 +159,7 @@ static void *AppearanceContext = &AppearanceContext;
 }
 
 - (NSColor *)foregroundColor {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   NSData *colorAsData = [defaults objectForKey:SMForegroundColorKey];
   return [NSKeyedUnarchiver unarchivedObjectOfClass:NSColor.class
                                            fromData:colorAsData
@@ -150,66 +170,85 @@ static void *AppearanceContext = &AppearanceContext;
   NSData *colorAsData = [NSKeyedArchiver archivedDataWithRootObject:color
                                               requiringSecureCoding:NO
                                                               error:nil];
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
   [defaults setObject:colorAsData forKey:SMForegroundColorKey];
   [nc postNotificationName:SMForegroundColorChangedNotification object:self];
 }
 
 - (NSString *)proportionalFontFamily {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [defaults objectForKey:SMProportionalFontKey];
 }
 
 - (void)setProportionalFontFamily:(NSString *)family {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
   [defaults setObject:family forKey:SMProportionalFontKey];
   [nc postNotificationName:SMProportionalFontFamilyChangedNotification
                     object:self];
 }
 
 - (NSString *)monospacedFontFamily {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [defaults objectForKey:SMMonospacedFontKey];
 }
 
 - (void)setMonospacedFontFamily:(NSString *)family {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
   [defaults setObject:family forKey:SMMonospacedFontKey];
   [nc postNotificationName:SMMonospacedFontFamilyChangedNotification
                     object:self];
 }
 
 - (NSString *)characterGraphicsFontFamily {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [defaults objectForKey:SMCharacterGraphicsFontKey];
 }
 
 - (void)setCharacterGraphicsFontFamily:(NSString *)family {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
   [defaults setObject:family forKey:SMCharacterGraphicsFontKey];
   [nc postNotificationName:SMCharacterGraphicsFontChangedNotification
                     object:self];
 }
 
 - (float)fontSize {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [[defaults objectForKey:SMFontSizeKey] floatValue];
 }
 
 - (void)setFontSize:(float)size {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
   [defaults setObject:@(size) forKey:SMFontSizeKey];
   [nc postNotificationName:SMFontSizeChangedNotification object:self];
 }
 
 - (BOOL)showsLibraryOnStartup {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [[defaults objectForKey:SMShowLibraryOnStartupKey] intValue];
 }
 
 - (void)setShowsLibraryOnStartup:(BOOL)show {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   [defaults setObject:@(show) forKey:SMShowLibraryOnStartupKey];
 }
 
 - (int)interpreterNumber {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [[defaults objectForKey:SMInterpreterNumberKey] intValue];
 }
 
 - (char)interpreterVersion {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [[defaults objectForKey:SMInterpreterVersionKey] charValue];
 }
 
 - (BOOL)speakText {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [[defaults objectForKey:SMSpeakTextKey] intValue];
 }
 
