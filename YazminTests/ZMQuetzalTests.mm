@@ -6,8 +6,8 @@
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#include "../Yazmin/ZMQuetzal.h"
 #include "../Yazmin/ZMMemory.h"
+#include "../Yazmin/ZMQuetzal.h"
 #include "../Yazmin/ZMStack.h"
 #import "TestIO.h"
 #import <XCTest/XCTest.h>

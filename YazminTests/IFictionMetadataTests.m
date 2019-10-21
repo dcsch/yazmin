@@ -6,21 +6,35 @@
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#import "../Yazmin/IFictionMetadata.h"
 #import "../Yazmin/IFAnnotation.h"
 #import "../Yazmin/IFBibliographic.h"
 #import "../Yazmin/IFColophon.h"
 #import "../Yazmin/IFIdentification.h"
 #import "../Yazmin/IFStory.h"
+#import "../Yazmin/IFictionMetadata.h"
 #import <XCTest/XCTest.h>
 
 @interface IFictionMetadataTests : XCTestCase
+
+@property NSString *generator;
+@property(nullable) NSString *generatorVersion;
+@property NSString *originated;
 
 @end
 
 @implementation IFictionMetadataTests
 
 - (void)setUp {
+
+  // Retrieve the generator version and date
+  NSDictionary<NSString *, id> *info = NSBundle.mainBundle.infoDictionary;
+  _generator = info[@"CFBundleName"];
+  _generatorVersion = info[@"CFBundleShortVersionString"];
+  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"LLL d yyyy"];
+  NSDate *date = [dateFormatter dateFromString:@(__DATE__)];
+  [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+  _originated = [dateFormatter stringFromDate:date];
 }
 
 - (void)tearDown {
@@ -66,31 +80,33 @@
                            storyURL:[NSURL fileURLWithPath:@"/filename"]];
   IFictionMetadata *metadata =
       [[IFictionMetadata alloc] initWithStories:@[ story ]];
-  NSString *minimalIFiction =
-      @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-      @"<ifindex version=\"1.0\" "
-      @"xmlns=\"http://babel.ifarchive.org/protocol/iFiction/\">\n"
-      @"<story>\n"
-      @"<identification>\n"
-      @"<ifid>TEST-IFID-0123456789</ifid>\n"
-      @"<format>zcode</format>\n"
-      @"</identification>\n"
-      @"<bibliographic>\n"
-      @"<title></title>\n"
-      @"<author></author>\n"
-      @"</bibliographic>\n"
-      @"<colophon>\n"
-      @"<generator>Yazmin</generator>\n"
-      @"<generatorversion>1.0</generatorversion>\n"
-      @"<originated>2019-08-22</originated>\n"
-      @"</colophon>\n"
-      @"<annotation>\n"
-      @"<yazmin>\n"
-      @"<story>file:///filename</story>\n"
-      @"</yazmin>\n"
-      @"</annotation>\n"
-      @"</story>\n"
-      @"</ifindex>\n";
+  NSString *minimalIFiction = [NSString
+      stringWithFormat:
+          @"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+          @"<ifindex version=\"1.0\" "
+          @"xmlns=\"http://babel.ifarchive.org/protocol/iFiction/\">\n"
+          @"<story>\n"
+          @"<identification>\n"
+          @"<ifid>TEST-IFID-0123456789</ifid>\n"
+          @"<format>zcode</format>\n"
+          @"</identification>\n"
+          @"<bibliographic>\n"
+          @"<title></title>\n"
+          @"<author></author>\n"
+          @"</bibliographic>\n"
+          @"<colophon>\n"
+          @"<generator>%@</generator>\n"
+          @"<generatorversion>%@</generatorversion>\n"
+          @"<originated>%@</originated>\n"
+          @"</colophon>\n"
+          @"<annotation>\n"
+          @"<yazmin>\n"
+          @"<story>file:///filename</story>\n"
+          @"</yazmin>\n"
+          @"</annotation>\n"
+          @"</story>\n"
+          @"</ifindex>\n",
+          _generator, _generatorVersion, _originated];
   XCTAssertEqualObjects(metadata.xmlString, minimalIFiction);
 }
 
