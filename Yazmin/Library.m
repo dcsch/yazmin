@@ -141,6 +141,21 @@
   [dataTask resume];
 }
 
+- (void)deleteImageForIFID:(NSString *)ifid {
+  NSURL *artworkURL = [[AppController applicationSupportDirectoryURL]
+                        URLByAppendingPathComponent:@"Cover Art" isDirectory:YES];
+  NSFileManager *fm = NSFileManager.defaultManager;
+  NSArray<NSURL *> *urls = [fm contentsOfDirectoryAtURL:artworkURL
+                             includingPropertiesForKeys:nil
+                                                options:0
+                                                  error:nil];
+  for (NSURL *url in urls) {
+    if ([url.lastPathComponent hasPrefix:ifid]) {
+      [fm removeItemAtURL:url error:nil];
+    }
+  }
+}
+
 - (BOOL)containsStory:(Story *)story {
   NSUInteger index = [self.entries
       indexOfObjectPassingTest:^BOOL(LibraryEntry *_Nonnull entry,

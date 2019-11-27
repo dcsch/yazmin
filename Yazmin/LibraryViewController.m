@@ -147,14 +147,20 @@
 }
 
 - (IBAction)removeStory:(id)sender {
-  NSInteger row = tableView.clickedRow;
-  if (row == -1)
-    row = tableView.selectedRow;
-  if (row != -1) {
-    LibraryEntry *entry = _sortedEntries[row];
-    [_library.entries removeObject:entry];
-    [self reloadSortedData];
+  NSIndexSet *selectedRowIndexes = tableView.selectedRowIndexes;
+
+  // If the clicked row is not within the selection set, then perform this
+  // action only on the clicked row
+  if (tableView.clickedRow != -1 && ![selectedRowIndexes containsIndex:tableView.clickedRow]) {
+    selectedRowIndexes = [NSIndexSet indexSetWithIndex:tableView.clickedRow];
   }
+  
+  [selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+    LibraryEntry *libraryEntry = self->_sortedEntries[idx];
+    [self->_library deleteImageForIFID:libraryEntry.ifid];
+    [self->_library.entries removeObject:libraryEntry];
+  }];
+  [self reloadSortedData];
 }
 
 - (IBAction)searchStory:(NSSearchField *)sender {
@@ -187,34 +193,55 @@
 }
 
 - (IBAction)fetchMetadata:(id)sender {
-  NSInteger row = tableView.clickedRow;
-  if (row == -1)
-    row = tableView.selectedRow;
-  LibraryEntry *libraryEntry = _sortedEntries[row];
+  NSIndexSet *selectedRowIndexes = tableView.selectedRowIndexes;
 
-  [ifdbService
-      fetchRecordForIFID:libraryEntry.ifid
-       completionHandler:^(NSData *data) {
-         IFictionMetadata *metadata =
-             [[IFictionMetadata alloc] initWithData:data];
-         if (metadata.stories.count > 0) {
-           IFStory *story = metadata.stories.firstObject;
-           [libraryEntry updateFromStory:story];
-           if (story.ifdb.coverArt) {
+  // If the clicked row is not within the selection set, then perform this
+  // action only on the clicked row
+  if (tableView.clickedRow != -1 && ![selectedRowIndexes containsIndex:tableView.clickedRow]) {
+    selectedRowIndexes = [NSIndexSet indexSetWithIndex:tableView.clickedRow];
+  }
+  
+  [selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+    LibraryEntry *libraryEntry = _sortedEntries[idx];
 
-             // IFDB image links are provided as HTTP, which does not
-             // conform to ATS policy, so reform it as HTTPS
-             NSURLComponents *components =
-                 [NSURLComponents componentsWithURL:story.ifdb.coverArt
-                            resolvingAgainstBaseURL:YES];
-             components.scheme = @"https";
-             [self->_library fetchImageForIFID:libraryEntry.ifid
-                                           URL:components.URL];
+    [ifdbService
+        fetchRecordForIFID:libraryEntry.ifid
+         completionHandler:^(NSData *data) {
+           IFictionMetadata *metadata =
+               [[IFictionMetadata alloc] initWithData:data];
+           if (metadata.stories.count > 0) {
+             IFStory *story = metadata.stories.firstObject;
+             [libraryEntry updateFromStory:story];
+             if (story.ifdb.coverArt) {
+
+               // IFDB image links are provided as HTTP, which does not
+               // conform to ATS policy, so reform it as HTTPS
+               NSURLComponents *components =
+                   [NSURLComponents componentsWithURL:story.ifdb.coverArt
+                              resolvingAgainstBaseURL:YES];
+               components.scheme = @"https";
+               [self->_library fetchImageForIFID:libraryEntry.ifid
+                                             URL:components.URL];
+             }
+             NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+             [nc postNotificationName:SMMetadataChangedNotification object:self];
            }
-           NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
-           [nc postNotificationName:SMMetadataChangedNotification object:self];
-         }
-       }];
+         }];
+  }];
+}
+
+- (IBAction)useBlorbMetadata:(id)sender {
+  NSMutableArray<NSURL *> *urls = [NSMutableArray array];
+  NSIndexSet *selectedRowIndexes = tableView.selectedRowIndexes;
+  [selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL * _Nonnull stop) {
+    LibraryEntry *libraryEntry = _sortedEntries[idx];
+    [urls addObject:libraryEntry.fileURL];
+    [_library deleteImageForIFID:libraryEntry.ifid];
+    [_library.entries removeObject:libraryEntry];
+  }];
+  [self addStoryURLs:urls];
+  NSNotificationCenter *nc = NSNotificationCenter.defaultCenter;
+  [nc postNotificationName:SMMetadataChangedNotification object:self];
 }
 
 #pragma mark - Notifications
@@ -229,7 +256,8 @@
   if (item.action == @selector(selectStory:) ||
       item.action == @selector(removeStory:) ||
       item.action == @selector(showStoryInfo:) ||
-      item.action == @selector(fetchMetadata:)) {
+      item.action == @selector(fetchMetadata:) ||
+      item.action == @selector(useBlorbMetadata:)) {
     NSInteger row = tableView.clickedRow;
     if (row == -1)
       row = tableView.selectedRow;
