@@ -65,8 +65,8 @@
     NSForegroundColorAttributeName : NSColor.textColor,
     NSParagraphStyleAttributeName : paragraphStyle
   };
-  NSAttributedString *str =
-      [[NSAttributedString alloc] initWithString:desc attributes:attrs];
+  NSAttributedString *str = [[NSAttributedString alloc] initWithString:desc
+                                                            attributes:attrs];
   NSRange existingRange =
       NSMakeRange(0, descriptionTextView.textStorage.length);
   [descriptionTextView.textStorage replaceCharactersInRange:existingRange

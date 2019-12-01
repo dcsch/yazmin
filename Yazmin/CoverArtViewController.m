@@ -39,11 +39,9 @@
   for (NSImageRep *imageRep in imageView.image.representations) {
     if ([imageRep isKindOfClass:NSBitmapImageRep.class]) {
       NSBitmapImageRep *bitmapImageRep = (NSBitmapImageRep *)imageRep;
-      NSData *data =
-          [bitmapImageRep representationUsingType:NSBitmapImageFileTypeJPEG
-                                       properties:@{
-                                         NSImageCompressionFactor : @0.8
-                                       }];
+      NSData *data = [bitmapImageRep
+          representationUsingType:NSBitmapImageFileTypeJPEG
+                       properties:@{NSImageCompressionFactor : @0.8}];
       Story *story = self.representedObject;
       NSString *filename = [NSString stringWithFormat:@"%@.jpg", story.ifid];
       NSURL *url = [AppController URLForResource:filename

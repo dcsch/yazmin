@@ -347,8 +347,8 @@
                     }
                   }];
   } else {
-    _transcriptOutputStream =
-        [NSOutputStream outputStreamWithURL:_transcriptURL append:YES];
+    _transcriptOutputStream = [NSOutputStream outputStreamWithURL:_transcriptURL
+                                                           append:YES];
     [_transcriptOutputStream open];
     [self executeStory];
   }
@@ -375,8 +375,8 @@
                     }
                   }];
   } else {
-    _commandOutputStream =
-        [NSOutputStream outputStreamWithURL:_commandURL append:YES];
+    _commandOutputStream = [NSOutputStream outputStreamWithURL:_commandURL
+                                                        append:YES];
     [self->_commandOutputStream open];
     [self executeStory];
   }
@@ -560,8 +560,8 @@
   Preferences *preferences = Preferences.sharedPreferences;
   if (preferences.speakText) {
     NSUInteger move = _moveStrings.count - 1;
-    NSString *speakingString =
-        [self speakingStringForMove:move includePosition:NO];
+    NSString *speakingString = [self speakingStringForMove:move
+                                           includePosition:NO];
     [_speechSynthesizer startSpeakingString:speakingString];
   }
 }
@@ -584,8 +584,8 @@
 
 - (IBAction)repeatMostRecentMove:(id)sender {
   NSUInteger move = _moveStrings.count - 1;
-  NSString *speakingString =
-      [self speakingStringForMove:move includePosition:NO];
+  NSString *speakingString = [self speakingStringForMove:move
+                                         includePosition:NO];
   [_speechSynthesizer startSpeakingString:speakingString];
 }
 
@@ -597,8 +597,8 @@
     [_speechSynthesizer startSpeakingString:@"No previous moves"];
   } else {
     NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
-    NSString *speakingString =
-        [self speakingStringForMove:_lastSpokenMove includePosition:YES];
+    NSString *speakingString = [self speakingStringForMove:_lastSpokenMove
+                                           includePosition:YES];
     [_speechSynthesizer startSpeakingString:speakingString];
   }
 }
@@ -611,8 +611,8 @@
     [_speechSynthesizer startSpeakingString:@"No further moves"];
   } else {
     NSLog(@"Speak move: %ld", (long)_lastSpokenMove);
-    NSString *speakingString =
-        [self speakingStringForMove:_lastSpokenMove includePosition:YES];
+    NSString *speakingString = [self speakingStringForMove:_lastSpokenMove
+                                           includePosition:YES];
     [_speechSynthesizer startSpeakingString:speakingString];
   }
 }

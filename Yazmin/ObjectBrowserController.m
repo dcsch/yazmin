@@ -47,8 +47,8 @@
             child:(int)index
            ofItem:(id)item {
   Story *story = self.document;
-  int obj =
-      [[story zMachine] child:index ofObject:item == nil ? 0 : [item intValue]];
+  int obj = [[story zMachine] child:index
+                           ofObject:item == nil ? 0 : [item intValue]];
   return @(obj);
 }
 

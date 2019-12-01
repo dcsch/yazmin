@@ -217,8 +217,9 @@ const NSArray<NSString *> *AllowedFileTypes;
       return NO;
     }
   } else
-    return
-        [super readFromFileWrapper:fileWrapper ofType:typeName error:outError];
+    return [super readFromFileWrapper:fileWrapper
+                               ofType:typeName
+                                error:outError];
 }
 
 - (BOOL)readFromData:(NSData *)data
@@ -418,9 +419,10 @@ const NSArray<NSString *> *AllowedFileTypes;
   int closestCode = 0;
   CGFloat closestDistance = 2.0;
   for (int i = 2; i <= 9; ++i) {
-    NSColor *paletteColor =
-        [[self colorFromCode:i currentColor:nil defaultColor:nil]
-            colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
+    NSColor *paletteColor = [[self colorFromCode:i
+                                    currentColor:nil
+                                    defaultColor:nil]
+        colorUsingColorSpace:NSColorSpace.genericRGBColorSpace];
     CGFloat r2, g2, b2, a2;
     [paletteColor getRed:&r2 green:&g2 blue:&b2 alpha:&a2];
 

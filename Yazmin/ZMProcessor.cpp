@@ -2002,8 +2002,8 @@ void ZMProcessor::restore() {
   }
 
   ZMQuetzal quetzal(_memory, _stack);
-  uint32_t pc = quetzal.restore(_io);
   uint16_t restoreResult = _io.getRestoreOrSaveResult();
+  uint32_t pc = restoreResult ? quetzal.restore(_io) : _pc;
 
   if (_version < 4) {
     if (restoreResult == 0)
@@ -2011,12 +2011,18 @@ void ZMProcessor::restore() {
     else if (restoreResult == 2)
       _pc = pc + 1;
   } else {
-    // TODO: see note below
-    _pc = pc - 1;
-    _instructionLength--;
-    decodeStore();
-    _pc = pc + 1;
-    setVariable(_store, restoreResult);
+    if (restoreResult == 0) {
+      setVariable(_store, restoreResult);
+      advancePC();
+    } else if (restoreResult == 2) {
+
+      // TODO: see note below
+      _pc = pc - 1;
+      _instructionLength--;
+      decodeStore();
+      _pc = pc + 1;
+      setVariable(_store, restoreResult);
+    }
   }
 }
 
@@ -2035,8 +2041,8 @@ void ZMProcessor::restore_ext() {
   }
 
   ZMQuetzal quetzal(_memory, _stack);
-  uint32_t pc = quetzal.restore(_io);
   uint16_t restoreResult = _io.getRestoreOrSaveResult();
+  uint32_t pc = restoreResult ? quetzal.restore(_io) : _pc;
   if (restoreResult == 0) {
     setVariable(_store, restoreResult);
     advancePC();

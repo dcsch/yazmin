@@ -82,8 +82,8 @@ NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
   NSURL *supportDirURL = [AppController applicationSupportDirectoryURL];
   NSURL *subDirURL;
   if (subpath)
-    subDirURL =
-        [supportDirURL URLByAppendingPathComponent:subpath isDirectory:YES];
+    subDirURL = [supportDirURL URLByAppendingPathComponent:subpath
+                                               isDirectory:YES];
   else
     subDirURL = supportDirURL;
 

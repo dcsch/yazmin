@@ -60,8 +60,9 @@ void ZMDictionary::lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
 
   char buf[kMaxWordCount];
   for (int i = 0; i < wordCount; ++i) {
-    memcpy(buf, reinterpret_cast<const char *>(_data) + textBufferAddress +
-                    wordIndex[i],
+    memcpy(buf,
+           reinterpret_cast<const char *>(_data) + textBufferAddress +
+               wordIndex[i],
            wordLen[i]);
     buf[wordLen[i]] = 0;
   }
@@ -77,8 +78,9 @@ void ZMDictionary::lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
   ZMText text(_data);
   for (int i = 0; i < wordCount; ++i) {
     // Encode each word into packed format
-    text.encode(packedWord, reinterpret_cast<const char *>(_data) +
-                                textBufferAddress + wordIndex[i],
+    text.encode(packedWord,
+                reinterpret_cast<const char *>(_data) + textBufferAddress +
+                    wordIndex[i],
                 wordLen[i], kPackedWordLen);
 
     // Find the word in the dictionary

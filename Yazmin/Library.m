@@ -143,7 +143,8 @@
 
 - (void)deleteImageForIFID:(NSString *)ifid {
   NSURL *artworkURL = [[AppController applicationSupportDirectoryURL]
-                        URLByAppendingPathComponent:@"Cover Art" isDirectory:YES];
+      URLByAppendingPathComponent:@"Cover Art"
+                      isDirectory:YES];
   NSFileManager *fm = NSFileManager.defaultManager;
   NSArray<NSURL *> *urls = [fm contentsOfDirectoryAtURL:artworkURL
                              includingPropertiesForKeys:nil

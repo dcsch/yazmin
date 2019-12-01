@@ -92,8 +92,8 @@
     Story *story = self.document;
     NSUInteger index = [[selectedRoutine localNames] indexOfObject:item];
     NSInteger rowIndex = callStackView.selectedRow;
-    NSUInteger localValue =
-        [[story zMachine] localAtIndex:index forFrame:rowIndex];
+    NSUInteger localValue = [[story zMachine] localAtIndex:index
+                                                  forFrame:rowIndex];
     return @(localValue);
   }
 }
