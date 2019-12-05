@@ -14,6 +14,8 @@ int TestIO::getScreenWidth() const { return 80; }
 
 int TestIO::getScreenHeight() const { return 25; }
 
+int TestIO::getWindow() const { return 0; }
+
 void TestIO::setWindow(int window) {}
 
 void TestIO::splitWindow(int lines) {}

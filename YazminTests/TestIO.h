@@ -18,6 +18,8 @@ public:
 
   int getScreenHeight() const override;
 
+  int getWindow() const override;
+
   void setWindow(int window) override;
 
   void splitWindow(int lines) override;

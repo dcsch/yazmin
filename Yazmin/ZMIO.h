@@ -21,6 +21,8 @@ public:
 
   virtual int getScreenHeight() const = 0;
 
+  virtual int getWindow() const = 0;
+
   virtual void setWindow(int window) = 0;
 
   virtual void splitWindow(int lines) = 0;

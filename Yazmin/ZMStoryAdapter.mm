@@ -9,6 +9,8 @@ int ZMStoryAdapter::getScreenWidth() const { return _story.screenWidth; }
 
 int ZMStoryAdapter::getScreenHeight() const { return _story.screenHeight; }
 
+int ZMStoryAdapter::getWindow() const { return _story.window; }
+
 void ZMStoryAdapter::setWindow(int window) { _story.window = window; }
 
 void ZMStoryAdapter::splitWindow(int lines) { [_story splitWindow:lines]; }
