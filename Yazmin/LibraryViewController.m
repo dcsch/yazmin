@@ -108,6 +108,8 @@
                         story.storyViewController == nil) {
                       [story makeWindowControllers];
                       [story showWindows];
+                    } else if (error) {
+                      [self libraryEntry:libraryEntry alertWithError:error];
                     }
                   }];
 }
@@ -122,6 +124,21 @@
   _sortedEntries =
       [filteredEntries sortedArrayUsingDescriptors:tableView.sortDescriptors];
   [tableView reloadData];
+}
+
+- (void)libraryEntry:(LibraryEntry *)libraryEntry
+      alertWithError:(NSError *)error {
+  NSAlert *alert = [NSAlert alertWithError:error];
+  [alert addButtonWithTitle:@"OK"];
+  [alert addButtonWithTitle:@"Remove Entry"];
+  [alert beginSheetModalForWindow:self.view.window
+                completionHandler:^(NSModalResponse returnCode) {
+                  if (returnCode == NSAlertSecondButtonReturn) {
+                    [self->_library deleteImageForIFID:libraryEntry.ifid];
+                    [self->_library.entries removeObject:libraryEntry];
+                    [self reloadSortedData];
+                  }
+                }];
 }
 
 #pragma mark - Actions
@@ -189,8 +206,12 @@
                   completionHandler:^(NSDocument *_Nullable document,
                                       BOOL documentWasAlreadyOpen,
                                       NSError *_Nullable error) {
-                    Story *story = (Story *)document;
-                    [story showStoryInfo:self];
+                    if (document) {
+                      Story *story = (Story *)document;
+                      [story showStoryInfo:self];
+                    } else if (error) {
+                      [self libraryEntry:libraryEntry alertWithError:error];
+                    }
                   }];
 }
 
