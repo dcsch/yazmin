@@ -790,7 +790,7 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
 }
 
 void ZMProcessor::print(std::string str, bool caratNewLine) {
-  if (caratNewLine && _io.getWindow() == 0)
+  if (caratNewLine)
     std::transform(str.begin(), str.end(), str.begin(),
                    [](char c) -> char { return c == '^' ? '\n' : c; });
 
