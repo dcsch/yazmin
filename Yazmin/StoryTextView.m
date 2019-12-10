@@ -281,7 +281,12 @@
 }
 
 - (void)insertNewline:(id)sender {
+
+  // Move insertion point to the end of all text
+  [self setSelectedRange:NSMakeRange(self.textStorage.length, 0)];
   [super insertNewline:sender];
+
+  // Extract the newly entered text
   NSRange range =
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation - 1);
   NSString *input = [self.textStorage.string substringWithRange:range];
