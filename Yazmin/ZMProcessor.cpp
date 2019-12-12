@@ -789,11 +789,7 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
     advancePC();
 }
 
-void ZMProcessor::print(std::string str, bool caratNewLine) {
-  if (caratNewLine)
-    std::transform(str.begin(), str.end(), str.begin(),
-                   [](char c) -> char { return c == '^' ? '\n' : c; });
-
+void ZMProcessor::print(std::string str) {
   if (_redirect.empty())
     _io.print(str);
   else
@@ -1680,7 +1676,7 @@ void ZMProcessor::print_char() {
 
   uint16_t output_character_code = getOperand(0);
   ZMText text(_memory.getData());
-  print(text.zsciiToUTF8(output_character_code), false);
+  print(text.zsciiToUTF8(output_character_code));
   advancePC();
 }
 
@@ -1762,7 +1758,7 @@ void ZMProcessor::print_unicode() {
   uint16_t char_number = getOperand(0);
   std::string str;
   ZMText::appendAsUTF8(str, char_number);
-  print(str, false);
+  print(str);
   advancePC();
 }
 

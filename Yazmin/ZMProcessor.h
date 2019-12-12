@@ -100,7 +100,7 @@ private:
 
   void branchOrAdvancePC(bool testResult);
 
-  void print(std::string str, bool caratNewLine = true);
+  void print(std::string str);
 
   void print(int16_t number);
 

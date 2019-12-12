@@ -18,7 +18,7 @@ static const char defaultA1[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                                  'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
                                  'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
-static const char defaultA2[] = {' ',  '^', '0', '1',  '2', '3', '4', '5', '6',
+static const char defaultA2[] = {' ',  '\n', '0', '1',  '2', '3', '4', '5', '6',
                                  '7',  '8', '9', '.',  ',', '!', '?', '_', '#',
                                  '\'', '"', '/', '\\', '-', ':', '(', ')'};
 
@@ -68,7 +68,7 @@ std::string ZMText::decode(const uint8_t *data, size_t &encodedLen) {
 
 void ZMText::encode(uint8_t *data, const char *zscii, size_t zsciiLen,
                     size_t encodedLen) {
-  uint8_t zchars[256];
+  uint8_t zchars[256] = {};
   uint8_t *zcharsPtr = zchars;
   int zcharLen;
   const char *zsciiPtr = zscii;
