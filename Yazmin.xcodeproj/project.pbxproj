@@ -76,6 +76,7 @@
 		63504E8F2391BEB00053095F /* MachineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63504E8E2391BEB00053095F /* MachineTests.mm */; };
 		63504E912391BF920053095F /* hello.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63504E902391BF920053095F /* hello.z5 */; };
 		63504E932391E5830053095F /* restore_v5.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63504E922391E5830053095F /* restore_v5.z5 */; };
+		63527DFE23A373A6007C917C /* YazminUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63527DFD23A373A6007C917C /* YazminUITests.m */; };
 		639A097F13322F08000E27F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639A097E13322F08000E27F4 /* Cocoa.framework */; };
 		639A098913322F08000E27F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 639A098713322F08000E27F4 /* InfoPlist.strings */; };
 		639A098C13322F08000E27F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A098B13322F08000E27F4 /* main.m */; };
@@ -85,6 +86,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		63527E0023A373A6007C917C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 639A097113322F07000E27F4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 639A097913322F08000E27F4;
+			remoteInfo = Yazmin;
+		};
 		639A09A013322F08000E27F4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 639A097113322F07000E27F4 /* Project object */;
@@ -222,6 +230,9 @@
 		63504E8E2391BEB00053095F /* MachineTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MachineTests.mm; sourceTree = "<group>"; };
 		63504E902391BF920053095F /* hello.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = hello.z5; sourceTree = "<group>"; };
 		63504E922391E5830053095F /* restore_v5.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = restore_v5.z5; sourceTree = "<group>"; };
+		63527DFB23A373A6007C917C /* YazminUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YazminUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		63527DFD23A373A6007C917C /* YazminUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YazminUITests.m; sourceTree = "<group>"; };
+		63527DFF23A373A6007C917C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		639A097A13322F08000E27F4 /* Yazmin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yazmin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		639A097E13322F08000E27F4 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		639A098613322F08000E27F4 /* Yazmin-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Yazmin-Info.plist"; sourceTree = "<group>"; };
@@ -237,6 +248,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		63527DF823A373A6007C917C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		639A097713322F08000E27F4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -400,12 +418,22 @@
 			name = "Z-machine";
 			sourceTree = "<group>";
 		};
+		63527DFC23A373A6007C917C /* YazminUITests */ = {
+			isa = PBXGroup;
+			children = (
+				63527DFD23A373A6007C917C /* YazminUITests.m */,
+				63527DFF23A373A6007C917C /* Info.plist */,
+			);
+			path = YazminUITests;
+			sourceTree = "<group>";
+		};
 		639A096F13322F07000E27F4 = {
 			isa = PBXGroup;
 			children = (
 				0366C80D21002FAC003EEEB6 /* README.md */,
 				639A098413322F08000E27F4 /* Yazmin */,
 				639A09A213322F08000E27F4 /* YazminTests */,
+				63527DFC23A373A6007C917C /* YazminUITests */,
 				639A097D13322F08000E27F4 /* Frameworks */,
 				639A097B13322F08000E27F4 /* Products */,
 			);
@@ -418,6 +446,7 @@
 			children = (
 				639A097A13322F08000E27F4 /* Yazmin.app */,
 				639A099E13322F08000E27F4 /* YazminTests.xctest */,
+				63527DFB23A373A6007C917C /* YazminUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -511,6 +540,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		63527DFA23A373A6007C917C /* YazminUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 63527E0423A373A6007C917C /* Build configuration list for PBXNativeTarget "YazminUITests" */;
+			buildPhases = (
+				63527DF723A373A6007C917C /* Sources */,
+				63527DF823A373A6007C917C /* Frameworks */,
+				63527DF923A373A6007C917C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				63527E0123A373A6007C917C /* PBXTargetDependency */,
+			);
+			name = YazminUITests;
+			productName = YazminUITests;
+			productReference = 63527DFB23A373A6007C917C /* YazminUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		639A097913322F08000E27F4 /* Yazmin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 639A09AF13322F08000E27F4 /* Build configuration list for PBXNativeTarget "Yazmin" */;
@@ -555,6 +602,10 @@
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "David Schweinsberg";
 				TargetAttributes = {
+					63527DFA23A373A6007C917C = {
+						CreatedOnToolsVersion = 11.3;
+						TestTargetID = 639A097913322F08000E27F4;
+					};
 					639A097913322F08000E27F4 = {
 						SystemCapabilities = {
 							com.apple.HardenedRuntime = {
@@ -579,11 +630,19 @@
 			targets = (
 				639A097913322F08000E27F4 /* Yazmin */,
 				639A099D13322F08000E27F4 /* YazminTests */,
+				63527DFA23A373A6007C917C /* YazminUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		63527DF923A373A6007C917C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		639A097813322F08000E27F4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -611,6 +670,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		63527DF723A373A6007C917C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63527DFE23A373A6007C917C /* YazminUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		639A097613322F08000E27F4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -690,6 +757,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		63527E0123A373A6007C917C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 639A097913322F08000E27F4 /* Yazmin */;
+			targetProxy = 63527E0023A373A6007C917C /* PBXContainerItemProxy */;
+		};
 		639A09A113322F08000E27F4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 639A097913322F08000E27F4 /* Yazmin */;
@@ -749,6 +821,88 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		63527E0223A373A6007C917C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9MWCHY26A8;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = YazminUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.synchroma.YazminUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Yazmin;
+			};
+			name = Debug;
+		};
+		63527E0323A373A6007C917C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9MWCHY26A8;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = YazminUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = org.synchroma.YazminUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = Yazmin;
+			};
+			name = Release;
+		};
 		639A09AD13322F08000E27F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -949,6 +1103,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		63527E0423A373A6007C917C /* Build configuration list for PBXNativeTarget "YazminUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				63527E0223A373A6007C917C /* Debug */,
+				63527E0323A373A6007C917C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		639A097413322F07000E27F4 /* Build configuration list for PBXProject "Yazmin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

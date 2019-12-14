@@ -217,8 +217,8 @@
 }
 
 - (void)scrollLowerWindow {
-  if (lowerView.textStorage.length == 0)
-    return;
+//  if (lowerView.textStorage.length == 0)
+//    return;
 
   [lowerView.layoutManager
       ensureLayoutForTextContainer:lowerView.textContainer];
