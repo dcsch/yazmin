@@ -83,6 +83,9 @@
 		639A099213322F08000E27F4 /* Story.m in Sources */ = {isa = PBXBuildFile; fileRef = 639A099113322F08000E27F4 /* Story.m */; };
 		639A099F13322F08000E27F4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 639A097E13322F08000E27F4 /* Cocoa.framework */; };
 		639A09A713322F08000E27F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 639A09A513322F08000E27F4 /* InfoPlist.strings */; };
+		63A10D5323AAAB4300FC2032 /* freefall.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5123AAAB4300FC2032 /* freefall.z5 */; };
+		63A10D5423AAAB4300FC2032 /* curses.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5223AAAB4300FC2032 /* curses.z5 */; };
+		63A10D5623AAADF900FC2032 /* test_stories.iFiction in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5523AAADF900FC2032 /* test_stories.iFiction */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,6 +248,9 @@
 		639A09A413322F08000E27F4 /* YazminTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "YazminTests-Info.plist"; sourceTree = "<group>"; };
 		639A09A613322F08000E27F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		639A09A813322F08000E27F4 /* YazminTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YazminTests-Prefix.pch"; sourceTree = "<group>"; };
+		63A10D5123AAAB4300FC2032 /* freefall.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = freefall.z5; sourceTree = "<group>"; };
+		63A10D5223AAAB4300FC2032 /* curses.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = curses.z5; sourceTree = "<group>"; };
+		63A10D5523AAADF900FC2032 /* test_stories.iFiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test_stories.iFiction; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -422,7 +428,7 @@
 			isa = PBXGroup;
 			children = (
 				63527DFD23A373A6007C917C /* YazminUITests.m */,
-				63527DFF23A373A6007C917C /* Info.plist */,
+				63A10D5023AAAAA300FC2032 /* Supporting Files */,
 			);
 			path = YazminUITests;
 			sourceTree = "<group>";
@@ -537,6 +543,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		63A10D5023AAAAA300FC2032 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				63A10D5523AAADF900FC2032 /* test_stories.iFiction */,
+				63A10D5223AAAB4300FC2032 /* curses.z5 */,
+				63A10D5123AAAB4300FC2032 /* freefall.z5 */,
+				63527DFF23A373A6007C917C /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -640,6 +657,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A10D5623AAADF900FC2032 /* test_stories.iFiction in Resources */,
+				63A10D5323AAAB4300FC2032 /* freefall.z5 in Resources */,
+				63A10D5423AAAB4300FC2032 /* curses.z5 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

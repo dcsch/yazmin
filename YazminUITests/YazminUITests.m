@@ -8,15 +8,15 @@
 
 #import <XCTest/XCTest.h>
 
-@interface YazminUITests : XCTestCase
-
+@interface YazminUITests : XCTestCase {
+  NSBundle *testBundle;
+}
 @end
 
 @implementation YazminUITests
 
 - (void)setUp {
-  // Put setup code here. This method is called before the invocation of each
-  // test method in the class.
+  testBundle = [NSBundle bundleForClass:YazminUITests.class];
 
   // In UI tests it is usually best to stop immediately when a failure occurs.
   self.continueAfterFailure = NO;
@@ -29,13 +29,44 @@
 - (void)tearDown {
 }
 
-- (void)testTetrisLowerWindow {
+- (void)testLibrary {
+  NSURL *url = [testBundle URLForResource:@"test_stories"
+                            withExtension:@"iFiction"
+                             subdirectory:nil];
+
   XCUIApplication *app = [[XCUIApplication alloc] init];
+  app.launchArguments = @[@"-LibraryURL", url.absoluteString];
   [app launch];
 
-  XCUIElement *libraryWindow = app.windows[@"Library"];
-  [[[libraryWindow.tableRows elementBoundByIndex:27].cells
-      elementBoundByIndex:0] doubleClick];
+  XCUIElement *libraryWindow = [[XCUIApplication alloc] init].windows[@"Library"];
+  [libraryWindow.toolbars/*@START_MENU_TOKEN@*/.searchFields[@"Search Title"]/*[[".groups.searchFields[@\"Search Title\"]",".searchFields[@\"Search Title\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ click];
+  
+  XCUIElement *cell = [[libraryWindow/*@START_MENU_TOKEN@*/.tables/*[[".scrollViews.tables",".tables"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tableRows childrenMatchingType:XCUIElementTypeCell] elementBoundByIndex:0];
+  [cell typeText:@"Tetris\n"];
+  
+  XCUIElement *storyWindow = app.windows[@"Tetris"];
+  XCUIElement *lowerScrollView =
+      [storyWindow.scrollViews elementBoundByIndex:1];
+  XCUIElement *lowerTextView = [storyWindow.textViews elementBoundByIndex:1];
+  
+  // Start the tiles falling
+  [lowerTextView typeText:@"\r"];
+}
+
+- (void)testTetrisLowerWindow {
+  NSURL *url = [testBundle URLForResource:@"freefall"
+                            withExtension:@"z5"
+                             subdirectory:nil];
+
+  XCUIApplication *app = [[XCUIApplication alloc] init];
+  app.launchArguments = @[url.absoluteString];
+  [app launch];
+
+  XCUIElement *libraryWindow = [[XCUIApplication alloc] init].windows[@"Library"];
+  [libraryWindow.toolbars/*@START_MENU_TOKEN@*/.searchFields[@"Search Title"]/*[[".groups.searchFields[@\"Search Title\"]",".searchFields[@\"Search Title\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/ click];
+  
+  XCUIElement *cell = [[libraryWindow/*@START_MENU_TOKEN@*/.tables/*[[".scrollViews.tables",".tables"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tableRows childrenMatchingType:XCUIElementTypeCell] elementBoundByIndex:0];
+  [cell typeText:@"Tetris\n"];
 
   XCUIElement *storyWindow = app.windows[@"Tetris"];
   XCUIElement *lowerScrollView =
