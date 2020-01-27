@@ -192,6 +192,7 @@
 }
 
 - (void)handleWindowWillClose:(NSNotification *)note {
+  [_speechSynthesizer stopSpeaking];
   [_transcriptOutputStream close];
   [_commandOutputStream close];
   [_commandInputStream close];
