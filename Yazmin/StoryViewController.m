@@ -18,11 +18,12 @@
 #import "Preferences.h"
 #import "Story.h"
 #import "StoryFacet.h"
+#import "StoryInputTextView.h"
 #import "StoryTextView.h"
 #import "ZMachine.h"
 
 @interface StoryViewController () {
-  IBOutlet NSTextView *upperView;
+  IBOutlet StoryInputTextView *upperView;
   IBOutlet StoryTextView *lowerView;
   IBOutlet NSScrollView *lowerScrollView;
   IBOutlet NSLayoutConstraint *upperHeightConstraint;
@@ -100,12 +101,15 @@
   lowerView.textContainerInset = NSMakeSize(20.0, 20.0);
   lowerView.storyInput = self;
   lowerView.inputView = YES;
+  [self.view.window makeFirstResponder:lowerView];
 
   // Upper Window (initially zero height)
   upperView.textContainerInset = NSMakeSize(20.0, 10.0);
   upperView.textContainer.widthTracksTextView = YES;
   upperView.textContainer.heightTracksTextView = NO;
   upperView.textContainer.maximumNumberOfLines = 0;
+  upperView.storyInput = self;
+  upperView.inputView = NO;
   upperHeightConstraint.constant = 0.0;
 
   // Speech
@@ -286,7 +290,11 @@
   [self speakLatestMove];
   [self updateWindowLayoutIfNeeded];
 
-  [lowerView setInputState:kCharacterInputState];
+  if (lowerView.inputView) {
+    [lowerView setInputState:kCharacterInputState];
+  } else if (upperView.inputView) {
+    [upperView setInputState:kCharacterInputState];
+  }
   [self scrollLowerWindow];
 }
 
@@ -497,6 +505,7 @@
 
 - (void)characterInput:(unichar)c {
   lowerView.inputState = kNoInputState;
+  upperView.inputState = kNoInputState;
   Story *story = self.representedObject;
   story.inputCharacter = c;
   [self printCharToOutputStreams:c];
@@ -505,6 +514,7 @@
 
 - (void)stringInput:(NSString *)string {
   lowerView.inputState = kNoInputState;
+  upperView.inputState = kNoInputState;
   Story *story = self.representedObject;
   story.inputString = string;
   [self printToOutputStreams:string];
@@ -664,6 +674,8 @@
                                  if (story.hasEnded) {
                                    [self->lowerView
                                        setInputState:kNoInputState];
+                                   [self->upperView
+                                       setInputState:kNoInputState];
                                    [self->_transcriptOutputStream close];
                                    [self->_commandOutputStream close];
                                    [self->_commandInputStream close];
@@ -702,6 +714,18 @@
       [story.facets[0].textStorage appendAttributedString:inputSoFar];
   }
   return retVal;
+}
+
+- (void)setWindow:(int)window {
+  if (window == 0) {
+    lowerView.inputView = YES;
+    upperView.inputView = NO;
+    [self.view.window makeFirstResponder:lowerView];
+  } else if (window == 1) {
+    lowerView.inputView = NO;
+    upperView.inputView = YES;
+    [self.view.window makeFirstResponder:upperView];
+  }
 }
 
 - (void)splitWindow:(int)lines {

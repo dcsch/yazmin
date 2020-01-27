@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)executeStory;
 - (BOOL)executeRoutine:(int)routine;
 
+- (void)setWindow:(int)window;
 - (void)splitWindow:(int)lines;
 - (void)eraseWindow:(int)window;
 - (void)print:(NSString *)text;

@@ -6,7 +6,7 @@
 //  Copyright © 2019 David Schweinsberg. All rights reserved.
 //
 
-#include "ZMIO.h"
+#include "../Yazmin/ZMIO.h"
 
 @class Story;
 
@@ -85,7 +85,4 @@ public:
   int getInterpreterNumber() const override;
 
   char getInterpreterVersion() const override;
-
-private:
-  Story *_story;
 };

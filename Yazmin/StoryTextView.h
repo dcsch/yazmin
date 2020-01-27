@@ -7,12 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-typedef NS_ENUM(NSUInteger, InputState) {
-  kNoInputState,
-  kCharacterInputState,
-  kStringInputState
-};
+#import "InputState.h"
 
 @protocol StoryInput;
 

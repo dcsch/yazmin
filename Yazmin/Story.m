@@ -388,6 +388,7 @@ const NSArray<NSString *> *AllowedFileTypes;
 }
 
 - (void)beginInputChar {
+  _inputCharacter = 0;
   _upperWindowSeenHeight = _facets[1].numberOfLines;
   [_storyViewController prepareInputChar];
 }
@@ -552,6 +553,7 @@ const NSArray<NSString *> *AllowedFileTypes;
 
 - (void)setWindow:(int)window {
   _storyFacet = _facets[window];
+  [_storyViewController setWindow:window];
 }
 
 - (void)splitWindow:(int)lines {
