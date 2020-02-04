@@ -101,6 +101,7 @@
   lowerView.textContainerInset = NSMakeSize(20.0, 20.0);
   lowerView.storyInput = self;
   lowerView.inputView = YES;
+  lowerView.automaticQuoteSubstitutionEnabled = NO;
   [self.view.window makeFirstResponder:lowerView];
 
   // Upper Window (initially zero height)
@@ -110,6 +111,7 @@
   upperView.textContainer.maximumNumberOfLines = 0;
   upperView.storyInput = self;
   upperView.inputView = NO;
+  upperView.automaticQuoteSubstitutionEnabled = NO;
   upperHeightConstraint.constant = 0.0;
 
   // Speech
