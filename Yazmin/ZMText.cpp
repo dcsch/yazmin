@@ -19,8 +19,8 @@ static const char defaultA1[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                                  'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
 static const char defaultA2[] = {' ',  '\n', '0', '1',  '2', '3', '4', '5', '6',
-                                 '7',  '8', '9', '.',  ',', '!', '?', '_', '#',
-                                 '\'', '"', '/', '\\', '-', ':', '(', ')'};
+                                 '7',  '8',  '9', '.',  ',', '!', '?', '_', '#',
+                                 '\'', '"',  '/', '\\', '-', ':', '(', ')'};
 
 // Unicode translations from 155 to 223
 static const uint8_t defaultULength = 69;
@@ -230,7 +230,7 @@ int ZMText::zsciiToZChar(char zscii, uint8_t *zchar) {
     // We need to encode the char as a 10-bit value
     zchar[0] = 5;
     zchar[1] = 6;
-    zchar[2] = (zscii >> 5) & 0x1f;
+    zchar[2] = (static_cast<uint8_t>(zscii) >> 5) & 0x1f;
     zchar[3] = zscii & 0x1f;
     return 4;
   }

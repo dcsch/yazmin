@@ -6,8 +6,8 @@
 //  Copyright 2007 David Schweinsberg. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
 #import "InputState.h"
+#import <Cocoa/Cocoa.h>
 
 @protocol StoryInput;
 

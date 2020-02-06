@@ -75,9 +75,9 @@ void ZMDictionary::lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
   ZMHeader header(_data);
   const int kPackedWordLen = header.getVersion() <= 3 ? 4 : 6;
   uint8_t packedWord[6];
-  ZMText text(_data);
   for (int i = 0; i < wordCount; ++i) {
     // Encode each word into packed format
+    ZMText text(_data);
     text.encode(packedWord,
                 reinterpret_cast<const char *>(_data) + textBufferAddress +
                     wordIndex[i],
@@ -102,6 +102,17 @@ void ZMDictionary::lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
       parseBufferPtr[2] = wordLen[i];
       parseBufferPtr[3] = wordIndex[i];
     }
+  }
+}
+
+void ZMDictionary::dump() const {
+  for (int i = 0; i < getEntryCount(); ++i) {
+    auto addr = getEntryAddress(i);
+    const auto wordPtr = _data + addr;
+    size_t len;
+    ZMText text(_data);
+    auto str = text.decode(wordPtr, len);
+    printf("%s\n", str.c_str());
   }
 }
 

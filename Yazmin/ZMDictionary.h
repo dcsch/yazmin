@@ -28,6 +28,8 @@ public:
   void lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
            bool flag = false) const;
 
+  void dump() const;
+
 private:
   const uint8_t *_data;
   uint16_t _userDict;
