@@ -84,7 +84,7 @@ std::string ZMObject::getShortName() const {
   if (len > 0) {
     ZMText text(_memory.getData());
     size_t encLen;
-    return text.decode(_memory.getData() + addr + 1, encLen);
+    return text.decodeZCharsToZscii(_memory.getData() + addr + 1, encLen);
   }
   return "";
 }

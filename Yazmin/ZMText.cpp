@@ -50,7 +50,8 @@ ZMText::ZMText(const uint8_t *memoryBase)
     _uTable = ZMWordTable(_memoryBase + addr, _memoryBase + addr + 1);
 }
 
-std::string ZMText::decode(const uint8_t *data, size_t &encodedLen) {
+std::string ZMText::decodeZCharsToZscii(const uint8_t *data,
+                                        size_t &encodedLen) {
   std::string str;
   const uint8_t *ptr = data;
   char zchars[3];
@@ -59,15 +60,15 @@ std::string ZMText::decode(const uint8_t *data, size_t &encodedLen) {
     eol = unpackWord(ZMMemory::readWordFromData(ptr), zchars);
     ptr += 2;
     for (int i = 0; i < 3; ++i) {
-      zCharToUTF8(zchars[i], str);
+      zCharToZscii(zchars[i], str);
     }
   }
   encodedLen = ptr - data;
   return str;
 }
 
-void ZMText::encode(uint8_t *data, const char *zscii, size_t zsciiLen,
-                    size_t encodedLen) {
+void ZMText::encodeZsciiToZchars(uint8_t *data, const char *zscii,
+                                 size_t zsciiLen, size_t encodedLen) {
   uint8_t zchars[256] = {};
   uint8_t *zcharsPtr = zchars;
   int zcharLen;
@@ -115,7 +116,7 @@ std::string ZMText::abbreviation(int index) {
   // address by 2
   uint16_t ptr = 2 * ZMMemory::readWordFromData(_memoryBase + addr);
   size_t encLen;
-  auto str = decode(_memoryBase + ptr, encLen);
+  auto str = decodeZCharsToZscii(_memoryBase + ptr, encLen);
 
   // 0x05s padding out the end of an abbreviation can leave the charset
   // set incorrectly
@@ -125,12 +126,12 @@ std::string ZMText::abbreviation(int index) {
 }
 
 std::string ZMText::getString(uint32_t addr, size_t &encLen) {
-  return decode(_memoryBase + addr, encLen);
+  return decodeZCharsToZscii(_memoryBase + addr, encLen);
 }
 
 std::string ZMText::getString(uint32_t addr) {
   size_t encLen;
-  return decode(_memoryBase + addr, encLen);
+  return decodeZCharsToZscii(_memoryBase + addr, encLen);
 }
 
 bool ZMText::unpackWord(uint16_t word, char *zchars) {
@@ -145,19 +146,14 @@ uint16_t ZMText::packWord(const uint8_t *zchars) {
          (zchars[2] & 0x1f);
 }
 
-void ZMText::zCharToUTF8(char z, std::string &str) {
+void ZMText::zCharToZscii(char z, std::string &str) {
   if (_10bit > 0) {
     if (_10bit == 2) {
       _highBits = z & 0x1f;
       _10bit = 1;
     } else {
-      int index = static_cast<int>(_highBits) << 5 | z;
-      wchar_t c;
-      if (155 <= index && index < 155 + _uTable.getLength())
-        c = _uTable.getWord(index - 155);
-      else
-        c = index;
-      appendAsUTF8(str, c);
+      int c = static_cast<int>(_highBits) << 5 | z;
+      str.push_back(c);
       _10bit = 0;
     }
   } else if (_abbreviation != 0) {
@@ -170,13 +166,13 @@ void ZMText::zCharToUTF8(char z, std::string &str) {
       _charset = _a0;
       return;
     }
-    uint8_t index = _charset[static_cast<int>(z) - 6];
-    wchar_t c;
-    if (155 <= index && index < 155 + _uTable.getLength())
-      c = _uTable.getWord(index - 155);
-    else
-      c = index;
-    appendAsUTF8(str, c);
+    uint8_t c = _charset[static_cast<int>(z) - 6];
+    // The Russian translation of Spider and Web has a '^' as a zchar
+    // instead of an actual CR, so substitute it. Is this common?
+    if (c == '^') {
+      c = '\r';
+    }
+    str.push_back(c);
     _charset = _a0;
   } else if (z == 0)
     str.append(1, ' ');
@@ -305,6 +301,19 @@ void ZMText::zsciiToUTF8(std::string &str, uint16_t zsciiChar) {
     appendAsUTF8(str, zsciiChar);
   else if (155 <= zsciiChar && zsciiChar < 155 + _uTable.getLength())
     appendAsUTF8(str, _uTable.getWord(zsciiChar - 155));
+}
+
+std::string ZMText::zsciiToUTF8(const std::string zscii) {
+  std::string str;
+  for (uint8_t zsciiChar : zscii) {
+    wchar_t c;
+    if (155 <= zsciiChar && zsciiChar < 155 + _uTable.getLength())
+      c = _uTable.getWord(zsciiChar - 155);
+    else
+      c = zsciiChar;
+    appendAsUTF8(str, c);
+  }
+  return str;
 }
 
 void ZMText::appendAsUTF8(std::string &str, wchar_t c) {

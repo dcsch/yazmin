@@ -31,21 +31,21 @@
 
   const uint8_t data[] = {0b10011000, 0b11101000}; // 'abc'
   size_t encodedLen;
-  std::string str = text.decode(data, encodedLen);
+  std::string str = text.decodeZCharsToZscii(data, encodedLen);
   NSString *objcstr = [NSString stringWithUTF8String:str.c_str()];
   XCTAssertEqualObjects(objcstr, @"abc");
   XCTAssertEqual(encodedLen, 2);
 
   const uint8_t data2[] = {0b00011000, 0b11101000, 0b10100101,
                            0b01001011}; // 'abcdef'
-  str = text.decode(data2, encodedLen);
+  str = text.decodeZCharsToZscii(data2, encodedLen);
   objcstr = [NSString stringWithUTF8String:str.c_str()];
   XCTAssertEqualObjects(objcstr, @"abcdef");
   XCTAssertEqual(encodedLen, 4);
 
   const uint8_t data3[] = {0b00011000, 0b11100101, 0b10011101,
                            0b01001011}; // 'ab\nef'
-  str = text.decode(data3, encodedLen);
+  str = text.decodeZCharsToZscii(data3, encodedLen);
   objcstr = [NSString stringWithUTF8String:str.c_str()];
   XCTAssertEqualObjects(objcstr, @"ab\nef");
   XCTAssertEqual(encodedLen, 4);
@@ -57,7 +57,7 @@
 
   uint8_t encodedData[255];
   memset(encodedData, 0xff, 255);
-  text.encode(encodedData, "abc", 3, 6);
+  text.encodeZsciiToZchars(encodedData, "abc", 3, 6);
   XCTAssertEqual(encodedData[0], 0b00011000); // 'a','b...'
   XCTAssertEqual(encodedData[1], 0b11101000); // '...b','c'
   XCTAssertEqual(encodedData[2], 0b00010100); // 5,5...
@@ -67,7 +67,7 @@
   XCTAssertEqual(encodedData[6], 0xff);
 
   memset(encodedData, 0xff, 255);
-  text.encode(encodedData, "abcdef", 6, 6);
+  text.encodeZsciiToZchars(encodedData, "abcdef", 6, 6);
   XCTAssertEqual(encodedData[0], 0b00011000); // 'a','b...'
   XCTAssertEqual(encodedData[1], 0b11101000); // '...b','c'
   XCTAssertEqual(encodedData[2], 0b00100101); // 'd','e...'
@@ -79,10 +79,10 @@
 
 - (void)testAbbreviations {
   uint8_t buf[36 + 4 + 8] = {3};
-  
+
   // Set the abbreviations table location
   buf[0x19] = 36;
-  
+
   buf[36] = 0;
   buf[37] = 20; // word address (40 / 2)
   buf[38] = 0;
@@ -93,13 +93,13 @@
   buf[41] = 0b11101000;
   buf[42] = 0b10100101;
   buf[43] = 0b01001011;
-  
+
   // 'ab\nef'
   buf[44] = 0b00011000;
   buf[45] = 0b11100101;
   buf[46] = 0b10011101;
   buf[47] = 0b01001011;
-  
+
   ZMText text(buf);
   auto str = text.abbreviation(0);
   NSString *objcstr = [NSString stringWithUTF8String:str.c_str()];
@@ -110,12 +110,12 @@
   XCTAssertEqualObjects(objcstr, @"ab\nef");
 }
 
-- (void)testZCharToUTF8_v3 {
+- (void)testZCharToZscii_v3 {
   uint8_t buf[36 + 4 + 8] = {3};
-  
+
   // Set the abbreviations table location
   buf[0x19] = 36;
-  
+
   buf[36] = 0;
   buf[37] = 20; // word address (40 / 2)
   buf[38] = 0;
@@ -126,7 +126,7 @@
   buf[41] = 0b11101000;
   buf[42] = 0b10100101;
   buf[43] = 0b01001011;
-  
+
   // 'ab\nef'
   buf[44] = 0b00011000;
   buf[45] = 0b11100101;
@@ -138,20 +138,20 @@
 
   // Abbreviations (3.3)
   str.clear();
-  text.zCharToUTF8(1, str);
-  text.zCharToUTF8(0, str);
+  text.zCharToZscii(1, str);
+  text.zCharToZscii(0, str);
   NSString *objcstr = [NSString stringWithUTF8String:str.c_str()];
   XCTAssertEqualObjects(objcstr, @"abcdef");
 
   str.clear();
-  text.zCharToUTF8(1, str);
-  text.zCharToUTF8(1, str);
+  text.zCharToZscii(1, str);
+  text.zCharToZscii(1, str);
   objcstr = [NSString stringWithUTF8String:str.c_str()];
   XCTAssertEqualObjects(objcstr, @"ab\nef");
 
   // 3.5.1
   str.clear();
-  text.zCharToUTF8(0, str);
+  text.zCharToZscii(0, str);
   XCTAssertEqual(str.length(), 1);
   XCTAssertEqual(str[0], ' ');
 
@@ -159,7 +159,7 @@
   std::string A0 = "abcdefghijklmnopqrstuvwxyz";
   for (int i = 0; i < 26; ++i) {
     str.clear();
-    text.zCharToUTF8(i + 6, str);
+    text.zCharToZscii(i + 6, str);
     XCTAssertEqual(str.length(), 1);
     XCTAssertEqual(str[0], A0[i]);
   }
@@ -167,8 +167,8 @@
   std::string A1 = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   for (int i = 0; i < 26; ++i) {
     str.clear();
-    text.zCharToUTF8(4, str);
-    text.zCharToUTF8(i + 6, str);
+    text.zCharToZscii(4, str);
+    text.zCharToZscii(i + 6, str);
     XCTAssertEqual(str.length(), 1);
     XCTAssertEqual(str[0], A1[i]);
   }
@@ -176,8 +176,8 @@
   std::string A2 = " \n0123456789.,!?_#'\"/\\-:()";
   for (int i = 1; i < 26; ++i) {
     str.clear();
-    text.zCharToUTF8(5, str);
-    text.zCharToUTF8(i + 6, str);
+    text.zCharToZscii(5, str);
+    text.zCharToZscii(i + 6, str);
     XCTAssertEqual(str.length(), 1);
     XCTAssertEqual(str[0], A2[i]);
   }

@@ -790,10 +790,12 @@ void ZMProcessor::branchOrAdvancePC(bool testResult) {
 }
 
 void ZMProcessor::print(std::string str) {
-  if (_redirect.empty())
-    _io.print(str);
-  else
+  if (_redirect.empty()) {
+    ZMText text(_memory.getData());
+    _io.print(text.zsciiToUTF8(str));
+  } else {
     _redirect.back().second.append(str);
+  }
 }
 
 void ZMProcessor::print(int16_t number) {
@@ -1164,18 +1166,6 @@ void ZMProcessor::copy_table() {
     for (int16_t i = 0; i < -size; i++)
       _memory.setByte(second + i, _memory.getByte(first + i));
 
-  //  printf("%x copy_table from: %x to: %x\n", _pc, first, second);
-  //  if (second > 0) {
-  //    for (int i = 0; i < size; ++i) {
-  //      char c = _memory.getByte(second + i);
-  //      if (c >= 32)
-  //        printf("%c", c);
-  //      else
-  //        printf("[%d]", c);
-  //    }
-  //  }
-  //  printf("\n");
-
   advancePC();
 }
 
@@ -1224,7 +1214,7 @@ void ZMProcessor::encode_text() {
       reinterpret_cast<const char *>(_memory.getData() + zsciiText);
   uint8_t *codedTextBuffer = _memory.getData(codedText);
   ZMText text(_memory.getData());
-  text.encode(codedTextBuffer, zsciiTextBuffer + from, length, 6);
+  text.encodeZsciiToZchars(codedTextBuffer, zsciiTextBuffer + from, length, 6);
   advancePC();
 }
 
@@ -1675,8 +1665,9 @@ void ZMProcessor::print_char() {
   log("print_char", false, false);
 
   uint16_t output_character_code = getOperand(0);
-  ZMText text(_memory.getData());
-  print(text.zsciiToUTF8(output_character_code));
+  std::string str;
+  str.push_back(output_character_code);
+  print(str);
   advancePC();
 }
 

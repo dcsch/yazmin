@@ -78,10 +78,10 @@ void ZMDictionary::lex(uint16_t textBufferAddress, uint8_t *parseBuffer,
   for (int i = 0; i < wordCount; ++i) {
     // Encode each word into packed format
     ZMText text(_data);
-    text.encode(packedWord,
-                reinterpret_cast<const char *>(_data) + textBufferAddress +
-                    wordIndex[i],
-                wordLen[i], kPackedWordLen);
+    text.encodeZsciiToZchars(packedWord,
+                             reinterpret_cast<const char *>(_data) +
+                                 textBufferAddress + wordIndex[i],
+                             wordLen[i], kPackedWordLen);
 
     // Find the word in the dictionary
     uint16_t addr = 0;
@@ -111,7 +111,7 @@ void ZMDictionary::dump() const {
     const auto wordPtr = _data + addr;
     size_t len;
     ZMText text(_data);
-    auto str = text.decode(wordPtr, len);
+    auto str = text.decodeZCharsToZscii(wordPtr, len);
     printf("%s\n", str.c_str());
   }
 }
