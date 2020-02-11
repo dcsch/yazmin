@@ -36,4 +36,19 @@
   XCTAssertFalse(header.getRequestScreenRedraw());
 }
 
+- (void)testExtendedHeader {
+  uint8_t buf[0x200] = {5};
+  buf[0x36] = 0x01;
+  buf[0x37] = 0x00;
+  buf[0x100] = 0x12;
+  buf[0x101] = 0x34;
+
+  ZMHeader header(buf);
+  uint16_t addr = header.getHeaderExtensionTableAddress();
+  XCTAssertEqual(addr, 0x100);
+
+  uint16_t len = header.getExtensionLength();
+  XCTAssertEqual(len, 0x1234);
+}
+
 @end

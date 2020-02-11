@@ -232,6 +232,58 @@
   XCTAssertEqual(zchar[1], 9);
 }
 
+- (void)testZsciiToUTF8_Default {
+  uint8_t buf[36] = {5};
+  ZMText text(buf);
+
+  std::string str = text.zsciiToUTF8(97); // a
+  XCTAssertEqual(str.length(), 1);
+  XCTAssertEqual(str[0], 'a');
+
+  str = text.zsciiToUTF8(155); // ä
+  XCTAssertEqual(str.length(), 2);
+  NSString *nsstr = [NSString stringWithUTF8String:str.c_str()];
+  XCTAssertEqualObjects(nsstr, @"ä");
+
+  str = text.zsciiToUTF8(223); // ¿
+  XCTAssertEqual(str.length(), 2);
+  nsstr = [NSString stringWithUTF8String:str.c_str()];
+  XCTAssertEqualObjects(nsstr, @"¿");
+}
+
+- (void)testZsciiToUTF8_Arabic {
+  uint8_t buf[0x200] = {5};
+  buf[0x36] = 0x01;
+  buf[0x37] = 0x00; // Extended Table at 0x0100
+  buf[0x100] = 0;
+  buf[0x101] = 3;
+  buf[0x106] = 0x01;
+  buf[0x107] = 0x08; // Address of Unicode table
+  buf[0x108] = 3;    // 3 Unicode entries
+  buf[0x109] = 0x06;
+  buf[0x10a] = 0x21; // Arabic Letter Hamza
+  buf[0x10b] = 0x06;
+  buf[0x10c] = 0x22; // Arabic Letter Alef With Madda Above
+  buf[0x10d] = 0x06;
+  buf[0x10e] = 0x23; // Arabic Letter Alef With Hamza Above
+  ZMText text(buf);
+
+  std::string str = text.zsciiToUTF8(155);
+  XCTAssertEqual(str.length(), 2);
+  NSString *nsstr = [NSString stringWithUTF8String:str.c_str()];
+  XCTAssertEqualObjects(nsstr, @"ء");
+
+  str = text.zsciiToUTF8(156);
+  XCTAssertEqual(str.length(), 2);
+  nsstr = [NSString stringWithUTF8String:str.c_str()];
+  XCTAssertEqualObjects(nsstr, @"آ");
+
+  str = text.zsciiToUTF8(157);
+  XCTAssertEqual(str.length(), 2);
+  nsstr = [NSString stringWithUTF8String:str.c_str()];
+  XCTAssertEqualObjects(nsstr, @"أ");
+}
+
 - (void)testAppendAsUTF8 {
   std::string str;
   ZMText::appendAsUTF8(str, L'a');
