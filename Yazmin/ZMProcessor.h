@@ -104,6 +104,8 @@ private:
 
   void print(int16_t number);
 
+  void printUnicodeChar(uint16_t uc);
+
   void log(const char *name, bool showStore, bool showBranch);
 
   // St -- 2OP:20 14 add a b -> (result)

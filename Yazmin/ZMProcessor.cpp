@@ -806,6 +806,17 @@ void ZMProcessor::print(int16_t number) {
   }
 }
 
+void ZMProcessor::printUnicodeChar(uint16_t uc) {
+  if (_redirect.empty()) {
+    std::string str;
+    ZMText::appendAsUTF8(str, uc);
+    _io.print(str);
+  } else {
+    // TODO translate to ZSCII if possible (7.5.3)
+    _redirect.back().second.append("?");
+  }
+}
+
 void ZMProcessor::log(const char *name, bool showStore, bool showBranch) {}
 
 void ZMProcessor::add() {
@@ -1747,9 +1758,7 @@ void ZMProcessor::print_unicode() {
   log("print_unicode", false, false);
 
   uint16_t char_number = getOperand(0);
-  std::string str;
-  ZMText::appendAsUTF8(str, char_number);
-  print(str);
+  printUnicodeChar(char_number);
   advancePC();
 }
 
