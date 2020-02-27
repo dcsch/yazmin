@@ -19,6 +19,7 @@ NSString *SMShowLibraryOnStartupKey = @"ShowLibraryOnStartup";
 NSString *SMInterpreterNumberKey = @"InterpreterNumber";
 NSString *SMInterpreterVersionKey = @"InterpreterVersion";
 NSString *SMSpeakTextKey = @"SpeakText";
+NSString *SMTextBoxFadeCount = @"TextBoxFadeCount";
 
 NSString *SMBackgroundColorChangedNotification = @"SMBackgroundColorChanged";
 NSString *SMForegroundColorChangedNotification = @"SMForegroundColorChanged";
@@ -74,7 +75,8 @@ static void *FontSizeContext = &FontSizeContext;
     SMShowLibraryOnStartupKey : @1,
     SMInterpreterNumberKey : @3,
     SMInterpreterVersionKey : @'Z',
-    SMSpeakTextKey : @0
+    SMSpeakTextKey : @0,
+    SMTextBoxFadeCount : @0
   };
 
   // Register the dictionary of defaults
@@ -250,6 +252,11 @@ static void *FontSizeContext = &FontSizeContext;
 - (BOOL)speakText {
   NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
   return [[defaults objectForKey:SMSpeakTextKey] intValue];
+}
+
+- (int)textBoxFadeCount {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  return [[defaults objectForKey:SMTextBoxFadeCount] intValue];
 }
 
 @end

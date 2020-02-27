@@ -26,6 +26,7 @@ extern NSString *SMShowLibraryOnStartupKey;
 extern NSString *SMInterpreterNumberKey;
 extern NSString *SMInterpreterVersionKey;
 extern NSString *SMSpeakTextKey;
+extern NSString *SMTextBoxFadeCount;
 
 extern NSString *SMBackgroundColorChangedNotification;
 extern NSString *SMForegroundColorChangedNotification;
@@ -48,6 +49,7 @@ extern NSString *SMFontSizeChangedNotification;
 @property(readonly) int interpreterNumber;
 @property(readonly) char interpreterVersion;
 @property(readonly) BOOL speakText;
+@property(readonly) int textBoxFadeCount;
 
 + (void)registerDefaults;
 - (void)applyAppPreferences;

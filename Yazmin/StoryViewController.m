@@ -41,6 +41,7 @@
   NSInteger _lastSpokenMove;
   CGFloat _viewedHeight;
   BOOL _storyHasStarted;
+  NSMutableArray<NSTextView *> *_boxTextViews;
 }
 
 - (int)calculateScreenWidthInColumns;
@@ -70,6 +71,7 @@
 - (IBAction)showAbbreviationsWindow:(id)sender;
 - (void)updateViews;
 - (void)updateWindowLayoutIfNeeded;
+- (void)fadeBoxText;
 
 @end
 
@@ -117,6 +119,9 @@
   // Speech
   _speechSynthesizer = [[NSSpeechSynthesizer alloc] init];
   _moveStrings = [NSMutableArray array];
+
+  // Box quote overlays
+  _boxTextViews = [NSMutableArray array];
 }
 
 - (void)viewDidAppear {
@@ -224,8 +229,8 @@
 }
 
 - (void)scrollLowerWindow {
-//  if (lowerView.textStorage.length == 0)
-//    return;
+  //  if (lowerView.textStorage.length == 0)
+  //    return;
 
   [lowerView.layoutManager
       ensureLayoutForTextContainer:lowerView.textContainer];
@@ -458,6 +463,67 @@
   }
 }
 
+- (void)fadeBoxText {
+  if (_boxTextViews.count == 0) {
+    return;
+  }
+
+  int count = Preferences.sharedPreferences.textBoxFadeCount;
+  if (count < 0) {
+    // The text box is to be never removed
+    return;
+  }
+  float alphaDelta = 1.0 / (count + 1);
+  NSMutableArray<NSTextView *> *viewsToRemove = [NSMutableArray array];
+
+  for (NSTextView *textView in _boxTextViews) {
+
+    NSMutableAttributedString *text = textView.textStorage;
+
+    // Tweak the color of the text
+    NSUInteger pos = 0;
+    while (pos < text.length) {
+      NSRange inRange = NSMakeRange(pos, text.length - pos);
+      NSRange longestRange;
+      NSDictionary<NSAttributedStringKey, id> *attrs =
+          [text attributesAtIndex:pos
+              longestEffectiveRange:&longestRange
+                            inRange:inRange];
+
+      NSMutableDictionary<NSAttributedStringKey, id> *mutableAttrs =
+          [attrs mutableCopy];
+      BOOL tweaked = NO;
+      NSColor *backgroundColor = attrs[NSBackgroundColorAttributeName];
+      if (backgroundColor) {
+        CGFloat alpha = backgroundColor.alphaComponent - alphaDelta;
+        if (alpha > 0.0) {
+          mutableAttrs[NSBackgroundColorAttributeName] =
+              [backgroundColor colorWithAlphaComponent:alpha];
+          tweaked = YES;
+          NSColor *foregroundColor = attrs[NSForegroundColorAttributeName];
+          if (foregroundColor) {
+            mutableAttrs[NSForegroundColorAttributeName] =
+                [foregroundColor colorWithAlphaComponent:alpha];
+          }
+        } else {
+          [viewsToRemove addObject:textView];
+          break;
+        }
+      }
+      if (tweaked) {
+        [text setAttributes:mutableAttrs range:longestRange];
+      }
+
+      pos += longestRange.length;
+    }
+  }
+
+  for (NSTextView *textView in viewsToRemove) {
+    [_boxTextViews removeObject:textView];
+    [textView removeFromSuperview];
+  }
+}
+
 - (void)updateWindowBackgroundColor {
   Story *story = self.representedObject;
   lowerView.backgroundColor = story.backgroundColor;
@@ -668,6 +734,7 @@
 
 - (void)executeStory {
   [_moveStrings addObject:[NSMutableString string]];
+  [self fadeBoxText];
   [NSTimer
       scheduledTimerWithTimeInterval:0.0
                              repeats:NO
@@ -794,6 +861,7 @@
   [textView.textStorage appendAttributedString:text];
   [textView.layoutManager ensureLayoutForTextContainer:textView.textContainer];
   [lowerView addSubview:textView];
+  [_boxTextViews addObject:textView];
 }
 
 @end
