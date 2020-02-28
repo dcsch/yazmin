@@ -22,12 +22,15 @@
 @implementation LibraryEntry
 
 + (NSURL *)URLRelativeToLibrary:(NSURL *)storyURL {
-  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:NSArgumentDomain];
+  NSUserDefaults *userDefaults =
+      [[NSUserDefaults alloc] initWithSuiteName:NSArgumentDomain];
   NSString *libraryURLStr = [userDefaults stringForKey:@"LibraryURL"];
   NSURL *libraryURL = [NSURL URLWithString:libraryURLStr];
   NSArray<NSString *> *components = libraryURL.pathComponents;
-  NSArray<NSString *> *rootComponents = [components subarrayWithRange:NSMakeRange(0, components.count - 1)];
-  NSArray<NSString *> *fileComponents = [rootComponents arrayByAddingObjectsFromArray:storyURL.pathComponents];
+  NSArray<NSString *> *rootComponents =
+      [components subarrayWithRange:NSMakeRange(0, components.count - 1)];
+  NSArray<NSString *> *fileComponents =
+      [rootComponents arrayByAddingObjectsFromArray:storyURL.pathComponents];
   return [NSURL fileURLWithPathComponents:fileComponents];
 }
 

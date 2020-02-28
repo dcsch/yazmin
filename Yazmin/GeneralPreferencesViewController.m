@@ -15,6 +15,7 @@
   IBOutlet NSPopUpButton *proportionalFontPopUpButton;
   IBOutlet NSPopUpButton *monospacedFontPopUpButton;
   IBOutlet NSTextField *fontSizeTextField;
+  IBOutlet NSPopUpButton *boxTextPopUpButton;
 }
 
 @end
@@ -49,6 +50,9 @@
       selectItemWithTitle:Preferences.sharedPreferences.proportionalFontFamily];
   [monospacedFontPopUpButton
       selectItemWithTitle:Preferences.sharedPreferences.monospacedFontFamily];
+
+  [boxTextPopUpButton
+      selectItemWithTag:Preferences.sharedPreferences.textBoxFadeCount];
 }
 
 - (IBAction)changeProportionalFont:(id)sender {
@@ -59,6 +63,10 @@
 - (IBAction)changeMonospacedFont:(id)sender {
   [Preferences.sharedPreferences
       setMonospacedFontFamily:[sender titleOfSelectedItem]];
+}
+
+- (IBAction)changeBoxText:(id)sender {
+  [Preferences.sharedPreferences setTextBoxFadeCount:(int)[sender selectedTag]];
 }
 
 @end

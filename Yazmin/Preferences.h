@@ -49,7 +49,7 @@ extern NSString *SMFontSizeChangedNotification;
 @property(readonly) int interpreterNumber;
 @property(readonly) char interpreterVersion;
 @property(readonly) BOOL speakText;
-@property(readonly) int textBoxFadeCount;
+@property int textBoxFadeCount;
 
 + (void)registerDefaults;
 - (void)applyAppPreferences;

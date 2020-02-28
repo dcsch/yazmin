@@ -51,12 +51,13 @@
 }
 
 - (NSURL *)libraryMetadataURL {
-  NSUserDefaults *userDefaults = [[NSUserDefaults alloc] initWithSuiteName:NSArgumentDomain];
+  NSUserDefaults *userDefaults =
+      [[NSUserDefaults alloc] initWithSuiteName:NSArgumentDomain];
   NSString *libraryURLStr = [userDefaults stringForKey:@"LibraryURL"];
   if (libraryURLStr) {
     return [NSURL URLWithString:libraryURLStr];
   }
-  
+
   NSURL *url = [AppController URLForResource:@"stories.iFiction"
                                 subdirectory:nil
                   createNonexistentDirectory:YES];

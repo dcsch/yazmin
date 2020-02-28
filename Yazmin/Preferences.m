@@ -259,4 +259,9 @@ static void *FontSizeContext = &FontSizeContext;
   return [[defaults objectForKey:SMTextBoxFadeCount] intValue];
 }
 
+- (void)setTextBoxFadeCount:(int)count {
+  NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
+  [defaults setObject:@(count) forKey:SMTextBoxFadeCount];
+}
+
 @end
