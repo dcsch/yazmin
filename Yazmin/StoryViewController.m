@@ -18,12 +18,12 @@
 #import "Preferences.h"
 #import "Story.h"
 #import "StoryFacet.h"
-#import "StoryInputTextView.h"
+#import "StoryGridTextView.h"
 #import "StoryTextView.h"
 #import "ZMachine.h"
 
 @interface StoryViewController () {
-  IBOutlet StoryInputTextView *upperView;
+  IBOutlet StoryGridTextView *upperView;
   IBOutlet StoryTextView *lowerView;
   IBOutlet NSScrollView *lowerScrollView;
   IBOutlet NSLayoutConstraint *upperHeightConstraint;
@@ -122,6 +122,21 @@
 
   // Box quote overlays
   _boxTextViews = [NSMutableArray array];
+}
+
+- (void)viewWillAppear {
+  [super viewWillAppear];
+
+  NSWindowController *windowControler = self.view.window.windowController;
+  Story *story = windowControler.document;
+  if (story) {
+
+    // Configure for Bureaucracy
+    if ([story.ifid isEqualToString:@"ZCODE-116-870602"] ||
+        [story.ifid isEqualToString:@"ZCODE-86-870212"]) {
+      upperView.showCursorForInput = YES;
+    }
+  }
 }
 
 - (void)viewDidAppear {
@@ -529,6 +544,7 @@
   lowerView.backgroundColor = story.backgroundColor;
   upperView.backgroundColor = story.backgroundColor;
   lowerView.insertionPointColor = story.foregroundColor;
+  upperView.insertionPointColor = story.foregroundColor;
 }
 
 - (void)updateTextAttributes {
@@ -817,6 +833,25 @@
       if ([view isKindOfClass:NSTextView.class])
         [view removeFromSuperview];
     }
+  }
+}
+
+- (void)setCursorLine:(int)line column:(int)column {
+  if (upperView.showCursorForInput && upperView.inputView) {
+    NSString *text = upperView.textStorage.string;
+    __block int linesDown = 1;
+    __block NSUInteger characterCount = 0;
+    [text enumerateLinesUsingBlock:^(NSString *_Nonnull textLine,
+                                     BOOL *_Nonnull stop) {
+      if (linesDown == line) {
+        characterCount += column - 1;
+        *stop = YES;
+      } else {
+        characterCount += textLine.length + 1;
+        ++linesDown;
+      }
+    }];
+    [upperView setSelectedRange:NSMakeRange(characterCount, 0)];
   }
 }
 

@@ -6,11 +6,11 @@
 //  Copyright © 2020 David Schweinsberg. All rights reserved.
 //
 
-#import "StoryInputTextView.h"
+#import "StoryGridTextView.h"
 #import "StoryInput.h"
 #include <Carbon/Carbon.h>
 
-@interface StoryInputTextView () {
+@interface StoryGridTextView () {
   NSUInteger inputLocation;
   InputState _inputState;
   NSMutableArray<NSEvent *> *keyEvents;
@@ -18,7 +18,7 @@
 
 @end
 
-@implementation StoryInputTextView
+@implementation StoryGridTextView
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
   self = [super initWithCoder:coder];
@@ -58,12 +58,21 @@
 
 - (void)setInputState:(InputState)state {
   _inputState = state;
+  if (_showCursorForInput && _inputState == kCharacterInputState)
+    [self setEditable:YES];
+  else
+    [self setEditable:NO];
+}
+
+// If we have a touch bar, it flashes on and off during timed input for
+// something like Tetris, as the 'editable' state changes with the input state
+// above
+- (NSTouchBar *)makeTouchBar {
+  return nil;
 }
 
 - (void)insertText:(NSString *)string
     replacementRange:(NSRange)replacementRange {
-  [super insertText:string replacementRange:replacementRange];
-
   if (_inputState == kCharacterInputState && string.length > 0) {
     [_storyInput characterInput:[string characterAtIndex:0]];
   }

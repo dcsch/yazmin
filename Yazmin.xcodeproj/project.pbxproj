@@ -72,7 +72,7 @@
 		6338E0CC180AB53B005A3263 /* ZMStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6338E09F180AB53B005A3263 /* ZMStack.cpp */; };
 		6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6338E0A2180AB53B005A3263 /* ZMStoryAdapter.mm */; };
 		6338E0CE180AB53B005A3263 /* ZMText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6338E0A3180AB53B005A3263 /* ZMText.cpp */; };
-		6339540823C7E51600CDF106 /* StoryInputTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6339540723C7E51600CDF106 /* StoryInputTextView.m */; };
+		6339540823C7E51600CDF106 /* StoryGridTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6339540723C7E51600CDF106 /* StoryGridTextView.m */; };
 		63504E8D2391B84B0053095F /* TestMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63504E8B2391B84B0053095F /* TestMachine.cpp */; };
 		63504E8F2391BEB00053095F /* MachineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63504E8E2391BEB00053095F /* MachineTests.mm */; };
 		63504E912391BF920053095F /* hello.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63504E902391BF920053095F /* hello.z5 */; };
@@ -229,8 +229,8 @@
 		6338E0A2180AB53B005A3263 /* ZMStoryAdapter.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ZMStoryAdapter.mm; sourceTree = "<group>"; };
 		6338E0A3180AB53B005A3263 /* ZMText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZMText.cpp; sourceTree = "<group>"; };
 		6338E0A4180AB53B005A3263 /* ZMText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZMText.h; sourceTree = "<group>"; };
-		6339540623C7E51600CDF106 /* StoryInputTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryInputTextView.h; sourceTree = "<group>"; };
-		6339540723C7E51600CDF106 /* StoryInputTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryInputTextView.m; sourceTree = "<group>"; };
+		6339540623C7E51600CDF106 /* StoryGridTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryGridTextView.h; sourceTree = "<group>"; };
+		6339540723C7E51600CDF106 /* StoryGridTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryGridTextView.m; sourceTree = "<group>"; };
 		6339540923C7ED8A00CDF106 /* InputState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputState.h; sourceTree = "<group>"; };
 		63504E8B2391B84B0053095F /* TestMachine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestMachine.cpp; sourceTree = "<group>"; };
 		63504E8C2391B84B0053095F /* TestMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestMachine.h; sourceTree = "<group>"; };
@@ -492,8 +492,8 @@
 				6338E068180AB53B005A3263 /* GridStoryFacet.h */,
 				6338E069180AB53B005A3263 /* GridStoryFacet.m */,
 				6339540923C7ED8A00CDF106 /* InputState.h */,
-				6339540623C7E51600CDF106 /* StoryInputTextView.h */,
-				6339540723C7E51600CDF106 /* StoryInputTextView.m */,
+				6339540623C7E51600CDF106 /* StoryGridTextView.h */,
+				6339540723C7E51600CDF106 /* StoryGridTextView.m */,
 				6338E088180AB53B005A3263 /* StoryTextView.h */,
 				6338E089180AB53B005A3263 /* StoryTextView.m */,
 				6338E08C180AB53B005A3263 /* StoryInput.h */,
@@ -737,7 +737,7 @@
 				6338E0BB180AB53B005A3263 /* LibraryEntry.m in Sources */,
 				039E0D67230DC5AC00AF5471 /* ResourcesViewController.m in Sources */,
 				03102FAD22A79B85004B280B /* ZMQuetzal.cpp in Sources */,
-				6339540823C7E51600CDF106 /* StoryInputTextView.m in Sources */,
+				6339540823C7E51600CDF106 /* StoryGridTextView.m in Sources */,
 				039E0D6A230E370200AF5471 /* SoundEffect.m in Sources */,
 				03D6A1DA22DE9B1700B16F09 /* InformationWindowController.m in Sources */,
 				6338E0C9180AB53B005A3263 /* ZMMemory.cpp in Sources */,

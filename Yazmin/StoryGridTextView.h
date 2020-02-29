@@ -13,11 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol StoryInput;
 
-@interface StoryInputTextView : NSTextView
+@interface StoryGridTextView : NSTextView
 
 @property(strong) id<StoryInput> storyInput;
 @property(getter=isInputView) BOOL inputView;
 @property InputState inputState;
+@property(getter=isShowCursorForInput) BOOL showCursorForInput;
 
 @end
 

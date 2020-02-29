@@ -605,6 +605,7 @@ const NSArray<NSString *> *AllowedFileTypes;
 
 - (void)setCursorLine:(int)line column:(int)column {
   [_storyFacet setCursorLine:line column:column];
+  [_storyViewController setCursorLine:line column:column];
 }
 
 - (int)fontId {

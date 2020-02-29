@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setWindow:(int)window;
 - (void)splitWindow:(int)lines;
 - (void)eraseWindow:(int)window;
+- (void)setCursorLine:(int)line column:(int)column;
 - (void)print:(NSString *)text;
 - (void)printNumber:(int)number;
 - (void)newLine;
