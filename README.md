@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Yazmin is a Z-Machine Interpreter for Mac, allowing you to play classic Interactive Fiction titles such as Zork[^*],
+Yazmin is a Z-Machine Interpreter for Mac, allowing you to play classic Interactive Fiction titles such as Zork<sup>[*](#zork)<sup>,
 along with hundreds of modern z-code stories available through the [Interactive Fiction Database (IFDB)](https://ifdb.tads.org).
 
 Yazmin includes the interpreter, as well as a library manager that allows stories to be organized. Metadata and cover art can
@@ -41,4 +41,4 @@ macOS 10.14 or greater is required.
 - [Blorb: An IF Resource Collection Format Standard](https://www.eblong.com/zarf/blorb/)
 - [The Treaty of Babel: Software and a standard for IF bibliography](http://babel.ifarchive.org)
 
-[^*]: Zork is a trademark of Activision Publishing, Inc.
+<a name="zork">*</a>: Zork is a trademark of Activision Publishing, Inc.
