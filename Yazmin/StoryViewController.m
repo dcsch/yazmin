@@ -829,9 +829,13 @@
     _viewedHeight = 0.0;
 
     // Remove any box text subviews
+    NSMutableArray<NSView *> *viewsToRemove = [NSMutableArray array];
     for (NSView *view in lowerView.subviews) {
       if ([view isKindOfClass:NSTextView.class])
-        [view removeFromSuperview];
+        [viewsToRemove addObject:view];
+    }
+    for (NSView *view in viewsToRemove) {
+      [view removeFromSuperview];
     }
   }
 }
