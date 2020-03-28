@@ -73,6 +73,7 @@
 		6338E0CD180AB53B005A3263 /* ZMStoryAdapter.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6338E0A2180AB53B005A3263 /* ZMStoryAdapter.mm */; };
 		6338E0CE180AB53B005A3263 /* ZMText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6338E0A3180AB53B005A3263 /* ZMText.cpp */; };
 		6339540823C7E51600CDF106 /* StoryGridTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6339540723C7E51600CDF106 /* StoryGridTextView.m */; };
+		634E7380242D1B2900B2573D /* StoryTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 634E737F242D1B2900B2573D /* StoryTests.m */; };
 		63504E8D2391B84B0053095F /* TestMachine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 63504E8B2391B84B0053095F /* TestMachine.cpp */; };
 		63504E8F2391BEB00053095F /* MachineTests.mm in Sources */ = {isa = PBXBuildFile; fileRef = 63504E8E2391BEB00053095F /* MachineTests.mm */; };
 		63504E912391BF920053095F /* hello.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63504E902391BF920053095F /* hello.z5 */; };
@@ -87,6 +88,7 @@
 		63A10D5323AAAB4300FC2032 /* freefall.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5123AAAB4300FC2032 /* freefall.z5 */; };
 		63A10D5423AAAB4300FC2032 /* curses.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5223AAAB4300FC2032 /* curses.z5 */; };
 		63A10D5623AAADF900FC2032 /* test_stories.iFiction in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5523AAADF900FC2032 /* test_stories.iFiction */; };
+		63CD3DB4242E9C83008C2BE8 /* StatusLineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CD3DB3242E9C83008C2BE8 /* StatusLineTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,6 +234,7 @@
 		6339540623C7E51600CDF106 /* StoryGridTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StoryGridTextView.h; sourceTree = "<group>"; };
 		6339540723C7E51600CDF106 /* StoryGridTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryGridTextView.m; sourceTree = "<group>"; };
 		6339540923C7ED8A00CDF106 /* InputState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputState.h; sourceTree = "<group>"; };
+		634E737F242D1B2900B2573D /* StoryTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StoryTests.m; sourceTree = "<group>"; };
 		63504E8B2391B84B0053095F /* TestMachine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestMachine.cpp; sourceTree = "<group>"; };
 		63504E8C2391B84B0053095F /* TestMachine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestMachine.h; sourceTree = "<group>"; };
 		63504E8E2391BEB00053095F /* MachineTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MachineTests.mm; sourceTree = "<group>"; };
@@ -255,6 +258,7 @@
 		63A10D5123AAAB4300FC2032 /* freefall.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = freefall.z5; sourceTree = "<group>"; };
 		63A10D5223AAAB4300FC2032 /* curses.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = curses.z5; sourceTree = "<group>"; };
 		63A10D5523AAADF900FC2032 /* test_stories.iFiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test_stories.iFiction; sourceTree = "<group>"; };
+		63CD3DB3242E9C83008C2BE8 /* StatusLineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusLineTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -533,6 +537,8 @@
 				63504E8C2391B84B0053095F /* TestMachine.h */,
 				039E0D6E230F1BEC00AF5471 /* IFictionMetadataTests.m */,
 				63504E8E2391BEB00053095F /* MachineTests.mm */,
+				634E737F242D1B2900B2573D /* StoryTests.m */,
+				63CD3DB3242E9C83008C2BE8 /* StatusLineTests.m */,
 				639A09A313322F08000E27F4 /* Supporting Files */,
 			);
 			path = YazminTests;
@@ -778,7 +784,9 @@
 				63504E8D2391B84B0053095F /* TestMachine.cpp in Sources */,
 				0310D4D6229341AC004F67F5 /* GridStoryFacetTest.m in Sources */,
 				63504E8F2391BEB00053095F /* MachineTests.mm in Sources */,
+				63CD3DB4242E9C83008C2BE8 /* StatusLineTests.m in Sources */,
 				0316CF8322AAF02200C882C5 /* ZMQuetzalTests.mm in Sources */,
+				634E7380242D1B2900B2573D /* StoryTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -210,9 +210,10 @@ static const size_t kMaxStorySize = 0x8ffff;
 
 - (NSString *)nameOfObject:(int)objNumber {
   ZMObject &obj = parts->_memory->getObject(objNumber);
-  if (obj.getShortName().empty())
+  auto shortName = obj.getShortName();
+  if (shortName.empty())
     return nil;
-  return [NSString stringWithCString:obj.getShortName().c_str()
+  return [NSString stringWithCString:shortName.c_str()
                             encoding:[NSString defaultCStringEncoding]];
 }
 
@@ -292,6 +293,10 @@ static const size_t kMaxStorySize = 0x8ffff;
 
 - (unsigned int)globalAtIndex:(unsigned int)index {
   return parts->_memory->getGlobal(index);
+}
+
+- (void)setGlobal:(unsigned int)value atIndex:(unsigned int)index {
+  parts->_memory->setGlobal(index, value);
 }
 
 - (BOOL)isTimeGame {

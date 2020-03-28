@@ -307,15 +307,17 @@ const NSArray<NSString *> *AllowedFileTypes;
 
     // Is there any debug information to load?
     NSString *path = self.fileURL.path;
-    NSString *folderPath = path.stringByDeletingLastPathComponent;
-    NSString *debugInfoPath =
-        [folderPath stringByAppendingPathComponent:@"gameinfo.dbg"];
-    NSURL *debugInfoURL = [NSURL fileURLWithPath:debugInfoPath];
-    NSData *debugData = [NSData dataWithContentsOfURL:debugInfoURL];
-    if (debugData) {
-      DebugInfoReader *reader =
-          [[DebugInfoReader alloc] initWithData:debugData];
-      _debugInfo = [reader debugInfo];
+    if (path) {
+      NSString *folderPath = path.stringByDeletingLastPathComponent;
+      NSString *debugInfoPath =
+          [folderPath stringByAppendingPathComponent:@"gameinfo.dbg"];
+      NSURL *debugInfoURL = [NSURL fileURLWithPath:debugInfoPath];
+      NSData *debugData = [NSData dataWithContentsOfURL:debugInfoURL];
+      if (debugData) {
+        DebugInfoReader *reader =
+            [[DebugInfoReader alloc] initWithData:debugData];
+        _debugInfo = [reader debugInfo];
+      }
     }
 
     return YES;
@@ -672,25 +674,33 @@ const NSArray<NSString *> *AllowedFileTypes;
     scoreAndMovesLen = 8;
     shortDisplay = true;
   }
-  unsigned int maxNameLen = screenWidth - scoreAndMovesLen;
+  unsigned int maxNameLen = MAX(0, screenWidth - scoreAndMovesLen);
   NSString *name = [_zMachine nameOfObject:objectNumber];
-  if (name.length <= maxNameLen)
+  if (name.length <= maxNameLen) {
     [storyFacet print:name];
-  else {
+  } else {
     // TODO: Put an ellipsis at the last space that fits in the available line
     [storyFacet print:name];
   }
   [storyFacet setCursorLine:1 column:screenWidth - scoreAndMovesLen];
 
   if (_zMachine.isTimeGame) {
+    unsigned int hour = [_zMachine globalAtIndex:1];
+    unsigned int min = [_zMachine globalAtIndex:2];
+    BOOL isAM = hour < 12;
+    if (hour == 0) {
+      hour = 12;
+    } else if (hour > 12) {
+      hour -= 12;
+    }
     if (!shortDisplay)
       [storyFacet print:@"Time:  "];
-    [storyFacet printNumber:[_zMachine globalAtIndex:1]];
+    [storyFacet printNumber:hour];
     [storyFacet print:@":"];
-    unsigned int min = [_zMachine globalAtIndex:2];
     if (min < 10)
       [storyFacet printNumber:0];
     [storyFacet printNumber:min];
+    [storyFacet print:isAM ? @" AM" : @" PM"];
   } else {
     if (!shortDisplay)
       [storyFacet print:@"Score: "];

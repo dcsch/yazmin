@@ -36,6 +36,7 @@
 @property(readonly) unsigned int baseHighMemory;
 
 - (unsigned int)globalAtIndex:(unsigned int)index;
+- (void)setGlobal:(unsigned int)value atIndex:(unsigned int)index;
 @property(getter=isTimeGame, readonly) BOOL timeGame;
 @property BOOL needsRedraw;
 @property(readonly) BOOL forcedFixedPitchFont;
