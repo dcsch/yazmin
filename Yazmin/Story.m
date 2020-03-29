@@ -571,6 +571,11 @@ const NSArray<NSString *> *AllowedFileTypes;
     [_storyViewController printBox:str];
   }
 
+  if (_zMachine.version == 3 && lines > 1) {
+    // Make room for v3 status line
+    lines++;
+  }
+
   [storyFacet eraseFromLine:lines + 1];
   storyFacet.numberOfLines = lines;
   if (lines == 0)
@@ -711,6 +716,10 @@ const NSArray<NSString *> *AllowedFileTypes;
       [storyFacet print:@"/"];
     [storyFacet printNumber:[_zMachine globalAtIndex:2]];
   }
+
+  // Prepeare to display Seastalker sonarscope
+  if (storyFacet.numberOfLines > 1)
+    [storyFacet setCursorLine:2 column:1];
 
   [self setTextStyle:0];
   self.window = 0;

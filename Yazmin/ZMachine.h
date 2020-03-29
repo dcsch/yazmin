@@ -16,6 +16,7 @@
 - (instancetype)initWithStory:(Story *)aStory NS_DESIGNATED_INITIALIZER;
 - (instancetype)init __attribute__((unavailable));
 @property(readonly, copy) NSString *ifid;
+@property(readonly) uint8_t version;
 @property(readonly) const unsigned char *memory;
 @property(readonly) size_t memorySize;
 @property(readonly) BOOL hasQuit;

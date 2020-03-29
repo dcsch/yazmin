@@ -141,6 +141,10 @@ static const size_t kMaxStorySize = 0x8ffff;
   return ifidString;
 }
 
+- (uint8_t)version {
+  return parts->_memory->getHeader().getVersion();
+}
+
 - (const unsigned char *)memory {
   return parts->_memory->getData();
 }
