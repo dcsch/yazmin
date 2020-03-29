@@ -63,10 +63,6 @@ static const size_t kMaxStorySize = 0x8ffff;
       if (0 < len && len <= kMaxStorySize) {
         parts->_memory =
             new ZMMemory((const uint8_t *)data.bytes, len, *parts->_io);
-
-        // parts->_memory->getDictionary().dump();
-        // parts->_memory->getHeader().dump();
-        // parts->_memory->dump();
       }
 
       parts->_error = new ZMErrorAdapter(story);

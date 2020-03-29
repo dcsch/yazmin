@@ -83,6 +83,13 @@
 }
 
 - (void)print:(NSString *)text {
+
+  // If a standalone space, convert it to a non-breaking space so
+  // that the text system doesn't get any ideas about collapsing it
+  if ([text isEqualToString:@" "]) {
+    const unichar nbsp = 0xa0;
+    text = [NSString stringWithCharacters:&nbsp length:1];
+  }
   [self.textStorage beginEditing];
 
   // Break into individual lines

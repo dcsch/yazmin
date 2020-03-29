@@ -69,37 +69,38 @@
 }
 
 - (void)testTimeStatus {
+  // Note that the following string tests contain non-breaking spaces
   Story *story = [[Story alloc] init];
   [story readFromData:data ofType:@"" error:nil];
   story.facets[1].widthInCharacters = 40;
   story.facets[1].heightInLines = 1;
   [story showStatus];
   XCTAssertEqualObjects(story.facets[1].textStorage.string,
-                        @" foo                           2:03 AM  ");
+                        @" foo                           2:03 AM  ");
 
   [story.zMachine setGlobal:8 atIndex:1];
   [story.zMachine setGlobal:0 atIndex:2];
   [story showStatus];
   XCTAssertEqualObjects(story.facets[1].textStorage.string,
-                        @" foo                           8:00 AM  ");
+                        @" foo                           8:00 AM  ");
 
   [story.zMachine setGlobal:0 atIndex:1];
   [story.zMachine setGlobal:11 atIndex:2];
   [story showStatus];
   XCTAssertEqualObjects(story.facets[1].textStorage.string,
-                        @" foo                           12:11 AM ");
+                        @" foo                           12:11 AM ");
 
   [story.zMachine setGlobal:12 atIndex:1];
   [story.zMachine setGlobal:11 atIndex:2];
   [story showStatus];
   XCTAssertEqualObjects(story.facets[1].textStorage.string,
-                        @" foo                           12:11 PM ");
+                        @" foo                           12:11 PM ");
 
   [story.zMachine setGlobal:111 atIndex:1];
   [story.zMachine setGlobal:99 atIndex:2];
   [story showStatus];
   XCTAssertEqualObjects(story.facets[1].textStorage.string,
-                        @" foo                           99:99 PM ");
+                        @" foo                           99:99 PM ");
 
   [story close];
 }
