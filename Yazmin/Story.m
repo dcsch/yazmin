@@ -717,7 +717,7 @@ const NSArray<NSString *> *AllowedFileTypes;
     [storyFacet printNumber:[_zMachine globalAtIndex:2]];
   }
 
-  // Prepeare to display Seastalker sonarscope
+  // Prepare to display Seastalker sonarscope
   if (storyFacet.numberOfLines > 1)
     [storyFacet setCursorLine:2 column:1];
 
