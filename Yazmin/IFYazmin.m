@@ -41,13 +41,13 @@
 - (NSString *)xmlString {
   NSMutableString *string = [NSMutableString string];
   [string appendString:@"<yazmin>\n"];
-  [string appendFormat:@"<story>%@</story>\n", _storyURL];
+  [string appendFormat:@"<story>%@</story>\n", _storyURL.URLByStandardizingPath];
   if (_blorbURL)
-    [string appendFormat:@"<blorb>%@</blorb>\n", _blorbURL];
+    [string appendFormat:@"<blorb>%@</blorb>\n", _blorbURL.URLByStandardizingPath];
   if (_graphicsURL)
-    [string appendFormat:@"<graphics>%@</graphics>\n", _graphicsURL];
+    [string appendFormat:@"<graphics>%@</graphics>\n", _graphicsURL.URLByStandardizingPath];
   if (_soundURL)
-    [string appendFormat:@"<sound>%@</sound>\n", _soundURL];
+    [string appendFormat:@"<sound>%@</sound>\n", _soundURL.URLByStandardizingPath];
   [string appendString:@"</yazmin>\n"];
   return string;
 }

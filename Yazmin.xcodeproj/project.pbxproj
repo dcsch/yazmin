@@ -89,6 +89,7 @@
 		63A10D5423AAAB4300FC2032 /* curses.z5 in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5223AAAB4300FC2032 /* curses.z5 */; };
 		63A10D5623AAADF900FC2032 /* test_stories.iFiction in Resources */ = {isa = PBXBuildFile; fileRef = 63A10D5523AAADF900FC2032 /* test_stories.iFiction */; };
 		63CD3DB4242E9C83008C2BE8 /* StatusLineTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 63CD3DB3242E9C83008C2BE8 /* StatusLineTests.m */; };
+		63FC97C825B5761D003B0CE0 /* stories in Resources */ = {isa = PBXBuildFile; fileRef = 63FC97C725B5761D003B0CE0 /* stories */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -259,6 +260,7 @@
 		63A10D5223AAAB4300FC2032 /* curses.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = curses.z5; sourceTree = "<group>"; };
 		63A10D5523AAADF900FC2032 /* test_stories.iFiction */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = test_stories.iFiction; sourceTree = "<group>"; };
 		63CD3DB3242E9C83008C2BE8 /* StatusLineTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatusLineTests.m; sourceTree = "<group>"; };
+		63FC97C725B5761D003B0CE0 /* stories */ = {isa = PBXFileReference; lastKnownFileType = folder; path = stories; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -514,6 +516,7 @@
 		639A098513322F08000E27F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				63FC97C725B5761D003B0CE0 /* stories */,
 				03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */,
 				639A098613322F08000E27F4 /* Yazmin-Info.plist */,
 				639A098713322F08000E27F4 /* InfoPlist.strings */,
@@ -680,6 +683,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63FC97C825B5761D003B0CE0 /* stories in Resources */,
 				639A098913322F08000E27F4 /* InfoPlist.strings in Resources */,
 				0366C80C210016BB003EEEB6 /* Images.xcassets in Resources */,
 				6338E0AC180AB53B005A3263 /* Abbreviations.xib in Resources */,
@@ -1050,7 +1054,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 200401;
+				CURRENT_PROJECT_VERSION = 210213;
 				DEVELOPMENT_TEAM = 9MWCHY26A8;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1075,7 +1079,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 200401;
+				CURRENT_PROJECT_VERSION = 210213;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 9MWCHY26A8;
 				ENABLE_HARDENED_RUNTIME = YES;

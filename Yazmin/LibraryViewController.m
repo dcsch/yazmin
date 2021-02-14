@@ -67,6 +67,38 @@
   self.view.window.windowController.windowFrameAutosaveName = @"LibraryWindow";
 }
 
+- (void)viewDidAppear {
+  
+  // If the library is empty, give the user sn option to add the built-in
+  // stories to library
+  if (_library.entries.count == 0) {
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = @"Starter Library";
+    alert.informativeText = @"Would you like to add a selection of stories to start your collection?";
+    [alert addButtonWithTitle:@"Yes Please"];
+    [alert addButtonWithTitle:@"No Thanks"];
+//    alert.showsSuppressionButton = YES;
+    [alert beginSheetModalForWindow:self.view.window
+                  completionHandler:^(NSModalResponse returnCode) {
+      if (returnCode == NSAlertFirstButtonReturn) {
+        NSArray<NSString *> *exts = @[@"z5", @"z8", @"zblorb"];
+        NSMutableArray<NSURL *> *urls = [NSMutableArray array];
+        NSBundle *bundle = NSBundle.mainBundle;
+        for (NSString *ext in exts) {
+          [urls addObjectsFromArray:[bundle URLsForResourcesWithExtension:ext
+                                                             subdirectory:@"stories"]];
+        }
+        [self addStoryURLs:urls];
+        dispatch_async(dispatch_get_main_queue(), ^{
+          for (LibraryEntry *entry  in self->_library.entries) {
+            [self fetchMetadataForLibraryEntry:entry];
+          }
+        });
+      }
+    }];
+  }
+}
+
 - (void)addStory:(Story *)story {
   if (![_library containsStory:story]) {
     LibraryEntry *entry =
@@ -137,6 +169,33 @@
                     [self->_library deleteImageForIFID:libraryEntry.ifid];
                     [self->_library.entries removeObject:libraryEntry];
                     [self reloadSortedData];
+                  }
+                }];
+}
+
+- (void)fetchMetadataForLibraryEntry:(LibraryEntry *)libraryEntry {
+  [ifdbService fetchRecordForIFID:libraryEntry.ifid
+                completionHandler:^(NSData *data) {
+                  IFictionMetadata *metadata =
+                      [[IFictionMetadata alloc] initWithData:data];
+                  if (metadata.stories.count > 0) {
+                    IFStory *story = metadata.stories.firstObject;
+                    [libraryEntry updateFromStory:story];
+                    if (story.ifdb.coverArt) {
+
+                      // IFDB image links are provided as HTTP, which does
+                      // not conform to ATS policy, so reform it as HTTPS
+                      NSURLComponents *components = [NSURLComponents
+                                componentsWithURL:story.ifdb.coverArt
+                          resolvingAgainstBaseURL:YES];
+                      components.scheme = @"https";
+                      [self->_library fetchImageForIFID:libraryEntry.ifid
+                                                    URL:components.URL];
+                    }
+                    NSNotificationCenter *nc =
+                        NSNotificationCenter.defaultCenter;
+                    [nc postNotificationName:SMMetadataChangedNotification
+                                      object:self];
                   }
                 }];
 }
@@ -227,32 +286,7 @@
 
   [selectedRowIndexes
       enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *_Nonnull stop) {
-        LibraryEntry *libraryEntry = _sortedEntries[idx];
-
-        [ifdbService fetchRecordForIFID:libraryEntry.ifid
-                      completionHandler:^(NSData *data) {
-                        IFictionMetadata *metadata =
-                            [[IFictionMetadata alloc] initWithData:data];
-                        if (metadata.stories.count > 0) {
-                          IFStory *story = metadata.stories.firstObject;
-                          [libraryEntry updateFromStory:story];
-                          if (story.ifdb.coverArt) {
-
-                            // IFDB image links are provided as HTTP, which does
-                            // not conform to ATS policy, so reform it as HTTPS
-                            NSURLComponents *components = [NSURLComponents
-                                      componentsWithURL:story.ifdb.coverArt
-                                resolvingAgainstBaseURL:YES];
-                            components.scheme = @"https";
-                            [self->_library fetchImageForIFID:libraryEntry.ifid
-                                                          URL:components.URL];
-                          }
-                          NSNotificationCenter *nc =
-                              NSNotificationCenter.defaultCenter;
-                          [nc postNotificationName:SMMetadataChangedNotification
-                                            object:self];
-                        }
-                      }];
+        [self fetchMetadataForLibraryEntry:_sortedEntries[idx]];
       }];
 }
 
