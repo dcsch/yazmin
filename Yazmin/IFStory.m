@@ -37,7 +37,7 @@
           [[IFAnnotation alloc] initWithXMLElement:elements.firstObject];
 
     elements = [element elementsForLocalName:@"ifdb"
-                                         URI:@"http://ifdb.tads.org/api/xmlns"];
+                                         URI:@"http://ifdb.org/api/xmlns"];
     if (elements.count > 0)
       _ifdb = [[IFDB alloc] initWithXMLElement:elements.firstObject];
   }
