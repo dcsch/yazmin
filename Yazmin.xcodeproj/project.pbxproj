@@ -166,7 +166,6 @@
 		03DC648B22D9B28C006EE03C /* LibraryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryViewController.m; sourceTree = "<group>"; };
 		03DC649122DAF995006EE03C /* SummaryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SummaryViewController.h; sourceTree = "<group>"; };
 		03DC649222DAF995006EE03C /* SummaryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SummaryViewController.m; sourceTree = "<group>"; };
-		03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Yazmin.entitlements; sourceTree = "<group>"; };
 		03F4DE2922EF75960099EE64 /* LibraryWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibraryWindowController.h; sourceTree = "<group>"; };
 		03F4DE2A22EF75960099EE64 /* LibraryWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LibraryWindowController.m; sourceTree = "<group>"; };
 		6338E04E180AB53B005A3263 /* AbbreviationsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbbreviationsController.h; sourceTree = "<group>"; };
@@ -241,6 +240,7 @@
 		63504E8E2391BEB00053095F /* MachineTests.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MachineTests.mm; sourceTree = "<group>"; };
 		63504E902391BF920053095F /* hello.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = hello.z5; sourceTree = "<group>"; };
 		63504E922391E5830053095F /* restore_v5.z5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = restore_v5.z5; sourceTree = "<group>"; };
+		6350EACF25D8E36400D964E4 /* Yazmin.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Yazmin.entitlements; sourceTree = "<group>"; };
 		63527DFB23A373A6007C917C /* YazminUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YazminUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63527DFD23A373A6007C917C /* YazminUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YazminUITests.m; sourceTree = "<group>"; };
 		63527DFF23A373A6007C917C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -516,8 +516,8 @@
 		639A098513322F08000E27F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6350EACF25D8E36400D964E4 /* Yazmin.entitlements */,
 				63FC97C725B5761D003B0CE0 /* stories */,
-				03F4DDF922EC1CB70099EE64 /* Yazmin.entitlements */,
 				639A098613322F08000E27F4 /* Yazmin-Info.plist */,
 				639A098713322F08000E27F4 /* InfoPlist.strings */,
 				639A098A13322F08000E27F4 /* Yazmin-Prefix.pch */,
@@ -1050,6 +1050,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Yazmin/Yazmin.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1075,6 +1076,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = Yazmin/Yazmin.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
