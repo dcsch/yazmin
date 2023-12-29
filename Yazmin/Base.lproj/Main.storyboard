@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -421,7 +421,7 @@ CA
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
                         <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
-                        <toolbar key="toolbar" implicitIdentifier="CBAB20BB-723C-4349-A3CA-2DC0A1DFA63A" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="small" id="u3A-p7-QWV">
+                        <toolbar key="toolbar" implicitIdentifier="CBAB20BB-723C-4349-A3CA-2DC0A1DFA63A" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="regular" id="u3A-p7-QWV">
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="D6859C5E-9D8E-4409-ABC3-C73242976BFD" label="Search" paletteLabel="Search" sizingBehavior="auto" id="C9e-fP-RUy" userLabel="Search">
                                     <nil key="toolTip"/>
@@ -465,7 +465,7 @@ CA
                 <viewController id="K2T-nf-LlE" customClass="LibraryViewController" sceneMemberID="viewController">
                     <scrollView key="view" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="aQy-hY-dgh">
                         <rect key="frame" x="0.0" y="0.0" width="590" height="240"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" id="rn4-v0-hVp">
                             <rect key="frame" x="1" y="1" width="588" height="238"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -492,7 +492,7 @@ CA
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="Title" id="kCj-AU-7nt">
-                                                    <rect key="frame" x="11" y="1" width="165" height="17"/>
+                                                    <rect key="frame" x="1" y="1" width="165" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="1ac-ju-jC9">
@@ -529,7 +529,7 @@ CA
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="Author" id="bDh-kn-mxx">
-                                                    <rect key="frame" x="179" y="1" width="127" height="17"/>
+                                                    <rect key="frame" x="169" y="1" width="127" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="RmU-H2-53C">
@@ -566,7 +566,7 @@ CA
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="Genre" id="M8B-bn-65l">
-                                                    <rect key="frame" x="309" y="1" width="87" height="17"/>
+                                                    <rect key="frame" x="299" y="1" width="87" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="0dw-64-6wq">
@@ -603,7 +603,7 @@ CA
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="Group" id="YQR-Gg-zzf">
-                                                    <rect key="frame" x="399" y="1" width="77" height="17"/>
+                                                    <rect key="frame" x="389" y="1" width="77" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="wNy-hh-O4S">
@@ -640,7 +640,7 @@ CA
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView identifier="FirstPublished" id="p9q-Y8-aZ4">
-                                                    <rect key="frame" x="479" y="1" width="90" height="17"/>
+                                                    <rect key="frame" x="469" y="1" width="90" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="MQb-XC-U4n">
@@ -785,15 +785,15 @@ CA
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JOw-pX-LSo">
                                 <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                 <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="3be-FR-WqR">
-                                    <rect key="frame" x="0.0" y="0.0" width="705" height="408"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" verticallyResizable="YES" allowsDocumentBackgroundColorChange="YES" allowsNonContiguousLayout="YES" spellingCorrection="YES" smartInsertDelete="YES" id="YD4-1E-BWH" customClass="StoryTextView">
-                                            <rect key="frame" x="0.0" y="0.0" width="705" height="408"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="720" height="408"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="705" height="408"/>
+                                            <size key="minSize" width="720" height="408"/>
                                             <size key="maxSize" width="720" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -804,7 +804,7 @@ CA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="W4T-ar-0bp">
-                                    <rect key="frame" x="705" y="0.0" width="15" height="408"/>
+                                    <rect key="frame" x="704" y="0.0" width="16" height="408"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
