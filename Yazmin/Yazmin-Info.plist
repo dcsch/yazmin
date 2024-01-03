@@ -24,6 +24,8 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>NSDocumentClass</key>
 			<string>Story</string>
 			<key>UTExportedTypeDeclarations</key>
@@ -47,6 +49,8 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<false/>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>NSDocumentClass</key>
 			<string>Story</string>
 			<key>UTExportedTypeDeclarations</key>
@@ -74,6 +78,8 @@
 			<string>Viewer</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
 			<key>NSDocumentClass</key>
 			<string>Story</string>
 		</dict>
@@ -102,6 +108,8 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
