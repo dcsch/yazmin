@@ -264,7 +264,14 @@ const NSArray<NSString *> *AllowedFileTypes;
       // - Generate empty metadata
       // - Use any Blorb metadata
       // - Look for default metadata
-      _metadata = [[IFStory alloc] initWithIFID:_ifid storyURL:self.fileURL];
+      NSError *error;
+      NSData *data = [self.fileURL bookmarkDataWithOptions:
+                      NSURLBookmarkCreationWithSecurityScope |
+                      NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess
+                            includingResourceValuesForKeys:nil
+                                             relativeToURL:nil
+                                                     error:&error];
+      _metadata = [[IFStory alloc] initWithIFID:_ifid bookmarkData:data];
       if (blorbMetadata)
         [_metadata updateFromStory:blorbMetadata];
       else {

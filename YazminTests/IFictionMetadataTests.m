@@ -53,7 +53,7 @@
 - (void)testMinimalRecord {
   IFStory *story =
       [[IFStory alloc] initWithIFID:@"TEST-IFID-0123456789"
-                           storyURL:[NSURL fileURLWithPath:@"/filename"]];
+                       bookmarkData:[NSData dataWithBytes:"12345" length:5]];
   IFictionMetadata *metadata =
       [[IFictionMetadata alloc] initWithStories:@[ story ]];
   XCTAssertNotNil(metadata.stories);
@@ -77,7 +77,7 @@
 - (void)testMinimalRecordXML {
   IFStory *story =
       [[IFStory alloc] initWithIFID:@"TEST-IFID-0123456789"
-                           storyURL:[NSURL fileURLWithPath:@"/filename"]];
+                       bookmarkData:[NSData dataWithBytes:"12345" length:5]];
   IFictionMetadata *metadata =
       [[IFictionMetadata alloc] initWithStories:@[ story ]];
   NSString *minimalIFiction = [NSString
@@ -101,7 +101,7 @@
           @"</colophon>\n"
           @"<annotation>\n"
           @"<yazmin>\n"
-          @"<story>file:///filename</story>\n"
+          @"<bookmark>MTIzNDU=</bookmark>\n"
           @"</yazmin>\n"
           @"</annotation>\n"
           @"</story>\n"
@@ -113,7 +113,7 @@
 - (void)testUpdateStory {
   IFStory *story1 =
       [[IFStory alloc] initWithIFID:@"TEST-IFID-0123456789"
-                           storyURL:[NSURL fileURLWithPath:@"/filename"]];
+                       bookmarkData:[NSData dataWithBytes:"12345" length:5]];
   story1.bibliographic.title = @"A Tale of Two Cities";
   story1.bibliographic.headline = @"An Interactive Classic";
   story1.bibliographic.genre = @"A";
@@ -121,7 +121,7 @@
 
   IFStory *story2 =
       [[IFStory alloc] initWithIFID:@"TEST-IFID-9999999999"
-                           storyURL:[NSURL fileURLWithPath:@"/filename"]];
+                       bookmarkData:[NSData dataWithBytes:"12345" length:5]];
   story2.bibliographic.author = @"Charles Dickens";
   story2.bibliographic.genre = @"B";
   story2.bibliographic.group = @"Default Group";

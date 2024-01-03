@@ -18,6 +18,9 @@
     while ((node = [enumChildren nextObject])) {
       if ([node.name compare:@"story"] == 0) {
         _storyURL = [NSURL URLWithString:node.stringValue];
+      } else if ([node.name compare:@"bookmark"] == 0) {
+        _storyBookmarkData = [[NSData alloc] initWithBase64EncodedString:node.stringValue
+                                                                 options:0];
       } else if ([node.name compare:@"blorb"] == 0) {
         _blorbURL = [NSURL URLWithString:node.stringValue];
       } else if ([node.name compare:@"graphics"] == 0) {
@@ -30,18 +33,14 @@
   return self;
 }
 
-- (instancetype)init {
-  self = [super init];
-  if (self) {
-    _storyURL = [NSURL URLWithString:@""];
-  }
-  return self;
-}
-
 - (NSString *)xmlString {
   NSMutableString *string = [NSMutableString string];
   [string appendString:@"<yazmin>\n"];
-  [string appendFormat:@"<story>%@</story>\n", _storyURL.URLByStandardizingPath];
+  if (_storyURL)
+    [string appendFormat:@"<story>%@</story>\n", _storyURL.URLByStandardizingPath];
+  if (_storyBookmarkData)
+    [string appendFormat:@"<bookmark>%@</bookmark>\n",
+     [_storyBookmarkData base64EncodedStringWithOptions:0]];
   if (_blorbURL)
     [string appendFormat:@"<blorb>%@</blorb>\n", _blorbURL.URLByStandardizingPath];
   if (_graphicsURL)

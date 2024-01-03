@@ -44,14 +44,14 @@
   return self;
 }
 
-- (instancetype)initWithIFID:(NSString *)ifid storyURL:(NSURL *)storyURL {
+- (instancetype)initWithIFID:(NSString *)ifid bookmarkData:(NSData *)bookmarkData {
   self = [super init];
   if (self) {
     _identification = [[IFIdentification alloc] initWithIFID:ifid];
     _bibliographic = [[IFBibliographic alloc] init];
     _colophon = [[IFColophon alloc] init];
     _annotation = [[IFAnnotation alloc] init];
-    _annotation.yazmin.storyURL = storyURL;
+    _annotation.yazmin.storyBookmarkData = bookmarkData;
   }
   return self;
 }

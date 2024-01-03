@@ -51,6 +51,18 @@
 }
 
 - (NSURL *)fileURL {
+  NSData *bookmarkData = _storyMetadata.annotation.yazmin.storyBookmarkData;
+  if (bookmarkData) {
+    BOOL isStale;
+    NSError *error;
+    NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
+                                           options:NSURLBookmarkResolutionWithSecurityScope
+                                     relativeToURL:nil
+                               bookmarkDataIsStale:&isStale
+                                             error:&error];
+    if (url)
+      return url;
+  }
   NSURL *storyURL = _storyMetadata.annotation.yazmin.storyURL;
   if (storyURL.scheme == nil) {
     storyURL = [LibraryEntry URLRelativeToLibrary:storyURL];

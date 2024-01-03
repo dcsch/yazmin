@@ -12,7 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface IFYazmin : NSObject
 
-@property NSURL *storyURL;
+@property(nullable) NSURL *storyURL;
+@property(nullable) NSData *storyBookmarkData;
 @property(nullable) NSURL *blorbURL;
 @property(nullable) NSURL *graphicsURL;
 @property(nullable) NSURL *soundURL;

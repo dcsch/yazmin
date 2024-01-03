@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(readonly) NSString *xmlString;
 
 - (instancetype)initWithXMLElement:(NSXMLElement *)element;
-- (instancetype)initWithIFID:(NSString *)ifid storyURL:(NSURL *)storyURL;
+- (instancetype)initWithIFID:(NSString *)ifid bookmarkData:(NSData *)bookmarkData;
 - (void)updateFromStory:(IFStory *)story;
 
 @end
