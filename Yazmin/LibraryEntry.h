@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LibraryEntry : NSObject
 
 @property(readonly) NSString *ifid;
-@property(readonly) NSURL *fileURL;
+@property(readonly, nullable) NSURL *fileURL;
 @property(readonly) IFStory *storyMetadata;
 @property(readonly) NSString *title;
 @property(readonly) NSString *sortTitle;

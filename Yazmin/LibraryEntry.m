@@ -15,6 +15,8 @@
 
 @interface LibraryEntry ()
 
+@property(nonatomic, nullable) NSString *cachedTitle;
+
 + (NSURL *)URLRelativeToLibrary:(NSURL *)storyURL;
 
 @end
@@ -51,20 +53,13 @@
 }
 
 - (NSURL *)fileURL {
-  NSData *bookmarkData = _storyMetadata.annotation.yazmin.storyBookmarkData;
-  if (bookmarkData) {
-    BOOL isStale;
-    NSError *error;
-    NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
-                                           options:NSURLBookmarkResolutionWithSecurityScope
-                                     relativeToURL:nil
-                               bookmarkDataIsStale:&isStale
-                                             error:&error];
-    if (url)
-      return url;
-  }
-  NSURL *storyURL = _storyMetadata.annotation.yazmin.storyURL;
-  if (storyURL.scheme == nil) {
+  NSURL *storyURL = [self URLFromBookmarkData];
+  if (storyURL)
+    return storyURL;
+
+  // Earlier-format libraries stored the URL as a string
+  storyURL = _storyMetadata.annotation.yazmin.storyURL;
+  if (storyURL && storyURL.scheme == nil) {
     storyURL = [LibraryEntry URLRelativeToLibrary:storyURL];
   }
   return storyURL;
@@ -74,8 +69,13 @@
   if (_storyMetadata && _storyMetadata.bibliographic.title &&
       ![_storyMetadata.bibliographic.title isEqualToString:@""])
     return _storyMetadata.bibliographic.title;
+  else if (!self.cachedTitle)
+    self.cachedTitle = self.fileURL.path.lastPathComponent;
+
+  if (self.cachedTitle)
+    return self.cachedTitle;
   else
-    return self.fileURL.path.lastPathComponent;
+    return @"(null)";
 }
 
 - (NSString *)sortTitle {
@@ -84,8 +84,10 @@
     return [self.title substringFromIndex:2];
   else if ([title hasPrefix:@"the "])
     return [self.title substringFromIndex:4];
-  else
+  else if (title)
     return self.title;
+  else
+    return @"(null)";
 }
 
 - (NSString *)author {
@@ -102,6 +104,34 @@
 
 - (NSString *)firstPublished {
   return _storyMetadata.bibliographic.firstPublished;
+}
+
+#pragma mark - Private Methods
+
+- (nullable NSURL *)URLFromBookmarkData
+{
+  NSData *bookmarkData = _storyMetadata.annotation.yazmin.storyBookmarkData;
+  if (bookmarkData) {
+    BOOL isStale = NO;
+    NSError *error;
+    NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
+                                           options:NSURLBookmarkResolutionWithSecurityScope
+                                     relativeToURL:nil
+                               bookmarkDataIsStale:&isStale
+                                             error:&error];
+    if (isStale) {
+      NSData *data = [url bookmarkDataWithOptions:
+                      NSURLBookmarkCreationWithSecurityScope |
+                      NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess
+                   includingResourceValuesForKeys:nil
+                                    relativeToURL:nil
+                                            error:&error];
+      _storyMetadata.annotation.yazmin.storyBookmarkData = data;
+    }
+    if (url)
+      return url;
+  }
+  return nil;
 }
 
 @end
