@@ -249,7 +249,7 @@ static const size_t kMaxStorySize = 0x8ffff;
       int size = obj.getPropertyAddressAndSize(prop, &addr);
       char propDump[1024] = {0};
       for (int i = 0; i < size; ++i)
-        sprintf(propDump + 3 * i, "%02x ", parts->_memory->getByte(addr++));
+        snprintf(propDump + 3 * i, 2, "%02x ", parts->_memory->getByte(addr++));
       return [NSString stringWithCString:propDump
                                 encoding:[NSString defaultCStringEncoding]];
     }
