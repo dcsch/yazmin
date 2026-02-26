@@ -280,6 +280,7 @@
     return;
   }
 
+  BOOL secure = [fileURL startAccessingSecurityScopedResource];
   [NSDocumentController.sharedDocumentController
       openDocumentWithContentsOfURL:fileURL
                             display:NO
@@ -292,6 +293,8 @@
                     } else if (error) {
                       [self libraryEntry:libraryEntry alertWithError:error];
                     }
+                    if (secure)
+                      [fileURL stopAccessingSecurityScopedResource];
                   }];
 }
 

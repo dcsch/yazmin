@@ -19,8 +19,12 @@
       if ([node.name compare:@"story"] == 0) {
         _storyURL = [NSURL URLWithString:node.stringValue];
       } else if ([node.name compare:@"bookmark"] == 0) {
-        _storyBookmarkData = [[NSData alloc] initWithBase64EncodedString:node.stringValue
-                                                                 options:0];
+        NSData *decoded = [[NSData alloc] initWithBase64EncodedString:node.stringValue
+                                                              options:0];
+        if (decoded)
+          _storyBookmarkData = decoded;
+        else
+          NSLog(@"Warning: failed to decode bookmark base64 data");
       } else if ([node.name compare:@"blorb"] == 0) {
         _blorbURL = [NSURL URLWithString:node.stringValue];
       } else if ([node.name compare:@"graphics"] == 0) {

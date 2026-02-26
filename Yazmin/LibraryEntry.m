@@ -112,13 +112,16 @@
     // If the bookmark is stale, such as if the file has been moved, then we need to update the
     // library with the new new file path
     if (isStale) {
+      [url startAccessingSecurityScopedResource];
       NSData *data = [url bookmarkDataWithOptions:
                       NSURLBookmarkCreationWithSecurityScope |
                       NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess
                    includingResourceValuesForKeys:nil
                                     relativeToURL:nil
                                             error:error];
-      _storyMetadata.annotation.yazmin.storyBookmarkData = data;
+      [url stopAccessingSecurityScopedResource];
+      if (data)
+        _storyMetadata.annotation.yazmin.storyBookmarkData = data;
     }
     if (url)
       return url;
