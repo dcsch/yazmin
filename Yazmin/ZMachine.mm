@@ -129,7 +129,7 @@ static const size_t kMaxStorySize = 0x8ffff;
   if (([serialString characterAtIndex:0] != '8') &&
       ([serialString compare:@"000000"] != 0)) {
     NSString *checksumString = [NSString
-        stringWithFormat:@"-%02X",
+        stringWithFormat:@"-%04X",
                          parts->_memory->getHeader().getFileChecksum()];
     [ifidString appendString:checksumString];
   }

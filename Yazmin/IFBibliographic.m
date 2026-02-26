@@ -17,6 +17,17 @@
 
 @implementation IFBibliographic
 
++ (NSString *)decodeString:(NSString *)string {
+  NSData *encodedString = [string dataUsingEncoding:NSUTF8StringEncoding];
+  NSAttributedString *htmlString =
+  [[NSAttributedString alloc] initWithData:encodedString
+                                   options:@{NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType,
+                                             NSCharacterEncodingDocumentAttribute: @(NSUTF8StringEncoding)}
+                        documentAttributes:nil
+                                     error:nil];
+  return [htmlString string];
+}
+
 - (instancetype)initWithXMLElement:(NSXMLElement *)element {
   self = [super init];
   if (self) {
@@ -69,6 +80,7 @@
       if (count > 0)
         [string appendString:@"\n"];
       [string appendString:node.stringValue];
+//      [string appendString:[IFBibliographic decodeHtmlString:node.stringValue]];
       ++count;
     }
   }

@@ -10,6 +10,7 @@
 #import "Library.h"
 #import "Preferences.h"
 #import "StoryDocumentController.h"
+#import "LibraryViewController.h"
 
 NSString *SMCoverImageChangedNotification = @"SMCoverImageChanged";
 NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
@@ -56,6 +57,10 @@ NSString *SMMetadataChangedNotification = @"SMMetadataChanged";
   NSWindowController *windowController = [NSStoryboard.mainStoryboard
       instantiateControllerWithIdentifier:@"LibraryWindow"];
   _libraryWindowController = windowController;
+
+  LibraryViewController *libraryVC =
+      (LibraryViewController *)_libraryWindowController.contentViewController;
+  [libraryVC.library migrateToLatestFormat];
 
   // We've finished launching, so should we show the library window?
   if ([[Preferences sharedPreferences] showsLibraryOnStartup])

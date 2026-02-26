@@ -168,7 +168,7 @@
   NSUInteger index = [self.entries
       indexOfObjectPassingTest:^BOOL(LibraryEntry *_Nonnull entry,
                                      NSUInteger idx, BOOL *_Nonnull stop) {
-        return [entry.fileURL isEqualTo:story.fileURL];
+        return [entry.ifid isEqualTo:story.ifid];
       }];
   return index != NSNotFound;
 }
@@ -185,6 +185,12 @@
   NSData *data = [metadata.xmlString dataUsingEncoding:NSUTF8StringEncoding];
   if (data)
     [data writeToURL:self.libraryMetadataURL atomically:YES];
+}
+
+- (void)migrateToLatestFormat {
+  for (LibraryEntry *entry in _entries) {
+    [entry migrateBookmarkDataFromStoryURLIfNeeded];
+  }
 }
 
 @end

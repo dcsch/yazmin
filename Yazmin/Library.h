@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)deleteImageForIFID:(NSString *)ifid;
 - (BOOL)containsStory:(Story *)story;
 - (void)save;
+- (void)migrateToLatestFormat;
 
 @end
 

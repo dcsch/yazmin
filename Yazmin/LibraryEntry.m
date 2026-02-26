@@ -17,24 +17,24 @@
 
 @property(nonatomic, nullable) NSString *cachedTitle;
 
-+ (NSURL *)URLRelativeToLibrary:(NSURL *)storyURL;
+//+ (NSURL *)URLRelativeToLibrary:(NSURL *)storyURL;
 
 @end
 
 @implementation LibraryEntry
 
-+ (NSURL *)URLRelativeToLibrary:(NSURL *)storyURL {
-  NSUserDefaults *userDefaults =
-      [[NSUserDefaults alloc] initWithSuiteName:NSArgumentDomain];
-  NSString *libraryURLStr = [userDefaults stringForKey:@"LibraryURL"];
-  NSURL *libraryURL = [NSURL URLWithString:libraryURLStr];
-  NSArray<NSString *> *components = libraryURL.pathComponents;
-  NSArray<NSString *> *rootComponents =
-      [components subarrayWithRange:NSMakeRange(0, components.count - 1)];
-  NSArray<NSString *> *fileComponents =
-      [rootComponents arrayByAddingObjectsFromArray:storyURL.pathComponents];
-  return [NSURL fileURLWithPathComponents:fileComponents];
-}
+//+ (NSURL *)URLRelativeToLibrary:(NSURL *)storyURL {
+//  NSUserDefaults *userDefaults =
+//      [[NSUserDefaults alloc] initWithSuiteName:NSArgumentDomain];
+//  NSString *libraryURLStr = [userDefaults stringForKey:@"LibraryURL"];
+//  NSURL *libraryURL = [NSURL URLWithString:libraryURLStr];
+//  NSArray<NSString *> *components = libraryURL.pathComponents;
+//  NSArray<NSString *> *rootComponents =
+//      [components subarrayWithRange:NSMakeRange(0, components.count - 1)];
+//  NSArray<NSString *> *fileComponents =
+//      [rootComponents arrayByAddingObjectsFromArray:storyURL.pathComponents];
+//  return [NSURL fileURLWithPathComponents:fileComponents];
+//}
 
 - (instancetype)initWithStoryMetadata:(IFStory *)storyMetadata {
   self = [super init];
@@ -52,26 +52,18 @@
   return _storyMetadata.identification.ifids.firstObject;
 }
 
-- (NSURL *)fileURL {
-  NSURL *storyURL = [self URLFromBookmarkData];
-  if (storyURL)
-    return storyURL;
-
-  // Earlier-format libraries stored the URL as a string
-  storyURL = _storyMetadata.annotation.yazmin.storyURL;
-  if (storyURL && storyURL.scheme == nil) {
-    storyURL = [LibraryEntry URLRelativeToLibrary:storyURL];
-  }
-  return storyURL;
-}
+//- (NSURL *)fileURL {
+//  return [self URLFromBookmarkData];
+//}
 
 - (NSString *)title {
   if (_storyMetadata && _storyMetadata.bibliographic.title &&
-      ![_storyMetadata.bibliographic.title isEqualToString:@""])
+      ![_storyMetadata.bibliographic.title isEqualToString:@""]) {
     return _storyMetadata.bibliographic.title;
-  else if (!self.cachedTitle)
-    self.cachedTitle = self.fileURL.path.lastPathComponent;
-
+  } else if (!self.cachedTitle) {
+    NSURL *fileURL = [self URLFromBookmarkWithError:nil];
+    self.cachedTitle = fileURL.path.lastPathComponent;
+  }
   if (self.cachedTitle)
     return self.cachedTitle;
   else
@@ -106,32 +98,54 @@
   return _storyMetadata.bibliographic.firstPublished;
 }
 
-#pragma mark - Private Methods
-
-- (nullable NSURL *)URLFromBookmarkData
+- (nullable NSURL *)URLFromBookmarkWithError:(NSError **)error;
 {
   NSData *bookmarkData = _storyMetadata.annotation.yazmin.storyBookmarkData;
   if (bookmarkData) {
     BOOL isStale = NO;
-    NSError *error;
     NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
                                            options:NSURLBookmarkResolutionWithSecurityScope
                                      relativeToURL:nil
                                bookmarkDataIsStale:&isStale
-                                             error:&error];
+                                             error:error];
+
+    // If the bookmark is stale, such as if the file has been moved, then we need to update the
+    // library with the new new file path
     if (isStale) {
       NSData *data = [url bookmarkDataWithOptions:
                       NSURLBookmarkCreationWithSecurityScope |
                       NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess
                    includingResourceValuesForKeys:nil
                                     relativeToURL:nil
-                                            error:&error];
+                                            error:error];
       _storyMetadata.annotation.yazmin.storyBookmarkData = data;
     }
     if (url)
       return url;
   }
   return nil;
+}
+
+- (void)migrateBookmarkDataFromStoryURLIfNeeded
+{
+  // If we have a storyURL, convert it to a bookmark. This might fail due to the sandboxed app no
+  // longer having access to that URL.
+  NSURL *storyURL = _storyMetadata.annotation.yazmin.storyURL;
+  if (storyURL != nil && _storyMetadata.annotation.yazmin.storyBookmarkData == nil) {
+    NSError *error;
+    [storyURL startAccessingSecurityScopedResource];
+    NSData *data = [storyURL bookmarkDataWithOptions:
+                      NSURLBookmarkCreationWithSecurityScope |
+                      NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess
+                      includingResourceValuesForKeys:nil
+                                       relativeToURL:nil
+                                               error:&error];
+    [storyURL stopAccessingSecurityScopedResource];
+    if (data) {
+      _storyMetadata.annotation.yazmin.storyBookmarkData = data;
+      _storyMetadata.annotation.yazmin.storyURL = nil;
+    }
+  }
 }
 
 @end

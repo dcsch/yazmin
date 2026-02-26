@@ -109,8 +109,7 @@
 }
 
 - (void)addStoryURLs:(NSArray<NSURL *> *)urls {
-  StoryDocumentController *docController =
-      NSDocumentController.sharedDocumentController;
+  StoryDocumentController *docController = NSDocumentController.sharedDocumentController;
   docController.onlyPeeking = YES;
   __block NSUInteger count = urls.count;
   for (NSURL *url in urls)
@@ -129,20 +128,30 @@
 }
 
 - (void)openStory:(LibraryEntry *)libraryEntry {
+  NSError *error;
+  NSURL *fileURL = [libraryEntry URLFromBookmarkWithError:&error];
+  if (fileURL == nil)
+  {
+    [self libraryEntry:libraryEntry alertWithError:error];
+    return;
+  }
+
+  BOOL secure = [fileURL startAccessingSecurityScopedResource];
   [NSDocumentController.sharedDocumentController
-      openDocumentWithContentsOfURL:libraryEntry.fileURL
+      openDocumentWithContentsOfURL:fileURL
                             display:YES
                   completionHandler:^(NSDocument *_Nullable document,
                                       BOOL documentWasAlreadyOpen,
                                       NSError *_Nullable error) {
                     Story *story = (Story *)document;
-                    if (documentWasAlreadyOpen &&
-                        story.storyViewController == nil) {
+                    if (documentWasAlreadyOpen && story.storyViewController == nil) {
                       [story makeWindowControllers];
                       [story showWindows];
                     } else if (error) {
                       [self libraryEntry:libraryEntry alertWithError:error];
                     }
+                    if (secure)
+                      [fileURL stopAccessingSecurityScopedResource];
                   }];
 }
 
@@ -259,8 +268,20 @@
     row = tableView.selectedRow;
   LibraryEntry *libraryEntry = _sortedEntries[row];
 
+//  NSError *error;
+//  id value;
+//  [libraryEntry.fileURL getResourceValue:&value forKey:NSURLUbiquitousItemDownloadingStatusKey error:&error];
+
+  NSError *error;
+  NSURL *fileURL = [libraryEntry URLFromBookmarkWithError:&error];
+  if (fileURL == nil)
+  {
+    [self libraryEntry:libraryEntry alertWithError:error];
+    return;
+  }
+
   [NSDocumentController.sharedDocumentController
-      openDocumentWithContentsOfURL:libraryEntry.fileURL
+      openDocumentWithContentsOfURL:fileURL
                             display:NO
                   completionHandler:^(NSDocument *_Nullable document,
                                       BOOL documentWasAlreadyOpen,
@@ -296,7 +317,7 @@
   [selectedRowIndexes
       enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *_Nonnull stop) {
         LibraryEntry *libraryEntry = _sortedEntries[idx];
-        [urls addObject:libraryEntry.fileURL];
+//        [urls addObject:libraryEntry.fileURL];
         [_library deleteImageForIFID:libraryEntry.ifid];
         [_library.entries removeObject:libraryEntry];
       }];
