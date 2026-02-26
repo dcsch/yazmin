@@ -76,9 +76,13 @@
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation);
   if (index > 0) {
     NSString *input = inputHistory[inputHistory.count - index];
+    [self shouldChangeTextInRange:range replacementString:input];
     [self.textStorage replaceCharactersInRange:range withString:input];
+    [self didChangeText];
   } else {
+    [self shouldChangeTextInRange:range replacementString:@""];
     [self.textStorage deleteCharactersInRange:range];
+    [self didChangeText];
   }
 }
 
@@ -299,8 +303,11 @@
 - (void)enterString:(NSString *)input {
   NSRange range =
       NSMakeRange(inputLocation, self.textStorage.length - inputLocation);
-  [self.textStorage replaceCharactersInRange:range withString:input];
-  [self.textStorage.mutableString appendString:@"\n"];
+  NSString *inputWithNewline =
+      [input stringByAppendingString:@"\n"];
+  [self shouldChangeTextInRange:range replacementString:inputWithNewline];
+  [self.textStorage replaceCharactersInRange:range withString:inputWithNewline];
+  [self didChangeText];
   [_storyInput stringInput:input];
 }
 

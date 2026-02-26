@@ -74,6 +74,7 @@
 - (void)insertText:(NSString *)string
     replacementRange:(NSRange)replacementRange {
   if (_inputState == kCharacterInputState && string.length > 0) {
+    [self.inputContext discardMarkedText];
     [_storyInput characterInput:[string characterAtIndex:0]];
   }
 }
