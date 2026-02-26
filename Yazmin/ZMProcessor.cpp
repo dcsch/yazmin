@@ -1468,7 +1468,8 @@ void ZMProcessor::jump() {
   log("jump", false, false);
 
   int16_t offset = static_cast<int16_t>(getOperand(0));
-  _pc = _pc + offset + 1;
+  advancePC();
+  _pc = _pc + offset - 2;
 }
 
 void ZMProcessor::jz() {
